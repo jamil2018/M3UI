@@ -45,4 +45,68 @@ export type { BadgeProps, BadgeVariant } from './components/badge.js';
 export { Tooltip, RichTooltip } from './components/tooltip.js';
 export type { TooltipProps, RichTooltipProps } from './components/tooltip.js';
 
+export { Chip, ChipSet, FilterChipGroup } from './components/chip.js';
+export type { ChipProps, ChipType, ChipSetProps, FilterChipGroupProps } from './components/chip.js';
+
+export { SegmentedButton, SegmentedButtonItem } from './components/segmented-button.js';
+export type {
+  SegmentedButtonProps,
+  SegmentedButtonItemProps,
+} from './components/segmented-button.js';
+
+export { Slider } from './components/slider.js';
+export type { SliderProps } from './components/slider.js';
+
+export {
+  Menu,
+  MenuItem,
+  MenuDivider,
+  MenuSubmenu,
+  ContextMenu,
+  ContextMenuItem,
+  Menubar,
+  MenubarMenu,
+} from './components/menu.js';
+export type {
+  MenuProps,
+  MenuItemProps,
+  MenuSubmenuProps,
+  ContextMenuProps,
+  MenubarProps,
+  MenubarMenuProps,
+} from './components/menu.js';
+
+export { Select, ExposedDropdownMenu } from './components/select.js';
+export type { SelectProps, SelectOption, SelectVariant, ExposedDropdownMenuProps } from './components/select.js';
+
+export { Autocomplete, Combobox } from './components/autocomplete.js';
+export type {
+  AutocompleteProps,
+  AutocompleteOption,
+  AutocompleteVariant,
+  ComboboxProps,
+} from './components/autocomplete.js';
+
+export { Progress, LinearProgress, CircularProgress } from './components/progress.js';
+export type {
+  ProgressProps,
+  LinearProgressProps,
+  CircularProgressProps,
+  ProgressVariant,
+} from './components/progress.js';
+
+export { LoadingIndicator } from './components/loading-indicator.js';
+export type { LoadingIndicatorProps } from './components/loading-indicator.js';
+
+export {
+  Snackbar,
+  SnackbarProvider,
+  useSnackbar,
+  SNACKBAR_OFFSET_VAR,
+} from './components/snackbar.js';
+export type { SnackbarProviderProps, SnackbarOptions } from './components/snackbar.js';
+
+export { Meter } from './components/meter.js';
+export type { MeterProps } from './components/meter.js';
+
 

@@ -1,0 +1,19 @@
+{
+  "name": "segmented-button",
+  "type": "registry:ui",
+  "title": "Segmented Button",
+  "description": "Single and multi-select segmented buttons",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens",
+    "@m3ui/motion"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/segmented-button.tsx",
+      "content": "\nimport { Toggle } from '@base-ui/react/toggle';\nimport { ToggleGroup } from '@base-ui/react/toggle-group';\nimport { type CSSProperties, type ReactNode } from 'react';\nimport { compVar, typeStyle } from '@m3ui/react';\nimport { StateLayer } from '@m3ui/react/primitives';\nimport { Ripple } from '@m3ui/react/primitives';\n\nexport interface SegmentedButtonProps {\n  children: ReactNode;\n  value?: readonly string[];\n  defaultValue?: readonly string[];\n  onValueChange?: (value: string[]) => void;\n  multiple?: boolean;\n  disabled?: boolean;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function SegmentedButton({\n  children,\n  value,\n  defaultValue,\n  onValueChange,\n  multiple = false,\n  disabled = false,\n  className,\n  'data-testid': testId,\n}: SegmentedButtonProps) {\n  return (\n    <ToggleGroup\n      value={value}\n      defaultValue={defaultValue}\n      onValueChange={onValueChange}\n      multiple={multiple}\n      disabled={disabled}\n      className={className}\n      data-testid={testId}\n      style={{\n        display: 'inline-flex',\n        borderRadius: compVar('outlined-segmented-button', 'shape'),\n        border: `${compVar('outlined-segmented-button', 'outline-width')} solid ${compVar('outlined-segmented-button', 'outline-color')}`,\n        overflow: 'hidden',\n      }}\n    >\n      {children}\n    </ToggleGroup>\n  );\n}\n\nexport interface SegmentedButtonItemProps {\n  value: string;\n  children?: ReactNode;\n  label?: ReactNode;\n  icon?: ReactNode;\n  disabled?: boolean;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function SegmentedButtonItem({\n  value,\n  children,\n  label,\n  icon,\n  disabled = false,\n  className,\n  'data-testid': testId,\n}: SegmentedButtonItemProps) {\n  const itemStyle: CSSProperties = {\n    position: 'relative',\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    gap: compVar('button-medium', 'icon-label-space'),\n    height: compVar('outlined-segmented-button', 'container-height'),\n    paddingInline: compVar('button-medium', 'leading-space'),\n    ...typeStyle('label-large'),\n    background: 'transparent',\n    color: compVar('outlined-segmented-button', 'disabled-label-text-color'),\n    border: 'none',\n    borderInlineEnd: `${compVar('outlined-segmented-button', 'outline-width')} solid ${compVar('outlined-segmented-button', 'outline-color')}`,\n    cursor: disabled ? 'not-allowed' : 'pointer',\n    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,\n  };\n\n  const iconStyle: CSSProperties = {\n    width: compVar('button-medium', 'icon-size'),\n    height: compVar('button-medium', 'icon-size'),\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n  };\n\n  return (\n    <Ripple disabled={disabled}>\n      <StateLayer disabled={disabled} style={{ display: 'inline-flex' }}>\n        <Toggle\n          value={value}\n          disabled={disabled}\n          className={className}\n          data-testid={testId}\n          style={itemStyle}\n        >\n          {icon && <span style={iconStyle}>{icon}</span>}\n          {label ?? children}\n        </Toggle>\n      </StateLayer>\n    </Ripple>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

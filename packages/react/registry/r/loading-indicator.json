@@ -1,0 +1,20 @@
+{
+  "name": "loading-indicator",
+  "type": "registry:ui",
+  "title": "Loading Indicator",
+  "description": "Expressive shape-cycling loader",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens",
+    "@m3ui/motion",
+    "@m3ui/shapes"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/loading-indicator.tsx",
+      "content": "\nimport { motion } from 'motion/react';\nimport { prefersReducedMotion } from '@m3ui/motion';\nimport { LoadingIndicatorShapes, MaterialShapes, cubicsToClipPath } from '@m3ui/shapes';\nimport { type CSSProperties } from 'react';\nimport { compVar } from '@m3ui/react';\n\nexport interface LoadingIndicatorProps {\n  /** When true, renders inside a contained surface */\n  contained?: boolean;\n  size?: number;\n  className?: string;\n  'data-testid'?: string;\n}\n\nconst SHAPE_CLIP_PATHS = LoadingIndicatorShapes.map((poly) => cubicsToClipPath(poly.cubics));\n\nexport function LoadingIndicator({\n  contained = false,\n  size = 48,\n  className,\n  'data-testid': testId,\n}: LoadingIndicatorProps) {\n  const reduced = prefersReducedMotion();\n\n  const shapeStyle: CSSProperties = {\n    width: size,\n    height: size,\n    background: compVar('progress-indicator', 'active-indicator-color'),\n  };\n\n  const wrapperStyle: CSSProperties = contained\n    ? {\n        display: 'inline-flex',\n        alignItems: 'center',\n        justifyContent: 'center',\n        padding: compVar('list', 'item-between-space'),\n        borderRadius: compVar('menu', 'container-shape'),\n        background: compVar('menu', 'container-color'),\n        boxShadow: `0 var(--md-sys-elevation-level1) calc(var(--md-sys-elevation-level1) * 2) rgba(0, 0, 0, var(--md-sys-elevation-level1-shadow-opacity))`,\n      }\n    : { display: 'inline-flex' };\n\n  return (\n    <div className={className} data-testid={testId} style={wrapperStyle} role=\"status\" aria-label=\"Loading\">\n      <motion.div\n        style={shapeStyle}\n        animate={\n          reduced\n            ? { clipPath: SHAPE_CLIP_PATHS[0], rotate: 0 }\n            : {\n                clipPath: SHAPE_CLIP_PATHS,\n                rotate: 360,\n              }\n        }\n        transition={\n          reduced\n            ? { duration: 0 }\n            : {\n                clipPath: { duration: 2, repeat: Infinity, ease: 'linear' },\n                rotate: { duration: 1.5, repeat: Infinity, ease: 'linear' },\n              }\n        }\n      />\n    </div>\n  );\n}\n\n/** Re-export default shape sequence for customization */\nexport { LoadingIndicatorShapes, MaterialShapes };\n",
+      "type": "registry:ui"
+    }
+  ]
+}
