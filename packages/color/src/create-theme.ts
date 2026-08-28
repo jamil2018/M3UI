@@ -143,24 +143,24 @@ export function themeToCss(options: CreateThemeOptions): string {
   return createTheme(options).css;
 }
 
-export async function extractSeedFromImage(
+export function extractSeedFromImage(
   imageData: Uint8ClampedArray,
-  width: number,
-  height: number,
-): Promise<string> {
+  _width: number,
+  _height: number,
+): string {
   const pixels = new Map<number, number>();
   for (let i = 0; i < imageData.length; i += 4) {
-    const r = imageData[i]!;
-    const g = imageData[i + 1]!;
-    const b = imageData[i + 2]!;
-    const a = imageData[i + 3]!;
+    const r = imageData[i] ?? 0;
+    const g = imageData[i + 1] ?? 0;
+    const b = imageData[i + 2] ?? 0;
+    const a = imageData[i + 3] ?? 0;
     if (a < 128) continue;
     const argb = ((255 << 24) | (r << 16) | (g << 8) | b) >>> 0;
     pixels.set(argb, (pixels.get(argb) ?? 0) + 1);
   }
 
   const quantizerResult = QuantizerCelebi.quantize(pixels, 128);
-  const ranked = Score.score(QuantizerMap.quantize(quantizerResult.colorToCount));
+  const ranked = Score.score(QuantizerMap.quantize(quantizerResult.colorToCount as Map<number, number>));
   const topColor = ranked[0];
   if (topColor === undefined) {
     return '#6750A4';

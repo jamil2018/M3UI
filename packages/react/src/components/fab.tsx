@@ -65,7 +65,7 @@ export function Fab({
     border: 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
-    boxShadow: disabled ? elevationShadow('level0') : elevationShadow(elevation as 'level3'),
+    boxShadow: disabled ? elevationShadow('level0') : elevationShadow(elevation),
   };
 
   const iconStyle: CSSProperties = {
@@ -84,8 +84,8 @@ export function Fab({
           animate={{ boxShadow: disabled ? elevationShadow('level0') : elevationShadow(lowered ? 'level1' : 'level3') }}
           transition={springs.fastSpatial}
           onPointerDown={() => !disabled && setPressed(true)}
-          onPointerUp={() => setPressed(false)}
-          onPointerLeave={() => setPressed(false)}
+          onPointerUp={() => { setPressed(false); }}
+          onPointerLeave={() => { setPressed(false); }}
         >
           <BaseButton
             aria-label={ariaLabel}
@@ -176,8 +176,8 @@ export function ExtendedFab({
           }}
           transition={springs.fastSpatial}
           onPointerDown={() => !disabled && setPressed(true)}
-          onPointerUp={() => setPressed(false)}
-          onPointerLeave={() => setPressed(false)}
+          onPointerUp={() => { setPressed(false); }}
+          onPointerLeave={() => { setPressed(false); }}
         >
           <BaseButton
             disabled={disabled}

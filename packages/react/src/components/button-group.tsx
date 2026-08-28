@@ -86,10 +86,10 @@ export function ButtonGroup({
             style={{ display: 'flex', flex: `${flex} 1 0%`, minWidth: 0 }}
             animate={{ flexGrow: flex }}
             transition={springs.fastSpatial}
-            onPointerDown={() => setPressedIndex(index)}
-            onPointerUp={() => setPressedIndex(null)}
-            onPointerLeave={() => setPressedIndex(null)}
-            onPointerCancel={() => setPressedIndex(null)}
+            onPointerDown={() => { setPressedIndex(index); }}
+            onPointerUp={() => { setPressedIndex(null); }}
+            onPointerLeave={() => { setPressedIndex(null); }}
+            onPointerCancel={() => { setPressedIndex(null); }}
           >
             {cloneElement(child as ReactElement<ButtonGroupItemProps>, {
               'data-group-index': index,

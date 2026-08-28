@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'motion/react';
 import { springs } from '@m3ui/motion';
 import { type CSSProperties, type ReactNode } from 'react';
 import { useWindowSizeClass, sizeClassAtLeast, WindowSizeClassProvider } from '../lib/window-size-class.js';
-import { useM3Message } from '../lib/i18n.js';
 import { NavigationBar, type NavigationDestination } from './navigation-bar.js';
 import { NavigationRail, type NavigationRailDestination } from './navigation-rail.js';
 import { NavigationDrawer, type NavigationDrawerSection } from './navigation-drawer.js';
@@ -46,7 +45,6 @@ function AdaptiveNavigationInner({
 }: AdaptiveNavigationProps) {
   const { sizeClass } = useWindowSizeClass();
   const mode = resolveMode(sizeClass, forcedMode);
-  const openDrawerLabel = useM3Message('adaptiveNav.openDrawer');
 
   const railDestinations: NavigationRailDestination[] = destinations.map((d) => ({
     value: d.value,

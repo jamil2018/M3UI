@@ -22,8 +22,6 @@ const VAL_ASSIGN_RE = /^\s*(?:inline\s+)?val\s+(\w+)\s*=\s*(.+?)\s*$/;
 /** get() = value (single line) */
 const GETTER_VALUE_RE =
   /(?:inline\s+)?val\s+(\w+)[^=\n]*\n?\s*get\(\)\s*=\s*(.+?)(?:\n|$)/g;
-/** get() = value (same line): inline val X get() = Y */
-const INLINE_GETTER_RE = /(?:inline\s+)?val\s+(\w+)\s*\n?\s*get\(\)\s*=\s*(.+)/;
 
 function parseKotlinValue(raw: string): string | number | boolean {
   const trimmed = raw.trim().replace(/,$/, '');

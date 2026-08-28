@@ -2,7 +2,7 @@
 import { Field as BaseField } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { parseDate, CalendarDate, today, getLocalTimeZone } from '@internationalized/date';
-import { useId, useState, useCallback, type CSSProperties, type ReactNode } from 'react';
+import { useId, useState, useCallback, type CSSProperties } from 'react';
 import { compVar, typeStyle } from '../lib/token-utils.js';
 import { useM3I18n, useM3Message } from '../lib/i18n.js';
 

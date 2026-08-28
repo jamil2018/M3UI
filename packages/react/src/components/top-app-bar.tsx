@@ -1,7 +1,6 @@
 
 import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { springs } from '@m3ui/motion';
 import { useEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import { useRegisterInset } from '../lib/inset-context.js';
@@ -79,7 +78,7 @@ export function TopAppBar({
     const unsub = height.on('change', (v) => {
       barRef.current!.style.height = String(v);
     });
-    return () => unsub();
+    return () => { unsub(); };
   }, [flexible, height]);
 
   const barStyle: CSSProperties = {

@@ -556,7 +556,7 @@ ${[
     ];
   }),
   ...Object.keys(SHAPE_SCALE).map((s) => `  '--md-sys-shape-${toKebabCase(s)}'`),
-  ...Object.entries(TYPE_SCALE).flatMap(([role, scale]) => {
+  ...Object.entries(TYPE_SCALE).flatMap(([role, _scale]) => {
     const k = toKebabCase(role);
     return [
       `  '--md-sys-typescale-${k}-size'`,

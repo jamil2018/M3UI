@@ -143,7 +143,7 @@ function CalendarGrid({
           aria-label={prevMonth}
           icon="‹"
           variant="standard"
-          onClick={() => setState({ ...state, focused: navigateMonth(focused, -1) })}
+          onClick={() => { setState({ ...state, focused: navigateMonth(focused, -1) }); }}
         />
         <span style={{ ...typeStyle('title-small'), color: compVar('date-picker-modal', 'range-selection-month-subhead-color') }}>
           {new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric' }).format(new Date(focused.year, focused.month - 1, 1))}
@@ -152,7 +152,7 @@ function CalendarGrid({
           aria-label={nextMonth}
           icon="›"
           variant="standard"
-          onClick={() => setState({ ...state, focused: navigateMonth(focused, 1) })}
+          onClick={() => { setState({ ...state, focused: navigateMonth(focused, 1) }); }}
         />
       </div>
       <div style={{ display: 'flex', gap: compVar('list', 'divider-leading-space'), paddingInline: compVar('list', 'divider-leading-space') }}>
@@ -304,7 +304,7 @@ function DatePickerContent({
       <div style={{ display: 'flex', justifyContent: 'space-between', padding: compVar('list', 'divider-leading-space') }}>
         <Button
           variant="text"
-          onClick={() => setInputMode(inputMode === 'calendar' ? 'input' : 'calendar')}
+          onClick={() => { setInputMode(inputMode === 'calendar' ? 'input' : 'calendar'); }}
         >
           {inputMode === 'calendar' ? inputModeLabel : calendarModeLabel}
         </Button>
@@ -354,7 +354,7 @@ export function DatePicker({
 
   const [inputMode, setInputMode] = useState<DatePickerInputMode>(initialInputMode);
   const [state, setState] = useState<CalendarSelectionState>(() =>
-    createInitialCalendarState(mode, defaultValue as CalendarSelectionState['selected']),
+    createInitialCalendarState(mode, defaultValue),
   );
 
   const months = mode === 'range' && sizeClassAtLeast(sizeClass, 'expanded') ? 2 : 1;

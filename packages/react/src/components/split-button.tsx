@@ -123,8 +123,8 @@ export function SplitButton({
             onClick={onClick}
             style={leadingStyle}
             onPointerDown={() => !disabled && setLeadingPressed(true)}
-            onPointerUp={() => setLeadingPressed(false)}
-            onPointerLeave={() => setLeadingPressed(false)}
+            onPointerUp={() => { setLeadingPressed(false); }}
+            onPointerLeave={() => { setLeadingPressed(false); }}
           >
             {children}
           </BaseButton>

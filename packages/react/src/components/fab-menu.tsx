@@ -156,7 +156,7 @@ export function FabMenu({
             aria-label={open ? 'Close menu' : ariaLabel}
             aria-expanded={open}
             disabled={disabled}
-            onClick={() => setOpen((v) => !v)}
+            onClick={() => { setOpen((v) => !v); }}
             style={fabStyle}
           >
             <motion.span

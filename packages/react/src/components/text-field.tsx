@@ -185,9 +185,9 @@ export function TextField({
             placeholder={!label ? placeholder : floated ? placeholder : undefined}
             disabled={disabled}
             maxLength={maxLength}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-            onChange={(e) => handleChange(e.target.value)}
+            onFocus={() => { setFocused(true); }}
+            onBlur={() => { setFocused(false); }}
+            onChange={(e) => { handleChange(e.target.value); }}
             style={inputStyle}
           />
         ) : (
@@ -199,8 +199,8 @@ export function TextField({
             placeholder={!label ? placeholder : floated ? placeholder : undefined}
             disabled={disabled}
             maxLength={maxLength}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onFocus={() => { setFocused(true); }}
+            onBlur={() => { setFocused(false); }}
             onValueChange={handleChange}
             style={inputStyle}
           />

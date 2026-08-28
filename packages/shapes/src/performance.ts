@@ -3,10 +3,6 @@ export const MORPH_PROGRESS_STEPS = 60;
 
 const morphCache = new Map<string, string[]>();
 
-function cacheKey(fromId: string, toId: string): string {
-  return `${fromId}→${toId}`;
-}
-
 export interface PrecomputedMorph {
   /** Indexed by round(progress * (steps - 1)) */
   clipPaths: string[];

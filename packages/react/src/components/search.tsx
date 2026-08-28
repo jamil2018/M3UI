@@ -179,7 +179,7 @@ export function SearchView({
             </BaseDialog.Close>
             <input
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => { setQuery(e.target.value); }}
               placeholder="Search"
               autoFocus
               style={{

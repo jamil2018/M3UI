@@ -115,9 +115,9 @@ export function Slider({
   };
 
   const thumbProps = {
-    onPointerDown: () => setThumbPressed(true),
-    onPointerUp: () => setThumbPressed(false),
-    onPointerLeave: () => setThumbPressed(false),
+    onPointerDown: () => { setThumbPressed(true); },
+    onPointerUp: () => { setThumbPressed(false); },
+    onPointerLeave: () => { setThumbPressed(false); },
     style: { position: 'absolute' as const },
   };
 
@@ -125,7 +125,7 @@ export function Slider({
     <BaseSlider.Root
       value={value}
       defaultValue={defaultValue}
-      onValueChange={(v) => onValueChange?.(v as number | readonly [number, number])}
+      onValueChange={(v) => onValueChange?.(v)}
       min={min}
       max={max}
       step={step}

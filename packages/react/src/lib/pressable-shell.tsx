@@ -60,9 +60,9 @@ export function PressableShell({
             ...style,
           }}
           onPointerDown={() => !disabled && setPressed(true)}
-          onPointerUp={() => setPressed(false)}
-          onPointerLeave={() => setPressed(false)}
-          onPointerCancel={() => setPressed(false)}
+          onPointerUp={() => { setPressed(false); }}
+          onPointerLeave={() => { setPressed(false); }}
+          onPointerCancel={() => { setPressed(false); }}
         >
           {children}
         </motion.div>

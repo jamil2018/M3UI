@@ -27,7 +27,6 @@ export interface AutocompleteProps {
 }
 
 function inputFieldStyle(variant: AutocompleteVariant, disabled: boolean): CSSProperties {
-  const tokenPrefix = variant === 'filled' ? 'filled-autocomplete' : 'outlined-autocomplete';
   const textFieldPrefix = variant === 'filled' ? 'filled-text-field' : 'outlined-text-field';
   return {
     display: 'flex',

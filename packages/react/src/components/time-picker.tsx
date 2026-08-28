@@ -72,7 +72,7 @@ function angleForValue(value: number, max: number): number {
 }
 
 function valueFromAngle(angle: number, max: number): number {
-  let a = (angle + 90 + 360) % 360;
+  const a = (angle + 90 + 360) % 360;
   const v = Math.round((a / 360) * max) % max;
   return v;
 }
@@ -117,7 +117,6 @@ function TimeDial({
     if (selecting === 'hour') {
       if (format === '24h') {
         const isInner = dist < (OUTER_RADIUS + INNER_RADIUS) / 2;
-        const max = isInner ? 12 : 12;
         const raw = valueFromAngle(angle, 12);
         const hour = isInner ? (raw === 0 ? 0 : raw + 12) : raw === 0 ? 12 : raw;
         onChange({ ...value, hour: hour % 24 });
@@ -309,7 +308,7 @@ function TimeInputFields({
       {format === '12h' && (
         <ToggleGroup
           value={[period ?? 'AM']}
-          onValueChange={(v) => onChange({ ...value, period: (v[0] as 'AM' | 'PM') ?? 'AM' })}
+          onValueChange={(v) => { onChange({ ...value, period: (v[0]) ?? 'AM' }); }}
           style={{ display: 'flex', flexDirection: 'column', gap: 4 }}
         >
           <Toggle value="AM" style={{ padding: '4px 12px', ...typeStyle('title-medium') }} aria-label={amLabel}>
@@ -393,10 +392,10 @@ export function TimePicker({
         <TimeInputFields value={current} onChange={setValue} format={format} />
       )}
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 16 }}>
-        <Button variant="text" onClick={() => setUiVariant(uiVariant === 'dial' ? 'input' : 'dial')}>
+        <Button variant="text" onClick={() => { setUiVariant(uiVariant === 'dial' ? 'input' : 'dial'); }}>
           {uiVariant === 'dial' ? inputModeLabel : dialModeLabel}
         </Button>
-        <Button variant="text" onClick={() => setOpen(false)}>
+        <Button variant="text" onClick={() => { setOpen(false); }}>
           {okLabel}
         </Button>
       </div>

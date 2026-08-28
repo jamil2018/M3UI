@@ -1,6 +1,6 @@
 
 import { Progress as BaseProgress } from '@base-ui/react/progress';
-import { motion, useAnimationFrame, useMotionValue } from 'motion/react';
+import { useAnimationFrame, useMotionValue } from 'motion/react';
 import { prefersReducedMotion } from '@m3ui/motion';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { compVar } from '../lib/token-utils.js';

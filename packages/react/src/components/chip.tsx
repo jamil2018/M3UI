@@ -48,7 +48,6 @@ function getChipStyles(
 
   if (type === 'filter') {
     const sel = selected ? 'selected' : 'unselected';
-    const elev = elevated ? 'elevated' : 'flat';
     return {
       color: disabled
         ? compVar(p, 'disabled-label-text-color')

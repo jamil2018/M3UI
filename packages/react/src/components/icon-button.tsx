@@ -157,7 +157,7 @@ export function IconButton({
       morphFrom={selected ? MaterialShapes.pentagon : MaterialShapes.circle}
       morphTo={selected ? MaterialShapes.circle : MaterialShapes.pentagon}
       morphActive={toggle ? selected : undefined}
-      stateLayerColor={variantStyles.color as string}
+      stateLayerColor={variantStyles.color}
       data-testid={testId}
     >
       {inner}

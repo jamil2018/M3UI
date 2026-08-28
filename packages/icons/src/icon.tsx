@@ -28,7 +28,7 @@ export function Icon({
 }: IconProps) {
   const iconStyle: CSSProperties = {
     fontFamily: 'Material Symbols Outlined',
-    fontVariationSettings: `'FILL' ${fill}, 'wght' ${weight}, 'GRAD' ${grade}, 'opsz' ${opsz}`,
+    fontVariationSettings: `'FILL' ${String(fill)}, 'wght' ${String(weight)}, 'GRAD' ${String(grade)}, 'opsz' ${String(opsz)}`,
     fontSize: size,
     width: size,
     height: size,

@@ -80,7 +80,7 @@ export function NavigationBar({
             destination={dest}
             active={isActive}
             iconOnly={iconOnly}
-            onSelect={() => select(dest.value)}
+            onSelect={() => { select(dest.value); }}
           />
         );
       })}

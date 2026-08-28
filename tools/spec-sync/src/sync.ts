@@ -37,13 +37,13 @@ async function syncAndroidxTokens(): Promise<Record<string, unknown>> {
 
   const files: Array<{ name: string; content: string }> = [];
   for (const filePath of ktFiles) {
-    const name = filePath.split('/').pop()!;
+    const name = filePath.split('/').pop() ?? filePath;
     const content = await fetchGitHubFile(repo, ref, filePath);
     files.push({ name, content });
   }
 
   const parsed = parseAllKotlinTokenFiles(files);
-  console.log(`  Parsed ${Object.keys(parsed).length} Kotlin token files`);
+  console.log(`  Parsed ${String(Object.keys(parsed).length)} Kotlin token files`);
   return parsed;
 }
 
@@ -62,13 +62,13 @@ async function syncMaterialWebTokens(): Promise<Record<string, unknown>> {
 
   const files: Array<{ name: string; content: string }> = [];
   for (const filePath of scssFiles) {
-    const name = filePath.split('/').pop()!;
+    const name = filePath.split('/').pop() ?? filePath;
     const content = await fetchGitHubFile(repo, ref, filePath);
     files.push({ name, content });
   }
 
   const parsed = parseAllScssTokenFiles(files);
-  console.log(`  Parsed ${Object.keys(parsed).length} SCSS token files`);
+  console.log(`  Parsed ${String(Object.keys(parsed).length)} SCSS token files`);
   return parsed;
 }
 
@@ -100,9 +100,9 @@ async function main(): Promise<void> {
   await writeJsonFile(join(SPEC_OUTPUT_DIR, 'material-web-tokens.json'), materialWebTokens);
 
   console.log('\nSpec sync complete:');
-  console.log(`  androidx: ${manifest.androidx.fileCount} files (${manifest.androidx.contentHash})`);
+  console.log(`  androidx: ${String(manifest.androidx.fileCount)} files (${manifest.androidx.contentHash})`);
   console.log(
-    `  material-web: ${manifest.materialWeb.fileCount} files (${manifest.materialWeb.contentHash})`,
+    `  material-web: ${String(manifest.materialWeb.fileCount)} files (${manifest.materialWeb.contentHash})`,
   );
   console.log(`  Output: ${SPEC_OUTPUT_DIR}`);
 }

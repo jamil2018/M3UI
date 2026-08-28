@@ -118,7 +118,7 @@ function resolveVarPrefixes(varName: string, content: string, maps: Map<string, 
     btnP: Object.values(BUTTON_SIZE_PREFIX),
     tokenPrefix: ['filled-text-field', 'outlined-text-field'],
   };
-  if (specials[varName]) return specials[varName]!;
+  if (specials[varName]) return specials[varName];
 
   if (varName === 'p' && content.includes('function chipPrefix')) return [...CHIP_PREFIXES];
   if (varName === 'p' && content.includes("const p = 'switch'")) return ['switch'];
@@ -185,7 +185,7 @@ export function collectReferencedTokens(): Set<string> {
     const maps = extractPrefixMaps(content);
 
     for (const m of content.matchAll(/--md-comp-[a-z0-9-]+/g)) {
-      const token = m[0]!;
+      const token = m[0];
       if (VALID_TOKENS.has(token)) referenced.add(token);
     }
 

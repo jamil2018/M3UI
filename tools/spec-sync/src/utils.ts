@@ -25,7 +25,7 @@ export function hashContent(content: string): string {
 export async function fetchText(url: string): Promise<string> {
   const response = await fetch(url);
   if (!response.ok) {
-    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
+    throw new Error(`Failed to fetch ${url}: ${String(response.status)} ${response.statusText}`);
   }
   return response.text();
 }
@@ -43,7 +43,7 @@ export async function fetchGitHubDirectory(
     },
   });
   if (!response.ok) {
-    throw new Error(`GitHub API error for ${dirPath}: ${response.status}`);
+    throw new Error(`GitHub API error for ${dirPath}: ${String(response.status)}`);
   }
   const items = (await response.json()) as Array<{ name: string; type: string; path: string }>;
   return items.filter((item) => item.type === 'file').map((item) => item.path);

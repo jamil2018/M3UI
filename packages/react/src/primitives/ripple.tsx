@@ -53,7 +53,7 @@ export function Ripple({ children, color, disabled = false, className }: RippleP
         el.style.transform = 'scale(1)';
         el.style.opacity = '0';
       });
-      setTimeout(() => el.remove(), 600);
+      setTimeout(() => { el.remove(); }, 600);
     },
     [disabled, color],
   );

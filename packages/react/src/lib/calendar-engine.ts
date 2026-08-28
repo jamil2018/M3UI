@@ -145,7 +145,6 @@ export function generateMonthGrid(
 export function getWeekdayLabels(locale: string, weekStartsOn: number): string[] {
   const formatter = new Intl.DateTimeFormat(locale, { weekday: 'narrow' });
   const labels: string[] = [];
-  const ref = new Date(Date.UTC(2024, 0, 7));
   for (let i = 0; i < 7; i++) {
     const dayIndex = (weekStartsOn + i) % 7;
     const d = new Date(Date.UTC(2024, 0, 7 + dayIndex));

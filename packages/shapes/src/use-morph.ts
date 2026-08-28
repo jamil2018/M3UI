@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useMotionValue, useSpring, useTransform, type SpringOptions } from 'motion/react';
+import { useMotionValue, useSpring, type SpringOptions } from 'motion/react';
 import { springs, prefersReducedMotion } from '@m3ui/motion';
 import { Morph } from './morph.js';
 import { cubicsToClipPath } from './paths.js';
@@ -114,8 +114,6 @@ export function useMorph({
   const [clipPath, setClipPath] = useState(precomputed.clipPaths[0] ?? 'none');
   const [svgPath, setSvgPath] = useState('');
   const [progress, setProgress] = useState(0);
-
-  const indexTransform = useTransform(springProgress, (p) => progressToIndex(p, steps));
 
   useEffect(() => {
     if (reduced) {

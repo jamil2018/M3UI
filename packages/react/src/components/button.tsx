@@ -131,7 +131,7 @@ export function Button({
       shapeRound={tokens.shapeRound}
       shapeSquare={tokens.shapeSquare}
       pressedShape={tokens.pressedShape}
-      stateLayerColor={variantStyles.color as string}
+      stateLayerColor={variantStyles.color}
       data-testid={testId}
     >
       <BaseButton

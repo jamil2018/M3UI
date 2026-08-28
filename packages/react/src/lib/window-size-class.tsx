@@ -85,7 +85,7 @@ export function WindowSizeClassProvider({
     const w = el.getBoundingClientRect().width;
     setWidth(w);
     setSizeClass(widthToSizeClass(w));
-    return () => observer.disconnect();
+    return () => { observer.disconnect(); };
   }, [mounted]);
 
   const value = useMemo(() => ({ sizeClass, width }), [sizeClass, width]);

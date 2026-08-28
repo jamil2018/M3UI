@@ -2,7 +2,7 @@
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import { PressableShell } from '../lib/pressable-shell.js';
 import { IconButton } from './icon-button.js';
@@ -97,7 +97,7 @@ export function NavigationRail({
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: compVar('navigation-rail-collapsed', 'item-vertical-space'), width: '100%' }}>
         {destinations.map((dest) => (
-          <RailItem key={dest.value} destination={dest} active={dest.value === active} expanded={expanded} onSelect={() => select(dest.value)} />
+          <RailItem key={dest.value} destination={dest} active={dest.value === active} expanded={expanded} onSelect={() => { select(dest.value); }} />
         ))}
       </div>
 
@@ -139,9 +139,6 @@ interface RailItemProps {
 }
 
 function RailItem({ destination, active, expanded, onSelect }: RailItemProps) {
-  const indicatorHeight = expanded
-    ? compVar('navigation-rail-horizontal-item', 'active-indicator-height')
-    : compVar('navigation-rail-vertical-item', 'active-indicator-height');
   const indicatorWidth = expanded
     ? 'auto'
     : compVar('navigation-rail-vertical-item', 'active-indicator-width');

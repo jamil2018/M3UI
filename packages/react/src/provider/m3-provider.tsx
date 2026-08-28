@@ -49,9 +49,9 @@ function useSystemScheme(): 'light' | 'dark' {
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const handler = (e: MediaQueryListEvent) => setSystem(e.matches ? 'dark' : 'light');
+    const handler = (e: MediaQueryListEvent) => { setSystem(e.matches ? 'dark' : 'light'); };
     mq.addEventListener('change', handler);
-    return () => mq.removeEventListener('change', handler);
+    return () => { mq.removeEventListener('change', handler); };
   }, []);
 
   return system;

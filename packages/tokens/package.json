@@ -18,7 +18,7 @@
     "build": "pnpm codegen && tsdown && node scripts/copy-css.mjs",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src scripts",
+    "lint": "eslint \"src/**/*.ts\" \"scripts/**/*.ts\"",
     "test": "vitest run --config vitest.config.ts"
   },
   "devDependencies": {
