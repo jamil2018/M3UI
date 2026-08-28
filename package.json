@@ -1,0 +1,49 @@
+{
+  "name": "material-react",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:a11y": "turbo run test:a11y",
+    "test:vrt": "turbo run test:vrt",
+    "spec:sync": "pnpm --filter @m3ui/spec-sync sync",
+    "spec:sync:check": "pnpm --filter @m3ui/spec-sync check",
+    "size:check": "node --experimental-strip-types tools/bundle-budget/check.ts",
+    "tokens:codegen": "pnpm --filter @m3ui/tokens codegen",
+    "registry:build": "pnpm --filter @m3ui/react registry:build",
+    "changeset": "changeset",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "@eslint/js": "^9.17.0",
+    "@playwright/test": "^1.49.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "eslint": "^9.17.0",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-refresh": "^0.4.16",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.18.2",
+    "vitest": "^2.1.8",
+    "vitest-axe": "^0.1.0"
+  }
+}

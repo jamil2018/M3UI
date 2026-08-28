@@ -1,0 +1,29 @@
+{
+  "name": "@m3ui/tokens",
+  "version": "0.0.0",
+  "description": "Material Design 3 Expressive design tokens — CSS custom properties and TypeScript types",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./theme.css": "./dist/theme.css"
+  },
+  "files": ["dist", "src/spec"],
+  "scripts": {
+    "codegen": "tsx scripts/codegen.ts",
+    "build": "pnpm codegen && tsdown && node scripts/copy-css.mjs",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src scripts",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "devDependencies": {
+    "tsdown": "^0.9.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
