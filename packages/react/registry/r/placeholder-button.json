@@ -1,0 +1,18 @@
+{
+  "name": "placeholder-button",
+  "type": "registry:ui",
+  "title": "Placeholder Button",
+  "description": "Registry placeholder for install testing",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/placeholder-button.tsx",
+      "content": "import { StateLayer } from '@m3ui/react/primitives';\nimport { Ripple } from '@m3ui/react/primitives';\n\nexport interface PlaceholderButtonProps {\n  children: React.ReactNode;\n  onClick?: () => void;\n  disabled?: boolean;\n}\n\n/** Registry placeholder component for end-to-end install testing */\nexport function PlaceholderButton({ children, onClick, disabled }: PlaceholderButtonProps) {\n  return (\n    <Ripple disabled={disabled}>\n      <StateLayer disabled={disabled}>\n        <button\n          type=\"button\"\n          onClick={onClick}\n          disabled={disabled}\n          style={{\n            position: 'relative',\n            display: 'inline-flex',\n            alignItems: 'center',\n            justifyContent: 'center',\n            padding: '10px 24px',\n            border: 'none',\n            borderRadius: 'var(--md-sys-shape-corner-full, 9999px)',\n            background: 'var(--md-sys-color-primary)',\n            color: 'var(--md-sys-color-on-primary)',\n            font: 'var(--md-sys-typescale-label-large-weight, 500) var(--md-sys-typescale-label-large-size, 14px)/var(--md-sys-typescale-label-large-line-height, 20px) system-ui',\n            cursor: disabled ? 'not-allowed' : 'pointer',\n            opacity: disabled ? 0.38 : 1,\n          }}\n        >\n          {children}\n        </button>\n      </StateLayer>\n    </Ripple>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

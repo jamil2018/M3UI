@@ -17,5 +17,6 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @m3ui/tokens build
-      - run: pnpm --filter @m3ui/tokens test
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm test:a11y

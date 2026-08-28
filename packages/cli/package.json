@@ -1,0 +1,26 @@
+{
+  "name": "@m3ui/cli",
+  "version": "0.0.0",
+  "description": "M3UI CLI — init projects and generate themes",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "m3ui": "./dist/cli.js"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@m3ui/color": "workspace:*",
+    "@m3ui/tokens": "workspace:*",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "tsdown": "^0.9.1",
+    "typescript": "^5.7.2"
+  }
+}
