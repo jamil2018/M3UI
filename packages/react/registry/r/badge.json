@@ -1,0 +1,18 @@
+{
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "Dot and numbered badges",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/badge.tsx",
+      "content": "\nimport { type CSSProperties } from 'react';\nimport { compVar, typeStyle } from '@m3ui/react';\n\nexport type BadgeVariant = 'dot' | 'large';\n\nexport interface BadgeProps {\n  count?: number;\n  max?: number;\n  variant?: BadgeVariant;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function Badge({\n  count = 0,\n  max = 99,\n  variant = 'large',\n  className,\n  'data-testid': testId,\n}: BadgeProps) {\n  if (variant === 'dot') {\n    const dotStyle: CSSProperties = {\n      width: compVar('badge', 'size'),\n      height: compVar('badge', 'size'),\n      borderRadius: compVar('badge', 'shape'),\n      background: compVar('badge', 'color'),\n      display: 'inline-block',\n    };\n    return <span className={className} data-testid={testId} style={dotStyle} aria-hidden />;\n  }\n\n  const display = count > max ? `${String(max)}+` : String(count);\n  if (count <= 0) return null;\n\n  const badgeStyle: CSSProperties = {\n    minWidth: compVar('badge', 'large-size'),\n    height: compVar('badge', 'large-size'),\n    paddingInline: compVar('list', 'item-between-space'),\n    borderRadius: compVar('badge', 'large-shape'),\n    background: compVar('badge', 'large-color'),\n    color: compVar('badge', 'large-label-text-color'),\n    ...typeStyle('label-small'),\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n  };\n\n  return (\n    <span className={className} data-testid={testId} style={badgeStyle} aria-label={`${display} notifications`}>\n      {display}\n    </span>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

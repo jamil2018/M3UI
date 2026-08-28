@@ -1,0 +1,18 @@
+{
+  "name": "switch",
+  "type": "registry:ui",
+  "title": "Switch",
+  "description": "M3 Expressive switch with icon slots",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/switch.tsx",
+      "content": "\nimport { Switch as BaseSwitch } from '@base-ui/react/switch';\nimport { type CSSProperties, type ReactNode } from 'react';\nimport { compVar, typeStyle } from '@m3ui/react';\n\nexport interface SwitchProps {\n  checked?: boolean;\n  defaultChecked?: boolean;\n  disabled?: boolean;\n  onCheckedChange?: (checked: boolean) => void;\n  label?: ReactNode;\n  icon?: ReactNode;\n  name?: string;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function Switch({\n  checked,\n  defaultChecked,\n  disabled = false,\n  onCheckedChange,\n  label,\n  icon,\n  name,\n  className,\n  'data-testid': testId,\n}: SwitchProps) {\n  const p = 'switch';\n\n  const trackStyle: CSSProperties = {\n    width: compVar(p, 'track-width'),\n    height: compVar(p, 'track-height'),\n    borderRadius: compVar(p, 'track-shape'),\n    background: disabled\n      ? compVar(p, 'disabled-unselected-track-color')\n      : compVar(p, 'unselected-track-color'),\n    border: `${compVar(p, 'unselected-track-outline-width')} solid ${disabled ? compVar(p, 'disabled-unselected-track-outline-color') : compVar(p, 'unselected-track-outline-color')}`,\n    position: 'relative',\n    display: 'inline-flex',\n    alignItems: 'center',\n    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,\n    transition: `background var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)`,\n  };\n\n  const thumbStyle: CSSProperties = {\n    width: compVar(p, 'selected-handle-width'),\n    height: compVar(p, 'selected-handle-height'),\n    borderRadius: compVar(p, 'handle-shape'),\n    background: disabled\n      ? compVar(p, 'disabled-unselected-handle-color')\n      : compVar(p, 'unselected-handle-color'),\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    transition: `transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized), width var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized), height var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-emphasized)`,\n  };\n\n  const iconStyle: CSSProperties = {\n    width: compVar(p, 'selected-icon-size'),\n    height: compVar(p, 'selected-icon-size'),\n    color: compVar(p, 'selected-icon-color'),\n  };\n\n  const labelStyle: CSSProperties = {\n    ...typeStyle('body-large'),\n    color: 'var(--md-sys-color-on-surface)',\n    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,\n  };\n\n  return (\n    <label\n      className={className}\n      data-testid={testId}\n      style={{\n        display: 'inline-flex',\n        alignItems: 'center',\n        gap: compVar(p, 'state-layer-size'),\n        cursor: disabled ? 'not-allowed' : 'pointer',\n      }}\n    >\n      <BaseSwitch.Root\n        checked={checked}\n        defaultChecked={defaultChecked}\n        disabled={disabled}\n        onCheckedChange={onCheckedChange}\n        name={name}\n        style={trackStyle}\n      >\n        <BaseSwitch.Thumb style={thumbStyle}>\n          {icon && <span style={iconStyle}>{icon}</span>}\n        </BaseSwitch.Thumb>\n      </BaseSwitch.Root>\n      {label && <span style={labelStyle}>{label}</span>}\n    </label>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

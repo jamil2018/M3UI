@@ -1,0 +1,18 @@
+{
+  "name": "divider",
+  "type": "registry:ui",
+  "title": "Divider",
+  "description": "Full-width, inset, and vertical dividers",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/divider.tsx",
+      "content": "\nimport { Separator } from '@base-ui/react/separator';\nimport { type CSSProperties } from 'react';\nimport { compVar } from '@m3ui/react';\n\nexport type DividerVariant = 'full-width' | 'inset' | 'middle-inset';\n\nexport interface DividerProps {\n  variant?: DividerVariant;\n  vertical?: boolean;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function Divider({\n  variant = 'full-width',\n  vertical = false,\n  className,\n  'data-testid': testId,\n}: DividerProps) {\n  const baseStyle: CSSProperties = {\n    background: compVar('divider', 'color'),\n    border: 'none',\n    flexShrink: 0,\n  };\n\n  const horizontalStyle: CSSProperties = {\n    ...baseStyle,\n    height: compVar('divider', 'thickness'),\n    width: variant === 'full-width' ? '100%' : variant === 'inset' ? `calc(100% - ${compVar('list', 'divider-leading-space')} * 2)` : '80%',\n    marginInlineStart: variant === 'inset' ? compVar('list', 'divider-leading-space') : variant === 'middle-inset' ? '10%' : 0,\n  };\n\n  const verticalStyle: CSSProperties = {\n    ...baseStyle,\n    width: compVar('divider', 'thickness'),\n    height: '100%',\n    alignSelf: 'stretch',\n  };\n\n  return (\n    <Separator\n      orientation={vertical ? 'vertical' : 'horizontal'}\n      className={className}\n      data-testid={testId}\n      style={vertical ? verticalStyle : horizontalStyle}\n    />\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}
