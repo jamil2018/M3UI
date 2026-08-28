@@ -1,0 +1,58 @@
+{
+  "name": "@m3ui/react",
+  "version": "0.0.0",
+  "description": "Material Design 3 Expressive React components",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./provider": {
+      "types": "./dist/provider/index.d.ts",
+      "import": "./dist/provider/index.js"
+    },
+    "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
+      "import": "./dist/primitives/index.js"
+    }
+  },
+  "files": ["dist", "registry"],
+  "scripts": {
+    "build": "tsdown && pnpm registry:build",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --config vitest.config.ts",
+    "test:a11y": "vitest run --config vitest.a11y.config.ts",
+    "test:coverage": "vitest run --config vitest.config.ts src/__tests__/token-coverage.test.ts",
+    "test:registry": "vitest run --config vitest.config.ts src/__tests__/registry-imports.test.ts",
+    "test:rsc": "vitest run --config vitest.config.ts src/__tests__/rsc-boundaries.test.ts",
+    "test:motion": "vitest run --config vitest.config.ts src/__tests__/reduced-motion.test.tsx",
+    "test:docs": "vitest run --config vitest.config.ts src/__tests__/docs-completeness.test.ts",
+    "registry:build": "tsx scripts/build-registry.ts"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.7.0",
+    "@internationalized/date": "^3.8.2",
+    "@m3ui/color": "workspace:*",
+    "@m3ui/icons": "workspace:*",
+    "@m3ui/motion": "workspace:*",
+    "@m3ui/shapes": "workspace:*",
+    "@m3ui/tokens": "workspace:*",
+    "motion": "^11.15.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "tsdown": "^0.9.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest-axe": "^0.1.0"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@m3ui/shapes",
+  "version": "0.0.0",
+  "description": "Material Design 3 Expressive shapes — RoundedPolygon, Morph, and MaterialShapes library",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@m3ui/motion": "workspace:*"
+  },
+  "peerDependencies": {
+    "motion": "^11.15.0",
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "motion": "^11.15.0",
+    "react": "^19.0.0",
+    "tsdown": "^0.9.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
