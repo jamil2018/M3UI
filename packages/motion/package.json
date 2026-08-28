@@ -1,0 +1,32 @@
+{
+  "name": "@m3ui/motion",
+  "version": "0.0.0",
+  "description": "Material Design 3 Expressive motion — Motion spring presets and CSS fallbacks",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./motion.css": "./dist/motion.css"
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsdown && node scripts/copy-css.mjs",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "motion": "^11.15.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "tsdown": "^0.9.1",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "@m3ui/color",
+  "version": "0.0.0",
+  "description": "Material Design 3 dynamic color — material-color-utilities wrapper",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vitest run --config vitest.config.ts"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "^0.4.0"
+  },
+  "devDependencies": {
+    "tsdown": "^0.9.1",
+    "typescript": "^5.7.2"
+  }
+}

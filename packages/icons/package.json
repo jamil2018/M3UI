@@ -1,0 +1,31 @@
+{
+  "name": "@m3ui/icons",
+  "version": "0.0.0",
+  "description": "Material Symbols icon wrapper for M3 Expressive",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "material-symbols": "^0.27.2"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.2",
+    "tsdown": "^0.9.1",
+    "typescript": "^5.7.2"
+  }
+}
