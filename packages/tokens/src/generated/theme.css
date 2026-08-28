@@ -1,0 +1,131 @@
+/**
+ * Tailwind v4 @theme layer — M3 token bridge
+ * Import after tokens.css in your app.
+ */
+@import './tokens.css';
+
+@theme {
+  /* Color roles */
+  --color-md-primary: var(--md-sys-color-primary);
+  --color-md-on-primary: var(--md-sys-color-on-primary);
+  --color-md-primary-container: var(--md-sys-color-primary-container);
+  --color-md-on-primary-container: var(--md-sys-color-on-primary-container);
+  --color-md-secondary: var(--md-sys-color-secondary);
+  --color-md-on-secondary: var(--md-sys-color-on-secondary);
+  --color-md-secondary-container: var(--md-sys-color-secondary-container);
+  --color-md-on-secondary-container: var(--md-sys-color-on-secondary-container);
+  --color-md-tertiary: var(--md-sys-color-tertiary);
+  --color-md-on-tertiary: var(--md-sys-color-on-tertiary);
+  --color-md-tertiary-container: var(--md-sys-color-tertiary-container);
+  --color-md-on-tertiary-container: var(--md-sys-color-on-tertiary-container);
+  --color-md-error: var(--md-sys-color-error);
+  --color-md-on-error: var(--md-sys-color-on-error);
+  --color-md-error-container: var(--md-sys-color-error-container);
+  --color-md-on-error-container: var(--md-sys-color-on-error-container);
+  --color-md-background: var(--md-sys-color-background);
+  --color-md-on-background: var(--md-sys-color-on-background);
+  --color-md-surface: var(--md-sys-color-surface);
+  --color-md-on-surface: var(--md-sys-color-on-surface);
+  --color-md-surface-variant: var(--md-sys-color-surface-variant);
+  --color-md-on-surface-variant: var(--md-sys-color-on-surface-variant);
+  --color-md-outline: var(--md-sys-color-outline);
+  --color-md-outline-variant: var(--md-sys-color-outline-variant);
+  --color-md-shadow: var(--md-sys-color-shadow);
+  --color-md-scrim: var(--md-sys-color-scrim);
+  --color-md-inverse-surface: var(--md-sys-color-inverse-surface);
+  --color-md-inverse-on-surface: var(--md-sys-color-inverse-on-surface);
+  --color-md-inverse-primary: var(--md-sys-color-inverse-primary);
+  --color-md-surface-dim: var(--md-sys-color-surface-dim);
+  --color-md-surface-bright: var(--md-sys-color-surface-bright);
+  --color-md-surface-container-lowest: var(--md-sys-color-surface-container-lowest);
+  --color-md-surface-container-low: var(--md-sys-color-surface-container-low);
+  --color-md-surface-container: var(--md-sys-color-surface-container);
+  --color-md-surface-container-high: var(--md-sys-color-surface-container-high);
+  --color-md-surface-container-highest: var(--md-sys-color-surface-container-highest);
+
+  /* Shape */
+  --radius-md-corner-none: var(--md-sys-shape-corner-none);
+  --radius-md-corner-extra-small: var(--md-sys-shape-corner-extra-small);
+  --radius-md-corner-small: var(--md-sys-shape-corner-small);
+  --radius-md-corner-medium: var(--md-sys-shape-corner-medium);
+  --radius-md-corner-large: var(--md-sys-shape-corner-large);
+  --radius-md-corner-extra-large: var(--md-sys-shape-corner-extra-large);
+  --radius-md-corner-full: var(--md-sys-shape-corner-full);
+
+  /* Elevation */
+  --shadow-md-level0: var(--md-sys-elevation-level0);
+  --shadow-md-level1: var(--md-sys-elevation-level1);
+  --shadow-md-level2: var(--md-sys-elevation-level2);
+  --shadow-md-level3: var(--md-sys-elevation-level3);
+  --shadow-md-level4: var(--md-sys-elevation-level4);
+  --shadow-md-level5: var(--md-sys-elevation-level5);
+
+  /* Motion */
+  --duration-md-short1: var(--md-sys-motion-duration-short1);
+  --duration-md-short2: var(--md-sys-motion-duration-short2);
+  --duration-md-short3: var(--md-sys-motion-duration-short3);
+  --duration-md-short4: var(--md-sys-motion-duration-short4);
+  --duration-md-medium1: var(--md-sys-motion-duration-medium1);
+  --duration-md-medium2: var(--md-sys-motion-duration-medium2);
+  --duration-md-medium3: var(--md-sys-motion-duration-medium3);
+  --duration-md-medium4: var(--md-sys-motion-duration-medium4);
+  --duration-md-long1: var(--md-sys-motion-duration-long1);
+  --duration-md-long2: var(--md-sys-motion-duration-long2);
+  --duration-md-long3: var(--md-sys-motion-duration-long3);
+  --duration-md-long4: var(--md-sys-motion-duration-long4);
+  --duration-md-extra-long1: var(--md-sys-motion-duration-extra-long1);
+  --duration-md-extra-long2: var(--md-sys-motion-duration-extra-long2);
+  --duration-md-extra-long3: var(--md-sys-motion-duration-extra-long3);
+  --duration-md-extra-long4: var(--md-sys-motion-duration-extra-long4);
+}
+
+@utility m3-state-hover {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    transition: opacity var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard);
+    pointer-events: none;
+  }
+  &:hover::before {
+    opacity: var(--md-sys-state-hover-state-layer-opacity);
+  }
+}
+
+@utility m3-state-focus {
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &:focus-visible::after {
+    opacity: var(--md-sys-state-focus-state-layer-opacity);
+  }
+}
+
+@utility m3-state-pressed {
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: currentColor;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &:active::before {
+    opacity: var(--md-sys-state-pressed-state-layer-opacity);
+  }
+}
+
+@utility m3-elevation-1 {
+  box-shadow: 0 var(--md-sys-elevation-level1) calc(var(--md-sys-elevation-level1) * 2)
+    rgba(0, 0, 0, var(--md-sys-elevation-level1-shadow-opacity));
+}

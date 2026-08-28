@@ -1,0 +1,356 @@
+{
+  "md-comp-assist-chip": {
+    "fileName": "_md-comp-assist-chip.scss",
+    "variables": {
+      "tokens": "md-comp-assist-chip.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-assist-chip-container-shape, #{$value})"
+    }
+  },
+  "md-comp-badge": {
+    "fileName": "_md-comp-badge.scss",
+    "variables": {
+      "_unsupported-tokens": "('large-label-text-tracking', 'large-label-text-type')",
+      "tokens": "map.set($tokens, $token, var(--md-badge-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-checkbox": {
+    "fileName": "_md-comp-checkbox.scss",
+    "variables": {
+      "tokens": "md-comp-checkbox.values($deps, $exclude-hardcoded-values)",
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-checkbox-container-shape, #{$value})"
+    }
+  },
+  "md-comp-circular-progress": {
+    "fileName": "_md-comp-circular-progress.scss",
+    "variables": {
+      "width": "map.get($tokens, 'active-indicator-width')",
+      "size": "map.get($tokens, 'size')",
+      "container-padding": "4px",
+      "size-without-padding": "$size - $container-padding - $container-padding"
+    }
+  },
+  "md-comp-dialog": {
+    "fileName": "_md-comp-dialog.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-dialog-#{$token}, #{$value}))",
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-dialog-container-shape, #{$value})"
+    }
+  },
+  "md-comp-divider": {
+    "fileName": "_md-comp-divider.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-divider-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-elevated-button": {
+    "fileName": "_md-comp-elevated-button.scss",
+    "variables": {
+      "tokens": "md-comp-elevated-button.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-elevated-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-elevated-card": {
+    "fileName": "_md-comp-elevated-card.scss",
+    "variables": {}
+  },
+  "md-comp-elevation": {
+    "fileName": "_md-comp-elevation.scss",
+    "variables": {}
+  },
+  "md-comp-fab-branded": {
+    "fileName": "_md-comp-fab-branded.scss",
+    "variables": {
+      "tokens": "md-comp-fab-branded.values($deps, $exclude-hardcoded-values)",
+      "new-tokens": "_get-new-tokens($deps, $exclude-hardcoded-values)",
+      "shape-tokens": "('container-shape', 'large-container-shape')",
+      "value": "var(--md-fab-branded-#{$shape-token}, #{$value})"
+    }
+  },
+  "md-comp-fab": {
+    "fileName": "_md-comp-fab.scss",
+    "variables": {
+      "primary-tokens": "md-comp-fab-primary.values($deps, $exclude-hardcoded-values)",
+      "tokens": "map.set($tokens, $token, var(--md-fab-#{$token}, #{$value}))",
+      "new-tokens": "_get-new-tokens($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-fab-#{$shape-token}, #{$value})"
+    }
+  },
+  "md-comp-filled-button": {
+    "fileName": "_md-comp-filled-button.scss",
+    "variables": {
+      "tokens": "md-comp-filled-button.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-filled-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filled-card": {
+    "fileName": "_md-comp-filled-card.scss",
+    "variables": {}
+  },
+  "md-comp-filled-field": {
+    "fileName": "_md-comp-filled-field.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-filled-field-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filled-icon-button": {
+    "fileName": "_md-comp-filled-icon-button.scss",
+    "variables": {
+      "tokens": "md-comp-filled-icon-button.values($deps, $exclude-hardcoded-values)",
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-filled-icon-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filled-select": {
+    "fileName": "_md-comp-filled-select.scss",
+    "variables": {
+      "value": "var(--md-filled-select-text-field-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filled-text-field": {
+    "fileName": "_md-comp-filled-text-field.scss",
+    "variables": {
+      "tokens": "md-comp-filled-text-field.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-filled-text-field-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filled-tonal-button": {
+    "fileName": "_md-comp-filled-tonal-button.scss",
+    "variables": {
+      "tokens": "md-comp-filled-tonal-button.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-filled-tonal-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filled-tonal-icon-button": {
+    "fileName": "_md-comp-filled-tonal-icon-button.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-filled-tonal-icon-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-filter-chip": {
+    "fileName": "_md-comp-filter-chip.scss",
+    "variables": {
+      "tokens": "md-comp-filter-chip.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-filter-chip-container-shape, #{$value})"
+    }
+  },
+  "md-comp-focus-ring": {
+    "fileName": "_md-comp-focus-ring.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'shape')",
+      "value": "var(--md-focus-ring-shape, #{$value})"
+    }
+  },
+  "md-comp-full-screen-dialog": {
+    "fileName": "_md-comp-full-screen-dialog.scss",
+    "variables": {}
+  },
+  "md-comp-icon-button": {
+    "fileName": "_md-comp-icon-button.scss",
+    "variables": {}
+  },
+  "md-comp-icon": {
+    "fileName": "_md-comp-icon.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-icon-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-input-chip": {
+    "fileName": "_md-comp-input-chip.scss",
+    "variables": {
+      "tokens": "md-comp-input-chip.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-input-chip-container-shape, #{$value})"
+    }
+  },
+  "md-comp-item": {
+    "fileName": "_md-comp-item.scss",
+    "variables": {
+      "list-tokens": "md-comp-list.values($deps, $exclude-hardcoded-values)"
+    }
+  },
+  "md-comp-linear-progress": {
+    "fileName": "_md-comp-linear-progress.scss",
+    "variables": {}
+  },
+  "md-comp-list-item": {
+    "fileName": "_md-comp-list-item.scss",
+    "variables": {
+      "original-tokens": "md-comp-list.values($deps, $exclude-hardcoded-values)",
+      "keys": "map.keys($tokens)",
+      "renamed-tokens": "map.set($renamed-tokens, $key, $renamed-key)",
+      "renamed-key": "string.slice($key, string.length('list-item-') + 1)"
+    }
+  },
+  "md-comp-list": {
+    "fileName": "_md-comp-list.scss",
+    "variables": {
+      "list-tokens": "md-comp-list.values($deps, $exclude-hardcoded-values)",
+      "tokens": "map.set($tokens, $token, var(--md-list-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-menu-item": {
+    "fileName": "_md-comp-menu-item.scss",
+    "variables": {
+      "tokens": "map.set($tokens, 'container-color', transparent)",
+      "keys": "map.keys($tokens)",
+      "renamed-tokens": "map.set($renamed-tokens, $key, $renamed-key)",
+      "renamed-key": "string.slice($key, string.length($prefix) + 1)"
+    }
+  },
+  "md-comp-menu": {
+    "fileName": "_md-comp-menu.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-menu-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-navigation-bar": {
+    "fileName": "_md-comp-navigation-bar.scss",
+    "variables": {
+      "tokens": "md-comp-navigation-bar.values($deps, $exclude-hardcoded-values)"
+    }
+  },
+  "md-comp-navigation-drawer": {
+    "fileName": "_md-comp-navigation-drawer.scss",
+    "variables": {
+      "tokens": "md-comp-navigation-drawer.values($deps, $exclude-hardcoded-values)"
+    }
+  },
+  "md-comp-outlined-button": {
+    "fileName": "_md-comp-outlined-button.scss",
+    "variables": {
+      "tokens": "md-comp-outlined-button.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-outlined-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-outlined-card": {
+    "fileName": "_md-comp-outlined-card.scss",
+    "variables": {}
+  },
+  "md-comp-outlined-field": {
+    "fileName": "_md-comp-outlined-field.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-outlined-field-container-shape, #{$value})"
+    }
+  },
+  "md-comp-outlined-icon-button": {
+    "fileName": "_md-comp-outlined-icon-button.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-outlined-icon-button-container-shape, #{$value})"
+    }
+  },
+  "md-comp-outlined-segmented-button": {
+    "fileName": "_md-comp-outlined-segmented-button.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'shape')",
+      "value": "var(--md-outlined-segmented-button-shape, #{$value})"
+    }
+  },
+  "md-comp-outlined-select": {
+    "fileName": "_md-comp-outlined-select.scss",
+    "variables": {
+      "tokens": "md-comp-outlined-select.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-outlined-select-text-field-container-shape, #{$value})"
+    }
+  },
+  "md-comp-outlined-text-field": {
+    "fileName": "_md-comp-outlined-text-field.scss",
+    "variables": {
+      "tokens": "md-comp-outlined-text-field.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-outlined-text-field-container-shape, #{$value})"
+    }
+  },
+  "md-comp-primary-tab": {
+    "fileName": "_md-comp-primary-tab.scss",
+    "variables": {
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-primary-tab-container-shape, #{$value})"
+    }
+  },
+  "md-comp-radio": {
+    "fileName": "_md-comp-radio.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-radio-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-ripple": {
+    "fileName": "_md-comp-ripple.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-ripple-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-secondary-tab": {
+    "fileName": "_md-comp-secondary-tab.scss",
+    "variables": {
+      "tokens": "_add-missing-secondary-tokens($tokens)",
+      "new-tokens": "shape.get-new-logical-shape-tokens($tokens, 'container-shape')",
+      "value": "var(--md-secondary-tab-container-shape, #{$value})"
+    }
+  },
+  "md-comp-slider": {
+    "fileName": "_md-comp-slider.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-slider-#{$token}, #{$value}))"
+    }
+  },
+  "md-comp-suggestion-chip": {
+    "fileName": "_md-comp-suggestion-chip.scss",
+    "variables": {
+      "tokens": "md-comp-suggestion-chip.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-suggestion-chip-container-shape, #{$value})"
+    }
+  },
+  "md-comp-switch": {
+    "fileName": "_md-comp-switch.scss",
+    "variables": {
+      "tokens": "map.set($tokens, $token, var(--md-switch-#{$token}, #{$value}))",
+      "shape-tokens": "('handle-shape', 'track-shape')",
+      "value": "var(--md-switch-#{$shape-token}, #{$value})"
+    }
+  },
+  "md-comp-test-table": {
+    "fileName": "_md-comp-test-table.scss",
+    "variables": {}
+  },
+  "md-comp-text-button": {
+    "fileName": "_md-comp-text-button.scss",
+    "variables": {
+      "tokens": "md-comp-text-button.values($deps, $exclude-hardcoded-values)",
+      "value": "var(--md-text-button-container-shape, #{$value})"
+    }
+  },
+  "md-sys-color": {
+    "fileName": "_md-sys-color.scss",
+    "variables": {
+      "tokens": "md-sys-color.values-light($deps)"
+    }
+  },
+  "md-sys-elevation": {
+    "fileName": "_md-sys-elevation.scss",
+    "variables": {
+      "tokens": "md-sys-elevation.values($exclude-hardcoded-values)"
+    }
+  },
+  "md-sys-motion": {
+    "fileName": "_md-sys-motion.scss",
+    "variables": {}
+  },
+  "md-sys-shape": {
+    "fileName": "_md-sys-shape.scss",
+    "variables": {
+      "original-tokens": "md-sys-shape.values($exclude-hardcoded-values)"
+    }
+  },
+  "md-sys-state": {
+    "fileName": "_md-sys-state.scss",
+    "variables": {}
+  },
+  "md-sys-typescale": {
+    "fileName": "_md-sys-typescale.scss",
+    "variables": {}
+  }
+}

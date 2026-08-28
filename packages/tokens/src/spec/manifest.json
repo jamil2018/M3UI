@@ -1,0 +1,24 @@
+{
+  "version": "v0_210",
+  "syncedAt": "2026-08-27T18:32:35.172Z",
+  "revisions": {
+    "androidx": {
+      "repo": "androidx/androidx",
+      "ref": "androidx-main",
+      "tokensPath": "compose/material3/material3/src/commonMain/kotlin/androidx/compose/material3/tokens"
+    },
+    "materialWeb": {
+      "repo": "material-components/material-web",
+      "ref": "main",
+      "tokensPath": "tokens"
+    }
+  },
+  "androidx": {
+    "fileCount": 120,
+    "contentHash": "6220aa79e46d"
+  },
+  "materialWeb": {
+    "fileCount": 55,
+    "contentHash": "c250c4a908e5"
+  }
+}
