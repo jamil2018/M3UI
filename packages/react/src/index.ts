@@ -151,4 +151,16 @@ export type { CarouselProps, CarouselItem, CarouselLayout } from './components/c
 export { Scaffold, FabAnchor } from './components/scaffold.js';
 export type { ScaffoldProps } from './components/scaffold.js';
 
+export { ButtonGroup, ButtonGroupItem } from './components/button-group.js';
+export type { ButtonGroupProps, ButtonGroupItemProps, ButtonGroupVariant } from './components/button-group.js';
+
+export { SplitButton } from './components/split-button.js';
+export type { SplitButtonProps } from './components/split-button.js';
+
+export { FabMenu } from './components/fab-menu.js';
+export type { FabMenuProps, FabMenuAction } from './components/fab-menu.js';
+
+export { Toolbar, ToolbarButton } from './components/toolbar.js';
+export type { ToolbarProps, ToolbarButtonProps, ToolbarVariant, ToolbarOrientation } from './components/toolbar.js';
+
 
