@@ -163,4 +163,59 @@ export type { FabMenuProps, FabMenuAction } from './components/fab-menu.js';
 export { Toolbar, ToolbarButton } from './components/toolbar.js';
 export type { ToolbarProps, ToolbarButtonProps, ToolbarVariant, ToolbarOrientation } from './components/toolbar.js';
 
+export { DateInput } from './components/date-input.js';
+export type { DateInputProps, DateInputVariant } from './components/date-input.js';
+
+export { DatePicker } from './components/date-picker.js';
+export type { DatePickerProps, DatePickerVariant, DatePickerInputMode } from './components/date-picker.js';
+
+export { TimePicker } from './components/time-picker.js';
+export type { TimePickerProps, TimePickerVariant, TimeFormat, TimeValue } from './components/time-picker.js';
+
+export { PaneScaffold, PaneScaffoldRoot } from './components/pane-scaffold.js';
+export type { PaneScaffoldProps, PaneLayout, PaneScaffoldLayout } from './components/pane-scaffold.js';
+
+export { AdaptiveNavigation, resolveAdaptiveNavMode } from './components/adaptive-navigation.js';
+export type { AdaptiveNavigationProps, AdaptiveNavMode } from './components/adaptive-navigation.js';
+
+export {
+  M3I18nProvider,
+  useM3I18n,
+  useM3Message,
+  M3_MESSAGE_KEYS,
+  ENGLISH_DEFAULTS,
+  getWeekStart,
+} from './lib/i18n.js';
+export type { M3MessageKey, M3Messages, M3I18nContextValue } from './lib/i18n.js';
+
+export {
+  WindowSizeClassProvider,
+  useWindowSizeClass,
+  useContainerSizeClass,
+  widthToSizeClass,
+  sizeClassAtLeast,
+  SIZE_CLASS_BREAKPOINTS,
+  SIZE_CLASS_QUERY,
+} from './lib/window-size-class.js';
+export type { WindowSizeClass, WindowSizeClassContextValue } from './lib/window-size-class.js';
+
+export {
+  generateMonthGrid,
+  navigateGrid,
+  navigateMonth,
+  navigateYear,
+  selectDate,
+  createInitialCalendarState,
+  getWeekdayLabels,
+  CalendarDate,
+  today as calendarToday,
+} from './lib/calendar-engine.js';
+export type {
+  CalendarSelectionMode,
+  CalendarDayCell,
+  CalendarMonthGrid,
+  CalendarEngineOptions,
+  CalendarSelectionState,
+} from './lib/calendar-engine.js';
+
 
