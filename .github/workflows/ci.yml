@@ -1,22 +1,71 @@
 name: CI
+
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm build
-      - run: pnpm test
-      - run: pnpm test:a11y
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: A11y tests
+        run: pnpm test:a11y
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install chromium --with-deps
+
+      - name: VRT
+        run: pnpm test:vrt
+
+      - name: Registry import check
+        run: pnpm --filter @m3ui/react test:registry
+
+      - name: Token coverage gate
+        run: pnpm --filter @m3ui/react test:coverage
+
+      - name: Bundle size budgets
+        run: pnpm size:check
+
+      - name: Spec sync check
+        run: pnpm spec:sync:check
+
+      - name: RSC boundary audit
+        run: pnpm --filter @m3ui/react test:rsc
+
+      - name: Reduced motion coverage
+        run: pnpm --filter @m3ui/react test:motion
+
+      - name: Docs completeness gate
+        run: pnpm --filter @m3ui/react test:docs

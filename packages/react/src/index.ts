@@ -218,4 +218,45 @@ export type {
   CalendarSelectionState,
 } from './lib/calendar-engine.js';
 
+export { ShapeCrop, MaterialShapes } from './lib/shape-crop.js';
+export type { ShapeCropProps, MaterialShapeName } from './lib/shape-crop.js';
 
+export {
+  InsetProvider,
+  useM3InsetRegister,
+  useRegisterInset,
+  M3_INSET_TOP,
+  M3_INSET_BOTTOM,
+  M3_FAB_OFFSET,
+} from './lib/inset-context.js';
+export type { InsetProviderProps } from './lib/inset-context.js';
+
+export { OverlayMotion, ScrimMotion } from './lib/overlay-motion.js';
+export type { OverlayMotionProps, ScrimMotionProps } from './lib/overlay-motion.js';
+
+export { PressableShell } from './lib/pressable-shell.js';
+export type { PressableShellProps } from './lib/pressable-shell.js';
+export { PopupMotion } from './lib/popup-motion.js';
+export type { PopupMotionProps } from './lib/popup-motion.js';
+export { generateLinearWavePath, generateCircularWavePath } from './lib/wavy-path.js';
+
+export {
+  compVar,
+  sysColor,
+  sysShape,
+  typeStyle,
+  elevationShadow,
+  buttonSizeTokens,
+  iconButtonSizeTokens,
+  DISABLED_CONTENT_OPACITY,
+  BUTTON_SIZES,
+  BUTTON_SIZE_PREFIX,
+  ICON_BUTTON_SIZE_PREFIX,
+} from './lib/token-utils.js';
+export type { ButtonSize } from './lib/token-utils.js';
+
+/** @deprecated Use Button instead — kept for registry install testing */
+export { PlaceholderButton } from './components/placeholder-button.js';
+export type { PlaceholderButtonProps } from './components/placeholder-button.js';
+
+export type { ContrastPreference } from '@m3ui/color';
