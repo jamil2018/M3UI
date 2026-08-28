@@ -60,14 +60,12 @@ export function SearchBar({
   };
 
   return (
+    <div className={className} data-testid={testId} style={{ width: '100%' }}>
     <BaseAutocomplete.Root
       value={value}
       defaultValue={defaultValue}
-      onValueChange={onValueChange}
+      onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
       disabled={disabled}
-      className={className}
-      data-testid={testId}
-      style={{ width: '100%' }}
     >
       <div style={barStyle}>
         {avatar}
@@ -116,6 +114,7 @@ export function SearchBar({
         </BaseAutocomplete.Portal>
       )}
     </BaseAutocomplete.Root>
+    </div>
   );
 }
 

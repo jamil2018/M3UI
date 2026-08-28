@@ -44,7 +44,7 @@ export class Morph {
 function matchPolygons(p1: RoundedPolygon, p2: RoundedPolygon): Array<[Cubic, Cubic]> {
   const c1 = resampleToCount(flattenCubics(p1), targetCount(p1, p2));
   const c2 = resampleToCount(flattenCubics(p2), c1.length);
-  return c1.map((a, i) => [a, c2[i]!]);
+  return c1.map((a, i) => [a, c2[i]]);
 }
 
 function targetCount(p1: RoundedPolygon, p2: RoundedPolygon): number {
@@ -63,10 +63,10 @@ function resampleToCount(cubics: Cubic[], count: number): Cubic[] {
 
   for (let i = 0; i < count; i++) {
     const idx = Math.min(Math.floor(i * step), samples.length - 2);
-    const p0 = samples[idx]!;
-    const p1 = samples[idx + 1]!;
-    const pPrev = samples[Math.max(0, idx - 1)]!;
-    const pNext = samples[Math.min(samples.length - 1, idx + 2)]!;
+    const p0 = samples[idx];
+    const p1 = samples[idx + 1];
+    const pPrev = samples[Math.max(0, idx - 1)];
+    const pNext = samples[Math.min(samples.length - 1, idx + 2)];
     result.push(
       new Cubic([
         p0.x,
@@ -92,10 +92,10 @@ function sampleOutline(cubics: Cubic[], totalSamples: number): Array<{ x: number
     const dist = (s / totalSamples) * total;
     let acc = 0;
     for (let i = 0; i < cubics.length; i++) {
-      const segLen = lengths[i]!;
+      const segLen = lengths[i];
       if (acc + segLen >= dist || i === cubics.length - 1) {
         const local = segLen > 0 ? (dist - acc) / segLen : 0;
-        pts.push(cubics[i]!.pointOnCurve(Math.max(0, Math.min(1, local))));
+        pts.push(cubics[i].pointOnCurve(Math.max(0, Math.min(1, local))));
         break;
       }
       acc += segLen;

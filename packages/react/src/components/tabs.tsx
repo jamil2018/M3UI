@@ -78,7 +78,7 @@ export function Tabs({
           <BaseTabs.Indicator
             render={(props) => (
               <motion.span
-                {...props}
+                {...(props as object)}
                 transition={springs.fastSpatial}
                 style={{
                   ...props.style,

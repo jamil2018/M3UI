@@ -93,7 +93,7 @@ export function Autocomplete({
       <BaseAutocomplete.Root
         value={value}
         defaultValue={defaultValue}
-        onValueChange={onValueChange}
+        onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
         disabled={disabled}
         items={options.map((o) => o.value)}
       >
@@ -157,7 +157,7 @@ export function Combobox({
       <BaseCombobox.Root
         value={value}
         defaultValue={defaultValue}
-        onValueChange={onValueChange}
+        onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
         disabled={disabled}
         items={options.map((o) => o.value)}
       >

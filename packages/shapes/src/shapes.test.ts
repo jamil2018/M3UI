@@ -62,8 +62,8 @@ describe('Morph endpoint fidelity', () => {
 describe('Morph self-intersection (property)', () => {
   it('has no obvious self-intersection at morph endpoints for loading indicator pairs', () => {
     for (let i = 0; i < LoadingIndicatorShapes.length - 1; i++) {
-      const from = LoadingIndicatorShapes[i]!;
-      const to = LoadingIndicatorShapes[i + 1]!;
+      const from = LoadingIndicatorShapes[i];
+      const to = LoadingIndicatorShapes[i + 1];
       const morph = new Morph(from, to);
       for (const p of [0, 1]) {
         const cubics = morph.asCubics(p);
@@ -84,7 +84,7 @@ function hasSimpleSelfIntersection(cubics: ReturnType<Morph['asCubics']>): boole
   for (let i = 0; i < segments.length; i++) {
     for (let j = i + 2; j < segments.length; j++) {
       if (i === 0 && j === segments.length - 1) continue;
-      if (segmentsIntersect(segments[i]!, segments[j]!)) return true;
+      if (segmentsIntersect(segments[i], segments[j])) return true;
     }
   }
   return false;

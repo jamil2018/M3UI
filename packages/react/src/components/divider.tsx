@@ -9,6 +9,7 @@ export interface DividerProps {
   variant?: DividerVariant;
   vertical?: boolean;
   className?: string;
+  style?: CSSProperties;
   'data-testid'?: string;
 }
 
@@ -16,6 +17,7 @@ export function Divider({
   variant = 'full-width',
   vertical = false,
   className,
+  style,
   'data-testid': testId,
 }: DividerProps) {
   const baseStyle: CSSProperties = {
@@ -43,7 +45,7 @@ export function Divider({
       orientation={vertical ? 'vertical' : 'horizontal'}
       className={className}
       data-testid={testId}
-      style={vertical ? verticalStyle : horizontalStyle}
+      style={vertical ? { ...verticalStyle, ...style } : { ...horizontalStyle, ...style }}
     />
   );
 }

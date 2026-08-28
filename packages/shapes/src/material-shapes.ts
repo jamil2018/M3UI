@@ -49,12 +49,12 @@ function doRepeat(
         if (i > 0 || it % 2 === 0) {
           const a =
             (sectionAngle * it +
-              (it % 2 === 0 ? angles[i]! : sectionAngle - angles[i]! + 2 * angles[0]!)) *
+              (it % 2 === 0 ? angles[i] : sectionAngle - angles[i] + 2 * angles[0])) *
             (Math.PI / 180);
           result.push({
-            x: center.x + Math.cos(a) * distances[i]!,
-            y: center.y + Math.sin(a) * distances[i]!,
-            r: points[i]!.r,
+            x: center.x + Math.cos(a) * distances[i],
+            y: center.y + Math.sin(a) * distances[i],
+            r: points[i].r,
           });
         }
       }
@@ -64,7 +64,7 @@ function doRepeat(
   const np = points.length;
   const result: PointNRound[] = [];
   for (let it = 0; it < np * reps; it++) {
-    const src = points[it % np]!;
+    const src = points[it % np];
     const rotated = rotatePoint(src.x, src.y, (it / np) * (360 / reps), center.x, center.y);
     result.push({ x: rotated.x, y: rotated.y, r: src.r });
   }
@@ -81,8 +81,8 @@ function customPolygon(
   const verts = new Float32Array(actual.length * 2);
   const roundings = actual.map((p) => p.r ?? cornerRounding(0));
   for (let i = 0; i < actual.length; i++) {
-    verts[i * 2] = actual[i]!.x;
-    verts[i * 2 + 1] = actual[i]!.y;
+    verts[i * 2] = actual[i].x;
+    verts[i * 2 + 1] = actual[i].y;
   }
   return RoundedPolygon.fromVertices(verts, cornerRounding(0), roundings, center.x, center.y);
 }

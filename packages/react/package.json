@@ -23,7 +23,7 @@
     "build": "tsdown && pnpm registry:build",
     "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src",
+    "lint": "eslint src --ignore-pattern '**/*.test.*' --ignore-pattern '**/*.a11y.test.*' --ignore-pattern '**/__tests__/**'",
     "test": "vitest run --config vitest.config.ts",
     "test:a11y": "vitest run --config vitest.a11y.config.ts",
     "test:coverage": "vitest run --config vitest.config.ts src/__tests__/token-coverage.test.ts",

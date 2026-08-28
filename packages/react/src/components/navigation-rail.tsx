@@ -114,7 +114,7 @@ export function NavigationRail({
       <BaseDrawer.Root defaultOpen>
         <BaseDrawer.Portal>
           <BaseDrawer.Backdrop style={{ background: compVar('scrim', 'container-color'), opacity: 0.32 }} />
-          <BaseDrawer.Popup swipeDirection="left">
+          <BaseDrawer.Popup>
             <motion.div initial={{ x: -24, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={springs.defaultSpatial}>
               {railContent}
             </motion.div>

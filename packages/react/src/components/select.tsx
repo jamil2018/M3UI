@@ -96,7 +96,7 @@ export function Select({
 
   return (
     <div className={className} data-testid={testId} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      <BaseSelect.Root value={value} defaultValue={defaultValue} onValueChange={onValueChange} disabled={disabled}>
+      <BaseSelect.Root value={value} defaultValue={defaultValue} onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined} disabled={disabled}>
         {label && (
           <BaseSelect.Label style={{ ...typeStyle('body-small'), color: compVar(tokenPrefix, 'focus-label-color') }}>
             {label}

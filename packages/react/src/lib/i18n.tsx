@@ -122,7 +122,7 @@ export function useM3Message(key: M3MessageKey): string {
 /** Resolve locale week start (0 = Sunday, 1 = Monday, …). */
 export function getWeekStart(locale: string): number {
   try {
-    const info = new Intl.Locale(locale).weekInfo;
+    const info = (new Intl.Locale(locale) as Intl.Locale & { weekInfo?: { firstDay?: number } }).weekInfo;
     if (info?.firstDay != null) {
       return info.firstDay === 7 ? 0 : info.firstDay;
     }

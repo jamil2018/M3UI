@@ -24,6 +24,7 @@ export interface ButtonProps {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   className?: string;
+  style?: CSSProperties;
   'data-testid'?: string;
 }
 
@@ -93,6 +94,7 @@ export function Button({
   startIcon,
   endIcon,
   className,
+  style,
   'data-testid': testId,
 }: ButtonProps) {
   const tokens = buttonSizeTokens(size);
@@ -113,6 +115,7 @@ export function Button({
     ...variantStyles,
     width: '100%',
     borderRadius: 'inherit',
+    ...style,
   };
 
   const iconStyle: CSSProperties = {

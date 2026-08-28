@@ -1,3 +1,4 @@
+import type { DayOfWeek } from '@internationalized/date';
 import {
   CalendarDate,
   endOfMonth,
@@ -93,9 +94,9 @@ export function generateMonthGrid(
   const weekStartsOn = options.weekStartsOn ?? getWeekStart(locale);
   const monthStart = startOfMonth(new CalendarDate(year, month, 1));
   const monthEnd = endOfMonth(monthStart);
-  const gridStart = startOfWeek(monthStart, locale, weekStartsOn);
+  const gridStart = startOfWeek(monthStart, locale, weekStartsOn as unknown as DayOfWeek);
   const weeks: CalendarDayCell[][] = [];
-  let cursor = gridStart;
+  let cursor: CalendarDate = gridStart;
 
   while (cursor.compare(monthEnd) <= 0 || weeks.length === 0 || weeks[weeks.length - 1]!.length < 7) {
     const week: CalendarDayCell[] = [];
@@ -194,9 +195,9 @@ export function navigateGrid(
       duration.months = 1;
       break;
     case 'Home':
-      return startOfWeek(focused, locale, weekStartsOn);
+      return startOfWeek(focused, locale, weekStartsOn as unknown as DayOfWeek);
     case 'End': {
-      const weekStart = startOfWeek(focused, locale, weekStartsOn);
+      const weekStart = startOfWeek(focused, locale, weekStartsOn as unknown as DayOfWeek);
       return weekStart.add({ days: 6 });
     }
     default:

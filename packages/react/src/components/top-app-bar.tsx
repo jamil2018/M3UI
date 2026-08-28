@@ -127,7 +127,7 @@ export function TopAppBar({
 
   return (
     <BaseToolbar.Root
-      ref={barRef}
+      ref={barRef as React.RefObject<HTMLDivElement>}
       className={className}
       data-testid={testId}
       style={barStyle}

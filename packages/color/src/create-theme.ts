@@ -7,7 +7,6 @@ import {
   Hct,
   MaterialDynamicColors,
   QuantizerCelebi,
-  QuantizerMap,
   Score,
 } from '@material/material-color-utilities';
 
@@ -148,7 +147,7 @@ export function extractSeedFromImage(
   _width: number,
   _height: number,
 ): string {
-  const pixels = new Map<number, number>();
+  const argbPixels: number[] = [];
   for (let i = 0; i < imageData.length; i += 4) {
     const r = imageData[i] ?? 0;
     const g = imageData[i + 1] ?? 0;
@@ -156,11 +155,11 @@ export function extractSeedFromImage(
     const a = imageData[i + 3] ?? 0;
     if (a < 128) continue;
     const argb = ((255 << 24) | (r << 16) | (g << 8) | b) >>> 0;
-    pixels.set(argb, (pixels.get(argb) ?? 0) + 1);
+    argbPixels.push(argb);
   }
 
-  const quantizerResult = QuantizerCelebi.quantize(pixels, 128);
-  const ranked = Score.score(QuantizerMap.quantize(quantizerResult.colorToCount as Map<number, number>));
+  const colorToCount = QuantizerCelebi.quantize(argbPixels, 128);
+  const ranked = Score.score(colorToCount);
   const topColor = ranked[0];
   if (topColor === undefined) {
     return '#6750A4';

@@ -94,7 +94,7 @@ export function ButtonGroup({
             {cloneElement(child as ReactElement<ButtonGroupItemProps>, {
               'data-group-index': index,
               'data-pressed-neighbor': pressedIndex !== null && pressedIndex !== index,
-            })}
+            } as unknown as ButtonGroupItemProps)}
           </motion.div>
         );
       })}

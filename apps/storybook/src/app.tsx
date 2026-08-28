@@ -169,10 +169,12 @@ export function App() {
                 <Checkbox label="Checkbox A" value="a" />
                 <Checkbox label="Checkbox B" value="b" />
               </CheckboxGroup>
-              <RadioGroup defaultValue="1" name="demo-radio" style={{ marginTop: 16 }}>
+              <div style={{ marginTop: 16 }}>
+              <RadioGroup defaultValue="1" name="demo-radio">
                 <Radio value="1" label="Radio 1" />
                 <Radio value="2" label="Radio 2" />
               </RadioGroup>
+              </div>
               <div style={{ marginTop: 16 }}>
                 <Switch label="Switch" defaultChecked />
               </div>
@@ -185,10 +187,12 @@ export function App() {
               <h2>Containment</h2>
               <div style={{ display: 'flex', gap: 16 }}>
                 <Card variant="elevated" style={{ padding: 16 }}>Card</Card>
-                <List style={{ flex: 1 }}>
+                <div style={{ flex: 1 }}>
+                <List>
                   <ListItem headline="List item" supportingText="Supporting" lines={2} divider />
                   <ListItem headline="Selected" selected />
                 </List>
+                </div>
               </div>
               <Divider style={{ margin: '16px 0' }} />
             </section>
@@ -262,11 +266,15 @@ export function App() {
               <div style={{ display: 'flex', gap: 24, alignItems: 'center', flexWrap: 'wrap' }}>
                 <div style={{ flex: 1, minWidth: 200 }}>
                   <LinearProgress value={60} />
-                  <LinearProgress value={40} variant="wavy" style={{ marginTop: 12 }} />
+                  <div style={{ marginTop: 12 }}>
+                  <LinearProgress value={40} variant="wavy" />
+                  </div>
                 </div>
                 <CircularProgress value={75} />
                 <LoadingIndicator contained />
-                <Meter value={65} label="Storage" style={{ flex: 1, minWidth: 160 }} />
+                <div style={{ flex: 1, minWidth: 160 }}>
+                <Meter value={65} label="Storage" />
+                </div>
               </div>
             </section>
 
