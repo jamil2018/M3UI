@@ -1,0 +1,19 @@
+{
+  "name": "bottom-sheet",
+  "type": "registry:ui",
+  "title": "Bottom Sheet",
+  "description": "Modal bottom sheet with snap points and drag handle",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens",
+    "@m3ui/motion"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/bottom-sheet.tsx",
+      "content": "\nimport { Drawer as BaseDrawer } from '@base-ui/react/drawer';\nimport { type CSSProperties, type ReactElement, type ReactNode, isValidElement } from 'react';\nimport { compVar, elevationShadow, sysShape } from '@m3ui/react';\nimport { OverlayMotion, ScrimMotion } from '@m3ui/react';\n\nexport type BottomSheetVariant = 'standard' | 'modal';\n\nexport interface BottomSheetProps {\n  trigger?: ReactNode;\n  open?: boolean;\n  defaultOpen?: boolean;\n  onOpenChange?: (open: boolean) => void;\n  variant?: BottomSheetVariant;\n  snapPoints?: Array<number | string>;\n  defaultSnapPoint?: number | string;\n  children: ReactNode;\n  showHandle?: boolean;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function BottomSheet({\n  trigger,\n  open,\n  defaultOpen,\n  onOpenChange,\n  variant = 'modal',\n  snapPoints,\n  defaultSnapPoint,\n  children,\n  showHandle = true,\n  className,\n  'data-testid': testId,\n}: BottomSheetProps) {\n  const popupStyle: CSSProperties = {\n    background: compVar('sheet-bottom', 'docked-container-color'),\n    borderStartStartRadius: compVar('sheet-bottom', 'docked-container-shape'),\n    borderStartEndRadius: compVar('sheet-bottom', 'docked-container-shape'),\n    boxShadow: elevationShadow('level1'),\n    maxHeight: '95vh',\n    display: 'flex',\n    flexDirection: 'column',\n    overflow: 'hidden',\n  };\n\n  const handleStyle: CSSProperties = {\n    width: compVar('sheet-bottom', 'docked-drag-handle-width'),\n    height: compVar('sheet-bottom', 'docked-drag-handle-height'),\n    borderRadius: sysShape('corner-full'),\n    background: compVar('sheet-bottom', 'docked-drag-handle-color'),\n    margin: `${compVar('list', 'item-top-space')} auto`,\n    flexShrink: 0,\n  };\n\n  const triggerElement = trigger && isValidElement(trigger) ? (trigger as ReactElement) : undefined;\n\n  return (\n    <BaseDrawer.Root\n      open={open}\n      defaultOpen={defaultOpen}\n      onOpenChange={onOpenChange}\n      modal={variant === 'modal'}\n      snapPoints={snapPoints}\n      defaultSnapPoint={defaultSnapPoint}\n      swipeDirection=\"down\"\n    >\n      {triggerElement && <BaseDrawer.Trigger render={triggerElement} />}\n      <BaseDrawer.Portal>\n        {variant === 'modal' && (\n          <BaseDrawer.Backdrop\n            render={(props) => (\n              <ScrimMotion {...props} style={{ ...props.style, position: 'fixed', inset: 0, background: compVar('scrim', 'container-color'), opacity: 0.32 }} />\n            )}\n          />\n        )}\n        <BaseDrawer.Viewport style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'flex-end', pointerEvents: 'none' }}>\n          <BaseDrawer.Popup className={className} data-testid={testId} style={{ ...popupStyle, pointerEvents: 'auto', width: '100%' }}>\n            <OverlayMotion style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>\n              {showHandle && <div role=\"presentation\" style={handleStyle} aria-hidden />}\n              <BaseDrawer.Content style={{ flex: 1, overflow: 'auto', padding: compVar('list', 'divider-leading-space') }}>{children}</BaseDrawer.Content>\n            </OverlayMotion>\n          </BaseDrawer.Popup>\n        </BaseDrawer.Viewport>\n      </BaseDrawer.Portal>\n    </BaseDrawer.Root>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

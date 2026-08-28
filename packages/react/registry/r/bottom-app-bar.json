@@ -1,0 +1,19 @@
+{
+  "name": "bottom-app-bar",
+  "type": "registry:ui",
+  "title": "Bottom App Bar",
+  "description": "Bottom app bar with action slots and attached FAB",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens",
+    "@m3ui/motion"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/bottom-app-bar.tsx",
+      "content": "\nimport { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';\nimport { motion, useMotionValueEvent, useScroll } from 'motion/react';\nimport { springs } from '@m3ui/motion';\nimport { useState, type CSSProperties, type ReactNode } from 'react';\nimport { compVar, elevationShadow } from '@m3ui/react';\nimport { useRegisterInset } from '@m3ui/react';\n\nexport interface BottomAppBarProps {\n  actions: ReactNode;\n  fab?: ReactNode;\n  /** Hide bar when scrolling down, show when scrolling up */\n  hideOnScroll?: boolean;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function BottomAppBar({\n  actions,\n  fab,\n  hideOnScroll = false,\n  className,\n  'data-testid': testId,\n}: BottomAppBarProps) {\n  const height = compVar('bottom-app-bar', 'container-height');\n  useRegisterInset('bottom', height);\n\n  const { scrollY } = useScroll();\n  const [hidden, setHidden] = useState(false);\n  let lastY = 0;\n\n  useMotionValueEvent(scrollY, 'change', (y) => {\n    if (!hideOnScroll) return;\n    setHidden(y > lastY && y > 80);\n    lastY = y;\n  });\n\n  const barStyle: CSSProperties = {\n    position: 'fixed',\n    bottom: 0,\n    insetInline: 0,\n    zIndex: 90,\n    display: 'flex',\n    alignItems: 'center',\n    justifyContent: 'space-between',\n    height,\n    paddingInline: compVar('app-bar', 'leading-space'),\n    background: compVar('bottom-app-bar', 'container-color'),\n    boxShadow: elevationShadow('level2'),\n  };\n\n  const actionsStyle: CSSProperties = {\n    display: 'flex',\n    alignItems: 'center',\n    gap: compVar('list', 'item-between-space'),\n    flex: 1,\n  };\n\n  const fabSlotStyle: CSSProperties = {\n    position: 'absolute',\n    insetInlineEnd: compVar('fab-medium', 'container-width'),\n    bottom: `calc(${height} - ${compVar('fab-medium', 'container-height')} / 2)`,\n  };\n\n  return (\n    <motion.div\n      animate={{ y: hidden ? '100%' : 0 }}\n      transition={springs.defaultSpatial}\n      data-testid={testId}\n    >\n      <BaseToolbar.Root className={className} style={barStyle} aria-label=\"Bottom app bar\">\n        <div style={actionsStyle}>{actions}</div>\n        {fab && <div style={fabSlotStyle}>{fab}</div>}\n      </BaseToolbar.Root>\n    </motion.div>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

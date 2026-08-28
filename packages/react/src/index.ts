@@ -109,4 +109,46 @@ export type { SnackbarProviderProps, SnackbarOptions } from './components/snackb
 export { Meter } from './components/meter.js';
 export type { MeterProps } from './components/meter.js';
 
+export { TopAppBar } from './components/top-app-bar.js';
+export type { TopAppBarProps, TopAppBarSize } from './components/top-app-bar.js';
+
+export { BottomAppBar } from './components/bottom-app-bar.js';
+export type { BottomAppBarProps } from './components/bottom-app-bar.js';
+
+export { NavigationBar } from './components/navigation-bar.js';
+export type { NavigationBarProps, NavigationDestination } from './components/navigation-bar.js';
+
+export { NavigationRail } from './components/navigation-rail.js';
+export type { NavigationRailProps, NavigationRailDestination, NavigationRailMode } from './components/navigation-rail.js';
+
+export { NavigationDrawer, NavigationDrawerTrigger } from './components/navigation-drawer.js';
+export type {
+  NavigationDrawerProps,
+  NavigationDrawerItem,
+  NavigationDrawerSection,
+  NavigationDrawerVariant,
+  NavigationDrawerTriggerProps,
+} from './components/navigation-drawer.js';
+
+export { Tabs, TabsPrimitive } from './components/tabs.js';
+export type { TabsProps, TabItem, TabsVariant, TabsLayout } from './components/tabs.js';
+
+export { SearchBar, SearchView } from './components/search.js';
+export type { SearchBarProps, SearchViewProps, SearchSuggestion } from './components/search.js';
+
+export { Dialog, AlertDialog, FullScreenDialog, DialogAction } from './components/dialog.js';
+export type { DialogProps, AlertDialogProps, FullScreenDialogProps } from './components/dialog.js';
+
+export { BottomSheet } from './components/bottom-sheet.js';
+export type { BottomSheetProps, BottomSheetVariant } from './components/bottom-sheet.js';
+
+export { SideSheet } from './components/side-sheet.js';
+export type { SideSheetProps, SideSheetVariant, SideSheetSide } from './components/side-sheet.js';
+
+export { Carousel } from './components/carousel.js';
+export type { CarouselProps, CarouselItem, CarouselLayout } from './components/carousel.js';
+
+export { Scaffold, FabAnchor } from './components/scaffold.js';
+export type { ScaffoldProps } from './components/scaffold.js';
+
 

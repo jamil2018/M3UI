@@ -1,0 +1,18 @@
+{
+  "name": "scaffold",
+  "type": "registry:ui",
+  "title": "Scaffold",
+  "description": "App layout composing chrome with inset CSS variables",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/scaffold.tsx",
+      "content": "\nimport { type CSSProperties, type ReactNode } from 'react';\nimport { compVar } from '@m3ui/react';\nimport { InsetProvider, M3_INSET_BOTTOM, M3_INSET_TOP, M3_FAB_OFFSET, useRegisterInset } from '@m3ui/react';\n\nexport interface ScaffoldProps {\n  children: ReactNode;\n  topAppBar?: ReactNode;\n  bottomAppBar?: ReactNode;\n  navigationBar?: ReactNode;\n  navigationRail?: ReactNode;\n  navigationDrawer?: ReactNode;\n  fab?: ReactNode;\n  snackbar?: ReactNode;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function Scaffold({\n  children,\n  topAppBar,\n  bottomAppBar,\n  navigationBar,\n  navigationRail,\n  navigationDrawer,\n  fab,\n  snackbar,\n  className,\n  'data-testid': testId,\n}: ScaffoldProps) {\n  const mainStyle: CSSProperties = {\n    flex: 1,\n    minWidth: 0,\n    paddingTop: `var(${M3_INSET_TOP}, 0px)`,\n    paddingBottom: `var(${M3_INSET_BOTTOM}, 0px)`,\n    overflow: 'auto',\n  };\n\n  const fabStyle: CSSProperties = {\n    position: 'fixed',\n    bottom: `calc(var(${M3_INSET_BOTTOM}, 0px) + var(${M3_FAB_OFFSET}, 0px))`,\n    insetInlineEnd: compVar('list', 'divider-leading-space'),\n    zIndex: 95,\n  };\n\n  return (\n    <InsetProvider className={className} data-testid={testId} style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>\n      {topAppBar}\n      <div style={{ display: 'flex', flex: 1, minHeight: 0 }}>\n        {navigationDrawer}\n        {navigationRail}\n        <main style={mainStyle}>{children}</main>\n      </div>\n      {bottomAppBar}\n      {navigationBar}\n      {fab && <div style={fabStyle}><FabAnchor>{fab}</FabAnchor></div>}\n      {snackbar}\n    </InsetProvider>\n  );\n}\n\nexport { M3_INSET_TOP, M3_INSET_BOTTOM, M3_FAB_OFFSET } from '@m3ui/react';\nexport { SNACKBAR_OFFSET_VAR } from '@m3ui/react';\nexport function FabAnchor({ children, offset }: { children: ReactNode; offset?: string }) {\n  useRegisterInset('fab', offset ?? compVar('fab-medium', 'container-height'));\n  return <>{children}</>;\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}
