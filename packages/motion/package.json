@@ -14,7 +14,7 @@
   "files": ["dist"],
   "scripts": {
     "build": "tsdown && node scripts/copy-css.mjs",
-    "dev": "tsdown --watch",
+    "dev": "pnpm build && tsdown --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vitest run --config vitest.config.ts"

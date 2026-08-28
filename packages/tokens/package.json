@@ -16,7 +16,7 @@
   "scripts": {
     "codegen": "tsx scripts/codegen.ts",
     "build": "pnpm codegen && tsdown && node scripts/copy-css.mjs",
-    "dev": "tsdown --watch",
+    "dev": "pnpm build && tsdown --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"src/**/*.ts\" \"scripts/**/*.ts\"",
     "test": "vitest run --config vitest.config.ts"
