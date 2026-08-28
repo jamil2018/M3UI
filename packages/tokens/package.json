@@ -9,10 +9,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./tokens.css": "./dist/tokens.css",
-    "./theme.css": "./dist/theme.css"
+    "./tokens.css": "./src/generated/tokens.css",
+    "./theme.css": "./src/generated/theme.css"
   },
-  "files": ["dist", "src/spec"],
+  "files": [
+    "dist",
+    "src/spec",
+    "src/generated"
+  ],
   "scripts": {
     "codegen": "tsx scripts/codegen.ts",
     "build": "pnpm codegen && tsdown && node scripts/copy-css.mjs",

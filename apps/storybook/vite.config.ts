@@ -9,15 +9,15 @@ export default defineConfig({
     alias: {
       '@m3ui/tokens/tokens.css': resolve(
         __dirname,
-        '../../packages/tokens/dist/tokens.css',
+        '../../packages/tokens/src/generated/tokens.css',
       ),
       '@m3ui/tokens/theme.css': resolve(
         __dirname,
-        '../../packages/tokens/dist/theme.css',
+        '../../packages/tokens/src/generated/theme.css',
       ),
       '@m3ui/motion/motion.css': resolve(
         __dirname,
-        '../../packages/motion/dist/motion.css',
+        '../../packages/motion/src/motion.css',
       ),
     },
   },

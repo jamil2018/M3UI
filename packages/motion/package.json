@@ -9,9 +9,12 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./motion.css": "./dist/motion.css"
+    "./motion.css": "./src/motion.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "src/motion.css"
+  ],
   "scripts": {
     "build": "tsdown && node scripts/copy-css.mjs",
     "dev": "pnpm build && tsdown --watch",
