@@ -1,0 +1,18 @@
+{
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "Elevated, filled, and outlined cards",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/card.tsx",
+      "content": "\nimport { type CSSProperties, type ReactNode } from 'react';\nimport { compVar, elevationShadow } from '@m3ui/react';\nimport { StateLayer } from '@m3ui/react/primitives';\nimport { Ripple } from '@m3ui/react/primitives';\n\nexport type CardVariant = 'elevated' | 'filled' | 'outlined';\n\nexport interface CardProps {\n  children: ReactNode;\n  variant?: CardVariant;\n  interactive?: boolean;\n  draggable?: boolean;\n  onClick?: () => void;\n  className?: string;\n  style?: CSSProperties;\n  'data-testid'?: string;\n}\n\nconst CARD_PREFIX: Record<CardVariant, string> = {\n  elevated: 'elevated-card',\n  filled: 'filled-card',\n  outlined: 'outlined-card',\n};\n\nexport function Card({\n  children,\n  variant = 'elevated',\n  interactive = false,\n  draggable = false,\n  onClick,\n  className,\n  style,\n  'data-testid': testId,\n}: CardProps) {\n  const p = CARD_PREFIX[variant];\n\n  const cardStyle: CSSProperties = {\n    position: 'relative',\n    borderRadius: compVar(p, 'container-shape'),\n    background: compVar(p, 'container-color'),\n    boxShadow: variant === 'elevated' ? elevationShadow('level1') : elevationShadow('level0'),\n    border:\n      variant === 'outlined'\n        ? `${compVar('outlined-card', 'outline-width')} solid ${compVar('outlined-card', 'outline-color')}`\n        : 'none',\n    overflow: 'hidden',\n    cursor: interactive ? 'pointer' : draggable ? 'grab' : undefined,\n    ...style,\n  };\n\n  const content = (\n    <div className={className} data-testid={testId} style={cardStyle} onClick={interactive ? onClick : undefined} data-dragging={draggable || undefined}>\n      {children}\n    </div>\n  );\n\n  if (interactive) {\n    return (\n      <Ripple>\n        <StateLayer states={['hover', 'focus', 'pressed', 'dragged']}>{content}</StateLayer>\n      </Ripple>\n    );\n  }\n\n  return content;\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}

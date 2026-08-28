@@ -1,0 +1,18 @@
+{
+  "name": "radio",
+  "type": "registry:ui",
+  "title": "Radio",
+  "description": "Radio button and radio group",
+  "dependencies": [
+    "@m3ui/react",
+    "@m3ui/tokens"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/m3ui/radio.tsx",
+      "content": "\nimport { Radio as BaseRadio } from '@base-ui/react/radio';\nimport { RadioGroup as BaseRadioGroup } from '@base-ui/react/radio-group';\nimport { type CSSProperties, type ReactNode } from 'react';\nimport { compVar, typeStyle } from '@m3ui/react';\n\nexport interface RadioProps {\n  value: string;\n  disabled?: boolean;\n  label?: ReactNode;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function Radio({ value, disabled = false, label, className, 'data-testid': testId }: RadioProps) {\n  const outerStyle: CSSProperties = {\n    width: compVar('radio-button', 'icon-size'),\n    height: compVar('radio-button', 'icon-size'),\n    borderRadius: 'var(--md-sys-shape-corner-full)',\n    border: `1px solid var(--md-sys-color-outline)`,\n    display: 'inline-flex',\n    alignItems: 'center',\n    justifyContent: 'center',\n    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,\n  };\n\n  const dotStyle: CSSProperties = {\n    width: `calc(${compVar('radio-button', 'icon-size')} / 2)`,\n    height: `calc(${compVar('radio-button', 'icon-size')} / 2)`,\n    borderRadius: 'var(--md-sys-shape-corner-full)',\n    background: compVar('radio-button', 'selected-icon-color'),\n  };\n\n  const labelStyle: CSSProperties = {\n    ...typeStyle('body-large'),\n    color: compVar('radio-button', 'unselected-icon-color'),\n    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,\n  };\n\n  return (\n    <label\n      className={className}\n      data-testid={testId}\n      style={{\n        display: 'inline-flex',\n        alignItems: 'center',\n        gap: compVar('radio-button', 'state-layer-size'),\n        cursor: disabled ? 'not-allowed' : 'pointer',\n        minHeight: compVar('radio-button', 'state-layer-size'),\n      }}\n    >\n      <BaseRadio.Root value={value} disabled={disabled} style={outerStyle}>\n        <BaseRadio.Indicator style={dotStyle} />\n      </BaseRadio.Root>\n      {label && <span style={labelStyle}>{label}</span>}\n    </label>\n  );\n}\n\nexport interface RadioGroupProps {\n  children: ReactNode;\n  value?: string;\n  defaultValue?: string;\n  onValueChange?: (value: string) => void;\n  disabled?: boolean;\n  name?: string;\n  className?: string;\n  'data-testid'?: string;\n}\n\nexport function RadioGroup({\n  children,\n  value,\n  defaultValue,\n  onValueChange,\n  disabled = false,\n  name,\n  className,\n  'data-testid': testId,\n}: RadioGroupProps) {\n  return (\n    <BaseRadioGroup\n      value={value}\n      defaultValue={defaultValue}\n      onValueChange={onValueChange}\n      disabled={disabled}\n      name={name}\n      className={className}\n      data-testid={testId}\n      style={{ display: 'flex', flexDirection: 'column', gap: compVar('list', 'item-between-space') }}\n    >\n      {children}\n    </BaseRadioGroup>\n  );\n}\n",
+      "type": "registry:ui"
+    }
+  ]
+}
