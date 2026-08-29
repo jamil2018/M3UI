@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Full docs site with Fumadocs shell: search, theme toggle, categorized sidebar, and table of contents
+- Component index at `/components` and dynamic `/components/[slug]` routes for 43 public components
+- Typed single-source catalog in `packages/react/src/catalog/` driving registry, docs, and completeness gates
+- `@m3ui/examples` workspace package for shared docs and Storybook demos
+- Storybook 8 workbench on port 6006 with generated CSF stories, a11y addon, and interaction tooling
 - Phase 6 hardening: token coverage CI gate, bundle size budgets, spec drift workflow
 - RSC guide in docs (`/guides/rsc`) with client boundary and hydration notes
 - Registry E2E validation for all shadcn registry JSON files
@@ -17,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Docs routing consolidated from per-component route files to a single dynamic `[slug]` route
+- Storybook converted from a Vite demo page to real Storybook 8
 - Token size prefixes aligned to spec (`button-xsmall`, `xsmall-icon-button`, etc.)
 - Split button size prefix aligned to spec (`split-button-xsmall`, etc.)
 

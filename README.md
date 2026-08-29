@@ -1,4 +1,4 @@
-# M3UI — Material Design 3 Expressive for React
+# M3UI: Material Design 3 Expressive for React
 
 An unofficial open-source component library implementing [Material Design 3 Expressive](https://m3.material.io/) for React 19, built on [Base UI](https://base-ui.com/), [Tailwind CSS v4](https://tailwindcss.com/), and [Motion](https://motion.dev/).
 
@@ -15,33 +15,148 @@ An unofficial open-source component library implementing [Material Design 3 Expr
 | `@m3ui/icons` | Material Symbols wrapper |
 | `@m3ui/cli` | `m3ui init` and `m3ui theme generate` |
 | `@m3ui/shapes` | RoundedPolygon, Morph, and MaterialShapes library |
+| `@m3ui/examples` | Shared component examples for docs and Storybook (private workspace package) |
 
 ## Prerequisites
 
 - Node.js ≥ 20
-- pnpm ≥ 9
+- pnpm 9.15.0 (see `packageManager` in root `package.json`)
 
-## Setup
+## Quick start
 
-```bash
-git clone <repo-url> material-react
-cd material-react
-pnpm install
-pnpm spec:sync      # Fetch androidx + material-web tokens (requires network)
-pnpm build          # Build all packages
-```
+After cloning the repository, run `pnpm run setup` to install dependencies, generate tokens, build packages, and prepare the docs registry — then `pnpm dev` for the docs site (http://localhost:3000) and Storybook (http://localhost:6006). Use `--skip-spec-sync` or `--skip-vrt` to skip network fetch or Playwright install.
 
 ## Development
 
+Start the docs site and Storybook together:
+
 ```bash
-pnpm dev            # Start docs + storybook via Turborepo
-pnpm test           # Unit tests (Vitest)
-pnpm test:a11y      # Accessibility tests (vitest-axe)
-pnpm test:vrt       # Visual regression (Playwright)
-pnpm size:check     # Bundle size budgets (after build)
-pnpm spec:sync:check # Verify pinned spec matches committed JSON
-pnpm lint           # ESLint
-pnpm typecheck      # TypeScript
+pnpm dev
+# Docs      → http://localhost:3000
+# Storybook → http://localhost:6006
+```
+
+Or run each app individually:
+
+```bash
+pnpm --filter @m3ui/docs dev
+pnpm --filter @m3ui/storybook dev
+```
+
+Rebuild packages after changing library source:
+
+```bash
+pnpm build
+# or watch a single package:
+pnpm --filter @m3ui/react dev
+```
+
+### Docs site
+
+The public documentation app (`@m3ui/docs`) is a Next.js site with a Fumadocs shell: categorized sidebar, local search, theme toggle, and table of contents.
+
+| URL | Description |
+|-----|-------------|
+| http://localhost:3000 | Landing page |
+| http://localhost:3000/components | Searchable component index (43 public components) |
+| http://localhost:3000/components/button | Dynamic component docs (`/components/[slug]`) |
+| http://localhost:3000/tokens | Design tokens reference |
+| http://localhost:3000/guides/rsc | React Server Components guide |
+| http://localhost:3000/registry.json | shadcn-compatible registry manifest |
+| http://localhost:3000/r/button.json | Per-component registry item |
+
+Component metadata, navigation, and registry output are driven by the typed catalog in `packages/react/src/catalog/`. Docs prose lives in `apps/docs/src/content/`, live previews in `apps/docs/src/demos/`, and shared examples in `@m3ui/examples`.
+
+```bash
+pnpm --filter @m3ui/docs dev
+pnpm --filter @m3ui/docs build
+```
+
+### Storybook (component workbench)
+
+Real Storybook 8 on port **6006** for isolated development, a11y addon, interaction tests, and VRT targets. CSF stories are generated from the catalog and `@m3ui/examples`.
+
+```bash
+pnpm --filter @m3ui/storybook dev
+pnpm --filter @m3ui/storybook stories:generate   # Regenerate CSF stories
+pnpm --filter @m3ui/storybook build              # → apps/storybook/storybook-static
+pnpm --filter @m3ui/storybook preview            # Serve static build
+```
+
+**Toolbar globals:** seed color, light/dark/system scheme, contrast, direction (LTR/RTL), and reduced motion via the global `M3Provider` decorator in `.storybook/preview.tsx`.
+
+## Project structure
+
+```
+m3ui/
+├── apps/
+│   ├── docs/          # Next.js docs site (Fumadocs shell, search, registry proxy)
+│   └── storybook/     # Storybook 8 workbench (generated CSF stories)
+├── packages/
+│   ├── react/         # Components, catalog, registry build
+│   ├── examples/      # Shared examples for docs + Storybook
+│   ├── tokens/        # Token codegen from pinned spec JSON
+│   ├── color/         # Dynamic color runtime
+│   ├── motion/        # Spring presets
+│   ├── shapes/        # RoundedPolygon + MaterialShapes
+│   ├── icons/         # Material Symbols wrapper
+│   └── cli/           # m3ui init / theme generate
+└── tools/
+    ├── spec-sync/     # Fetch + parse androidx / material-web tokens
+    ├── bundle-budget/ # CI size checks
+    └── vrt/           # Playwright visual regression tests
+```
+
+## Using in your app
+
+```bash
+pnpm add @m3ui/react @m3ui/tokens @m3ui/color
+npx m3ui init --seed "#6750A4"
+```
+
+```tsx
+import '@m3ui/tokens/tokens.css';
+import '@m3ui/tokens/theme.css';
+import './m3-theme.css';
+import { M3Provider, Button } from '@m3ui/react';
+
+export default function App() {
+  return (
+    <M3Provider seed="#6750A4" scheme="system" contrast={0}>
+      <Button variant="filled">Save changes</Button>
+    </M3Provider>
+  );
+}
+```
+
+## Registry (shadcn-style)
+
+Install individual components into your project via the shadcn CLI:
+
+```bash
+npx shadcn@latest add http://localhost:3000/r/button.json
+```
+
+Registry JSON is generated from `@m3ui/react` source with workspace imports rewritten to npm specifiers. Rebuild after component changes:
+
+```bash
+pnpm registry:build
+```
+
+See [docs/REGISTRY.md](docs/REGISTRY.md) for the full install flow.
+
+## Testing
+
+```bash
+pnpm test                              # Unit tests (Vitest)
+pnpm test:a11y                         # Accessibility tests (vitest-axe)
+pnpm test:vrt                          # Visual regression (Playwright)
+pnpm --filter @m3ui/react test:docs    # Catalog/docs/Storybook completeness gate
+pnpm --filter @m3ui/react test:registry
+pnpm size:check                        # Bundle size budgets (after build)
+pnpm spec:sync:check                   # Verify pinned spec matches committed JSON
+pnpm lint
+pnpm typecheck
 ```
 
 ### Visual regression tests
@@ -58,55 +173,18 @@ If VRT fails with a missing browser executable and you use a custom `PLAYWRIGHT_
 unset PLAYWRIGHT_BROWSERS_PATH && pnpm exec playwright install chromium --force
 ```
 
-Snapshot baselines live in `tools/vrt/tests/demo.spec.ts-snapshots/` and use platform-agnostic names so the same files work on macOS and Linux CI. To refresh baselines after intentional UI changes:
+Snapshot baselines live in `tools/vrt/tests/`. To refresh baselines after intentional UI changes:
 
 ```bash
 pnpm test:vrt -- --update-snapshots
 ```
 
-### Storybook harness
+VRT targets Storybook iframe URLs and docs pages. Run against dev or a static Storybook build:
 
 ```bash
-pnpm --filter @m3ui/storybook dev
-# → http://localhost:6006
+pnpm test:vrt
+STORYBOOK_STATIC=1 pnpm test:vrt
 ```
-
-### Docs site
-
-```bash
-pnpm --filter @m3ui/docs dev
-# → http://localhost:3000
-```
-
-## Using in your app
-
-```bash
-pnpm add @m3ui/react @m3ui/tokens @m3ui/color
-npx m3ui init --seed "#6750A4"
-```
-
-```tsx
-import '@m3ui/tokens/tokens.css';
-import '@m3ui/tokens/theme.css';
-import './m3-theme.css';
-import { M3Provider, PlaceholderButton } from '@m3ui/react';
-
-export default function App() {
-  return (
-    <M3Provider seed="#6750A4" scheme="system" contrast={0}>
-      <PlaceholderButton>Click me</PlaceholderButton>
-    </M3Provider>
-  );
-}
-```
-
-## Registry (shadcn-style)
-
-```bash
-npx shadcn@latest add http://localhost:3000/r/placeholder-button.json
-```
-
-Registry JSON is generated from `@m3ui/react` source with workspace imports rewritten to npm specifiers. See [docs/REGISTRY.md](docs/REGISTRY.md) for the full install flow.
 
 ## Bundle sizes
 
@@ -128,8 +206,15 @@ tools/spec-sync → packages/tokens/src/spec/*.json
                 → codegen → tokens.css + TS types + Tailwind @theme
 @m3ui/color     → createTheme() runtime + CLI build-time CSS
 @m3ui/motion    → Motion spring presets (spatial vs effects)
-@m3ui/react     → M3Provider + primitives + registry source
+@m3ui/react     → M3Provider + primitives + catalog + registry source
+@m3ui/examples  → shared demos consumed by docs and Storybook
+apps/docs       → public docs (Fumadocs shell, dynamic /components/[slug])
+apps/storybook  → Storybook 8 workbench (generated stories)
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the PR checklist, catalog/docs/Storybook requirements, and code conventions.
 
 ## License
 
