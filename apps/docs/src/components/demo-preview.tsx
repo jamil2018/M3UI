@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { M3Provider, PlaceholderButton, Surface } from '@m3ui/react';
+import { Button, M3Provider, Surface } from '@m3ui/react';
 import type { ContrastPreference } from '@m3ui/color';
 
 export function DemoPreview() {
@@ -11,14 +11,8 @@ export function DemoPreview() {
 
   return (
     <M3Provider seed={seed} scheme={scheme} contrast={contrast}>
-      <div
-        style={{
-          padding: 24,
-          borderRadius: 12,
-          border: '1px solid var(--md-sys-color-outline-variant)',
-        }}
-      >
-        <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
+      <div className="docs-card docs-demo-preview">
+        <div className="docs-demo-preview-controls">
           <label>
             Seed{' '}
             <input type="color" value={seed} onChange={(e) => { setSeed(e.target.value); }} />
@@ -43,8 +37,11 @@ export function DemoPreview() {
           </label>
         </div>
         <Surface elevation="level2">
-          <div style={{ padding: 24 }}>
-            <PlaceholderButton>Expressive Button</PlaceholderButton>
+          <div className="docs-demo-preview-stage">
+            <Button variant="filled">Filled</Button>
+            <Button variant="elevated">Elevated</Button>
+            <Button variant="filled-tonal">Tonal</Button>
+            <Button variant="outlined">Outlined</Button>
           </div>
         </Surface>
       </div>
