@@ -10,26 +10,40 @@ This project is **not affiliated with or endorsed by Google**. By contributing, 
 
 ```bash
 pnpm install
-pnpm spec:sync   # requires network — fetches pinned androidx + material-web tokens
+pnpm spec:sync   # requires network; fetches pinned androidx + material-web tokens
 pnpm build
 pnpm test
 ```
 
+Start docs and Storybook together:
+
+```bash
+pnpm dev
+# Docs → http://localhost:3000  |  Storybook → http://localhost:6006
+```
+
 ## Pull request checklist
 
-- [ ] `pnpm lint`, `pnpm typecheck`, `pnpm test`, and `pnpm test:a11y` pass
+- [ ] `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm test:a11y`, and `pnpm --filter @m3ui/react test:docs` pass
 - [ ] Token changes include updated spec JSON from `pnpm spec:sync` with a deliberate pin review
 - [ ] New components reference md-comp tokens or add an entry to `token-coverage-allowlist.ts` with justification
+- [ ] Catalog entry added or updated in `packages/react/src/catalog/components.catalog.ts`
+- [ ] Component implementation in `packages/react/src/components/` and exported from `packages/react/src/index.ts`
 - [ ] Registry rebuilt: `pnpm registry:build`
-- [ ] Docs page added under `apps/docs/src/app/components/<name>/`
+- [ ] Docs prose added in `apps/docs/src/content/components.ts` (or a dedicated content module)
+- [ ] Docs demo added in `apps/docs/src/demos/` and registered in `apps/docs/src/demos/index.ts`
+- [ ] Shared example added in `packages/examples/src/` when the component needs synchronized docs/Storybook demos
+- [ ] Storybook stories regenerated: `pnpm --filter @m3ui/storybook stories:generate`
 - [ ] A11y: vitest-axe test for new interactive components
+
+The `test:docs` completeness gate verifies catalog, registry, docs content, demos, shared examples, and generated Storybook stories stay in sync. Internal fixtures such as `placeholder-button` are excluded from the public docs index.
 
 ## Code conventions
 
-- **Components** — Base UI primitives, `compVar()` for md-comp tokens, `PressableShell` for press morph
-- **Exports** — PascalCase components, `*Props` types, named exports only from `@m3ui/react`
-- **Client boundary** — all `@m3ui/react` runtime code is client-only (`"use client"` banner in dist)
-- **Tests** — colocate `*.test.tsx` and `*.a11y.test.tsx` beside components
+- **Components**: Base UI primitives, `compVar()` for md-comp tokens, `PressableShell` for press morph
+- **Exports**: PascalCase components, `*Props` types, named exports only from `@m3ui/react`
+- **Client boundary**: all `@m3ui/react` runtime code is client-only (`"use client"` banner in dist)
+- **Tests**: colocate `*.test.tsx` and `*.a11y.test.tsx` beside components
 
 ## API stability (pre-1.0)
 
@@ -48,7 +62,7 @@ We are hardening for 1.0. Breaking renames require:
 
 ## Release process (maintainers)
 
-Releases use [Changesets](https://github.com/changesets/changesets). Do not bump versions manually in component PRs — add a changeset instead.
+Releases use [Changesets](https://github.com/changesets/changesets). Do not bump versions manually in component PRs; add a changeset instead.
 
 ```bash
 pnpm changeset

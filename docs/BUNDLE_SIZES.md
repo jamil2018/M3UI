@@ -15,7 +15,7 @@ Budgets are enforced in CI via `pnpm size:check` after build. Values are **minif
 
 ## Tree-shaking
 
-Import individual components from `@m3ui/react` — the bundler should not include unused components when using named imports and a modern ESM toolchain (Vite, webpack 5, Turbopack).
+Import individual components from `@m3ui/react`. The bundler should not include unused components when using named imports and a modern ESM toolchain (Vite, webpack 5, Turbopack).
 
 ```tsx
 import { Button, M3Provider } from '@m3ui/react';
