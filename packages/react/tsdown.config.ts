@@ -5,6 +5,7 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   clean: true,
+  ignoreWatch: ['registry/**'],
   banner: { js: '"use client";' },
   external: [
     'react',

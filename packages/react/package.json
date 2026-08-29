@@ -4,18 +4,23 @@
   "description": "Material Design 3 Expressive React components",
   "license": "Apache-2.0",
   "type": "module",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./provider": {
       "types": "./dist/provider/index.d.ts",
-      "import": "./dist/provider/index.js"
+      "import": "./dist/provider/index.js",
+      "default": "./dist/provider/index.js"
     },
     "./primitives": {
       "types": "./dist/primitives/index.d.ts",
-      "import": "./dist/primitives/index.js"
+      "import": "./dist/primitives/index.js",
+      "default": "./dist/primitives/index.js"
     }
   },
   "files": ["dist", "registry"],
@@ -30,8 +35,9 @@
     "test:registry": "vitest run --config vitest.config.ts src/__tests__/registry-imports.test.ts",
     "test:rsc": "vitest run --config vitest.config.ts src/__tests__/rsc-boundaries.test.ts",
     "test:motion": "vitest run --config vitest.config.ts src/__tests__/reduced-motion.test.tsx",
-    "test:docs": "vitest run --config vitest.config.ts src/__tests__/docs-completeness.test.ts",
-    "registry:build": "tsx scripts/build-registry.ts"
+    "test:docs": "pnpm --filter @m3ui/storybook stories:generate && vitest run --config vitest.config.ts src/__tests__/docs-completeness.test.ts",
+    "registry:build": "tsx scripts/build-registry.ts",
+    "catalog:build": "tsx scripts/build-registry.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

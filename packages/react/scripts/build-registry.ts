@@ -1,6 +1,13 @@
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {
+  CATALOG_CATEGORIES,
+  COMPONENT_CATALOG,
+  getRegistryUiEntries,
+  type ComponentCatalogEntry,
+  type DocsCatalogManifest,
+} from '../src/catalog/index.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REACT_PKG = join(__dirname, '..');
@@ -77,82 +84,52 @@ interface RegistryManifest {
   items: Array<{ name: string; type: string; title: string; description: string }>;
 }
 
-const COMPONENT_REGISTRY = [
-  { name: 'button', file: 'button.tsx', title: 'Button', description: 'M3 Expressive button with press shape morph', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@m3ui/shapes'] },
-  { name: 'icon-button', file: 'icon-button.tsx', title: 'Icon Button', description: 'M3 Expressive icon button with toggle support', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@m3ui/shapes'] },
-  { name: 'fab', file: 'fab.tsx', title: 'FAB', description: 'Floating action button and extended FAB', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'checkbox', file: 'checkbox.tsx', title: 'Checkbox', description: 'Checkbox and checkbox group', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'radio', file: 'radio.tsx', title: 'Radio', description: 'Radio button and radio group', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'switch', file: 'switch.tsx', title: 'Switch', description: 'M3 Expressive switch with icon slots', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'text-field', file: 'text-field.tsx', title: 'Text Field', description: 'Filled and outlined text fields with floating labels', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'card', file: 'card.tsx', title: 'Card', description: 'Elevated, filled, and outlined cards', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'list', file: 'list.tsx', title: 'List', description: 'M3 list and list items', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'divider', file: 'divider.tsx', title: 'Divider', description: 'Full-width, inset, and vertical dividers', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'badge', file: 'badge.tsx', title: 'Badge', description: 'Dot and numbered badges', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'tooltip', file: 'tooltip.tsx', title: 'Tooltip', description: 'Plain and rich tooltips', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'chip', file: 'chip.tsx', title: 'Chip', description: 'Assist, filter, input, and suggestion chips', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'segmented-button', file: 'segmented-button.tsx', title: 'Segmented Button', description: 'Single and multi-select segmented buttons', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'slider', file: 'slider.tsx', title: 'Slider', description: 'Continuous, discrete, centered, range, and vertical sliders', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'menu', file: 'menu.tsx', title: 'Menu', description: 'Dropdown menu, context menu, and menubar', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'select', file: 'select.tsx', title: 'Select', description: 'M3 exposed dropdown menu styled as text field', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'autocomplete', file: 'autocomplete.tsx', title: 'Autocomplete', description: 'Autocomplete and combobox with M3 text field styling', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'progress', file: 'progress.tsx', title: 'Progress', description: 'Linear and circular progress with wavy Expressive variants', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'loading-indicator', file: 'loading-indicator.tsx', title: 'Loading Indicator', description: 'Expressive shape-cycling loader', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@m3ui/shapes'] },
-  { name: 'snackbar', file: 'snackbar.tsx', title: 'Snackbar', description: 'Toast snackbars with queueing and positioning', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'meter', file: 'meter.tsx', title: 'Meter', description: 'Meter styled consistently with progress indicators', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'top-app-bar', file: 'top-app-bar.tsx', title: 'Top App Bar', description: 'Small, medium, large, and flexible Expressive top app bars', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'bottom-app-bar', file: 'bottom-app-bar.tsx', title: 'Bottom App Bar', description: 'Bottom app bar with action slots and attached FAB', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'navigation-bar', file: 'navigation-bar.tsx', title: 'Navigation Bar', description: 'Bottom navigation bar with active indicator pill and badges', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'navigation-rail', file: 'navigation-rail.tsx', title: 'Navigation Rail', description: 'Collapsed, expanded, and modal navigation rail', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'navigation-drawer', file: 'navigation-drawer.tsx', title: 'Navigation Drawer', description: 'Standard and modal navigation drawer with sections', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'tabs', file: 'tabs.tsx', title: 'Tabs', description: 'Primary and secondary tabs with scrollable layout', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'search', file: 'search.tsx', title: 'Search', description: 'Search bar and full-screen search view', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'dialog', file: 'dialog.tsx', title: 'Dialog', description: 'Dialog, alert dialog, and full-screen dialog', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'bottom-sheet', file: 'bottom-sheet.tsx', title: 'Bottom Sheet', description: 'Modal bottom sheet with snap points and drag handle', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'side-sheet', file: 'side-sheet.tsx', title: 'Side Sheet', description: 'Side sheet with header and action row', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'carousel', file: 'carousel.tsx', title: 'Carousel', description: 'M3 carousel layouts with scroll-linked resize', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'scaffold', file: 'scaffold.tsx', title: 'Scaffold', description: 'App layout composing chrome with inset CSS variables', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-  { name: 'button-group', file: 'button-group.tsx', title: 'Button Group', description: 'Standard and connected button groups with neighbor bump', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@m3ui/shapes'] },
-  { name: 'split-button', file: 'split-button.tsx', title: 'Split Button', description: 'Leading action with trailing menu trigger', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@m3ui/shapes'] },
-  { name: 'fab-menu', file: 'fab-menu.tsx', title: 'FAB Menu', description: 'FAB expanding to labeled action list', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@m3ui/shapes'] },
-  { name: 'toolbar', file: 'toolbar.tsx', title: 'Toolbar', description: 'Docked and floating toolbars with scroll hide/show', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'date-input', file: 'date-input.tsx', title: 'Date Input', description: 'Locale-aware date input with Field validation', dependencies: ['@m3ui/react', '@m3ui/tokens', '@internationalized/date'] },
-  { name: 'date-picker', file: 'date-picker.tsx', title: 'Date Picker', description: 'Docked, modal, and range date pickers with calendar engine', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion', '@internationalized/date'] },
-  { name: 'time-picker', file: 'time-picker.tsx', title: 'Time Picker', description: 'Dial and input time pickers with 12h/24h support', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'pane-scaffold', file: 'pane-scaffold.tsx', title: 'Pane Scaffold', description: 'List-detail and supporting-pane adaptive layouts', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'adaptive-navigation', file: 'adaptive-navigation.tsx', title: 'Adaptive Navigation', description: 'Auto-switching navigation bar, rail, and drawer', dependencies: ['@m3ui/react', '@m3ui/tokens', '@m3ui/motion'] },
-  { name: 'placeholder-button', file: 'placeholder-button.tsx', title: 'Placeholder Button', description: 'Registry placeholder for install testing', dependencies: ['@m3ui/react', '@m3ui/tokens'] },
-] as const;
+function buildRegistryItem(entry: ComponentCatalogEntry): RegistryItem {
+  if (!entry.sourceFile) {
+    throw new Error(`Registry item "${entry.slug}" is missing sourceFile`);
+  }
+
+  const sourcePath = join(COMPONENTS_DIR, entry.sourceFile);
+  const rawSource = readFileSync(sourcePath, 'utf-8');
+  const flatSource = rewriteImports(rawSource);
+
+  return {
+    name: entry.slug,
+    type: 'registry:ui',
+    title: entry.title,
+    description: entry.description,
+    dependencies: [...entry.npmDependencies],
+    registryDependencies: [...entry.registryDependencies],
+    files: [
+      {
+        path: `components/m3ui/${entry.slug}.tsx`,
+        content: flatSource,
+        type: 'registry:ui',
+      },
+    ],
+  };
+}
+
+function buildDocsCatalog(): DocsCatalogManifest {
+  return {
+    $schema: 'https://m3ui.dev/schema/docs-catalog.json',
+    generatedAt: new Date().toISOString(),
+    categories: [...CATALOG_CATEGORIES],
+    entries: [...COMPONENT_CATALOG],
+  };
+}
 
 function buildRegistry(): void {
   mkdirSync(REGISTRY_DIR, { recursive: true });
   mkdirSync(join(REGISTRY_DIR, 'r'), { recursive: true });
 
+  const registryEntries = getRegistryUiEntries();
   const items: RegistryItem[] = [];
 
-  for (const comp of COMPONENT_REGISTRY) {
-    const sourcePath = join(COMPONENTS_DIR, comp.file);
-    const rawSource = readFileSync(sourcePath, 'utf-8');
-    const flatSource = rewriteImports(rawSource);
-
-    const item: RegistryItem = {
-      name: comp.name,
-      type: 'registry:ui',
-      title: comp.title,
-      description: comp.description,
-      dependencies: [...comp.dependencies],
-      registryDependencies: [],
-      files: [
-        {
-          path: `components/m3ui/${comp.name}.tsx`,
-          content: flatSource,
-          type: 'registry:ui',
-        },
-      ],
-    };
-
+  for (const entry of registryEntries) {
+    const item = buildRegistryItem(entry);
     items.push(item);
-    writeFileSync(join(REGISTRY_DIR, 'r', `${comp.name}.json`), JSON.stringify(item, null, 2) + '\n');
+    writeFileSync(join(REGISTRY_DIR, 'r', `${entry.slug}.json`), JSON.stringify(item, null, 2) + '\n');
   }
 
   const manifest: RegistryManifest = {
@@ -168,7 +145,13 @@ function buildRegistry(): void {
   };
 
   writeFileSync(join(REGISTRY_DIR, 'registry.json'), JSON.stringify(manifest, null, 2) + '\n');
-  console.log(`Registry built: ${items.length} items → ${REGISTRY_DIR}`);
+
+  const docsCatalog = buildDocsCatalog();
+  writeFileSync(join(REGISTRY_DIR, 'docs-catalog.json'), JSON.stringify(docsCatalog, null, 2) + '\n');
+
+  console.log(
+    `Registry built: ${items.length} items → ${REGISTRY_DIR}\nDocs catalog: ${docsCatalog.entries.length} entries`,
+  );
 }
 
 buildRegistry();
