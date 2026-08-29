@@ -4,23 +4,36 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 6006",
-    "build": "vite build",
-    "preview": "vite preview --port 6006",
-    "typecheck": "tsc --noEmit",
+    "dev": "node scripts/generate-stories.mjs && storybook dev -p 6006",
+    "build": "node scripts/generate-stories.mjs && storybook build -o storybook-static",
+    "preview": "npx --yes http-server storybook-static -p 6006 -c-1",
+    "stories:generate": "node scripts/generate-stories.mjs",
+    "typecheck": "node scripts/generate-stories.mjs && tsc --noEmit",
     "test:vrt": "playwright test --config ../../playwright.config.ts"
   },
   "dependencies": {
+    "@m3ui/examples": "workspace:*",
     "@m3ui/color": "workspace:*",
+    "@m3ui/icons": "workspace:*",
+    "@m3ui/motion": "workspace:*",
     "@m3ui/react": "workspace:*",
+    "@m3ui/shapes": "workspace:*",
     "@m3ui/tokens": "workspace:*",
+    "motion": "^11.15.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.18",
+    "@storybook/addon-essentials": "^8.6.18",
+    "@storybook/addon-interactions": "^8.6.18",
+    "@storybook/blocks": "^8.6.18",
+    "@storybook/react": "^8.6.18",
+    "@storybook/react-vite": "^8.6.18",
+    "@storybook/test": "^8.6.18",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "@vitejs/plugin-react": "^4.3.4",
+    "storybook": "^8.6.18",
     "typescript": "^5.7.2",
     "vite": "^6.0.6"
   }
