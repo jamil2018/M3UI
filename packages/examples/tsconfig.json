@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "paths": {
+      "@m3ui/react": ["../react/dist/index.d.ts"],
+      "@m3ui/react/provider": ["../react/dist/provider/index.d.ts"],
+      "@m3ui/react/primitives": ["../react/dist/primitives/index.d.ts"]
+    }
+  },
+  "include": ["src"]
+}
