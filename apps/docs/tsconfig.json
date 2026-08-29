@@ -9,9 +9,43 @@
     "jsx": "preserve",
     "noEmit": true,
     "incremental": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@m3ui/react": [
+        "../../packages/react/dist/index.d.ts"
+      ],
+      "@m3ui/react/*": [
+        "../../packages/react/dist/*"
+      ],
+      "@m3ui/react/provider": [
+        "../../packages/react/dist/provider/index.d.ts"
+      ],
+      "@m3ui/react/primitives": [
+        "../../packages/react/dist/primitives/index.d.ts"
+      ],
+      "@m3ui/tokens": [
+        "../../packages/tokens/dist/index.d.ts"
+      ],
+      "@m3ui/shapes": [
+        "../../packages/shapes/dist/index.d.ts"
+      ],
+      "@m3ui/color": [
+        "../../packages/color/dist/index.d.ts"
+      ],
+      "@m3ui/motion": [
+        "../../packages/motion/dist/index.d.ts"
+      ],
+      "@m3ui/icons": [
+        "../../packages/icons/dist/index.d.ts"
+      ],
+      "@m3ui/examples": [
+        "../../packages/examples/src/index.ts"
+      ],
+      "@m3ui/examples/metadata": [
+        "../../packages/examples/src/metadata.ts"
       ]
     },
     "allowJs": true
