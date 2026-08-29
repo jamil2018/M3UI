@@ -1,0 +1,1271 @@
+{
+  "$schema": "https://m3ui.dev/schema/docs-catalog.json",
+  "generatedAt": "2026-08-29T10:31:04.722Z",
+  "categories": [
+    "actions",
+    "inputs",
+    "selection",
+    "communication",
+    "containment",
+    "navigation",
+    "feedback",
+    "pickers",
+    "layout",
+    "foundations"
+  ],
+  "entries": [
+    {
+      "slug": "button",
+      "title": "Button",
+      "description": "M3 Expressive button with press shape morph",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "button.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@m3ui/shapes"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Button"
+      ],
+      "related": [
+        "icon-button",
+        "fab",
+        "button-group"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "icon-button",
+      "title": "Icon Button",
+      "description": "M3 Expressive icon button with toggle support",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "icon-button.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@m3ui/shapes"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "IconButton"
+      ],
+      "related": [
+        "button",
+        "fab"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "fab",
+      "title": "FAB",
+      "description": "Floating action button and extended FAB",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "fab.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Fab",
+        "ExtendedFab"
+      ],
+      "related": [
+        "icon-button",
+        "fab-menu",
+        "scaffold"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "checkbox",
+      "title": "Checkbox",
+      "description": "Checkbox and checkbox group",
+      "category": "selection",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "checkbox.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Checkbox",
+        "CheckboxGroup"
+      ],
+      "related": [
+        "radio",
+        "switch"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "radio",
+      "title": "Radio",
+      "description": "Radio button and radio group",
+      "category": "selection",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "radio.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Radio",
+        "RadioGroup"
+      ],
+      "related": [
+        "checkbox",
+        "switch"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "switch",
+      "title": "Switch",
+      "description": "M3 Expressive switch with icon slots",
+      "category": "selection",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "switch.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Switch"
+      ],
+      "related": [
+        "checkbox",
+        "radio"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "text-field",
+      "title": "Text Field",
+      "description": "Filled and outlined text fields with floating labels",
+      "category": "inputs",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "text-field.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "TextField"
+      ],
+      "related": [
+        "select",
+        "autocomplete",
+        "search"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "card",
+      "title": "Card",
+      "description": "Elevated, filled, and outlined cards",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "card.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Card"
+      ],
+      "related": [
+        "list",
+        "carousel"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "list",
+      "title": "List",
+      "description": "M3 list and list items",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "list.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "List",
+        "ListItem"
+      ],
+      "related": [
+        "card",
+        "divider"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "divider",
+      "title": "Divider",
+      "description": "Full-width, inset, and vertical dividers",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "divider.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Divider"
+      ],
+      "related": [
+        "list"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "badge",
+      "title": "Badge",
+      "description": "Dot and numbered badges",
+      "category": "communication",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "badge.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Badge"
+      ],
+      "related": [
+        "navigation-bar",
+        "icon-button"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "tooltip",
+      "title": "Tooltip",
+      "description": "Plain and rich tooltips",
+      "category": "communication",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "tooltip.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Tooltip",
+        "RichTooltip"
+      ],
+      "related": [
+        "icon-button",
+        "button"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "chip",
+      "title": "Chip",
+      "description": "Assist, filter, input, and suggestion chips",
+      "category": "selection",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "chip.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Chip",
+        "ChipSet",
+        "FilterChipGroup"
+      ],
+      "related": [
+        "segmented-button",
+        "button"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "segmented-button",
+      "title": "Segmented Button",
+      "description": "Single and multi-select segmented buttons",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "segmented-button.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "SegmentedButton",
+        "SegmentedButtonItem"
+      ],
+      "related": [
+        "button",
+        "tabs"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "slider",
+      "title": "Slider",
+      "description": "Continuous, discrete, centered, range, and vertical sliders",
+      "category": "selection",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "slider.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Slider"
+      ],
+      "related": [
+        "switch",
+        "meter"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "menu",
+      "title": "Menu",
+      "description": "Dropdown menu, context menu, and menubar",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "menu.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Menu",
+        "MenuItem",
+        "ContextMenu",
+        "Menubar",
+        "MenubarMenu"
+      ],
+      "related": [
+        "select",
+        "split-button"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "select",
+      "title": "Select",
+      "description": "M3 exposed dropdown menu styled as text field",
+      "category": "selection",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "select.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Select",
+        "ExposedDropdownMenu"
+      ],
+      "related": [
+        "menu",
+        "text-field",
+        "autocomplete"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "autocomplete",
+      "title": "Autocomplete",
+      "description": "Autocomplete and combobox with M3 text field styling",
+      "category": "inputs",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "autocomplete.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Autocomplete",
+        "Combobox"
+      ],
+      "related": [
+        "text-field",
+        "select",
+        "search"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "progress",
+      "title": "Progress",
+      "description": "Linear and circular progress with wavy Expressive variants",
+      "category": "feedback",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "progress.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Progress",
+        "LinearProgress",
+        "CircularProgress"
+      ],
+      "related": [
+        "loading-indicator",
+        "meter"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "loading-indicator",
+      "title": "Loading Indicator",
+      "description": "Expressive shape-cycling loader",
+      "category": "feedback",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "loading-indicator.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@m3ui/shapes"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "LoadingIndicator"
+      ],
+      "related": [
+        "progress",
+        "shapes"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "snackbar",
+      "title": "Snackbar",
+      "description": "Toast snackbars with queueing and positioning",
+      "category": "communication",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "snackbar.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Snackbar",
+        "SnackbarProvider",
+        "useSnackbar"
+      ],
+      "related": [
+        "dialog",
+        "bottom-sheet"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "meter",
+      "title": "Meter",
+      "description": "Meter styled consistently with progress indicators",
+      "category": "feedback",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "meter.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Meter"
+      ],
+      "related": [
+        "progress",
+        "slider"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "top-app-bar",
+      "title": "Top App Bar",
+      "description": "Small, medium, large, and flexible Expressive top app bars",
+      "category": "navigation",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "top-app-bar.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "TopAppBar"
+      ],
+      "related": [
+        "scaffold",
+        "navigation-bar",
+        "search"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "bottom-app-bar",
+      "title": "Bottom App Bar",
+      "description": "Bottom app bar with action slots and attached FAB",
+      "category": "navigation",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "bottom-app-bar.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "BottomAppBar"
+      ],
+      "related": [
+        "navigation-bar",
+        "fab",
+        "scaffold"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "navigation-bar",
+      "title": "Navigation Bar",
+      "description": "Bottom navigation bar with active indicator pill and badges",
+      "category": "navigation",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "navigation-bar.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "NavigationBar"
+      ],
+      "related": [
+        "navigation-rail",
+        "adaptive-navigation"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "navigation-rail",
+      "title": "Navigation Rail",
+      "description": "Collapsed, expanded, and modal navigation rail",
+      "category": "navigation",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "navigation-rail.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "NavigationRail"
+      ],
+      "related": [
+        "navigation-drawer",
+        "adaptive-navigation"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "navigation-drawer",
+      "title": "Navigation Drawer",
+      "description": "Standard and modal navigation drawer with sections",
+      "category": "navigation",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "navigation-drawer.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "NavigationDrawer",
+        "NavigationDrawerTrigger"
+      ],
+      "related": [
+        "navigation-rail",
+        "adaptive-navigation"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "tabs",
+      "title": "Tabs",
+      "description": "Primary and secondary tabs with scrollable layout",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "tabs.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Tabs",
+        "TabsPrimitive"
+      ],
+      "related": [
+        "segmented-button",
+        "carousel"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "search",
+      "title": "Search",
+      "description": "Search bar and full-screen search view",
+      "category": "inputs",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "search.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "SearchBar",
+        "SearchView"
+      ],
+      "related": [
+        "text-field",
+        "autocomplete",
+        "top-app-bar"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "dialog",
+      "title": "Dialog",
+      "description": "Dialog, alert dialog, and full-screen dialog",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "dialog.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Dialog",
+        "AlertDialog",
+        "FullScreenDialog",
+        "DialogAction"
+      ],
+      "related": [
+        "bottom-sheet",
+        "side-sheet",
+        "snackbar"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "bottom-sheet",
+      "title": "Bottom Sheet",
+      "description": "Modal bottom sheet with snap points and drag handle",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "bottom-sheet.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "BottomSheet"
+      ],
+      "related": [
+        "dialog",
+        "side-sheet"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "side-sheet",
+      "title": "Side Sheet",
+      "description": "Side sheet with header and action row",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "side-sheet.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "SideSheet"
+      ],
+      "related": [
+        "dialog",
+        "bottom-sheet",
+        "navigation-drawer"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "carousel",
+      "title": "Carousel",
+      "description": "M3 carousel layouts with scroll-linked resize",
+      "category": "containment",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "carousel.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Carousel"
+      ],
+      "related": [
+        "card",
+        "tabs"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "scaffold",
+      "title": "Scaffold",
+      "description": "App layout composing chrome with inset CSS variables",
+      "category": "layout",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "scaffold.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Scaffold",
+        "FabAnchor"
+      ],
+      "related": [
+        "top-app-bar",
+        "pane-scaffold",
+        "adaptive-navigation"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "button-group",
+      "title": "Button Group",
+      "description": "Standard and connected button groups with neighbor bump",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "button-group.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@m3ui/shapes"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "ButtonGroup",
+        "ButtonGroupItem"
+      ],
+      "related": [
+        "button",
+        "split-button",
+        "segmented-button"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "split-button",
+      "title": "Split Button",
+      "description": "Leading action with trailing menu trigger",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "split-button.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@m3ui/shapes"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "SplitButton"
+      ],
+      "related": [
+        "button",
+        "menu",
+        "button-group"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "fab-menu",
+      "title": "FAB Menu",
+      "description": "FAB expanding to labeled action list",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "fab-menu.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@m3ui/shapes"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "FabMenu"
+      ],
+      "related": [
+        "fab",
+        "menu"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "toolbar",
+      "title": "Toolbar",
+      "description": "Docked and floating toolbars with scroll hide/show",
+      "category": "actions",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "toolbar.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "Toolbar",
+        "ToolbarButton"
+      ],
+      "related": [
+        "top-app-bar",
+        "button-group"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "date-input",
+      "title": "Date Input",
+      "description": "Locale-aware date input with Field validation",
+      "category": "pickers",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "date-input.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@internationalized/date"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "DateInput"
+      ],
+      "related": [
+        "date-picker",
+        "text-field"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "date-picker",
+      "title": "Date Picker",
+      "description": "Docked, modal, and range date pickers with calendar engine",
+      "category": "pickers",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "date-picker.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion",
+        "@internationalized/date"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "DatePicker"
+      ],
+      "related": [
+        "date-input",
+        "time-picker"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "time-picker",
+      "title": "Time Picker",
+      "description": "Dial and input time pickers with 12h/24h support",
+      "category": "pickers",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "time-picker.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "TimePicker"
+      ],
+      "related": [
+        "date-picker",
+        "date-input"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "pane-scaffold",
+      "title": "Pane Scaffold",
+      "description": "List-detail and supporting-pane adaptive layouts",
+      "category": "layout",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "pane-scaffold.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "PaneScaffold",
+        "PaneScaffoldRoot"
+      ],
+      "related": [
+        "scaffold",
+        "adaptive-navigation"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "adaptive-navigation",
+      "title": "Adaptive Navigation",
+      "description": "Auto-switching navigation bar, rail, and drawer",
+      "category": "navigation",
+      "status": "stable",
+      "registryType": "registry:ui",
+      "sourceFile": "adaptive-navigation.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens",
+        "@m3ui/motion"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "AdaptiveNavigation",
+        "resolveAdaptiveNavMode"
+      ],
+      "related": [
+        "navigation-bar",
+        "navigation-rail",
+        "navigation-drawer",
+        "scaffold"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "placeholder-button",
+      "title": "Placeholder Button",
+      "description": "Registry placeholder for install testing",
+      "category": "actions",
+      "status": "internal",
+      "registryType": "registry:ui",
+      "sourceFile": "placeholder-button.tsx",
+      "npmDependencies": [
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "PlaceholderButton"
+      ],
+      "related": [],
+      "docs": {
+        "route": true,
+        "publicIndex": false,
+        "hasContent": false
+      }
+    },
+    {
+      "slug": "shapes",
+      "title": "Shapes",
+      "description": "Material Design 3 Expressive shape morphing, ShapeCrop, and the shapes library",
+      "category": "foundations",
+      "status": "stable",
+      "registryType": "foundations",
+      "npmDependencies": [
+        "@m3ui/shapes",
+        "@m3ui/react",
+        "@m3ui/tokens"
+      ],
+      "registryDependencies": [],
+      "exports": [
+        "ShapeCrop",
+        "MaterialShapes"
+      ],
+      "related": [
+        "button",
+        "loading-indicator",
+        "button-group"
+      ],
+      "docs": {
+        "route": true,
+        "publicIndex": true,
+        "hasContent": false
+      }
+    }
+  ]
+}
