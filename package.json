@@ -8,6 +8,7 @@
     "node": ">=20"
   },
   "scripts": {
+    "setup": "node scripts/setup.mjs",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -19,7 +20,8 @@
     "spec:sync:check": "pnpm --filter @m3ui/spec-sync check",
     "size:check": "node --experimental-strip-types tools/bundle-budget/check.ts",
     "tokens:codegen": "pnpm --filter @m3ui/tokens codegen",
-    "registry:build": "pnpm --filter @m3ui/react registry:build",
+    "catalog:build": "pnpm --filter @m3ui/react registry:build && pnpm --filter @m3ui/examples generate:metadata",
+    "registry:build": "pnpm --filter @m3ui/react registry:build && pnpm --filter @m3ui/examples generate:metadata",
     "changeset": "changeset",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
