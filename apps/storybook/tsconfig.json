@@ -1,7 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "noEmit": true
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@m3ui/react": ["../../packages/react/dist/index.d.ts"],
+      "@m3ui/react/provider": ["../../packages/react/dist/provider/index.d.ts"],
+      "@m3ui/react/primitives": ["../../packages/react/dist/primitives/index.d.ts"],
+      "@m3ui/examples": ["../../packages/examples/src/index.ts"],
+      "@m3ui/examples/*": ["../../packages/examples/src/*"]
+    }
   },
-  "include": ["src"]
+  "include": [".storybook", "src"]
 }
