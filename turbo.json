@@ -3,7 +3,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "storybook-static/**"]
     },
     "codegen": {
       "dependsOn": ["^build"],
@@ -30,9 +30,41 @@
       "dependsOn": ["^build"],
       "cache": false
     },
+    "@m3ui/storybook#test:vrt": {
+      "dependsOn": ["^build", "build"],
+      "cache": false
+    },
     "registry:build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^build", "@m3ui/examples#build"],
       "outputs": ["registry/**"]
+    },
+    "catalog:build": {
+      "dependsOn": ["^build", "@m3ui/examples#build"],
+      "outputs": ["registry/**"]
+    },
+    "@m3ui/examples#build": {
+      "outputs": ["src/metadata-map.ts"]
+    },
+    "generate:metadata": {
+      "outputs": ["src/metadata-map.ts"]
+    },
+    "@m3ui/docs#build": {
+      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+    },
+    "@m3ui/docs#typecheck": {
+      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+    },
+    "@m3ui/docs#dev": {
+      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+    },
+    "@m3ui/storybook#build": {
+      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+    },
+    "@m3ui/storybook#typecheck": {
+      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+    },
+    "@m3ui/storybook#dev": {
+      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
     }
   }
 }
