@@ -3,7 +3,6 @@ import { Button as BaseButton } from '@base-ui/react/button';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { MaterialShapes, useMorph } from '@m3ui/shapes';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, typeStyle, type ButtonSize, BUTTON_SIZE_PREFIX } from '../lib/token-utils.js';
 import { StateLayer } from '../primitives/state-layer.js';
@@ -49,7 +48,6 @@ export function SplitButton({
   'data-testid': testId,
 }: SplitButtonProps) {
   const [open, setOpen] = useState(false);
-  const [leadingPressed, setLeadingPressed] = useState(false);
   const p = VARIANT_PREFIX[variant];
   const sizeP = splitButtonSizePrefix(size);
   const btnP = BUTTON_SIZE_PREFIX[size];
@@ -60,6 +58,7 @@ export function SplitButton({
     gap: open ? compVar(sizeP, 'between-space') : 0,
     height: compVar(sizeP, 'container-height'),
     borderRadius: compVar(sizeP, 'container-shape'),
+    overflow: 'hidden',
   };
 
   const segmentBase: CSSProperties = {
@@ -69,13 +68,15 @@ export function SplitButton({
     justifyContent: 'center',
     border: 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
     ...typeStyle('label-large'),
     background:
       variant === 'outlined'
         ? 'transparent'
-        : compVar(p, 'container-color'),
-    color: compVar(p, variant === 'outlined' ? 'label-text-color' : 'label-text-color'),
+        : disabled
+          ? compVar(p, 'disabled-container-color')
+          : compVar(p, 'container-color'),
+    color: disabled ? compVar(p, 'disabled-label-text-color') : compVar(p, 'label-text-color'),
   };
 
   const leadingStyle: CSSProperties = {
@@ -84,7 +85,7 @@ export function SplitButton({
     paddingInlineEnd: compVar(sizeP, 'leading-button-trailing-space'),
     borderRadius: `${compVar(sizeP, 'container-shape')} 0 0 ${compVar(sizeP, 'container-shape')}`,
     border: variant === 'outlined'
-      ? `${compVar(btnP, 'outlined-outline-width')} solid ${compVar(p, 'outline-color')}`
+      ? `${compVar(btnP, 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`
       : undefined,
     borderInlineEnd: variant === 'outlined' ? 'none' : undefined,
   };
@@ -95,36 +96,26 @@ export function SplitButton({
     paddingInlineEnd: compVar(sizeP, 'trailing-button-trailing-space'),
     borderRadius: `0 ${compVar(sizeP, 'container-shape')} ${compVar(sizeP, 'container-shape')} 0`,
     border: variant === 'outlined'
-      ? `${compVar(btnP, 'outlined-outline-width')} solid ${compVar(p, 'outline-color')}`
+      ? `${compVar(btnP, 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`
       : undefined,
     minWidth: compVar(sizeP, 'trailing-button-leading-space'),
   };
-
-  const { clipPath } = useMorph({
-    from: MaterialShapes.pill,
-    to: MaterialShapes.square,
-    active: open || leadingPressed,
-    transition: springs.fastSpatial,
-  });
 
   return (
     <motion.div
       className={className}
       data-testid={testId}
-      style={{ ...containerStyle, clipPath: open ? undefined : clipPath }}
-      animate={{ gap: open ? 4 : 0 }}
+      style={containerStyle}
+      animate={{ gap: open ? 2 : 0 }}
       transition={springs.fastSpatial}
     >
-      <Ripple disabled={disabled}>
-        <StateLayer disabled={disabled} style={{ display: 'inline-flex' }}>
+      <Ripple disabled={disabled} style={{ display: 'inline-flex', borderRadius: `${compVar(sizeP, 'container-shape')} 0 0 ${compVar(sizeP, 'container-shape')}` }}>
+        <StateLayer disabled={disabled} style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
           <BaseButton
             type="button"
             disabled={disabled}
             onClick={onClick}
             style={leadingStyle}
-            onPointerDown={() => !disabled && setLeadingPressed(true)}
-            onPointerUp={() => { setLeadingPressed(false); }}
-            onPointerLeave={() => { setLeadingPressed(false); }}
           >
             {children}
           </BaseButton>

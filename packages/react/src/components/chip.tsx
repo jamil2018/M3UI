@@ -3,7 +3,8 @@ import { Button as BaseButton } from '@base-ui/react/button';
 import { Toggle } from '@base-ui/react/toggle';
 import { ToggleGroup } from '@base-ui/react/toggle-group';
 import { type CSSProperties, type ReactNode, useState } from 'react';
-import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
+import { Icon } from '@m3ui/icons';
+import { compVar, compElevation, typeStyle } from '../lib/token-utils.js';
 import { PressableShell } from '../lib/pressable-shell.js';
 
 export type ChipType = 'assist' | 'filter' | 'input' | 'suggestion';
@@ -38,6 +39,27 @@ function chipPrefix(type: ChipType): string {
   }
 }
 
+const ASSIST_CHIP_CONTRACT: CSSProperties = {
+  fontFamily: compVar('assist-chip', 'label-text-font'),
+  fontSize: compVar('assist-chip', 'label-text-size'),
+  lineHeight: compVar('assist-chip', 'label-text-line-height'),
+  fontWeight: compVar('assist-chip', 'label-text-weight'),
+  ['--assist-disabled-label-opacity' as string]: compVar('assist-chip', 'disabled-label-text-opacity'),
+  ['--assist-elevated-shadow-color' as string]: compVar('assist-chip', 'elevated-container-shadow-color'),
+  ['--assist-elevated-disabled-elevation' as string]: compElevation('assist-chip', 'elevated-disabled-container-elevation'),
+  ['--assist-elevated-disabled-opacity' as string]: compVar('assist-chip', 'elevated-disabled-container-opacity'),
+  ['--assist-elevated-focus-elevation' as string]: compElevation('assist-chip', 'elevated-focus-container-elevation'),
+  ['--assist-elevated-hover-elevation' as string]: compElevation('assist-chip', 'elevated-hover-container-elevation'),
+  ['--assist-elevated-pressed-elevation' as string]: compElevation('assist-chip', 'elevated-pressed-container-elevation'),
+  ['--assist-focus-label-color' as string]: compVar('assist-chip', 'focus-label-text-color'),
+  ['--assist-hover-label-color' as string]: compVar('assist-chip', 'hover-label-text-color'),
+  ['--assist-hover-state-color' as string]: compVar('assist-chip', 'hover-state-layer-color'),
+  ['--assist-hover-state-opacity' as string]: compVar('assist-chip', 'hover-state-layer-opacity'),
+  ['--assist-pressed-label-color' as string]: compVar('assist-chip', 'pressed-label-text-color'),
+  ['--assist-pressed-state-color' as string]: compVar('assist-chip', 'pressed-state-layer-color'),
+  ['--assist-pressed-state-opacity' as string]: compVar('assist-chip', 'pressed-state-layer-opacity'),
+};
+
 function getChipStyles(
   type: ChipType,
   elevated: boolean,
@@ -64,7 +86,7 @@ function getChipStyles(
       border: elevated
         ? 'none'
         : `${compVar(p, `flat-${sel}-outline-width`)} solid ${disabled ? compVar(p, 'flat-disabled-unselected-outline-color') : compVar(p, `flat-${sel === 'selected' ? 'selected' : 'unselected'}-outline-color`)}`,
-      boxShadow: elevated && !disabled ? elevationShadow('level1') : 'none',
+      boxShadow: elevated && !disabled ? compElevation(p, 'elevated-container-elevation') : compElevation(p, 'flat-container-elevation'),
     };
   }
 
@@ -81,7 +103,7 @@ function getChipStyles(
           ? compVar(p, 'selected-container-color')
           : 'transparent',
       border: `${compVar(p, selected ? 'selected-outline-width' : 'unselected-outline-width')} solid ${disabled ? compVar(p, 'disabled-unselected-outline-color') : selected ? 'transparent' : compVar(p, 'unselected-outline-color')}`,
-      boxShadow: !disabled ? elevationShadow('level0') : 'none',
+      boxShadow: !disabled ? compElevation(p, 'container-elevation') : 'none',
     };
   }
 
@@ -96,7 +118,7 @@ function getChipStyles(
     border: elevated
       ? 'none'
       : `${compVar(p, 'flat-outline-width')} solid ${disabled ? compVar(p, 'flat-disabled-outline-color') : compVar(p, 'flat-outline-color')}`,
-    boxShadow: elevated && !disabled ? elevationShadow('level1') : 'none',
+    boxShadow: elevated && !disabled ? compElevation(p, 'elevated-container-elevation') : compElevation(p, 'flat-container-elevation'),
   };
 }
 
@@ -125,15 +147,17 @@ function ChipInner({
     paddingInline: compVar('list', 'item-between-space'),
     borderRadius: compVar(p, 'container-shape'),
     cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
     ...typeStyle('label-large'),
     ...styles,
+    ...(type === 'assist' ? ASSIST_CHIP_CONTRACT : {}),
     width: '100%',
   };
 
   const iconStyle: CSSProperties = {
     width: compVar(p, type === 'suggestion' ? 'leading-icon-size' : 'icon-size'),
     height: compVar(p, type === 'suggestion' ? 'leading-icon-size' : 'icon-size'),
+    color: compVar(p, 'icon-color'),
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -148,14 +172,8 @@ function ChipInner({
           <span>{label}</span>
           {trailingIcon && <span style={iconStyle}>{trailingIcon}</span>}
           {onRemove && (
-            <BaseButton
-              type="button"
-              disabled={disabled}
-              onClick={(e) => {
-                e.stopPropagation();
-                onRemove();
-              }}
-              aria-label="Remove"
+            <span
+              aria-hidden
               style={{
                 ...iconStyle,
                 width: compVar('input-chip', 'trailing-icon-size'),
@@ -163,12 +181,11 @@ function ChipInner({
                 background: 'transparent',
                 border: 'none',
                 padding: 0,
-                cursor: disabled ? 'not-allowed' : 'pointer',
                 color: 'inherit',
               }}
             >
-              ×
-            </BaseButton>
+              <Icon name="close" size={18} />
+            </span>
           )}
         </>
       )}
@@ -240,7 +257,8 @@ export function Chip({
       <BaseButton
         type="button"
         disabled={disabled}
-        onClick={onClick}
+        onClick={onClick ?? onRemove}
+        aria-label={onRemove ? 'Remove' : undefined}
         className={className}
         style={{ display: 'inline-flex', borderRadius: 'inherit', background: 'transparent', border: 'none', padding: 0 }}
       >

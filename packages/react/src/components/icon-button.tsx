@@ -5,6 +5,7 @@ import { type CSSProperties, type ReactNode } from 'react';
 import {
   compVar,
   iconButtonSizeTokens,
+  ICON_BUTTON_SIZE_PREFIX,
   type ButtonSize,
 } from '../lib/token-utils.js';
 import { MaterialShapes } from '@m3ui/shapes';
@@ -37,10 +38,68 @@ const VARIANT_PREFIX: Record<IconButtonVariant, string> = {
   outlined: 'outlined-icon-button',
 };
 
+const VARIANT_LAYOUT: Record<IconButtonVariant, CSSProperties> = {
+  standard: {
+    minHeight: compVar('icon-button', 'icon-size'),
+    minWidth: compVar('icon-button', 'icon-size'),
+    ['--icon-button-icon-size' as string]: compVar('icon-button', 'icon-size'),
+    ['--icon-button-disabled-opacity' as string]: compVar('icon-button', 'disabled-icon-opacity'),
+    ['--icon-button-focus-icon-color' as string]: compVar('icon-button', 'focus-icon-color'),
+    ['--icon-button-hover-icon-color' as string]: compVar('icon-button', 'hover-icon-color'),
+    ['--icon-button-hover-state-color' as string]: compVar('icon-button', 'hover-state-layer-color'),
+    ['--icon-button-hover-state-opacity' as string]: compVar('icon-button', 'hover-state-layer-opacity'),
+    ['--icon-button-pressed-icon-color' as string]: compVar('icon-button', 'pressed-icon-color'),
+    ['--icon-button-pressed-state-color' as string]: compVar('icon-button', 'pressed-state-layer-color'),
+    ['--icon-button-pressed-state-opacity' as string]: compVar('icon-button', 'pressed-state-layer-opacity'),
+    ['--icon-button-selected-focus-icon-color' as string]: compVar('icon-button', 'selected-focus-icon-color'),
+    ['--icon-button-selected-hover-icon-color' as string]: compVar('icon-button', 'selected-hover-icon-color'),
+    ['--icon-button-selected-hover-state-color' as string]: compVar('icon-button', 'selected-hover-state-layer-color'),
+    ['--icon-button-selected-hover-state-opacity' as string]: compVar('icon-button', 'selected-hover-state-layer-opacity'),
+    ['--icon-button-selected-pressed-icon-color' as string]: compVar('icon-button', 'selected-pressed-icon-color'),
+    ['--icon-button-selected-pressed-state-color' as string]: compVar('icon-button', 'selected-pressed-state-layer-color'),
+    ['--icon-button-selected-pressed-state-opacity' as string]: compVar('icon-button', 'selected-pressed-state-layer-opacity'),
+    ['--icon-button-state-layer-height' as string]: compVar('icon-button', 'state-layer-height'),
+    ['--icon-button-state-layer-shape' as string]: compVar('icon-button', 'state-layer-shape'),
+    ['--icon-button-state-layer-width' as string]: compVar('icon-button', 'state-layer-width'),
+  },
+  filled: {
+    minHeight: compVar('filled-icon-button', 'container-height'),
+    minWidth: compVar('filled-icon-button', 'container-width'),
+    borderRadius: compVar('filled-icon-button', 'container-shape'),
+    ['--filled-icon-button-icon-size' as string]: compVar('filled-icon-button', 'icon-size'),
+    ['--filled-icon-button-disabled-container-opacity' as string]: compVar('filled-icon-button', 'disabled-container-opacity'),
+    ['--filled-icon-button-disabled-icon-opacity' as string]: compVar('filled-icon-button', 'disabled-icon-opacity'),
+    ['--filled-icon-button-focus-icon-color' as string]: compVar('filled-icon-button', 'focus-icon-color'),
+    ['--filled-icon-button-hover-icon-color' as string]: compVar('filled-icon-button', 'hover-icon-color'),
+    ['--filled-icon-button-hover-state-color' as string]: compVar('filled-icon-button', 'hover-state-layer-color'),
+    ['--filled-icon-button-hover-state-opacity' as string]: compVar('filled-icon-button', 'hover-state-layer-opacity'),
+    ['--filled-icon-button-pressed-icon-color' as string]: compVar('filled-icon-button', 'pressed-icon-color'),
+    ['--filled-icon-button-pressed-state-color' as string]: compVar('filled-icon-button', 'pressed-state-layer-color'),
+    ['--filled-icon-button-pressed-state-opacity' as string]: compVar('filled-icon-button', 'pressed-state-layer-opacity'),
+  },
+  'filled-tonal': {
+    minHeight: compVar('filled-tonal-icon-button', 'container-height'),
+    minWidth: compVar('filled-tonal-icon-button', 'container-width'),
+    borderRadius: compVar('filled-tonal-icon-button', 'container-shape'),
+    ['--filled-tonal-icon-button-icon-size' as string]: compVar('filled-tonal-icon-button', 'icon-size'),
+    ['--filled-tonal-icon-button-disabled-container-opacity' as string]: compVar('filled-tonal-icon-button', 'disabled-container-opacity'),
+    ['--filled-tonal-icon-button-disabled-icon-opacity' as string]: compVar('filled-tonal-icon-button', 'disabled-icon-opacity'),
+    ['--filled-tonal-icon-button-focus-icon-color' as string]: compVar('filled-tonal-icon-button', 'focus-icon-color'),
+    ['--filled-tonal-icon-button-hover-icon-color' as string]: compVar('filled-tonal-icon-button', 'hover-icon-color'),
+    ['--filled-tonal-icon-button-hover-state-color' as string]: compVar('filled-tonal-icon-button', 'hover-state-layer-color'),
+    ['--filled-tonal-icon-button-hover-state-opacity' as string]: compVar('filled-tonal-icon-button', 'hover-state-layer-opacity'),
+    ['--filled-tonal-icon-button-pressed-icon-color' as string]: compVar('filled-tonal-icon-button', 'pressed-icon-color'),
+    ['--filled-tonal-icon-button-pressed-state-color' as string]: compVar('filled-tonal-icon-button', 'pressed-state-layer-color'),
+    ['--filled-tonal-icon-button-pressed-state-opacity' as string]: compVar('filled-tonal-icon-button', 'pressed-state-layer-opacity'),
+  },
+  outlined: {},
+};
+
 function getIconButtonVariantStyles(
   variant: IconButtonVariant,
   disabled: boolean,
   selected: boolean,
+  outlineWidth: string,
 ): CSSProperties {
   const p = VARIANT_PREFIX[variant];
   const colorKey = selected ? 'selected-color' : 'color';
@@ -87,7 +146,7 @@ function getIconButtonVariantStyles(
   if (variant === 'outlined') {
     return {
       ...base,
-      border: `${compVar('medium-icon-button', 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`,
+      border: `${outlineWidth} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`,
     };
   }
 
@@ -110,7 +169,7 @@ export function IconButton({
   'data-testid': testId,
 }: IconButtonProps) {
   const tokens = iconButtonSizeTokens(size, width);
-  const variantStyles = getIconButtonVariantStyles(variant, disabled, selected);
+  const variantStyles = getIconButtonVariantStyles(variant, disabled, selected, tokens.outlineWidth);
 
   const buttonStyle: CSSProperties = {
     position: 'relative',
@@ -122,20 +181,25 @@ export function IconButton({
     paddingInlineStart: tokens.leadingSpace,
     paddingInlineEnd: tokens.trailingSpace,
     cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
     borderRadius: 'inherit',
+    ...VARIANT_LAYOUT[variant],
     ...variantStyles,
   };
 
   const iconStyle: CSSProperties = {
     width: tokens.iconSize,
     height: tokens.iconSize,
+    color: variantStyles.color ?? compVar(VARIANT_PREFIX[variant], 'icon-color'),
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
   };
 
-  const inner = (
+  const content = <span style={iconStyle}>{icon}</span>;
+  const inner = toggle ? (
+    <span className={className} style={buttonStyle}>{content}</span>
+  ) : (
     <BaseButton
       aria-label={ariaLabel}
       disabled={disabled}
@@ -143,7 +207,7 @@ export function IconButton({
       className={className}
       style={buttonStyle}
     >
-      <span style={iconStyle}>{icon}</span>
+      {content}
     </BaseButton>
   );
 
@@ -151,8 +215,8 @@ export function IconButton({
     <PressableShell
       disabled={disabled}
       shape={shape}
-      shapeRound={tokens.shapeRound}
-      shapeSquare={tokens.shapeSquare}
+      shapeRound={selected ? compVar(ICON_BUTTON_SIZE_PREFIX[size], 'selected-container-shape-round') : tokens.shapeRound}
+      shapeSquare={selected ? compVar(ICON_BUTTON_SIZE_PREFIX[size], 'selected-container-shape-square') : tokens.shapeSquare}
       pressedShape={tokens.pressedShape}
       morphFrom={selected ? MaterialShapes.pentagon : MaterialShapes.circle}
       morphTo={selected ? MaterialShapes.circle : MaterialShapes.pentagon}
@@ -171,6 +235,7 @@ export function IconButton({
         onPressedChange={onSelectedChange}
         disabled={disabled}
         aria-label={ariaLabel}
+        onClick={onClick}
         style={{ display: 'inline-flex', padding: 0, border: 'none', background: 'transparent' }}
       >
         {shell}
