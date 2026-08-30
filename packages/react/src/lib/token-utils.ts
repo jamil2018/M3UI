@@ -26,12 +26,27 @@ export function typeStyle(role: string): CSSProperties {
 }
 
 /** Standard disabled content opacity from M3 spec */
-export const DISABLED_CONTENT_OPACITY = 'var(--md-sys-state-disabled-content-opacity, 0.38)';
+export const DISABLED_CONTENT_OPACITY = 'var(--md-sys-state-disabled-content-opacity)';
 
-/** Elevation box-shadow from sys tokens */
-export function elevationShadow(level: 'level0' | 'level1' | 'level2' | 'level3' | 'level4' | 'level5'): string {
+/** Elevation box-shadow: Material Web two-layer key (0.3) + ambient (0.15). */
+export function elevationShadow(
+  level: 'level0' | 'level1' | 'level2' | 'level3' | 'level4' | 'level5',
+): string {
   if (level === 'level0') return 'none';
-  return `0 var(--md-sys-elevation-${level}) calc(var(--md-sys-elevation-${level}) * 2) rgba(0, 0, 0, var(--md-sys-elevation-${level}-shadow-opacity))`;
+  const l = String({ level0: 0, level1: 1, level2: 2, level3: 3, level4: 4, level5: 5 }[level]);
+  const keyY = `calc(1px * (clamp(0, ${l}, 1) + clamp(0, ${l} - 3, 1) + calc(2 * clamp(0, ${l} - 4, 1))))`;
+  const keyBlur = `calc(1px * (calc(2 * clamp(0, ${l}, 1)) + clamp(0, ${l} - 2, 1) + clamp(0, ${l} - 4, 1)))`;
+  const keyColor = 'color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent)';
+  const ambientY = `calc(1px * (clamp(0, ${l}, 1) + clamp(0, ${l} - 1, 1) + calc(2 * clamp(0, ${l} - 2, 3))))`;
+  const ambientBlur = `calc(1px * (calc(3 * clamp(0, ${l}, 2)) + calc(2 * clamp(0, ${l} - 2, 3))))`;
+  const ambientSpread = `calc(1px * (clamp(0, ${l}, 4) + calc(2 * clamp(0, ${l} - 4, 1))))`;
+  const ambientColor = 'color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent)';
+  return `0px ${keyY} ${keyBlur} 0px ${keyColor}, 0px ${ambientY} ${ambientBlur} ${ambientSpread} ${ambientColor}`;
+}
+
+/** Box shadow from md-comp container-elevation token (labs/gb supported-tokens). */
+export function compElevation(prefix: string, property = 'container-elevation'): string {
+  return compVar(prefix, property);
 }
 
 export const BUTTON_SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;

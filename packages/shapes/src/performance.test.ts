@@ -34,7 +34,7 @@ describe('morph step cache budget', () => {
     });
 
     expect(paths).toHaveLength(MORPH_PROGRESS_STEPS);
-    expect(paths[0]).toMatch(/^path\('/);
+    expect(paths[0]).toMatch(/^polygon\(/);
     expect(getCachedMorphPaths(key, () => ['should-not-run'])).toBe(paths);
   });
 

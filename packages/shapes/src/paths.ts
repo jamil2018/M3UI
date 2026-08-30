@@ -14,8 +14,31 @@ export function cubicsToSvgPath(cubics: Cubic[], close = true): string {
 }
 
 export function cubicsToClipPath(cubics: Cubic[]): string {
-  const d = cubicsToSvgPath(cubics, true);
-  return d ? `path('${d}')` : 'none';
+  if (cubics.length === 0) return 'none';
+
+  // CSS path() coordinates are absolute pixels. Material shape geometry is
+  // normalized to 0..1, which would clip a component to roughly one pixel.
+  // Percentage polygons stay relative to the target element at every size.
+  const samplesPerCubic = 8;
+  const points: string[] = [];
+  const pointAt = (start: number, control0: number, control1: number, end: number, t: number) => {
+    const inverse = 1 - t;
+    return inverse ** 3 * start
+      + 3 * inverse ** 2 * t * control0
+      + 3 * inverse * t ** 2 * control1
+      + t ** 3 * end;
+  };
+
+  cubics.forEach((cubic, cubicIndex) => {
+    for (let sample = cubicIndex === 0 ? 0 : 1; sample <= samplesPerCubic; sample += 1) {
+      const t = sample / samplesPerCubic;
+      const x = pointAt(cubic.anchor0X, cubic.control0X, cubic.control1X, cubic.anchor1X, t);
+      const y = pointAt(cubic.anchor0Y, cubic.control0Y, cubic.control1Y, cubic.anchor1Y, t);
+      points.push(`${(x * 100).toFixed(4)}% ${(y * 100).toFixed(4)}%`);
+    }
+  });
+
+  return `polygon(${points.join(', ')})`;
 }
 
 /** Scale normalized [0,1] path to pixel dimensions */
