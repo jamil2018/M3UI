@@ -203,7 +203,7 @@ export function createTheme(options: CreateThemeOptions): ThemeResult {
   const sysColorVars: Record<string, string> = {};
 
   for (const [role, getter] of Object.entries(COLOR_ROLE_MAP)) {
-    const hex = hexFromArgb(getter(scheme as DynamicScheme));
+    const hex = hexFromArgb(getter(scheme));
     colors[role] = hex;
     const kebab = toKebabCase(role);
     const m3Key = `--m3-color-${kebab}`;
