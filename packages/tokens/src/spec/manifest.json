@@ -1,6 +1,6 @@
 {
   "version": "v0_210",
-  "syncedAt": "2026-08-27T18:32:35.172Z",
+  "syncedAt": "2026-08-29T21:59:17.610Z",
   "revisions": {
     "androidx": {
       "repo": "androidx/androidx",
@@ -10,7 +10,12 @@
     "materialWeb": {
       "repo": "material-components/material-web",
       "ref": "main",
-      "tokensPath": "tokens"
+      "paths": [
+        "tokens",
+        "tokens/versions/latest/sass",
+        "tokens/versions/v0_192",
+        "labs/gb/styles"
+      ]
     }
   },
   "androidx": {
@@ -18,7 +23,7 @@
     "contentHash": "6220aa79e46d"
   },
   "materialWeb": {
-    "fileCount": 55,
-    "contentHash": "c250c4a908e5"
+    "fileCount": 428,
+    "contentHash": "0456d8b1bd85"
   }
 }

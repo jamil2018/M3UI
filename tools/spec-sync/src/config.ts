@@ -13,7 +13,19 @@ export const PINNED_REVISIONS = {
   materialWeb: {
     repo: 'material-components/material-web',
     ref: 'main',
-    tokensPath: 'tokens',
+    /**
+     * Paths to sync from material-web:
+     * - tokens/ — hand-maintained _md-comp-*.scss wrappers with $supported-tokens
+     * - tokens/versions/latest/sass/ — Expressive generated values
+     * - tokens/versions/v0_192/ — classic M3 values (Tier B/C fallback)
+     * - labs/gb/styles/ — motion/shape/space custom properties (Expressive precedent)
+     */
+    paths: [
+      'tokens',
+      'tokens/versions/latest/sass',
+      'tokens/versions/v0_192',
+      'labs/gb/styles',
+    ] as const,
   },
 } as const;
 

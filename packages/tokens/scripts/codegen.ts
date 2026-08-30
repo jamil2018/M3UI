@@ -11,9 +11,16 @@ interface KotlinTokenFile {
   properties: Record<string, string | number | boolean>;
 }
 
-interface ScssTokenFile {
-  variables: Record<string, string>;
-}
+import {
+  expandContractToCssVars,
+  extractMotionTokensFromSpec,
+  hasMaterialWebContract,
+  summarizeMaterialWebIngest,
+  type MaterialWebSpec,
+  type MaterialWebTokenFile,
+} from './material-web-ingest.js';
+
+interface ScssTokenFile extends MaterialWebTokenFile {}
 
 /** M3 sys token definitions derived from spec + canonical values */
 const STATE_LAYER_OPACITIES = {
@@ -21,6 +28,13 @@ const STATE_LAYER_OPACITIES = {
   focus: 0.1,
   pressed: 0.1,
   dragged: 0.16,
+} as const;
+
+const STATE_TOKENS = {
+  disabledContentOpacity: 0.38,
+  disabledContainerOpacity: 0.12,
+  focusIndicatorThickness: 3,
+  focusIndicatorOuterOffset: 2,
 } as const;
 
 const ELEVATION_LEVELS = {
@@ -39,6 +53,9 @@ const SHAPE_SCALE = {
   cornerMedium: 12,
   cornerLarge: 16,
   cornerExtraLarge: 28,
+  cornerLargeIncreased: 20,
+  cornerExtraLargeIncreased: 32,
+  cornerExtraExtraLarge: 48,
   cornerFull: 9999,
 } as const;
 
@@ -61,6 +78,14 @@ const TYPE_SCALE = {
 } as const;
 
 const EMPHASIZED_WEIGHT_OFFSET = 200;
+
+/** Reviewed Material Web values that are absent from the Compose token export. */
+const REVIEWED_WEB_COMPONENT_TOKENS = {
+  '--md-comp-outlined-text-field-leading-space': '16px',
+  '--md-comp-plain-tooltip-container-width': '200px',
+  '--md-comp-plain-tooltip-leading-space': '8px',
+  '--md-comp-plain-tooltip-top-space': '4px',
+} as const;
 
 const MOTION_DURATIONS = {
   short1: 50,
@@ -96,14 +121,26 @@ const COLOR_ROLES = [
   'onPrimary',
   'primaryContainer',
   'onPrimaryContainer',
+  'primaryFixed',
+  'primaryFixedDim',
+  'onPrimaryFixed',
+  'onPrimaryFixedVariant',
   'secondary',
   'onSecondary',
   'secondaryContainer',
   'onSecondaryContainer',
+  'secondaryFixed',
+  'secondaryFixedDim',
+  'onSecondaryFixed',
+  'onSecondaryFixedVariant',
   'tertiary',
   'onTertiary',
   'tertiaryContainer',
   'onTertiaryContainer',
+  'tertiaryFixed',
+  'tertiaryFixedDim',
+  'onTertiaryFixed',
+  'onTertiaryFixedVariant',
   'error',
   'onError',
   'errorContainer',
@@ -114,6 +151,7 @@ const COLOR_ROLES = [
   'onSurface',
   'surfaceVariant',
   'onSurfaceVariant',
+  'surfaceTint',
   'outline',
   'outlineVariant',
   'shadow',
@@ -129,6 +167,50 @@ const COLOR_ROLES = [
   'surfaceContainerHigh',
   'surfaceContainerHighest',
 ] as const;
+
+type DesignTokenSpec = {
+  source: { sha256: string; notes: string[] };
+  schemes: Record<string, Record<string, string>>;
+};
+
+function loadDesignTokenSpec(): DesignTokenSpec | undefined {
+  try {
+    return JSON.parse(
+      readFileSync(join(SPEC_DIR, 'figma-design-tokens.json'), 'utf8'),
+    ) as DesignTokenSpec;
+  } catch {
+    console.warn('No reviewed Figma token export found — using canonical defaults');
+    return undefined;
+  }
+}
+
+const DESIGN_TOKEN_SPEC = loadDesignTokenSpec();
+
+function normalizeHex(value: string): string {
+  return /^#[0-9a-f]{8}$/i.test(value) && value.endsWith('ff') ? value.slice(0, 7) : value;
+}
+
+/** Canonical Material light scheme used before a runtime theme is applied. */
+const COLOR_FALLBACKS: Record<(typeof COLOR_ROLES)[number], string> = {
+  primary: '#6750a4', onPrimary: '#ffffff', primaryContainer: '#eaddff', onPrimaryContainer: '#21005d',
+  primaryFixed: '#eaddff', primaryFixedDim: '#d0bcff', onPrimaryFixed: '#21005d', onPrimaryFixedVariant: '#4f378b',
+  secondary: '#625b71', onSecondary: '#ffffff', secondaryContainer: '#e8def8', onSecondaryContainer: '#1d192b',
+  secondaryFixed: '#e8def8', secondaryFixedDim: '#ccc2dc', onSecondaryFixed: '#1d192b', onSecondaryFixedVariant: '#4a4458',
+  tertiary: '#7d5260', onTertiary: '#ffffff', tertiaryContainer: '#ffd8e4', onTertiaryContainer: '#31111d',
+  tertiaryFixed: '#ffd8e4', tertiaryFixedDim: '#efb8c8', onTertiaryFixed: '#31111d', onTertiaryFixedVariant: '#633b48',
+  error: '#b3261e', onError: '#ffffff', errorContainer: '#f9dedc', onErrorContainer: '#410e0b',
+  background: '#fffbfe', onBackground: '#1c1b1f', surface: '#fffbfe', onSurface: '#1c1b1f',
+  surfaceVariant: '#e7e0ec', onSurfaceVariant: '#49454f', surfaceTint: '#6750a4', outline: '#79747e',
+  outlineVariant: '#cac4d0', shadow: '#000000', scrim: '#000000', inverseSurface: '#313033',
+  inverseOnSurface: '#f4eff4', inversePrimary: '#d0bcff', surfaceDim: '#ded8e1', surfaceBright: '#fffbfe',
+  surfaceContainerLowest: '#ffffff', surfaceContainerLow: '#f7f2fa', surfaceContainer: '#f3edf7',
+  surfaceContainerHigh: '#ece6f0', surfaceContainerHighest: '#e6e0e9',
+};
+
+for (const role of COLOR_ROLES) {
+  const imported = DESIGN_TOKEN_SPEC?.schemes.light?.[toKebabCase(role)];
+  if (imported) COLOR_FALLBACKS[role] = normalizeHex(imported);
+}
 
 function loadSpec(): {
   androidx: Record<string, KotlinTokenFile>;
@@ -147,15 +229,64 @@ function loadSpec(): {
   }
 
   try {
-    materialWeb = JSON.parse(readFileSync(materialWebPath, 'utf-8')) as Record<
-      string,
-      ScssTokenFile
-    >;
+    materialWeb = JSON.parse(readFileSync(materialWebPath, 'utf-8')) as MaterialWebSpec;
   } catch {
     console.warn('No material-web-tokens.json found — using canonical defaults');
   }
 
   return { androidx, materialWeb };
+}
+
+/** Resolved material-web comp tokens when spec-sync contract JSON is available. */
+function generateMaterialWebCompTokensCss(
+  materialWeb: MaterialWebSpec,
+  existingVars: ReadonlySet<string>,
+): {
+  css: string;
+  vars: string[];
+  motionTokens: Record<string, string>;
+} {
+  if (!hasMaterialWebContract(materialWeb)) {
+    console.warn(
+      'Material Web token contract not found in spec JSON — run `pnpm spec:sync` after Phase 0 lands.\n' +
+        'See packages/tokens/scripts/CODEGEN-PIPELINE.md',
+    );
+    return { css: '', vars: [], motionTokens: {} };
+  }
+
+  const summary = summarizeMaterialWebIngest(materialWeb);
+  if (summary.filledButtonSupported !== undefined) {
+    console.log(
+      `  md-comp-filled-button: ${String(summary.filledButtonSupported)} supported, ` +
+        `${String(summary.filledButtonUnsupported ?? 0)} unsupported`,
+    );
+  }
+
+  const lines: string[] = [];
+  const vars: string[] = [];
+
+  for (const compKey of Object.keys(materialWeb).filter((k) => k.startsWith('md-comp-'))) {
+    for (const token of expandContractToCssVars(materialWeb, compKey)) {
+      if (!token.value || existingVars.has(token.cssVar)) continue;
+      lines.push(`  ${token.cssVar}: ${token.value};`);
+      vars.push(token.cssVar);
+    }
+  }
+
+  const motionTokens = extractMotionTokensFromSpec(materialWeb);
+
+  console.log(
+    `Material Web ingest: ${String(summary.contractFiles)} contracts, ` +
+      `${String(summary.resolvedVarCount)} resolved values, ` +
+      `${String(summary.motionVarCount)} motion vars, ` +
+      `${String(vars.length)} new comp vars (${String(vars.length + existingVars.size)} total)`,
+  );
+
+  return {
+    css: lines.length > 0 ? `\n  /* Material Web resolved comp tokens (labs/gb + latest/sass) */\n${lines.join('\n')}\n` : '',
+    vars,
+    motionTokens,
+  };
 }
 
 function toKebabCase(str: string): string {
@@ -183,6 +314,7 @@ const PHASE1_ANDROIDX_OBJECTS = [
   'FilledIconButtonTokens',
   'FilledTonalIconButtonTokens',
   'OutlinedIconButtonTokens',
+  'FabBaselineTokens',
   'FabSmallTokens',
   'FabMediumTokens',
   'FabLargeTokens',
@@ -217,6 +349,7 @@ const PHASE2_ANDROIDX_OBJECTS = [
   'LinearProgressIndicatorTokens',
   'CircularProgressIndicatorTokens',
   'ProgressIndicatorTokens',
+  'LoadingIndicatorTokens',
   'OutlinedSegmentedButtonTokens',
   'MenuTokens',
   'SnackbarTokens',
@@ -354,7 +487,22 @@ function generateComponentTokensCss(androidx: Record<string, KotlinTokenFile>): 
   };
 }
 
-function generateTokensCss(componentCss: string): string {
+function buildFallbackMotionTokens(): Record<string, string> {
+  const motion: Record<string, string> = {};
+  for (const [name, ms] of Object.entries(MOTION_DURATIONS)) {
+    motion[`--md-sys-motion-duration-${toKebabCase(name)}`] = `${ms}ms`;
+  }
+  for (const [name, bezier] of Object.entries(MOTION_EASING)) {
+    motion[`--md-sys-motion-easing-${toKebabCase(name)}`] = bezier;
+  }
+  return motion;
+}
+
+function generateTokensCss(
+  componentCss: string,
+  materialWebCss = '',
+  motionTokens: Record<string, string> = {},
+): string {
   const lines: string[] = [
     '/**',
     ' * @m3ui/tokens — generated from spec JSON',
@@ -366,13 +514,17 @@ function generateTokensCss(componentCss: string): string {
   // Color roles (values injected by @m3ui/color at runtime or build time)
   for (const role of COLOR_ROLES) {
     const kebab = toKebabCase(role);
-    lines.push(`  --md-sys-color-${kebab}: var(--m3-color-${kebab}, #6750a4);`);
+    lines.push(`  --md-sys-color-${kebab}: var(--m3-color-${kebab}, ${COLOR_FALLBACKS[role]});`);
   }
 
   // State layer opacities
   for (const [state, opacity] of Object.entries(STATE_LAYER_OPACITIES)) {
     lines.push(`  --md-sys-state-${state}-state-layer-opacity: ${opacity};`);
   }
+  lines.push(`  --md-sys-state-disabled-content-opacity: ${STATE_TOKENS.disabledContentOpacity};`);
+  lines.push(`  --md-sys-state-disabled-container-opacity: ${STATE_TOKENS.disabledContainerOpacity};`);
+  lines.push(`  --md-sys-state-focus-indicator-thickness: ${STATE_TOKENS.focusIndicatorThickness}px;`);
+  lines.push(`  --md-sys-state-focus-indicator-outer-offset: ${STATE_TOKENS.focusIndicatorOuterOffset}px;`);
 
   // Elevation
   for (const [level, values] of Object.entries(ELEVATION_LEVELS)) {
@@ -399,20 +551,25 @@ function generateTokensCss(componentCss: string): string {
     lines.push(`  --md-sys-typescale-${kebab}-weight-emphasized: ${emphasizedWeight};`);
   }
 
-  // Motion durations
-  for (const [name, ms] of Object.entries(MOTION_DURATIONS)) {
-    const kebab = toKebabCase(name);
-    lines.push(`  --md-sys-motion-duration-${kebab}: ${ms}ms;`);
-  }
-
-  // Motion easing
-  for (const [name, bezier] of Object.entries(MOTION_EASING)) {
-    const kebab = toKebabCase(name);
-    lines.push(`  --md-sys-motion-easing-${kebab}: ${bezier};`);
+  // Motion — prefer labs/gb/styles/motion spec values, fallback to canonical constants
+  const resolvedMotion =
+    Object.keys(motionTokens).length > 0 ? motionTokens : buildFallbackMotionTokens();
+  lines.push('  /* Motion tokens (labs/gb/styles/motion via spec-sync) */');
+  for (const [name, value] of Object.entries(resolvedMotion).sort(([a], [b]) => a.localeCompare(b))) {
+    lines.push(`  ${name}: ${value};`);
   }
 
   if (componentCss) {
     lines.push(componentCss.trimEnd());
+  }
+
+  if (materialWebCss) {
+    lines.push(materialWebCss.trimEnd());
+  }
+
+  lines.push('  /* Reviewed Material Web adaptations */');
+  for (const [name, value] of Object.entries(REVIEWED_WEB_COMPONENT_TOKENS)) {
+    lines.push(`  ${name}: ${value};`);
   }
 
   lines.push('}');
@@ -518,6 +675,8 @@ function generateTypesTs(
   return `/** Generated — do not edit */
 export const STATE_LAYER_OPACITIES = ${JSON.stringify(STATE_LAYER_OPACITIES, null, 2)} as const;
 
+export const STATE_TOKENS = ${JSON.stringify(STATE_TOKENS, null, 2)} as const;
+
 export const ELEVATION_LEVELS = ${JSON.stringify(ELEVATION_LEVELS, null, 2)} as const;
 
 export const SHAPE_SCALE = ${JSON.stringify(SHAPE_SCALE, null, 2)} as const;
@@ -530,6 +689,9 @@ export const MOTION_EASING = ${JSON.stringify(MOTION_EASING, null, 2)} as const;
 
 export const COLOR_ROLES = ${JSON.stringify(COLOR_ROLES)} as const;
 
+/** Reviewed static Material schemes imported from the design source. */
+export const DESIGN_SCHEMES = ${JSON.stringify(DESIGN_TOKEN_SPEC?.schemes ?? {}, null, 2)} as const;
+
 export type ColorRole = (typeof COLOR_ROLES)[number];
 export type StateLayerState = keyof typeof STATE_LAYER_OPACITIES;
 export type ElevationLevel = keyof typeof ELEVATION_LEVELS;
@@ -541,12 +703,17 @@ export type MotionEasing = keyof typeof MOTION_EASING;
 /** Spec metadata */
 export const SPEC_ANDROIDX_FILE_COUNT = ${Object.keys(spec.androidx).length};
 export const SPEC_MATERIAL_WEB_FILE_COUNT = ${Object.keys(spec.materialWeb).length};
+export const SPEC_FIGMA_TOKEN_HASH = ${JSON.stringify(DESIGN_TOKEN_SPEC?.source.sha256 ?? null)};
 
 /** All sys token CSS custom property names */
 export const SYS_TOKEN_VARS = [
 ${[
   ...COLOR_ROLES.map((r) => `  '--md-sys-color-${toKebabCase(r)}'`),
   ...Object.keys(STATE_LAYER_OPACITIES).map((s) => `  '--md-sys-state-${s}-state-layer-opacity'`),
+  `  '--md-sys-state-disabled-content-opacity'`,
+  `  '--md-sys-state-disabled-container-opacity'`,
+  `  '--md-sys-state-focus-indicator-thickness'`,
+  `  '--md-sys-state-focus-indicator-outer-offset'`,
   ...Object.keys(ELEVATION_LEVELS).flatMap((l) => {
     const k = toKebabCase(l);
     return [
@@ -587,12 +754,19 @@ function main(): void {
   mkdirSync(OUT_DIR, { recursive: true });
 
   const { css: componentCss, vars: compTokenVars } = generateComponentTokensCss(spec.androidx);
+  const androidxVarSet = new Set(compTokenVars);
+  const {
+    css: materialWebCss,
+    vars: mwVars,
+    motionTokens,
+  } = generateMaterialWebCompTokensCss(spec.materialWeb, androidxVarSet);
+  const allCompVars = [...new Set([...compTokenVars, ...mwVars, ...Object.keys(REVIEWED_WEB_COMPONENT_TOKENS)])];
 
-  writeFileSync(join(OUT_DIR, 'tokens.css'), generateTokensCss(componentCss));
+  writeFileSync(join(OUT_DIR, 'tokens.css'), generateTokensCss(componentCss, materialWebCss, motionTokens));
   writeFileSync(join(OUT_DIR, 'theme.css'), generateThemeCss());
-  writeFileSync(join(OUT_DIR, 'tokens.ts'), generateTypesTs(spec, compTokenVars));
+  writeFileSync(join(OUT_DIR, 'tokens.ts'), generateTypesTs(spec, allCompVars));
 
-  console.log(`Token codegen complete (${compTokenVars.length} component tokens)`);
+  console.log(`Token codegen complete (${String(allCompVars.length)} component tokens)`);
 }
 
 main();
