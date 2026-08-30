@@ -82,15 +82,16 @@ export function LinearProgress({
   variant = 'flat',
   wavy,
   indeterminate = false,
-  amplitude = 4,
-  wavelength = 24,
+  amplitude = 3,
+  wavelength,
   thickness,
   className,
   'data-testid': testId,
 }: LinearProgressProps) {
   const resolvedVariant = wavy ? 'wavy' : variant;
   const trackHeight = compVar('linear-progress-indicator', 'height');
-  const activeThickness = thickness ?? 4;
+  const activeThickness = thickness ?? compVar('linear-progress-indicator', 'track-thickness');
+  const waveWavelength = wavelength ?? (indeterminate ? 20 : 40);
 
   const trackStyle: CSSProperties = {
     width: '100%',
@@ -116,8 +117,8 @@ export function LinearProgress({
             value={value}
             max={max}
             amplitude={amplitude}
-            wavelength={wavelength}
-            thickness={activeThickness}
+            wavelength={waveWavelength}
+            thickness={typeof thickness === 'number' ? thickness : 4}
             indeterminate={indeterminate}
           />
         ) : (
@@ -225,13 +226,14 @@ export function CircularProgress({
   variant = 'flat',
   indeterminate = false,
   amplitude = 3,
-  wavelength = 16,
+  wavelength = 40,
   thickness,
-  size = 48,
+  size,
   className,
   'data-testid': testId,
 }: CircularProgressProps) {
   const numericThickness = thickness ?? 4;
+  const resolvedSize = size ?? 40;
 
   return (
     <BaseProgress.Root
@@ -240,13 +242,17 @@ export function CircularProgress({
       className={className}
       data-testid={testId}
       aria-label="Progress"
-      style={{ display: 'inline-flex', width: size, height: size }}
+      style={{
+        display: 'inline-flex',
+        width: size ?? compVar('circular-progress-indicator', 'size'),
+        height: size ?? compVar('circular-progress-indicator', 'size'),
+      }}
     >
       {variant === 'wavy' ? (
         <WavyCircularIndicator
           value={value}
           max={max}
-          size={size}
+          size={resolvedSize}
           amplitude={amplitude}
           wavelength={wavelength}
           thickness={numericThickness}
@@ -256,7 +262,7 @@ export function CircularProgress({
         <FlatCircularIndicator
           value={value}
           max={max}
-          size={size}
+          size={resolvedSize}
           thickness={numericThickness}
           indeterminate={indeterminate}
         />

@@ -2,7 +2,7 @@
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { type CSSProperties, type ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, sysShape, typeStyle } from '../lib/token-utils.js';
 
 export type TabsVariant = 'primary' | 'secondary';
@@ -32,6 +32,18 @@ const VARIANT_PREFIX: Record<TabsVariant, string> = {
   secondary: 'secondary-navigation-tab',
 };
 
+function tabLabelColor(prefix: string, selected: boolean): string {
+  return selected
+    ? compVar(prefix, 'active-label-text-color')
+    : compVar(prefix, 'inactive-label-text-color');
+}
+
+function tabIconColor(prefix: string, selected: boolean): string {
+  return selected
+    ? compVar(prefix, 'active-icon-color')
+    : compVar(prefix, 'inactive-icon-color');
+}
+
 export function Tabs({
   items,
   variant = 'primary',
@@ -43,6 +55,13 @@ export function Tabs({
   'data-testid': testId,
 }: TabsProps) {
   const prefix = VARIANT_PREFIX[variant];
+  const [internalValue, setInternalValue] = useState(defaultValue ?? items[0]?.value);
+  const selectedValue = value ?? internalValue;
+
+  const handleValueChange = (next: string) => {
+    if (value === undefined) setInternalValue(next);
+    onValueChange?.(next);
+  };
 
   const rootStyle: CSSProperties = {
     width: '100%',
@@ -54,7 +73,7 @@ export function Tabs({
     background: compVar(prefix, 'container-color'),
     borderBottom:
       variant === 'secondary'
-        ? `${compVar('secondary-navigation-tab', 'divider-height')} solid ${compVar('secondary-navigation-tab', 'divider-color')}`
+        ? `${compVar(prefix, 'divider-height')} solid ${compVar(prefix, 'divider-color')}`
         : undefined,
     overflowX: layout === 'scrollable' ? 'auto' : 'hidden',
   };
@@ -63,7 +82,7 @@ export function Tabs({
     <BaseTabs.Root
       value={value}
       defaultValue={defaultValue ?? items[0]?.value}
-      onValueChange={onValueChange}
+      onValueChange={handleValueChange}
       className={className}
       data-testid={testId}
       data-variant={variant}
@@ -72,7 +91,14 @@ export function Tabs({
     >
       <BaseTabs.List style={listStyle}>
         {items.map((item) => (
-          <TabTrigger key={item.value} item={item} variant={variant} layout={layout} itemCount={items.length} />
+          <TabTrigger
+            key={item.value}
+            item={item}
+            variant={variant}
+            layout={layout}
+            itemCount={items.length}
+            selected={item.value === selectedValue}
+          />
         ))}
         {variant === 'primary' && (
           <BaseTabs.Indicator
@@ -92,7 +118,11 @@ export function Tabs({
         )}
       </BaseTabs.List>
       {items.map((item) => (
-        <BaseTabs.Panel key={item.value} value={item.value} style={{ padding: compVar('list', 'divider-leading-space') }}>
+        <BaseTabs.Panel
+          key={item.value}
+          value={item.value}
+          style={{ padding: compVar('list', 'divider-leading-space') }}
+        >
           {item.panel}
         </BaseTabs.Panel>
       ))}
@@ -105,11 +135,13 @@ interface TabTriggerProps {
   variant: TabsVariant;
   layout: TabsLayout;
   itemCount: number;
+  selected: boolean;
 }
 
-function TabTrigger({ item, variant, layout, itemCount }: TabTriggerProps) {
+function TabTrigger({ item, variant, layout, itemCount, selected }: TabTriggerProps) {
   const prefix = VARIANT_PREFIX[variant];
   const flex = layout === 'fixed' ? 1 / itemCount : undefined;
+  const stacked = Boolean(item.icon);
 
   return (
     <BaseTabs.Tab
@@ -119,17 +151,18 @@ function TabTrigger({ item, variant, layout, itemCount }: TabTriggerProps) {
         flex,
         minWidth: layout === 'scrollable' ? compVar('primary-navigation-tab', 'icon-and-label-text-container-height') : undefined,
         display: 'inline-flex',
-        flexDirection: item.icon ? 'column' : 'row',
+        flexDirection: stacked ? 'column' : 'row',
         alignItems: 'center',
         justifyContent: 'center',
         gap: compVar('list', 'item-top-space'),
-        height: '100%',
+        height: stacked ? compVar('primary-navigation-tab', 'icon-and-label-text-container-height') : '100%',
         paddingInline: compVar('list', 'item-between-space'),
         border: 'none',
         background: 'transparent',
         cursor: item.disabled ? 'not-allowed' : 'pointer',
         ...typeStyle('title-small'),
-        opacity: item.disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+        color: tabLabelColor(prefix, selected),
+        opacity: item.disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
       }}
     >
       {item.icon && (
@@ -138,6 +171,7 @@ function TabTrigger({ item, variant, layout, itemCount }: TabTriggerProps) {
             width: compVar(prefix, 'icon-size'),
             height: compVar(prefix, 'icon-size'),
             display: 'inline-flex',
+            color: tabIconColor(prefix, selected),
           }}
         >
           {item.icon}
