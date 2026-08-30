@@ -20,7 +20,7 @@ const storybookServer = useStaticStorybook
     };
 
 const docsServer = {
-  command: `${pnpm} --filter @m3ui/docs start -- --port 3000`,
+  command: `${pnpm} --filter @m3ui/docs start`,
   url: 'http://localhost:3000',
   reuseExistingServer: !process.env.CI,
   timeout: 180_000,
