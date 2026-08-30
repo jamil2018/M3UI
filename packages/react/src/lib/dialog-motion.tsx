@@ -5,7 +5,7 @@ import {
 } from '@m3ui/motion';
 import { useCallback, useRef, type CSSProperties, type ReactNode, type Ref } from 'react';
 import { runDialogAnimation, type DialogAnimationElements } from './waapi.js';
-import { composeRefs, usePopupWaapiAnimation } from './use-popup-waapi.js';
+import { usePopupWaapiAnimation } from './use-popup-waapi.js';
 
 export const dialogContainerStyle: CSSProperties = {
   position: 'relative',

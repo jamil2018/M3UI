@@ -25,8 +25,6 @@ const ELEMENT_KEYS = [
   'actions',
 ] as const;
 
-type ElementKey = (typeof ELEMENT_KEYS)[number];
-
 export function runDialogAnimation(
   elements: DialogAnimationElements,
   animation: DialogAnimation,
@@ -35,8 +33,8 @@ export function runDialogAnimation(
   const animations: Animation[] = [];
 
   for (const key of ELEMENT_KEYS) {
-    const element = elements[key as ElementKey];
-    const argsList = animation[key as ElementKey];
+    const element = elements[key];
+    const argsList = animation[key];
     if (!element || !argsList || !supportsWaapi(element)) continue;
 
     for (const args of argsList) {
