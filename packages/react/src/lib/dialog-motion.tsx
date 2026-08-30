@@ -41,11 +41,11 @@ export interface DialogMotionRefs {
 }
 
 export function useDialogMotionRefs() {
-  const popupRef = useRef<HTMLElement | null>(null);
-  const scrimRef = useRef<HTMLElement | null>(null);
+  const popupRef = useRef<HTMLDivElement | null>(null);
+  const scrimRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const headlineRef = useRef<HTMLElement | null>(null);
-  const contentRef = useRef<HTMLElement | null>(null);
+  const headlineRef = useRef<HTMLHeadingElement | null>(null);
+  const contentRef = useRef<HTMLParagraphElement | null>(null);
   const actionsRef = useRef<HTMLDivElement | null>(null);
 
   const getElements = useCallback(
