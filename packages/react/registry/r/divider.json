@@ -8,6 +8,18 @@
     "@m3ui/tokens"
   ],
   "registryDependencies": [],
+  "meta": {
+    "parity": {
+      "tier": "A",
+      "reference": "labs/gb",
+      "upstreamVersion": "@material/web@2.5.0",
+      "residualDiff": {
+        "missing": [],
+        "extra": [],
+        "drifted": []
+      }
+    }
+  },
   "files": [
     {
       "path": "components/m3ui/divider.tsx",

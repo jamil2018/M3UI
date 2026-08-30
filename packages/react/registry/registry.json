@@ -7,259 +7,780 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "M3 Expressive button with press shape morph"
+      "description": "M3 Expressive button with press shape morph",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [
+              "focus-state-layer-color",
+              "focus-state-layer-opacity",
+              "label-text-tracking",
+              "label-text-type"
+            ],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "icon-button",
       "type": "registry:ui",
       "title": "Icon Button",
-      "description": "M3 Expressive icon button with toggle support"
+      "description": "M3 Expressive icon button with toggle support",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "fab",
       "type": "registry:ui",
       "title": "FAB",
-      "description": "Floating action button and extended FAB"
+      "description": "Floating action button and extended FAB",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
-      "description": "Checkbox and checkbox group"
+      "description": "Checkbox and checkbox group",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "radio",
       "type": "registry:ui",
       "title": "Radio",
-      "description": "Radio button and radio group"
+      "description": "Radio button and radio group",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "switch",
       "type": "registry:ui",
       "title": "Switch",
-      "description": "M3 Expressive switch with icon slots"
+      "description": "M3 Expressive switch with icon slots",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "text-field",
       "type": "registry:ui",
       "title": "Text Field",
-      "description": "Filled and outlined text fields with floating labels"
+      "description": "Filled and outlined text fields with floating labels",
+      "meta": {
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "Elevated, filled, and outlined cards"
+      "description": "Elevated, filled, and outlined cards",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "list",
       "type": "registry:ui",
       "title": "List",
-      "description": "M3 list and list items"
+      "description": "M3 list and list items",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "divider",
       "type": "registry:ui",
       "title": "Divider",
-      "description": "Full-width, inset, and vertical dividers"
+      "description": "Full-width, inset, and vertical dividers",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "Dot and numbered badges"
+      "description": "Dot and numbered badges",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "tooltip",
       "type": "registry:ui",
       "title": "Tooltip",
-      "description": "Plain and rich tooltips"
+      "description": "Plain and rich tooltips",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "chip",
       "type": "registry:ui",
       "title": "Chip",
-      "description": "Assist, filter, input, and suggestion chips"
+      "description": "Assist, filter, input, and suggestion chips",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "segmented-button",
       "type": "registry:ui",
       "title": "Segmented Button",
-      "description": "Single and multi-select segmented buttons"
+      "description": "Single and multi-select segmented buttons",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "slider",
       "type": "registry:ui",
       "title": "Slider",
-      "description": "Continuous, discrete, centered, range, and vertical sliders"
+      "description": "Continuous, discrete, centered, range, and vertical sliders",
+      "meta": {
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "menu",
       "type": "registry:ui",
       "title": "Menu",
-      "description": "Dropdown menu, context menu, and menubar"
+      "description": "Dropdown menu, context menu, and menubar",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
-      "description": "M3 exposed dropdown menu styled as text field"
+      "description": "M3 exposed dropdown menu styled as text field",
+      "meta": {
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "autocomplete",
       "type": "registry:ui",
       "title": "Autocomplete",
-      "description": "Autocomplete and combobox with M3 text field styling"
+      "description": "Autocomplete and combobox with M3 text field styling",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "progress",
       "type": "registry:ui",
       "title": "Progress",
-      "description": "Linear and circular progress with wavy Expressive variants"
+      "description": "Linear and circular progress indicators",
+      "meta": {
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "loading-indicator",
       "type": "registry:ui",
       "title": "Loading Indicator",
-      "description": "Expressive shape-cycling loader"
+      "description": "Expressive shape-cycling loader",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "snackbar",
       "type": "registry:ui",
       "title": "Snackbar",
-      "description": "Toast snackbars with queueing and positioning"
+      "description": "Toast snackbars with queueing and positioning",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "meter",
       "type": "registry:ui",
       "title": "Meter",
-      "description": "Meter styled consistently with progress indicators"
+      "description": "Meter styled consistently with progress indicators",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "top-app-bar",
       "type": "registry:ui",
       "title": "Top App Bar",
-      "description": "Small, medium, large, and flexible Expressive top app bars"
+      "description": "Small, medium, large, and flexible Expressive top app bars",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "bottom-app-bar",
       "type": "registry:ui",
       "title": "Bottom App Bar",
-      "description": "Bottom app bar with action slots and attached FAB"
+      "description": "Bottom app bar with action slots and attached FAB",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "navigation-bar",
       "type": "registry:ui",
       "title": "Navigation Bar",
-      "description": "Bottom navigation bar with active indicator pill and badges"
+      "description": "Bottom navigation bar with active indicator pill and badges",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "navigation-rail",
       "type": "registry:ui",
       "title": "Navigation Rail",
-      "description": "Collapsed, expanded, and modal navigation rail"
+      "description": "Collapsed, expanded, and modal navigation rail",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "navigation-drawer",
       "type": "registry:ui",
       "title": "Navigation Drawer",
-      "description": "Standard and modal navigation drawer with sections"
+      "description": "Standard and modal navigation drawer with sections",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "tabs",
       "type": "registry:ui",
       "title": "Tabs",
-      "description": "Primary and secondary tabs with scrollable layout"
+      "description": "Primary and secondary tabs with scrollable layout",
+      "meta": {
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "search",
       "type": "registry:ui",
       "title": "Search",
-      "description": "Search bar and full-screen search view"
+      "description": "Search bar and full-screen search view",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",
-      "description": "Dialog, alert dialog, and full-screen dialog"
+      "description": "Dialog, alert dialog, and full-screen dialog",
+      "meta": {
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "bottom-sheet",
       "type": "registry:ui",
       "title": "Bottom Sheet",
-      "description": "Modal bottom sheet with snap points and drag handle"
+      "description": "Modal bottom sheet with snap points and drag handle",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "side-sheet",
       "type": "registry:ui",
       "title": "Side Sheet",
-      "description": "Side sheet with header and action row"
+      "description": "Side sheet with header and action row",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "carousel",
       "type": "registry:ui",
       "title": "Carousel",
-      "description": "M3 carousel layouts with scroll-linked resize"
+      "description": "M3 carousel layouts with scroll-linked resize",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "scaffold",
       "type": "registry:ui",
       "title": "Scaffold",
-      "description": "App layout composing chrome with inset CSS variables"
+      "description": "App layout composing chrome with inset CSS variables",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "button-group",
       "type": "registry:ui",
       "title": "Button Group",
-      "description": "Standard and connected button groups with neighbor bump"
+      "description": "Standard and connected button groups with neighbor bump",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "split-button",
       "type": "registry:ui",
       "title": "Split Button",
-      "description": "Leading action with trailing menu trigger"
+      "description": "Leading action with trailing menu trigger",
+      "meta": {
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "fab-menu",
       "type": "registry:ui",
       "title": "FAB Menu",
-      "description": "FAB expanding to labeled action list"
+      "description": "FAB expanding to labeled action list",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "toolbar",
       "type": "registry:ui",
       "title": "Toolbar",
-      "description": "Docked and floating toolbars with scroll hide/show"
+      "description": "Docked and floating toolbars with scroll hide/show",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "date-input",
       "type": "registry:ui",
       "title": "Date Input",
-      "description": "Locale-aware date input with Field validation"
+      "description": "Locale-aware date input with Field validation",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "date-picker",
       "type": "registry:ui",
       "title": "Date Picker",
-      "description": "Docked, modal, and range date pickers with calendar engine"
+      "description": "Docked, modal, and range date pickers with calendar engine",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "time-picker",
       "type": "registry:ui",
       "title": "Time Picker",
-      "description": "Dial and input time pickers with 12h/24h support"
+      "description": "Dial and input time pickers with 12h/24h support",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "pane-scaffold",
       "type": "registry:ui",
       "title": "Pane Scaffold",
-      "description": "List-detail and supporting-pane adaptive layouts"
+      "description": "List-detail and supporting-pane adaptive layouts",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "adaptive-navigation",
       "type": "registry:ui",
       "title": "Adaptive Navigation",
-      "description": "Auto-switching navigation bar, rail, and drawer"
+      "description": "Auto-switching navigation bar, rail, and drawer",
+      "meta": {
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
+      }
     },
     {
       "name": "placeholder-button",

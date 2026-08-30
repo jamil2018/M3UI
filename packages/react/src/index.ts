@@ -246,6 +246,7 @@ export {
   sysShape,
   typeStyle,
   elevationShadow,
+  compElevation,
   buttonSizeTokens,
   iconButtonSizeTokens,
   DISABLED_CONTENT_OPACITY,
@@ -255,8 +256,47 @@ export {
 } from './lib/token-utils.js';
 export type { ButtonSize } from './lib/token-utils.js';
 
+export {
+  fieldToken,
+  fieldTokenPrefix,
+  fieldWrapStyles,
+  fieldLabelStyles,
+  fieldInputStyles,
+  fieldSupportingStyles,
+  fieldIconStyles,
+  fieldTriggerStyles,
+  fieldLeadingSpace,
+  fieldContainerHeight,
+} from './lib/field-internals.js';
+export type { FieldVariant, FieldInteractionState } from './lib/field-internals.js';
+
+export {
+  DialogMotionStyles,
+  DialogMotionContainer,
+  useDialogMotionRefs,
+  useDialogWaapi,
+} from './lib/dialog-motion.js';
+export { MenuMotionPopup } from './lib/menu-motion.js';
+export type { MenuMotionPopupProps } from './lib/menu-motion.js';
+export { composeRefs } from './lib/use-popup-waapi.js';
+
 /** @deprecated Use Button instead — kept for registry install testing */
 export { PlaceholderButton } from './components/placeholder-button.js';
 export type { PlaceholderButtonProps } from './components/placeholder-button.js';
 
 export type { ContrastPreference } from '@m3ui/color';
+export { Icon } from '@m3ui/icons';
+export type { IconProps } from '@m3ui/icons';
+
+export {
+  COMPONENT_CATALOG,
+  CATALOG_CATEGORIES,
+  CONFORMANCE_SOURCES,
+  getCatalogEntry,
+  getPublicCatalogEntries,
+} from './catalog/index.js';
+export type {
+  ComponentConformance,
+  ConformanceSource,
+  ConformanceStatus,
+} from './catalog/index.js';

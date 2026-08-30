@@ -9,6 +9,18 @@
     "@m3ui/motion"
   ],
   "registryDependencies": [],
+  "meta": {
+    "parity": {
+      "tier": "C",
+      "reference": "tokens-only",
+      "upstreamVersion": "@material/web@2.5.0",
+      "residualDiff": {
+        "missing": [],
+        "extra": [],
+        "drifted": []
+      }
+    }
+  },
   "files": [
     {
       "path": "components/m3ui/bottom-app-bar.tsx",
