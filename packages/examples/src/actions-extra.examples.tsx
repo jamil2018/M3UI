@@ -6,6 +6,7 @@ import {
   Toolbar,
   ToolbarButton,
   MenuItem,
+  Icon,
 } from '@m3ui/react';
 import type { ComponentExampleDefinition } from './types';
 
@@ -26,8 +27,8 @@ function FabMenuExample() {
   return (
     <FabMenu
       aria-label="Create"
-      icon="+"
-      actions={[{ label: 'Task', icon: '✓', onClick: () => undefined }]}
+      icon={<Icon name="add" />}
+      actions={[{ label: 'Task', icon: <Icon name="check" />, onClick: () => undefined }]}
     />
   );
 }
@@ -35,8 +36,12 @@ function FabMenuExample() {
 function ToolbarExample() {
   return (
     <Toolbar variant="floating">
-      <ToolbarButton aria-label="Copy">C</ToolbarButton>
-      <ToolbarButton aria-label="Paste">P</ToolbarButton>
+      <ToolbarButton aria-label="Bold" selected>
+        <Icon name="format_bold" />
+      </ToolbarButton>
+      <ToolbarButton aria-label="Italic">
+        <Icon name="format_italic" />
+      </ToolbarButton>
     </Toolbar>
   );
 }
@@ -66,7 +71,7 @@ export const fabMenuExamples: ComponentExampleDefinition[] = [
     id: 'fab-menu-actions',
     componentSlug: 'fab-menu',
     title: 'Labeled actions',
-    source: `<FabMenu icon="+" actions={actions} />`,
+    source: `<FabMenu icon={<Icon name="add" />} actions={actions} />`,
     Component: FabMenuExample,
   },
 ];

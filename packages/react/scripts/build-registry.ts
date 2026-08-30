@@ -5,8 +5,11 @@ import {
   CATALOG_CATEGORIES,
   COMPONENT_CATALOG,
   getRegistryUiEntries,
+  parityForSlug,
   type ComponentCatalogEntry,
   type DocsCatalogManifest,
+  type ParityReference,
+  type ParityTier,
 } from '../src/catalog/index.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -43,6 +46,11 @@ const INTERNAL_IMPORT_REPLACEMENTS: Array<[RegExp, string]> = [
   [/from '\.\/snackbar\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/inset-context\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/overlay-motion\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/field-internals\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/dialog-motion\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/menu-motion\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/use-popup-waapi\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/waapi\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/shape-crop\.js'/g, "from '@m3ui/react'"],
   [/from '\.\/divider\.js'/g, "from '@m3ui/react'"],
   [/from '\.\/menu\.js'/g, "from '@m3ui/react'"],
@@ -67,6 +75,19 @@ function rewriteImports(source: string): string {
   return result;
 }
 
+type ParityTier = 'A' | 'B' | 'C';
+
+interface RegistryParityMeta {
+  tier: ParityTier;
+  reference: ParityReference;
+  upstreamVersion: string;
+  residualDiff: {
+    missing: string[];
+    extra: string[];
+    drifted: string[];
+  };
+}
+
 interface RegistryItem {
   name: string;
   type: 'registry:ui';
@@ -74,14 +95,38 @@ interface RegistryItem {
   description: string;
   dependencies: string[];
   registryDependencies: string[];
+  meta?: {
+    parity?: RegistryParityMeta;
+  };
   files: Array<{ path: string; content: string; type: 'registry:ui' }>;
+}
+
+interface RegistryManifestItem {
+  name: string;
+  type: string;
+  title: string;
+  description: string;
+  meta?: {
+    parity?: RegistryParityMeta;
+  };
 }
 
 interface RegistryManifest {
   $schema: string;
   name: string;
   homepage: string;
-  items: Array<{ name: string; type: string; title: string; description: string }>;
+  items: RegistryManifestItem[];
+}
+
+function parityMetaForSlug(slug: string): RegistryParityMeta | undefined {
+  const parity = parityForSlug(slug);
+  if (!parity) return undefined;
+  return {
+    tier: parity.tier,
+    reference: parity.reference,
+    upstreamVersion: parity.upstreamVersion,
+    residualDiff: parity.residualDiff,
+  };
 }
 
 function buildRegistryItem(entry: ComponentCatalogEntry): RegistryItem {
@@ -93,6 +138,8 @@ function buildRegistryItem(entry: ComponentCatalogEntry): RegistryItem {
   const rawSource = readFileSync(sourcePath, 'utf-8');
   const flatSource = rewriteImports(rawSource);
 
+  const parityMeta = parityMetaForSlug(entry.slug);
+
   return {
     name: entry.slug,
     type: 'registry:ui',
@@ -100,6 +147,7 @@ function buildRegistryItem(entry: ComponentCatalogEntry): RegistryItem {
     description: entry.description,
     dependencies: [...entry.npmDependencies],
     registryDependencies: [...entry.registryDependencies],
+    ...(parityMeta ? { meta: { parity: parityMeta } } : {}),
     files: [
       {
         path: `components/m3ui/${entry.slug}.tsx`,
@@ -141,6 +189,7 @@ function buildRegistry(): void {
       type: i.type,
       title: i.title,
       description: i.description,
+      ...(i.meta ? { meta: i.meta } : {}),
     })),
   };
 

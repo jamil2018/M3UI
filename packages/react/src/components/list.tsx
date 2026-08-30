@@ -1,6 +1,6 @@
 
 import { type CSSProperties, type ReactNode } from 'react';
-import { compVar, typeStyle } from '../lib/token-utils.js';
+import { compVar, compElevation, typeStyle } from '../lib/token-utils.js';
 import { StateLayer } from '../primitives/state-layer.js';
 import { Ripple } from '../primitives/ripple.js';
 import { Divider } from './divider.js';
@@ -65,21 +65,27 @@ export function ListItem({
     display: 'flex',
     alignItems: 'center',
     gap: compVar('list', 'item-between-space'),
-    paddingBlock: compVar('list', 'item-bottom-space'),
-    paddingInline: compVar('list', 'divider-leading-space'),
-    borderRadius: compVar('list', 'item-container-expressive-shape'),
+    paddingBlockStart: compVar('list', 'item-top-space'),
+    paddingBlockEnd: compVar('list', 'item-bottom-space'),
+    paddingInlineStart: compVar('list-item', 'leading-space'),
+    paddingInlineEnd: compVar('list-item', 'trailing-space'),
+    borderRadius: compVar('list', 'item-container-shape'),
     background: selected ? compVar('list', 'item-selected-container-color') : compVar('list', 'item-container-color'),
+    boxShadow: compElevation('list-item'),
+    minHeight: lines >= 2 ? compVar('list-item', 'two-line-container-height') : undefined,
     cursor: interactive ? 'pointer' : undefined,
     position: 'relative',
   };
 
   const headlineStyle: CSSProperties = {
     ...typeStyle('body-large'),
-    color: compVar('list', 'item-label-text-color'),
+    fontFamily: compVar('list-item', 'label-text-font'),
+    color: compVar('list-item', 'label-text-color'),
   };
 
   const supportingStyle: CSSProperties = {
     ...typeStyle('body-medium'),
+    fontFamily: compVar('list-item', 'supporting-text-font'),
     color: compVar('list', 'item-supporting-text-color'),
   };
 
@@ -95,6 +101,11 @@ export function ListItem({
     flexShrink: 0,
   };
 
+  const trailingStyle: CSSProperties = {
+    ...iconStyle,
+    color: compVar('list-item', 'trailing-icon-color'),
+  };
+
   const itemContent = (
     <>
       {leading && <span style={iconStyle}>{leading}</span>}
@@ -103,7 +114,7 @@ export function ListItem({
         <div style={headlineStyle}>{headline}</div>
         {supportingText && lines >= 2 && <div style={supportingStyle}>{supportingText}</div>}
       </div>
-      {trailing && <span style={iconStyle}>{trailing}</span>}
+      {trailing && <span style={trailingStyle}>{trailing}</span>}
     </>
   );
 

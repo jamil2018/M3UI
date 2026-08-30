@@ -12,6 +12,26 @@ export function storyUrl(storyId: string, globals: Record<string, string | numbe
 
 export const OVERVIEW_STORY = 'gallery-overview--default';
 
+/** Storybook tags for parity-tier VRT filtering (see tools/vrt/REBASELINE.md). */
+export const PARITY_TIER_TAGS = {
+  A: 'parity-tier-A',
+  B: 'parity-tier-B',
+  C: 'parity-tier-C',
+} as const;
+
+export const PARITY_REF_TAGS = {
+  'labs/gb': 'parity-ref-labs-gb',
+  stable: 'parity-ref-stable',
+  'tokens-only': 'parity-ref-tokens-only',
+} as const;
+
+/** Foundations primitive stories — add to VRT matrix after Phase 2 merge. */
+export const PRIMITIVE_VRT_STORIES = [
+  'foundations-primitives--ripple-states',
+  'foundations-primitives--focus-ring-states',
+  'foundations-primitives--elevation-levels',
+] as const;
+
 export const VRT_MATRIX = [
   { scheme: 'light', contrast: 0, direction: 'ltr', name: 'light-default-ltr' },
   { scheme: 'dark', contrast: 0, direction: 'ltr', name: 'dark-default-ltr' },

@@ -1,40 +1,94 @@
 name: Spec drift
 
+
+
 on:
+
   schedule:
+
     # Weekly Monday 06:00 UTC — opens no PR automatically; fails if local pins drift
+
     - cron: '0 6 * * 1'
+
   workflow_dispatch:
 
+
+
 jobs:
+
   spec-sync-check:
+
     runs-on: ubuntu-latest
+
     steps:
+
       - uses: actions/checkout@v4
+
+
 
       - uses: pnpm/action-setup@v4
 
+
+
       - uses: actions/setup-node@v4
+
         with:
+
           node-version: 20
+
           cache: pnpm
 
+
+
       - name: Install dependencies
+
         run: pnpm install --frozen-lockfile
 
+
+
       - name: Verify pinned spec matches committed JSON
+
         run: pnpm spec:sync:check
 
-      - name: Fetch upstream and diff (informational)
-        run: pnpm spec:sync
+
+
+      - name: Verify parity contract (strict when artifact present)
+
+        run: SPEC_PARITY_STRICT=1 pnpm parity:check
+
         continue-on-error: true
 
+
+
+      - name: Token coverage gate
+
+        run: pnpm build && pnpm --filter @m3ui/react test:coverage
+
+
+
+      - name: Fetch upstream and diff (informational)
+
+        run: pnpm spec:sync
+
+        continue-on-error: true
+
+
+
       - name: Report upstream drift
+
         run: |
+
           if git diff --quiet packages/tokens/src/spec/; then
+
             echo "Upstream tokens match committed spec."
+
           else
+
             echo "::warning::Upstream token sources have changed. Run pnpm spec:sync locally, review the diff, update VRT baselines, and open a PR."
+
             git diff --stat packages/tokens/src/spec/
+
             exit 1
+
           fi
+

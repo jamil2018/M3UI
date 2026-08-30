@@ -2,6 +2,7 @@
 import { Checkbox as BaseCheckbox } from '@base-ui/react/checkbox';
 import { CheckboxGroup as BaseCheckboxGroup } from '@base-ui/react/checkbox-group';
 import { type CSSProperties, type ReactNode } from 'react';
+import { Icon } from '@m3ui/icons';
 import { compVar, typeStyle } from '../lib/token-utils.js';
 
 export interface CheckboxProps {
@@ -32,6 +33,13 @@ function getCheckboxColors(error: boolean, disabled: boolean, checked: boolean) 
   if (error && checked) {
     return {
       container: compVar(p, 'selected-error-container-color'),
+      icon: compVar(p, 'selected-error-icon-color'),
+      outline: 'transparent',
+    };
+  }
+  if (error) {
+    return {
+      container: 'transparent',
       icon: compVar(p, 'selected-error-icon-color'),
       outline: compVar(p, 'unselected-error-outline-color'),
     };
@@ -70,13 +78,13 @@ export function Checkbox({
     width: compVar('checkbox', 'container-size'),
     height: compVar('checkbox', 'container-size'),
     borderRadius: compVar('checkbox', 'container-shape'),
-    border: `${compVar('checkbox', 'unselected-outline-width')} solid ${colors.outline}`,
+    border: `${isChecked || indeterminate ? compVar('checkbox', 'selected-outline-width') : compVar('checkbox', 'unselected-outline-width')} solid ${colors.outline}`,
     background: colors.container,
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
   };
 
   const iconStyle: CSSProperties = {
@@ -88,16 +96,16 @@ export function Checkbox({
   const labelStyle: CSSProperties = {
     ...typeStyle('body-large'),
     color: disabled
-      ? compVar('checkbox', 'disabled-label-text-color')
-      : compVar('checkbox', 'label-text-color'),
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+      ? 'color-mix(in srgb, var(--md-sys-color-on-surface) 38%, transparent)'
+      : 'var(--md-sys-color-on-surface)',
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
   };
 
   return (
     <label
       className={className}
       data-testid={testId}
-      style={{ display: 'inline-flex', alignItems: 'center', gap: compVar('checkbox', 'state-layer-size'), cursor: disabled ? 'not-allowed' : 'pointer' }}
+      style={{ display: 'inline-flex', alignItems: 'center', gap: compVar('list', 'item-between-space'), cursor: disabled ? 'not-allowed' : 'pointer', minHeight: compVar('checkbox', 'state-layer-size'), borderRadius: compVar('checkbox', 'state-layer-shape'), ['--checkbox-disabled-opacity' as string]: compVar('checkbox', 'selected-disabled-container-opacity'), ['--checkbox-selected-focus-container' as string]: compVar('checkbox', 'selected-focus-container-color'), ['--checkbox-selected-focus-icon' as string]: compVar('checkbox', 'selected-focus-icon-color'), ['--checkbox-selected-hover-container' as string]: compVar('checkbox', 'selected-hover-container-color'), ['--checkbox-selected-hover-icon' as string]: compVar('checkbox', 'selected-hover-icon-color'), ['--checkbox-selected-hover-state-color' as string]: compVar('checkbox', 'selected-hover-state-layer-color'), ['--checkbox-selected-hover-state-opacity' as string]: compVar('checkbox', 'selected-hover-state-layer-opacity'), ['--checkbox-selected-pressed-container' as string]: compVar('checkbox', 'selected-pressed-container-color'), ['--checkbox-selected-pressed-icon' as string]: compVar('checkbox', 'selected-pressed-icon-color'), ['--checkbox-selected-pressed-state-color' as string]: compVar('checkbox', 'selected-pressed-state-layer-color'), ['--checkbox-selected-pressed-state-opacity' as string]: compVar('checkbox', 'selected-pressed-state-layer-opacity') }}
     >
       <BaseCheckbox.Root
         checked={checked}
@@ -110,7 +118,7 @@ export function Checkbox({
         style={boxStyle}
       >
         <BaseCheckbox.Indicator style={iconStyle}>
-          {indeterminate ? '−' : '✓'}
+          <Icon name={indeterminate ? 'remove' : 'check'} size={18} weight={700} />
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
       {label && <span style={labelStyle}>{label}</span>}

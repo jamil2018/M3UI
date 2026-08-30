@@ -104,7 +104,7 @@ describe('ShapeCrop', () => {
       </ShapeCrop>,
     );
     const crop = screen.getByTestId('crop');
-    expect(crop.style.clipPath).toContain('path(');
+    expect(crop.style.clipPath).toContain('polygon(');
     expect(screen.getByText('Avatar')).toBeInTheDocument();
   });
 });

@@ -4,12 +4,21 @@ import { Input as BaseInput } from '@base-ui/react/input';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
 import { useId, useState, type CSSProperties, type ReactNode } from 'react';
+import {
+  fieldIconStyles,
+  fieldInputStyles,
+  fieldLabelStyles,
+  fieldSupportingStyles,
+  fieldTokenPrefix,
+  fieldWrapStyles,
+  type FieldVariant,
+} from '../lib/field-internals.js';
 import { compVar, typeStyle } from '../lib/token-utils.js';
 
-export type TextFieldVariant = 'filled' | 'outlined';
+export type { FieldVariant as TextFieldVariant };
 
 export interface TextFieldProps {
-  variant?: TextFieldVariant;
+  variant?: FieldVariant;
   label?: string;
   value?: string;
   defaultValue?: string;
@@ -59,90 +68,27 @@ export function TextField({
 }: TextFieldProps) {
   const id = useId();
   const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [internalValue, setInternalValue] = useState(defaultValue ?? '');
   const currentValue = value ?? internalValue;
   const hasValue = currentValue.length > 0;
   const floated = focused || hasValue;
 
-  const tokenPrefix = variant === 'filled' ? 'filled-text-field' : 'outlined-text-field';
+  const prefixToken = fieldTokenPrefix(variant);
+  const interaction = { disabled, error, focused, hovered };
 
   const containerStyle: CSSProperties = {
-    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     gap: compVar('list', 'item-between-space'),
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
-  };
-
-  const fieldWrapStyle: CSSProperties = {
-    position: 'relative',
-    display: 'flex',
-    alignItems: multiline ? 'flex-start' : 'center',
-    gap: compVar('list', 'item-between-space'),
-    minHeight: variant === 'outlined' ? compVar('outlined-text-field', 'container-height') : undefined,
-    paddingInline: compVar('outlined-text-field', 'leading-space'),
-    paddingBlock: multiline ? compVar('list', 'item-bottom-space') : undefined,
-    borderRadius: compVar(tokenPrefix, 'container-shape'),
-    background:
-      variant === 'filled'
-        ? disabled
-          ? compVar('filled-text-field', 'disabled-container-color')
-          : compVar('filled-text-field', 'container-color')
-        : 'transparent',
-    border:
-      variant === 'outlined'
-        ? `${compVar('outlined-text-field', 'outline-width')} solid ${error ? compVar('outlined-text-field', 'error-outline-color') : disabled ? compVar('outlined-text-field', 'disabled-outline-color') : compVar('outlined-text-field', 'outline-color')}`
-        : 'none',
-    borderBottom:
-      variant === 'filled'
-        ? `${compVar('filled-text-field', 'active-indicator-height')} solid ${error ? compVar('filled-text-field', 'error-active-indicator-color') : compVar('filled-text-field', 'active-indicator-color')}`
-        : undefined,
-  };
-
-  const labelStyle: CSSProperties = {
-    ...typeStyle(floated ? 'body-small' : 'body-large'),
-    color: error
-      ? compVar(tokenPrefix, 'error-focus-label-color')
-      : disabled
-        ? compVar(tokenPrefix, 'disabled-label-color')
-        : compVar(tokenPrefix, 'focus-label-color'),
-    position: 'absolute',
-    insetInlineStart: compVar('outlined-text-field', 'leading-space'),
-    top: floated ? compVar('list', 'item-top-space') : '50%',
-    transform: floated ? 'translateY(0)' : 'translateY(-50%)',
-    transformOrigin: 'start top',
-    pointerEvents: 'none',
-    transition: `color var(--md-sys-motion-duration-short2) var(--md-sys-motion-easing-standard)`,
   };
 
   const inputStyle: CSSProperties = {
-    ...typeStyle('body-large'),
-    flex: 1,
-    border: 'none',
-    outline: 'none',
-    background: 'transparent',
-    color: disabled
-      ? compVar(tokenPrefix, 'disabled-input-color')
-      : compVar(tokenPrefix, 'input-color'),
-    paddingBlock: variant === 'filled' ? compVar('list', 'item-bottom-space') : undefined,
-    paddingTop: label && variant === 'filled' ? compVar('list', 'item-top-space') : undefined,
+    ...fieldInputStyles(prefixToken, interaction, Boolean(label)),
     resize: multiline ? 'vertical' : undefined,
-    minHeight: multiline ? `calc(${compVar('outlined-text-field', 'container-height')} * ${String(rows)})` : undefined,
-  };
-
-  const supportingStyle: CSSProperties = {
-    ...typeStyle('body-small'),
-    color: error
-      ? compVar(tokenPrefix, 'error-supporting-color')
-      : compVar(tokenPrefix, 'supporting-color'),
-    paddingInline: compVar('outlined-text-field', 'leading-space'),
-  };
-
-  const iconStyle: CSSProperties = {
-    width: compVar('outlined-text-field', 'icon-size'),
-    height: compVar('outlined-text-field', 'icon-size'),
-    color: compVar('outlined-text-field', 'leading-icon-color'),
-    flexShrink: 0,
+    minHeight: multiline
+      ? `calc(${compVar('outlined-text-field', 'container-height')} * ${String(rows)})`
+      : undefined,
   };
 
   const handleChange = (next: string) => {
@@ -158,15 +104,21 @@ export function TextField({
       invalid={error}
       disabled={disabled}
     >
-      <div style={fieldWrapStyle}>
-        {leadingIcon && <span style={iconStyle}>{leadingIcon}</span>}
+      <div
+        style={fieldWrapStyles(variant, interaction, multiline)}
+        onMouseEnter={() => { setHovered(true); }}
+        onMouseLeave={() => { setHovered(false); }}
+      >
+        {leadingIcon && <span style={fieldIconStyles(prefixToken, interaction)}>{leadingIcon}</span>}
         {prefix && (
-          <span style={{ ...typeStyle('body-large'), color: compVar(tokenPrefix, 'input-color') }}>{prefix}</span>
+          <span style={{ ...typeStyle('body-large'), color: fieldInputStyles(prefixToken, interaction, false).color }}>
+            {prefix}
+          </span>
         )}
         {label && (
           <motion.label
             htmlFor={id}
-            style={labelStyle}
+            style={fieldLabelStyles(prefixToken, interaction, floated)}
             animate={{
               top: floated ? compVar('list', 'item-top-space') : '50%',
               transform: floated ? 'translateY(0)' : 'translateY(-50%)',
@@ -206,17 +158,19 @@ export function TextField({
           />
         )}
         {suffix && (
-          <span style={{ ...typeStyle('body-large'), color: compVar(tokenPrefix, 'input-color') }}>{suffix}</span>
+          <span style={{ ...typeStyle('body-large'), color: fieldInputStyles(prefixToken, interaction, false).color }}>
+            {suffix}
+          </span>
         )}
-        {trailingIcon && <span style={iconStyle}>{trailingIcon}</span>}
+        {trailingIcon && <span style={fieldIconStyles(prefixToken, interaction)}>{trailingIcon}</span>}
       </div>
       {(supportingText || errorText || counter) && (
         <div style={{ display: 'flex', justifyContent: 'space-between', gap: compVar('list', 'item-between-space') }}>
-          <BaseField.Description style={supportingStyle}>
+          <BaseField.Description style={fieldSupportingStyles(prefixToken, interaction)}>
             {error && errorText ? errorText : supportingText}
           </BaseField.Description>
           {counter && maxLength !== undefined && (
-            <span style={supportingStyle}>
+            <span style={fieldSupportingStyles(prefixToken, interaction)}>
               {currentValue.length}/{maxLength}
             </span>
           )}

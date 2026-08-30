@@ -10,6 +10,9 @@ import { PropsTable } from './props-table';
 import { RelatedComponents } from './related-components';
 import type { ComponentDocPageProps, ComponentContentConfig } from './types';
 import { UsageBlock } from './usage-block';
+import { ComplianceSummary } from './compliance-summary';
+import { ParityReference } from './parity-reference';
+import { getCatalogEntry } from '@/lib/catalog';
 
 export interface ComponentDocPageOptions {
   /** When true, merge `config.props` over auto-extracted props from source */
@@ -32,6 +35,7 @@ export function ComponentDocPage({
   const install = getRegistryInstallInfo(config.slug);
   const props = resolveProps(config, true);
   const galleryExamples = examples ?? config.examples ?? [];
+  const catalogEntry = getCatalogEntry(config.slug);
 
   return (
     <main className="doc-page">
@@ -40,6 +44,12 @@ export function ComponentDocPage({
         <h1 className="doc-page-title">{config.title}</h1>
         <p className="doc-page-description">{config.description}</p>
       </header>
+
+      {catalogEntry ? (
+        <ComplianceSummary conformance={catalogEntry.conformance} />
+      ) : null}
+
+      <ParityReference slug={config.slug} />
 
       <DocSection id="preview" title="Preview" description="Live example with theme controls.">
         <PreviewCodeTabs preview={preview} code={config.previewCode} />

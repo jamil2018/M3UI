@@ -1,9 +1,13 @@
 import type { ComponentDocContent } from './types';
 
+export { PARITY_TIER_EXPLANATIONS } from '@/lib/parity-tiers';
+
 export const COMPONENT_DOCS: Record<string, ComponentDocContent> = {
   button: {
     slug: 'button',
     title: 'Button',
+    parityNote:
+      'All five Expressive button variants map to upstream md-comp-* keys; residual token gaps are tracked until the generated parity report reaches zero.',
     overview:
       'Buttons let users take actions and make choices with a single tap. M3UI buttons support all five Material 3 Expressive variants with press shape morph and token-driven styling.',
     imports: ['Button'],
@@ -29,10 +33,10 @@ export const COMPONENT_DOCS: Record<string, ComponentDocContent> = {
     title: 'Icon Button',
     overview:
       'Icon buttons trigger compact icon-only actions. Toggle mode supports selected state for tools like favorites or bookmarks.',
-    imports: ['IconButton'],
-    usageCode: `import { IconButton } from '@m3ui/react';
+    imports: ['IconButton', 'Icon'],
+    usageCode: `import { Icon, IconButton } from '@m3ui/react';
 
-<IconButton aria-label="Add to favorites" icon="★" variant="standard" />`,
+<IconButton aria-label="Add to favorites" icon={<Icon name="favorite" />} variant="standard" />`,
     variants: [
       { title: 'Variants', description: 'standard, filled, filled-tonal, and outlined.' },
       { title: 'Toggle', description: 'Set toggle with selected for on/off icon actions.' },
@@ -51,12 +55,13 @@ export const COMPONENT_DOCS: Record<string, ComponentDocContent> = {
     overview:
       'Floating action buttons represent the primary action on a screen. Use standard FABs for icon-only actions or ExtendedFab when a text label improves clarity.',
     imports: ['Fab', 'ExtendedFab', 'FabAnchor'],
-    usageCode: `import { Fab, ExtendedFab } from '@m3ui/react';
+    usageCode: `import { Fab, ExtendedFab, Icon } from '@m3ui/react';
 
-<Fab aria-label="Compose" icon="+" size="medium" />
-<ExtendedFab icon="+" label="Compose" />`,
+<Fab aria-label="Compose" icon={<Icon name="edit" />} size="standard" />
+<ExtendedFab icon={<Icon name="edit" />} label="Compose" size="small" />`,
     variants: [
-      { title: 'Sizes', description: 'small, medium, and large FAB diameters.' },
+      { title: 'Sizes', description: 'standard (56px), medium (80px), and large (96px).' },
+      { title: 'Colors', description: 'Primary, secondary, tertiary, and their container variants.' },
       { title: 'Extended', description: 'ExtendedFab adds a visible label beside the icon.' },
       { title: 'Placement', description: 'Pair with FabAnchor inside Scaffold for correct inset positioning.' },
     ],
@@ -242,7 +247,7 @@ export const COMPONENT_DOCS: Record<string, ComponentDocContent> = {
     usageCode: `import { Badge } from '@m3ui/react';
 
 <Badge count={5}>
-  <IconButton aria-label="Notifications" icon="🔔" />
+  <IconButton aria-label="Notifications" icon={<Icon name="notifications" />} />
 </Badge>`,
     variants: [
       { title: 'Dot', description: 'Small indicator without a numeric label.' },
@@ -471,6 +476,8 @@ export const COMPONENT_DOCS: Record<string, ComponentDocContent> = {
   snackbar: {
     slug: 'snackbar',
     title: 'Snackbar',
+    parityNote:
+      'Google cancelled the upstream web snackbar; parity covers orphaned token files only — queueing and provider APIs are M3UI-defined.',
     overview:
       'Snackbars provide brief feedback about an operation, often with an optional action. The provider queues multiple messages.',
     imports: ['Snackbar', 'useSnackbar'],
@@ -532,7 +539,7 @@ export default () => (
 <TopAppBar
   title="Photos"
   subtitle="Album"
-  trailing={<IconButton aria-label="Search" icon="🔍" />}
+  trailing={<IconButton aria-label="Search" icon={<Icon name="search" />} />}
 />`,
     variants: [
       { title: 'Sizes', description: 'small, medium, large, and medium-flexible with scroll behavior.' },
@@ -555,7 +562,7 @@ export default () => (
     usageCode: `import { BottomAppBar, Fab } from '@m3ui/react';
 
 <BottomAppBar
-  fab={<Fab aria-label="Create" icon="+" />}
+  fab={<Fab aria-label="Create" icon={<Icon name="add" />} />}
   actions={[
     { icon: '☰', label: 'Menu', onClick: openMenu },
   ]}
@@ -582,8 +589,8 @@ export default () => (
 
 <NavigationBar
   destinations={[
-    { value: 'home', label: 'Home', icon: '🏠' },
-    { value: 'search', label: 'Search', icon: '🔍', badge: 2 },
+    { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+    { value: 'search', label: 'Search', icon: <Icon name="search" />, badge: 2 },
   ]}
 />`,
     variants: [
@@ -608,8 +615,8 @@ export default () => (
 
 <NavigationRail
   destinations={[
-    { value: 'home', label: 'Home', icon: '🏠' },
-    { value: 'browse', label: 'Browse', icon: '📂' },
+    { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+    { value: 'browse', label: 'Browse', icon: <Icon name="folder" /> },
   ]}
   mode="collapsed"
 />`,
@@ -636,7 +643,7 @@ export default () => (
 <NavigationDrawer
   variant="standard"
   sections={[
-    { items: [{ value: 'inbox', label: 'Inbox', icon: '📥' }] },
+    { items: [{ value: 'inbox', label: 'Inbox', icon: <Icon name="inbox" /> }] },
   ]}
 />`,
     variants: [
@@ -701,6 +708,8 @@ export default () => (
   dialog: {
     slug: 'dialog',
     title: 'Dialog',
+    parityNote:
+      'Stable material-web dialog tokens drive layout and elevation; Expressive motion and focus treatments may differ and are listed as adaptations.',
     overview:
       'Dialogs interrupt the user with urgent information or required decisions. Supports alert and full-screen variants.',
     imports: ['Dialog'],
@@ -807,7 +816,7 @@ export default () => (
 
 <Scaffold
   topAppBar={<TopAppBar title="Inbox" />}
-  fab={<FabAnchor><Fab aria-label="Compose" icon="+" /></FabAnchor>}
+  fab={<FabAnchor><Fab aria-label="Compose" icon={<Icon name="edit" />} /></FabAnchor>}
 >
   <main>{children}</main>
 </Scaffold>`,
@@ -876,14 +885,14 @@ export default () => (
     overview:
       'FAB menus expand a floating action button into a list of labeled secondary actions.',
     imports: ['FabMenu'],
-    usageCode: `import { FabMenu } from '@m3ui/react';
+    usageCode: `import { FabMenu, Icon } from '@m3ui/react';
 
 <FabMenu
   aria-label="Create"
-  icon="+"
+  icon={<Icon name="add" />}
   actions={[
-    { label: 'Task', icon: '✓', onClick: createTask },
-    { label: 'Note', icon: '📝', onClick: createNote },
+    { label: 'Task', icon: <Icon name="check" />, onClick: createTask },
+    { label: 'Note', icon: <Icon name="note_add" />, onClick: createNote },
   ]}
 />`,
     variants: [
@@ -1043,4 +1052,9 @@ export const PUBLIC_COMPONENT_SLUGS = Object.keys(COMPONENT_DOCS);
 
 export function getComponentContent(slug: string): ComponentDocContent | undefined {
   return COMPONENT_DOCS[slug];
+}
+
+/** Parity nuance for a component — explicit note or tier-default copy. */
+export function getComponentParityNote(slug: string): string | undefined {
+  return COMPONENT_DOCS[slug]?.parityNote;
 }

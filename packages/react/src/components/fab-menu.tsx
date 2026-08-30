@@ -2,6 +2,7 @@
 import { Button as BaseButton } from '@base-ui/react/button';
 import { AnimatePresence, motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
+import { Icon } from '@m3ui/icons';
 import { MaterialShapes, useMorph, staggerDelay } from '@m3ui/shapes';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
@@ -27,7 +28,7 @@ export interface FabMenuProps {
 
 export function FabMenu({
   icon,
-  closeIcon = '✕',
+  closeIcon = <Icon name="close" />,
   actions,
   'aria-label': ariaLabel,
   disabled = false,
@@ -51,6 +52,7 @@ export function FabMenu({
     flexDirection: 'column',
     alignItems: 'flex-end',
     gap: compVar('fab-menu-baseline', 'list-item-between-space'),
+    minWidth: compVar('fab-menu-baseline', 'close-button-container-width'),
   };
 
   const fabStyle: CSSProperties = {
@@ -70,6 +72,10 @@ export function FabMenu({
   };
 
   const menuContainerStyle: CSSProperties = {
+    position: 'absolute',
+    insetInlineEnd: 0,
+    bottom: `calc(100% + ${compVar('fab-menu-baseline', 'close-button-between-space')})`,
+    zIndex: 3,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
@@ -126,7 +132,7 @@ export function FabMenu({
                   delay: staggerDelay(index) / 1000,
                 }}
               >
-                <Ripple>
+                <Ripple style={{ display: 'inline-flex', borderRadius: compVar('fab-menu-baseline', 'list-item-container-shape') }}>
                   <StateLayer style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
                     <BaseButton
                       type="button"
@@ -149,7 +155,7 @@ export function FabMenu({
         )}
       </AnimatePresence>
 
-      <Ripple disabled={disabled}>
+      <Ripple disabled={disabled} style={{ display: 'inline-flex', borderRadius: compVar('fab-menu-baseline', 'close-button-container-shape') }}>
         <StateLayer disabled={disabled} style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
           <BaseButton
             type="button"

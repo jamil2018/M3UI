@@ -23,7 +23,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "fab-menu-actions",
       "componentSlug": "fab-menu",
       "title": "Labeled actions",
-      "source": "<FabMenu icon=\"+\" actions={actions} />"
+      "source": "<FabMenu icon={<Icon name=\"add\" />} actions={actions} />"
     }
   ],
   "toolbar": [
@@ -40,14 +40,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "adaptive-navigation",
       "title": "Navigation bar mode",
       "description": "Adaptive navigation forced to bottom bar layout.",
-      "source": "const destinations = [\r\n  { value: 'home', label: 'Home', icon: '🏠' },\r\n  { value: 'search', label: 'Search', icon: '🔍', badge: 2 },\r\n  { value: 'settings', label: 'Settings', icon: '⚙️' },\r\n];\r\n\r\n<AdaptiveNavigation destinations={destinations} mode=\"bar\" />"
+      "source": "const destinations = [\r\n  { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n  { value: 'search', label: 'Search', icon: <Icon name=\"search\" />, badge: 2 },\n  { value: 'settings', label: 'Settings', icon: <Icon name=\"settings\" /> },\n];\r\n\r\n<AdaptiveNavigation destinations={destinations} mode=\"bar\" />"
     },
     {
       "id": "adaptive-navigation-demo",
       "componentSlug": "adaptive-navigation",
       "title": "Storybook demo",
       "description": "Same scenario used in the monolithic Storybook catalog.",
-      "source": "<AdaptiveNavigation\r\n  destinations={[\r\n    { value: 'home', label: 'Home', icon: '🏠' },\r\n    { value: 'search', label: 'Search', icon: '🔍' },\r\n    { value: 'settings', label: 'Settings', icon: '⚙️' },\r\n  ]}\r\n  mode=\"bar\"\r\n/>"
+      "source": "<AdaptiveNavigation\r\n  destinations={[\r\n    { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n    { value: 'search', label: 'Search', icon: <Icon name=\"search\" /> },\n    { value: 'settings', label: 'Settings', icon: <Icon name=\"settings\" /> },\n  ]}\r\n  mode=\"bar\"\r\n/>"
     }
   ],
   "button": [
@@ -55,7 +55,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "button-variants",
       "componentSlug": "button",
       "title": "Variants",
-      "description": "Filled, elevated, tonal, outlined, and text button styles.",
+      "description": "Filled, elevated, tonal, outlined, and text styles with interactive state layers.",
       "source": "<div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>\r\n  <Button variant=\"filled\">Filled</Button>\r\n  <Button variant=\"elevated\">Elevated</Button>\r\n  <Button variant=\"filled-tonal\">Tonal</Button>\r\n  <Button variant=\"outlined\">Outlined</Button>\r\n  <Button variant=\"text\">Text</Button>\r\n</div>"
     },
     {
@@ -64,6 +64,20 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "title": "Sizes",
       "description": "Expressive size scale from xs through xl.",
       "source": "<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>\r\n  <Button size=\"xs\">xs</Button>\r\n  <Button size=\"sm\">sm</Button>\r\n  <Button size=\"md\">md</Button>\r\n  <Button size=\"lg\">lg</Button>\r\n  <Button size=\"xl\">xl</Button>\r\n</div>"
+    },
+    {
+      "id": "button-states",
+      "componentSlug": "button",
+      "title": "Disabled",
+      "description": "Disabled state across all variants using semantic disabled tokens.",
+      "source": "<Button variant=\"filled\" disabled>Filled</Button>\r\n<Button variant=\"elevated\" disabled>Elevated</Button>\r\n<Button variant=\"outlined\" disabled>Outlined</Button>"
+    },
+    {
+      "id": "button-icons",
+      "componentSlug": "button",
+      "title": "With icons",
+      "description": "Leading and trailing icons at expressive sizes.",
+      "source": "<Button startIcon={<Icon name=\"add\" />}>Create</Button>\r\n<Button variant=\"outlined\" endIcon={<Icon name=\"open_in_new\" />}>Open</Button>"
     }
   ],
   "card": [
@@ -73,6 +87,13 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "title": "Variants",
       "description": "Elevated, filled, and outlined card surfaces.",
       "source": "<div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>\r\n  <Card variant=\"elevated\" style={{ padding: 16 }}>Elevated</Card>\r\n  <Card variant=\"filled\" style={{ padding: 16 }}>Filled</Card>\r\n  <Card variant=\"outlined\" style={{ padding: 16 }}>Outlined</Card>\r\n</div>"
+    },
+    {
+      "id": "card-elevation",
+      "componentSlug": "card",
+      "title": "Elevation levels",
+      "description": "Semantic elevation from level0 through level5 on Surface.",
+      "source": "<Surface elevation=\"level1\" style={{ padding: 16 }}>level1</Surface>\r\n<Surface elevation=\"level2\" style={{ padding: 16 }}>level2</Surface>\r\n<Surface elevation=\"level3\" style={{ padding: 16 }}>level3</Surface>"
     }
   ],
   "checkbox": [
@@ -114,8 +135,8 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "chip-types",
       "componentSlug": "chip",
       "title": "Chip types",
-      "description": "Assist, filter, and input chips.",
-      "source": "<ChipSet>\\n  <Chip type=\"filter\" label=\"Photos\" />\\n</ChipSet>"
+      "description": "Assist, filter, input, and elevated suggestion chips.",
+      "source": "<ChipSet>\r\n  <Chip type=\"filter\" label=\"Photos\" />\r\n  <Chip type=\"suggestion\" label=\"Weekend\" elevated />\r\n</ChipSet>"
     }
   ],
   "list": [
@@ -197,8 +218,15 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "fab-sizes",
       "componentSlug": "fab",
       "title": "Sizes",
-      "description": "Small, medium, large FABs and extended FAB with label.",
-      "source": "<div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>\r\n  <Fab aria-label=\"Add\" icon=\"+\" size=\"small\" />\r\n  <Fab aria-label=\"Add\" icon=\"+\" size=\"medium\" />\r\n  <Fab aria-label=\"Add\" icon=\"+\" size=\"large\" />\r\n  <ExtendedFab icon=\"+\" label=\"Compose\" />\r\n</div>"
+      "description": "Standard, medium, and large FABs plus the small extended FAB.",
+      "source": "<div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>\r\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"standard\" />\r\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"medium\" />\r\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"large\" />\r\n  <ExtendedFab icon={<Icon name=\"edit\" />} label=\"Compose\" size=\"small\" />\r\n</div>"
+    },
+    {
+      "id": "fab-colors",
+      "componentSlug": "fab",
+      "title": "Color variants",
+      "description": "Expressive tone and container color families.",
+      "source": "<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"primary\" />\r\n<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"secondary\" />\r\n<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"tertiary-container\" />"
     }
   ],
   "progress": [
@@ -232,8 +260,15 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "icon-button-variants",
       "componentSlug": "icon-button",
       "title": "Variants",
-      "description": "Standard, filled, tonal, and outlined icon buttons.",
-      "source": "<div style={{ display: 'flex', gap: 12 }}>\r\n  <IconButton aria-label=\"Standard\" icon=\"★\" variant=\"standard\" />\r\n  <IconButton aria-label=\"Filled\" icon=\"★\" variant=\"filled\" />\r\n  <IconButton aria-label=\"Tonal\" icon=\"★\" variant=\"filled-tonal\" />\r\n  <IconButton aria-label=\"Outlined\" icon=\"★\" variant=\"outlined\" />\r\n</div>"
+      "description": "Standard, filled, tonal, and outlined icon buttons with state layers.",
+      "source": "<div style={{ display: 'flex', gap: 12 }}>\r\n  <IconButton aria-label=\"Standard\" icon={<Icon name=\"favorite\" />} variant=\"standard\" />\r\n  <IconButton aria-label=\"Filled\" icon={<Icon name=\"favorite\" fill={1} />} variant=\"filled\" />\r\n  <IconButton aria-label=\"Tonal\" icon={<Icon name=\"favorite\" />} variant=\"filled-tonal\" />\r\n  <IconButton aria-label=\"Outlined\" icon={<Icon name=\"favorite\" />} variant=\"outlined\" toggle selected />\r\n</div>"
+    },
+    {
+      "id": "icon-button-sizes",
+      "componentSlug": "icon-button",
+      "title": "Sizes",
+      "description": "Expressive size scale from xs through xl.",
+      "source": "<IconButton aria-label=\"Favorite xs\" icon={<Icon name=\"favorite\" />} size=\"xs\" />\r\n<IconButton aria-label=\"Favorite sm\" icon={<Icon name=\"favorite\" />} size=\"sm\" />\r\n<IconButton aria-label=\"Favorite md\" icon={<Icon name=\"favorite\" />} size=\"md\" />\r\n<IconButton aria-label=\"Favorite lg\" icon={<Icon name=\"favorite\" />} size=\"lg\" />\r\n<IconButton aria-label=\"Favorite xl\" icon={<Icon name=\"favorite\" />} size=\"xl\" />"
     }
   ],
   "autocomplete": [
@@ -299,7 +334,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "menu",
       "title": "Basic",
       "description": "Dropdown menu with icons and keyboard shortcuts.",
-      "source": "<Menu trigger={<Button variant=\"outlined\">Open menu</Button>}>\r\n  <MenuItem leadingIcon=\"✎\">Edit</MenuItem>\r\n  <MenuItem shortcut=\"⌘C\">Copy</MenuItem>\r\n  <MenuItem trailingIcon=\"🗑\">Delete</MenuItem>\r\n</Menu>"
+      "source": "<Menu trigger={<Button variant=\"outlined\">Open menu</Button>}>\r\n  <MenuItem leadingIcon={<Icon name=\"edit\" />}>Edit</MenuItem>\r\n  <MenuItem shortcut=\"⌘C\">Copy</MenuItem>\r\n  <MenuItem trailingIcon={<Icon name=\"delete\" />}>Delete</MenuItem>\r\n</Menu>"
     }
   ],
   "navigation-bar": [
@@ -308,7 +343,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "navigation-bar",
       "title": "Destinations",
       "description": "Bottom navigation bar with badges on destinations.",
-      "source": "<NavigationBar\r\n  destinations={[\r\n    { value: 'home', label: 'Home', icon: '🏠' },\r\n    { value: 'search', label: 'Search', icon: '🔍', badge: 3 },\r\n    { value: 'library', label: 'Library', icon: '📚' },\r\n  ]}\r\n  defaultValue=\"home\"\r\n/>"
+      "source": "<NavigationBar\r\n  destinations={[\r\n    { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n    { value: 'search', label: 'Search', icon: <Icon name=\"search\" />, badge: 3 },\n    { value: 'library', label: 'Library', icon: <Icon name=\"photo_library\" /> },\n  ]}\r\n  defaultValue=\"home\"\r\n/>"
     }
   ],
   "top-app-bar": [
@@ -316,7 +351,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "top-app-bar-medium",
       "componentSlug": "top-app-bar",
       "title": "Medium flexible",
-      "source": "<TopAppBar title=\"Photos\" trailing={<IconButton icon=\"🔍\" />} />"
+      "source": "<TopAppBar title=\"Photos\" trailing={<IconButton icon={<Icon name=\"search\" />} />} />"
     }
   ],
   "bottom-app-bar": [
@@ -324,7 +359,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "id": "bottom-app-bar-fab",
       "componentSlug": "bottom-app-bar",
       "title": "With FAB",
-      "source": "<BottomAppBar fab={<Fab icon=\"+\" />} actions={...} />"
+      "source": "<BottomAppBar fab={<Fab icon={<Icon name=\"add\" />} size=\"standard\" />} actions={...} />"
     }
   ],
   "navigation-rail": [

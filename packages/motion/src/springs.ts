@@ -1,3 +1,5 @@
+import { CSS_MOTION } from './easing.js';
+
 /** M3 spring tokens converted to Motion format (damping = ratio * 2 * sqrt(stiffness * mass)) */
 export const springs = {
   fastSpatial: { type: 'spring' as const, stiffness: 800, damping: 33.9, mass: 1 },
@@ -17,11 +19,12 @@ export type EffectsSpring = keyof Pick<
   'fastEffects' | 'defaultEffects' | 'slowEffects'
 >;
 
-/** CSS cubic-bezier fallbacks for cheap state transitions */
+
+/** CSS cubic-bezier fallbacks for cheap state transitions — token-aligned easing/duration vars */
 export const cssTransitions = {
-  standard: 'opacity var(--md-sys-motion-duration-short2, 100ms) var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1))',
-  emphasized: 'opacity var(--md-sys-motion-duration-short4, 200ms) var(--md-sys-motion-easing-emphasized, cubic-bezier(0.2, 0, 0, 1))',
-  stateLayer: 'opacity var(--md-sys-motion-duration-short2, 100ms) var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1))',
+  standard: `opacity ${CSS_MOTION.duration.short2} ${CSS_MOTION.easing.standard}`,
+  emphasized: `opacity ${CSS_MOTION.duration.short4} ${CSS_MOTION.easing.emphasized}`,
+  stateLayer: `opacity ${CSS_MOTION.duration.short2} ${CSS_MOTION.easing.standard}`,
 } as const;
 
 /** Preset transition configs */
@@ -38,7 +41,26 @@ export const presets = {
     enter: springs.defaultEffects,
     exit: springs.fastEffects,
   },
+  enter: { opacity: springs.defaultEffects, transform: springs.defaultSpatial },
+  exit: { opacity: springs.fastEffects, transform: springs.fastSpatial },
+  emphasized: { enter: springs.slowSpatial, exit: springs.fastSpatial },
+  selection: { enter: springs.fastSpatial, exit: springs.fastEffects },
+  press: { enter: springs.fastSpatial, exit: springs.defaultSpatial },
+  containerTransform: { enter: springs.slowSpatial, exit: springs.defaultSpatial },
 } as const;
+
+export const semanticTransitions = {
+  spatial: presets.spatial,
+  effects: presets.effects,
+  enter: presets.enter,
+  exit: presets.exit,
+  emphasized: presets.emphasized,
+  selection: presets.selection,
+  press: presets.press,
+  containerTransform: presets.containerTransform,
+} as const;
+
+export type SemanticTransition = keyof typeof semanticTransitions;
 
 /** Reduced motion: instant transitions */
 export const reducedMotionTransition = {

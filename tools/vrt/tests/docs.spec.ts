@@ -24,3 +24,16 @@ test('docs button page has live preview', async ({ page }) => {
     docContent(page, 'main.doc-page').getByRole('button', { name: 'Filled', exact: true }),
   ).toBeVisible();
 });
+
+for (const viewport of [
+  { name: 'mobile', width: 390, height: 844 },
+  { name: 'tablet', width: 768, height: 1024 },
+  { name: 'desktop', width: 1280, height: 900 },
+] as const) {
+  test(`docs responsive shell: ${viewport.name}`, async ({ page }) => {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    await page.goto('/components');
+    await expect(page.getByRole('heading', { name: 'Components', level: 1 })).toBeVisible();
+    await expect(page.locator('main')).toHaveScreenshot(`components-${viewport.name}.png`);
+  });
+}

@@ -2,6 +2,7 @@
 import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete';
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { type CSSProperties, type ReactNode, useState } from 'react';
+import { Icon } from '@m3ui/icons';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import { IconButton } from './icon-button.js';
 import { PopupMotion } from '../lib/popup-motion.js';
@@ -46,7 +47,7 @@ export function SearchBar({
     background: compVar('search-bar', 'container-color'),
     borderRadius: compVar('search-bar', 'container-shape'),
     boxShadow: elevationShadow('level3'),
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
     width: '100%',
   };
 
@@ -70,10 +71,10 @@ export function SearchBar({
       <div style={barStyle}>
         {avatar}
         <span style={{ color: compVar('search-bar', 'leading-icon-color') }} aria-hidden>
-          🔍
+          <Icon name="search" />
         </span>
         <BaseAutocomplete.Input placeholder={placeholder} style={inputStyle} onKeyDown={(e) => e.key === 'Enter' && onSearch?.((e.target as HTMLInputElement).value)} />
-        <IconButton aria-label="Search" icon="→" variant="standard" size="sm" onClick={() => onSearch?.(value ?? defaultValue)} />
+        <IconButton aria-label="Search" icon={<Icon name="arrow_forward" />} variant="standard" size="sm" onClick={() => onSearch?.(value ?? defaultValue)} />
       </div>
       {suggestions.length > 0 && (
         <BaseAutocomplete.Portal>
@@ -85,9 +86,9 @@ export function SearchBar({
                   borderRadius: compVar('menu', 'container-shape'),
                   boxShadow: elevationShadow('level2'),
                   padding: compVar('list', 'item-top-space'),
-                  maxHeight: 280,
+                  maxHeight: compVar('search-bar', 'container-height'),
                   overflow: 'auto',
-                  minWidth: 280,
+                  minWidth: compVar('search-bar', 'container-height'),
                 }}
               >
                 {suggestions.map((s) => (
@@ -150,7 +151,7 @@ export function SearchView({
     borderRadius: fullScreen ? compVar('search-view', 'full-screen-container-shape') : compVar('search-view', 'docked-container-shape'),
     boxShadow: elevationShadow('level3'),
     width: fullScreen ? '100vw' : '100%',
-    maxWidth: fullScreen ? '100vw' : 560,
+    maxWidth: fullScreen ? '100vw' : compVar('search-view', 'docked-header-container-height'),
     maxHeight: fullScreen ? '100vh' : '80vh',
     display: 'flex',
     flexDirection: 'column',
@@ -174,7 +175,7 @@ export function SearchView({
             }}
           >
             <BaseDialog.Close aria-label="Close search" style={{ background: 'none', border: 'none', cursor: 'pointer', color: compVar('search-view', 'header-leading-icon-color') }}>
-              ←
+              <Icon name="arrow_back" />
             </BaseDialog.Close>
             <input
               value={query}

@@ -4,7 +4,7 @@ Budgets are enforced in CI via `pnpm size:check` after build. Values are **minif
 
 | Package | Entry | Budget | Notes |
 |---------|-------|--------|-------|
-| `@m3ui/react` | `index.js` | 200 KB | Full component library entry |
+| `@m3ui/react` | `index.js` | 210 KB | Full component library entry, including typed conformance metadata |
 | `@m3ui/react` | `m3-provider-*.js` | 10 KB | M3Provider + theme chunk |
 | `@m3ui/react` | `primitives-*.js` | 10 KB | StateLayer, Ripple, Surface |
 | `@m3ui/tokens` | `index.js` | 110 KB | Generated token maps + CSS imports |
@@ -28,6 +28,7 @@ Registry installs copy single-component files via shadcn CLI for maximum tree-sh
 ```bash
 pnpm build
 pnpm size:check
+pnpm parity:gates               # spec sync + parity + bundle (see docs/PARITY-SYNC.md)
 ```
 
 To update budgets after intentional size changes, edit `tools/bundle-budget/check.ts` and this table together in the same PR.

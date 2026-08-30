@@ -18,6 +18,12 @@ import type {
 
   DocsCatalogManifest,
 
+  ComponentConformance,
+
+  ConformanceSource,
+
+  ConformanceStatus,
+
 } from '../../../../packages/react/src/catalog/types';
 
 
@@ -37,6 +43,12 @@ export type {
   DocsCatalogEntry,
 
   DocsCatalogManifest,
+
+  ComponentConformance,
+
+  ConformanceSource,
+
+  ConformanceStatus,
 
 };
 
@@ -136,6 +148,18 @@ const STATIC_PAGES: NavPage[] = [
 
   },
 
+  { slug: 'color', title: 'Color', description: 'Dynamic color roles and contrast.', href: '/foundations/color', category: 'foundations' },
+
+  { slug: 'typography', title: 'Typography', description: 'Type scale and emphasized roles.', href: '/foundations/typography', category: 'foundations' },
+
+  { slug: 'motion', title: 'Motion', description: 'Semantic Expressive transitions.', href: '/foundations/motion', category: 'foundations' },
+
+  { slug: 'elevation', title: 'Elevation', description: 'Surface hierarchy and tint.', href: '/foundations/elevation', category: 'foundations' },
+
+  { slug: 'accessibility', title: 'Accessibility', description: 'Inclusive interaction requirements.', href: '/foundations/accessibility', category: 'foundations' },
+
+  { slug: 'parity', title: 'Material Web Parity', description: 'Tier A/B/C reference model and parity gates.', href: '/foundations/parity', category: 'foundations' },
+
   {
 
     slug: 'rsc',
@@ -149,6 +173,10 @@ const STATIC_PAGES: NavPage[] = [
     category: 'guides',
 
   },
+
+  { slug: 'adaptive-layouts', title: 'Adaptive Layouts', description: 'Responsive navigation and panes.', href: '/patterns/adaptive-layouts', category: 'guides' },
+
+  { slug: 'expressive-v1', title: 'Expressive Migration', description: 'Major-version migration notes.', href: '/migration/expressive-v1', category: 'guides' },
 
 ];
 
@@ -208,7 +236,7 @@ function registryFallbackPages(): NavPage[] {
 
     href: `/components/${item.name}`,
 
-    category: 'actions' as CatalogCategory,
+    category: 'actions',
 
     status: item.name === 'placeholder-button' ? 'internal' : 'stable',
 
@@ -265,6 +293,34 @@ export function getPublicCatalogEntries(): ComponentCatalogEntry[] {
       related: [],
 
       docs: { route: true, publicIndex: true },
+
+      conformance: {
+
+        version: '1.0',
+
+        status: 'in-progress',
+
+        sources: ['material-tokens'],
+
+        variants: ['default'],
+
+        sizes: ['default'],
+
+        states: ['rest'],
+
+        responsive: false,
+
+        rtl: false,
+
+        reducedMotion: false,
+
+        forcedColors: false,
+
+        tokenPrefixes: [],
+
+        adaptations: [],
+
+      },
 
     }));
 

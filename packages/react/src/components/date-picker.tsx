@@ -4,6 +4,7 @@ import { Popover as BasePopover } from '@base-ui/react/popover';
 import { CalendarDate } from '@internationalized/date';
 import { motion, AnimatePresence } from 'motion/react';
 import { springs } from '@m3ui/motion';
+import { Icon } from '@m3ui/icons';
 import {
   useCallback,
   useMemo,
@@ -141,7 +142,7 @@ function CalendarGrid({
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: compVar('list', 'divider-leading-space') }}>
         <IconButton
           aria-label={prevMonth}
-          icon="‹"
+          icon={<Icon name="chevron_left" />}
           variant="standard"
           onClick={() => { setState({ ...state, focused: navigateMonth(focused, -1) }); }}
         />
@@ -150,7 +151,7 @@ function CalendarGrid({
         </span>
         <IconButton
           aria-label={nextMonth}
-          icon="›"
+          icon={<Icon name="chevron_right" />}
           variant="standard"
           onClick={() => { setState({ ...state, focused: navigateMonth(focused, 1) }); }}
         />
@@ -159,8 +160,8 @@ function CalendarGrid({
         {monthGrids.map((grid, gi) => (
           <div key={gi} style={{ flex: 1 }}>
             <div role="row" style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 2, marginBottom: 4 }}>
-              {weekdays.map((wd) => (
-                <div key={wd} role="columnheader" style={{ ...typeStyle('body-large'), textAlign: 'center', color: compVar('date-picker-modal', 'weekdays-label-text-color') }}>
+              {weekdays.map((wd, weekdayIndex) => (
+                <div key={`${String(weekdayIndex)}-${wd}`} role="columnheader" style={{ ...typeStyle('body-large'), textAlign: 'center', color: compVar('date-picker-modal', 'weekdays-label-text-color') }}>
                   {wd}
                 </div>
               ))}

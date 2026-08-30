@@ -1,8 +1,9 @@
 
 import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';
 import { motion, useScroll, useTransform } from 'motion/react';
+import { Icon } from '@m3ui/icons';
 import { useEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from 'react';
-import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
+import { compVar, compElevation, typeStyle } from '../lib/token-utils.js';
 import { useRegisterInset } from '../lib/inset-context.js';
 import { IconButton } from './icon-button.js';
 
@@ -92,10 +93,11 @@ export function TopAppBar({
     height: staticHeight,
     paddingInlineStart: compVar('app-bar', 'leading-space'),
     paddingInlineEnd: compVar('app-bar', 'trailing-space'),
+    borderRadius: compVar('app-bar', 'container-shape'),
     background: elevated
       ? compVar('app-bar', 'on-scroll-container-color')
       : compVar('app-bar', 'container-color'),
-    boxShadow: elevated ? elevationShadow('level2') : elevationShadow('level0'),
+    boxShadow: elevated ? compElevation('app-bar', 'on-scroll-container-elevation') : compElevation('app-bar'),
     color: compVar('app-bar', 'title-color'),
     overflow: 'hidden',
   };
@@ -135,7 +137,7 @@ export function TopAppBar({
     >
       <div style={rowStyle}>
         {onBack && (
-          <IconButton aria-label="Navigate back" icon="←" variant="standard" size="md" onClick={onBack} />
+          <IconButton aria-label="Navigate back" icon={<Icon name="arrow_back" />} variant="standard" size="md" onClick={onBack} />
         )}
         {leading}
         <motion.div style={{ flex: 1, minWidth: 0, scale: flexible ? titleScale : 1 }}>

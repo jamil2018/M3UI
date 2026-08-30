@@ -5,6 +5,11 @@ import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+const CLIENT_INTERACTION_PRIMITIVES = [
+  '../primitives/ripple.tsx',
+  '../primitives/focus-ring.tsx',
+] as const;
+
 describe('RSC client boundary audit', () => {
   it('tsdown config sets use client banner on all react bundles', () => {
     const config = readFileSync(join(__dirname, '../../tsdown.config.ts'), 'utf-8');
@@ -33,5 +38,27 @@ describe('RSC client boundary audit', () => {
     expect(provider).toMatch(/window|matchMedia|useEffect/);
     const wsc = readFileSync(join(__dirname, '../lib/window-size-class.tsx'), 'utf-8');
     expect(wsc).toContain('useEffect');
+  });
+
+  it('primitives barrel exports ripple and focus-ring for client-only interaction layers', () => {
+    const barrel = readFileSync(join(__dirname, '../primitives/index.ts'), 'utf-8');
+    expect(barrel).toContain("export { Ripple }");
+    expect(barrel).toContain("export { FocusRing }");
+    expect(barrel).toContain('StateLayer');
+    expect(barrel).toContain('STATE_LAYER_OPACITIES');
+  });
+
+  it.each(CLIENT_INTERACTION_PRIMITIVES)('%s uses client-only browser APIs', (relPath) => {
+    const src = readFileSync(join(__dirname, relPath), 'utf-8');
+    expect(src).toMatch(/useEffect|useState|useRef|useCallback/);
+    expect(src).toMatch(/document|addEventListener|matchMedia/);
+  });
+
+  it('ripple and focus-ring inject singleton styles guarded for SSR', () => {
+    for (const file of ['../primitives/ripple.tsx', '../primitives/focus-ring.tsx']) {
+      const src = readFileSync(join(__dirname, file), 'utf-8');
+      expect(src).toContain("typeof document === 'undefined'");
+      expect(src).toContain('document.head.appendChild');
+    }
   });
 });

@@ -2,6 +2,7 @@ import { getExampleMetadataForSlug } from '@m3ui/examples/metadata';
 import type { DocExampleConfig } from '@/components/doc/types';
 import { getComponentContent, PUBLIC_COMPONENT_SLUGS } from '@/content/components';
 import type { ContentCoverage } from '@/content/types';
+import { getParityTier } from '@/lib/parity-tiers';
 
 /** Slugs with a local docs demo module in `apps/docs/src/demos` */
 const DEMO_SLUGS = new Set([
@@ -73,15 +74,18 @@ export function getCoverageReport(): {
   minimal: number;
   sharedExamples: number;
   withDemo: number;
+  byParityTier: { A: number; B: number; C: number };
 } {
   let full = 0;
   let sharedExamples = 0;
   let withDemo = 0;
+  const byParityTier = { A: 0, B: 0, C: 0 };
 
   for (const slug of PUBLIC_COMPONENT_SLUGS) {
     if (getContentCoverage(slug) === 'full') full += 1;
     if (getExampleMetadataForSlug(slug).length > 0) sharedExamples += 1;
     if (DEMO_SLUGS.has(slug)) withDemo += 1;
+    byParityTier[getParityTier(slug).tier] += 1;
   }
 
   return {
@@ -90,10 +94,11 @@ export function getCoverageReport(): {
     minimal: PUBLIC_COMPONENT_SLUGS.length - full,
     sharedExamples,
     withDemo,
+    byParityTier,
   };
 }
 
-export async function getSharedExamples(slug: string): Promise<DocExampleConfig[] | null> {
+export function getSharedExamples(slug: string): DocExampleConfig[] | null {
   const examples = getExampleMetadataForSlug(slug);
   if (examples.length === 0) return null;
   return examples.map(({ id, title, description, source }) => ({

@@ -1,6 +1,6 @@
 
 import { type CSSProperties, type ReactNode } from 'react';
-import { compVar, elevationShadow } from '../lib/token-utils.js';
+import { compVar, compElevation } from '../lib/token-utils.js';
 import { StateLayer } from '../primitives/state-layer.js';
 import { Ripple } from '../primitives/ripple.js';
 
@@ -23,6 +23,30 @@ const CARD_PREFIX: Record<CardVariant, string> = {
   outlined: 'outlined-card',
 };
 
+const CARD_SHAPE: Record<CardVariant, string> = {
+  elevated: compVar('elevated-card', 'container-shape'),
+  filled: compVar('filled-card', 'container-shape'),
+  outlined: compVar('outlined-card', 'container-shape'),
+};
+
+const CARD_SHADOW: Record<CardVariant, string> = {
+  elevated: compVar('elevated-card', 'container-shadow-color'),
+  filled: compVar('filled-card', 'container-shadow-color'),
+  outlined: compVar('outlined-card', 'container-shadow-color'),
+};
+
+const CARD_ELEVATION: Record<CardVariant, string> = {
+  elevated: compElevation('elevated-card'),
+  filled: compElevation('filled-card'),
+  outlined: compElevation('outlined-card'),
+};
+
+const CARD_COLOR: Record<CardVariant, string> = {
+  elevated: compVar('elevated-card', 'container-color'),
+  filled: compVar('filled-card', 'container-color'),
+  outlined: compVar('outlined-card', 'container-color'),
+};
+
 export function Card({
   children,
   variant = 'elevated',
@@ -33,13 +57,12 @@ export function Card({
   style,
   'data-testid': testId,
 }: CardProps) {
-  const p = CARD_PREFIX[variant];
-
   const cardStyle: CSSProperties = {
     position: 'relative',
-    borderRadius: compVar(p, 'container-shape'),
-    background: compVar(p, 'container-color'),
-    boxShadow: variant === 'elevated' ? elevationShadow('level1') : elevationShadow('level0'),
+    borderRadius: CARD_SHAPE[variant],
+    background: CARD_COLOR[variant],
+    boxShadow: CARD_ELEVATION[variant],
+    ['--card-shadow-color' as string]: CARD_SHADOW[variant],
     border:
       variant === 'outlined'
         ? `${compVar('outlined-card', 'outline-width')} solid ${compVar('outlined-card', 'outline-color')}`

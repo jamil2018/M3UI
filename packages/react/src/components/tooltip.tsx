@@ -4,7 +4,7 @@ import { PreviewCard as BasePreviewCard } from '@base-ui/react/preview-card';
 import { motion } from 'motion/react';
 import { presets } from '@m3ui/motion';
 import { type CSSProperties, type ReactElement, type ReactNode, isValidElement } from 'react';
-import { compVar, typeStyle } from '../lib/token-utils.js';
+import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 
 export interface TooltipProps {
   trigger: ReactNode;
@@ -21,7 +21,7 @@ export function Tooltip({ trigger, content, className, 'data-testid': testId }: 
     paddingInline: compVar('plain-tooltip', 'leading-space'),
     paddingBlock: compVar('plain-tooltip', 'top-space'),
     borderRadius: compVar('plain-tooltip', 'container-shape'),
-    boxShadow: `0 var(--md-sys-elevation-level1) calc(var(--md-sys-elevation-level1) * 2) rgba(0, 0, 0, var(--md-sys-elevation-level1-shadow-opacity))`,
+    boxShadow: elevationShadow('level1'),
     maxWidth: compVar('plain-tooltip', 'container-width'),
   };
 
@@ -68,24 +68,25 @@ export function RichTooltip({
   'data-testid': testId,
 }: RichTooltipProps) {
   const popupStyle: CSSProperties = {
-    background: 'var(--md-sys-color-surface-container)',
-    color: 'var(--md-sys-color-on-surface)',
-    borderRadius: compVar('elevated-card', 'container-shape'),
-    boxShadow: `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) rgba(0, 0, 0, var(--md-sys-elevation-level2-shadow-opacity))`,
+    background: compVar('rich-tooltip', 'container-color'),
+    color: compVar('rich-tooltip', 'subhead-color'),
+    borderRadius: compVar('rich-tooltip', 'container-shape'),
+    boxShadow: elevationShadow('level2'),
     overflow: 'hidden',
     maxWidth: compVar('plain-tooltip', 'container-width'),
   };
 
   const titleStyle: CSSProperties = {
     ...typeStyle('title-small'),
+    color: compVar('rich-tooltip', 'subhead-color'),
     padding: compVar('list', 'divider-leading-space'),
   };
 
   const descStyle: CSSProperties = {
     ...typeStyle('body-medium'),
+    color: compVar('rich-tooltip', 'supporting-text-color'),
     padding: compVar('list', 'divider-leading-space'),
     paddingTop: 0,
-    opacity: 0.8,
   };
 
   const triggerElement = isValidElement(trigger) ? (trigger as ReactElement) : <span>{trigger}</span>;

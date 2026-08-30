@@ -26,7 +26,12 @@ export function CodeBlock({ code, language = 'tsx', copyLabel = 'Copy code' }: C
     <div className="doc-code-block" data-language={language}>
       <div className="doc-code-block-toolbar">
         <span className="doc-code-block-lang">{language}</span>
-        <button type="button" className="doc-copy-button" onClick={handleCopy} aria-live="polite">
+        <button
+          type="button"
+          className="doc-copy-button"
+          onClick={() => void handleCopy()}
+          aria-live="polite"
+        >
           {copied ? 'Copied' : copyLabel}
         </button>
       </div>
