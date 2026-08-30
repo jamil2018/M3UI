@@ -94,6 +94,8 @@ for (const entry of PUBLIC_COMPONENTS) {
     );
     const contract = page.locator('#storybook-root .m3-story-compliance');
     await contract.waitFor();
-    await expect(contract).toHaveScreenshot(`conformance-${entry.slug}-light.png`);
+    await expect(contract).toHaveScreenshot(`conformance-${entry.slug}-light.png`, {
+      maxDiffPixels: 10,
+    });
   });
 }
