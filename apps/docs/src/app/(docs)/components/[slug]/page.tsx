@@ -1,11 +1,11 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { DynamicComponentDoc } from '@/components/dynamic-component-doc';
 import { PlaceholderButtonDocPage } from '@/content/placeholder-button-doc';
 import { ShapesDocPage } from '@/content/shapes-doc';
 import { getComponentContent } from '@/content/components';
 import { getCatalogEntry, getRoutableCatalogSlugs } from '@/lib/catalog';
-import { buildDocPageConfig } from '@/lib/content-config';
+import { buildDocPageConfig } from '@/lib/content-config.server';
 
 interface ComponentPageProps {
   params: Promise<{ slug: string }>;
@@ -51,3 +51,4 @@ export default async function ComponentPage({ params }: ComponentPageProps) {
   const config = buildDocPageConfig(slug, content);
   return <DynamicComponentDoc slug={slug} config={config} />;
 }
+

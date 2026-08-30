@@ -1,5 +1,4 @@
-import type { ComponentContentConfig } from '@/components/doc/types';
-import { mergePropDefinitions, extractPropsFromSource } from '@/lib/extract-props';
+﻿import type { ComponentContentConfig } from '@/components/doc/types';
 
 const buttonPreviewCode = `import { Button } from '@m3ui/react';
 
@@ -27,7 +26,7 @@ export function App() {
   );
 }`;
 
-/** Serializable button docs content — consumed by the reference page and content agent */
+/** Serializable button docs content â€” consumed by the reference page and content agent */
 export const buttonContent: ComponentContentConfig = {
   slug: 'button',
   title: 'Button',
@@ -54,7 +53,7 @@ export const buttonContent: ComponentContentConfig = {
       code: `<Button disabled>Unavailable</Button>`,
     },
   ],
-  props: mergePropDefinitions(extractPropsFromSource('button'), [
+  props: [
     {
       name: 'variant',
       type: "'elevated' | 'filled' | 'filled-tonal' | 'outlined' | 'text'",
@@ -73,7 +72,7 @@ export const buttonContent: ComponentContentConfig = {
       default: "'round'",
       description: 'Corner shape; press morph uses expressive Material shapes.',
     },
-  ]),
+  ],
   accessibility: {
     summary: 'Button renders a native button via Base UI with an accessible name from children.',
     items: [
@@ -91,3 +90,4 @@ export const buttonContent: ComponentContentConfig = {
 };
 
 export type { ComponentContentConfig };
+
