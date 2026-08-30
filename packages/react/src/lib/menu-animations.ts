@@ -54,6 +54,7 @@ export function createMenuOpenAnimations(
   for (let i = 0; i < items.length; i++) {
     const directionalIndex = openingUpwards ? items.length - 1 - i : i;
     const child = items[directionalIndex];
+    if (!child) continue;
     child.classList.add('m3-menu-item-hidden');
     const animation = child.animate([{ opacity: 0 }, { opacity: 1 }], {
       duration: ITEM_OPACITY_DURATION,
@@ -132,6 +133,7 @@ export function createMenuCloseAnimations(
   for (let i = 0; i < items.length; i++) {
     const directionalIndex = closingDownwards ? i : items.length - 1 - i;
     const child = items[directionalIndex];
+    if (!child) continue;
     const animation = child.animate([{ opacity: 1 }, { opacity: 0 }], {
       duration: ITEM_OPACITY_DURATION,
       delay: ITEM_OPACITY_INITIAL_DELAY + DELAY_BETWEEN_ITEMS * i,

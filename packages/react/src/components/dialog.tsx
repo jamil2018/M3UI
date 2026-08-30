@@ -39,11 +39,11 @@ const dialogPopupStyle: CSSProperties = {
 };
 
 interface DialogWaapiShellRenderProps {
-  scrimRef: RefObject<HTMLElement | null>;
-  popupRef: Ref<HTMLElement>;
+  scrimRef: RefObject<HTMLDivElement | null>;
+  popupRef: Ref<HTMLDivElement>;
   containerRef: RefObject<HTMLDivElement | null>;
-  headlineRef: RefObject<HTMLElement | null>;
-  contentRef: RefObject<HTMLElement | null>;
+  headlineRef: RefObject<HTMLHeadingElement | null>;
+  contentRef: RefObject<HTMLParagraphElement | null>;
   actionsRef: RefObject<HTMLDivElement | null>;
   className?: string;
   testId?: string;
