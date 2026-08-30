@@ -1,7 +1,7 @@
 
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog';
-import { type CSSProperties, type ReactNode } from 'react';
+import { type CSSProperties, type ReactNode, type Ref, type RefObject } from 'react';
 import { Icon } from '@m3ui/icons';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import {
@@ -38,13 +38,25 @@ const dialogPopupStyle: CSSProperties = {
   width: `calc(100% - calc(${dialogInset} * 2))`,
 };
 
+interface DialogWaapiShellRenderProps {
+  scrimRef: RefObject<HTMLElement | null>;
+  popupRef: Ref<HTMLElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
+  headlineRef: RefObject<HTMLElement | null>;
+  contentRef: RefObject<HTMLElement | null>;
+  actionsRef: RefObject<HTMLDivElement | null>;
+  className?: string;
+  testId?: string;
+  popupStyle: CSSProperties;
+}
+
 function DialogWaapiShell({
   children,
   className,
   testId,
   popupStyle = dialogPopupStyle,
 }: {
-  children: ReactNode;
+  children: (props: DialogWaapiShellRenderProps) => ReactNode;
   className?: string;
   testId?: string;
   popupStyle?: CSSProperties;
@@ -101,7 +113,7 @@ export function Dialog({
                 render={(props) => (
                   <div
                     {...props}
-                    ref={composeRefs(props.ref, scrimRef)}
+                    ref={composeRefs(props.ref as Ref<HTMLDivElement> | undefined, scrimRef)}
                     style={{
                       ...props.style,
                       position: 'fixed',
@@ -218,7 +230,7 @@ export function AlertDialog({
                 render={(props) => (
                   <div
                     {...props}
-                    ref={composeRefs(props.ref, scrimRef)}
+                    ref={composeRefs(props.ref as Ref<HTMLDivElement> | undefined, scrimRef)}
                     style={{
                       ...props.style,
                       position: 'fixed',

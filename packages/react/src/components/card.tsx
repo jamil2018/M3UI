@@ -17,12 +17,6 @@ export interface CardProps {
   'data-testid'?: string;
 }
 
-const CARD_PREFIX: Record<CardVariant, string> = {
-  elevated: 'elevated-card',
-  filled: 'filled-card',
-  outlined: 'outlined-card',
-};
-
 const CARD_SHAPE: Record<CardVariant, string> = {
   elevated: compVar('elevated-card', 'container-shape'),
   filled: compVar('filled-card', 'container-shape'),

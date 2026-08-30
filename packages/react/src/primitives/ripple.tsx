@@ -249,7 +249,7 @@ export function Ripple({ children, color, disabled = false, className, style }: 
     if (typeof animation?.currentTime === 'number') {
       pressAnimationPlayState = animation.currentTime;
     } else if (animation?.currentTime && typeof animation.currentTime === 'object') {
-      pressAnimationPlayState = (animation.currentTime as CSSNumericValue).to('ms').value;
+      pressAnimationPlayState = animation.currentTime.to('ms').value;
     }
     if (pressAnimationPlayState >= MINIMUM_PRESS_MS) {
       setPressed(false);
