@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /**
- * Bundle size budget checker — run after `pnpm build`.
+ * Bundle size budget checker â€” run after `pnpm build`.
  * Fails CI when any package exceeds its byte budget (minified ESM, pre-gzip).
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '../..');
 
-/** Per-package entry file budgets (raw bytes — minified ESM) */
+/** Per-package entry file budgets (raw bytes â€” minified ESM) */
 export const BUNDLE_BUDGETS: Record<string, { path: string; maxKb: number; label: string }[]> = {
   '@m3ui/react': [
     { path: 'packages/react/dist/index.js', maxKb: 275, label: 'main entry' },
