@@ -427,10 +427,12 @@ function propertyNameToKebab(name: string): string {
 
 function resolveTokenValue(value: string): string {
   const dpMatch = /^(\d+(?:\.\d+)?)\.dp$/.exec(value);
-  if (dpMatch) return `${parseFloat(dpMatch[1])}px`;
+  const dp = dpMatch?.[1];
+  if (dp != null) return `${parseFloat(dp)}px`;
 
   const spMatch = /^(\d+(?:\.\d+)?)\.sp$/.exec(value);
-  if (spMatch) return `${parseFloat(spMatch[1])}px`;
+  const sp = spMatch?.[1];
+  if (sp != null) return `${parseFloat(sp)}px`;
 
   if (value.startsWith('Corner')) {
     const cornerKey = value.replace(/^Corner/, 'corner');
