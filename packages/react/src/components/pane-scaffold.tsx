@@ -1,6 +1,7 @@
 
 import { motion, AnimatePresence } from 'motion/react';
 import { springs } from '@m3ui/motion';
+import { Icon } from '@m3ui/icons';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar } from '../lib/token-utils.js';
 import { useM3Message } from '../lib/i18n.js';
@@ -107,7 +108,7 @@ export function PaneScaffold({
             data-testid="pane-detail"
           >
             {isCompact && (
-              <IconButton aria-label={backLabel} icon="←" variant="standard" onClick={handleBack} data-testid="pane-back" />
+              <IconButton aria-label={backLabel} icon={<Icon name="arrow_back" />} variant="standard" onClick={handleBack} data-testid="pane-back" />
             )}
             {detailTitle && (
               <div style={{ padding: compVar('list', 'divider-leading-space'), fontWeight: 500 }}>{detailTitle}</div>

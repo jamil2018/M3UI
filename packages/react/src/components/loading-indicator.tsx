@@ -17,16 +17,18 @@ const SHAPE_CLIP_PATHS = LoadingIndicatorShapes.map((poly) => cubicsToClipPath(p
 
 export function LoadingIndicator({
   contained = false,
-  size = 48,
+  size,
   className,
   'data-testid': testId,
 }: LoadingIndicatorProps) {
   const reduced = prefersReducedMotion();
 
   const shapeStyle: CSSProperties = {
-    width: size,
-    height: size,
-    background: compVar('progress-indicator', 'active-indicator-color'),
+    width: size ?? compVar('loading-indicator', 'active-size'),
+    height: size ?? compVar('loading-indicator', 'active-size'),
+    background: contained
+      ? compVar('loading-indicator', 'contained-active-color')
+      : compVar('loading-indicator', 'active-indicator-color'),
   };
 
   const wrapperStyle: CSSProperties = contained
@@ -34,10 +36,10 @@ export function LoadingIndicator({
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: compVar('list', 'item-between-space'),
-        borderRadius: compVar('menu', 'container-shape'),
-        background: compVar('menu', 'container-color'),
-        boxShadow: `0 var(--md-sys-elevation-level1) calc(var(--md-sys-elevation-level1) * 2) rgba(0, 0, 0, var(--md-sys-elevation-level1-shadow-opacity))`,
+        width: compVar('loading-indicator', 'container-width'),
+        height: compVar('loading-indicator', 'container-height'),
+        borderRadius: compVar('loading-indicator', 'container-shape'),
+        background: compVar('loading-indicator', 'contained-container-color'),
       }
     : { display: 'inline-flex' };
 

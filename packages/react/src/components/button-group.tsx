@@ -83,7 +83,7 @@ export function ButtonGroup({
         return (
           <motion.div
             key={index}
-            style={{ display: 'flex', flex: `${flex} 1 0%`, minWidth: 0 }}
+            style={{ display: 'flex', flex: `${flex} 1 0%`, minWidth: 0, borderRadius: tokens.shape }}
             animate={{ flexGrow: flex }}
             transition={springs.fastSpatial}
             onPointerDown={() => { setPressedIndex(index); }}
@@ -123,12 +123,12 @@ export function ButtonGroupItem({
     border: 'none',
     borderRadius: 'inherit',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
   };
 
   return (
-    <Ripple disabled={disabled}>
-      <StateLayer disabled={disabled} style={{ display: 'flex', width: '100%' }}>
+    <Ripple disabled={disabled} style={{ display: 'flex', width: '100%', borderRadius: 'inherit' }}>
+      <StateLayer disabled={disabled} style={{ display: 'flex', width: '100%', borderRadius: 'inherit' }}>
         <BaseButton
           type="button"
           disabled={disabled}

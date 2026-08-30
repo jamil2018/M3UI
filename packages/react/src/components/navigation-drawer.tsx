@@ -155,7 +155,7 @@ function DrawerNavItem({ item, selected, onSelect }: DrawerNavItemProps) {
               ? compVar('navigation-drawer', 'active-label-text-color')
               : compVar('navigation-drawer', 'inactive-label-text-color'),
             ...typeStyle('label-large'),
-            opacity: item.disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+            opacity: item.disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
           }}
         >
           {item.icon && (

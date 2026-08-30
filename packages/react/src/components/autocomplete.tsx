@@ -49,7 +49,7 @@ function inputFieldStyle(variant: AutocompleteVariant, disabled: boolean): CSSPr
       variant === 'filled'
         ? `${compVar('filled-text-field', 'active-indicator-height')} solid ${compVar('filled-text-field', 'active-indicator-color')}`
         : undefined,
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
     width: '100%',
   };
 }
@@ -57,14 +57,19 @@ function inputFieldStyle(variant: AutocompleteVariant, disabled: boolean): CSSPr
 const popupStyle: CSSProperties = {
   background: compVar('menu', 'container-color'),
   borderRadius: compVar('menu', 'container-shape'),
-  boxShadow: `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) rgba(0, 0, 0, var(--md-sys-elevation-level2-shadow-opacity))`,
+  boxShadow: `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) color-mix(in srgb, var(--md-sys-color-shadow) calc(var(--md-sys-elevation-level2-shadow-opacity) * 100%), transparent)`,
   paddingBlock: compVar('list', 'item-top-space'),
-  maxHeight: 280,
+  maxHeight: compVar('search-bar', 'container-height'),
   overflow: 'auto',
+  width: 'var(--anchor-width)',
+  maxWidth: 'var(--available-width)',
 };
 
 const itemStyle: CSSProperties = {
-  paddingBlock: compVar('list', 'item-one-line-container-height'),
+  display: 'flex',
+  alignItems: 'center',
+  minHeight: compVar('list', 'item-one-line-container-height'),
+  paddingBlock: 0,
   paddingInline: compVar('list', 'divider-leading-space'),
   ...typeStyle('body-large'),
   color: compVar('list', 'item-label-text-color'),
@@ -96,6 +101,7 @@ export function Autocomplete({
         onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
         disabled={disabled}
         items={options.map((o) => o.value)}
+        openOnInputClick
       >
         <BaseAutocomplete.InputGroup style={inputFieldStyle(variant, disabled)}>
           <BaseAutocomplete.Input
@@ -106,7 +112,7 @@ export function Autocomplete({
               border: 'none',
               background: 'transparent',
               outline: 'none',
-              color: 'var(--md-sys-color-on-surface)',
+              color: compVar(tokenPrefix, 'input-text-color'),
             }}
           />
         </BaseAutocomplete.InputGroup>
@@ -160,6 +166,7 @@ export function Combobox({
         onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
         disabled={disabled}
         items={options.map((o) => o.value)}
+        openOnInputClick
       >
         <BaseCombobox.InputGroup style={inputFieldStyle(variant, disabled)}>
           <BaseCombobox.Input
@@ -170,7 +177,7 @@ export function Combobox({
               border: 'none',
               background: 'transparent',
               outline: 'none',
-              color: 'var(--md-sys-color-on-surface)',
+              color: compVar(tokenPrefix, 'input-text-color'),
             }}
           />
         </BaseCombobox.InputGroup>

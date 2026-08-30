@@ -2,8 +2,9 @@
 import { Toast as BaseToast } from '@base-ui/react/toast';
 import { motion } from 'motion/react';
 import { presets } from '@m3ui/motion';
+import { Icon } from '@m3ui/icons';
 import { type CSSProperties, type ReactNode } from 'react';
-import { compVar, typeStyle } from '../lib/token-utils.js';
+import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 
 /** Offset for Phase 3 FAB / bottom app bar — set via CSS on ancestor */
 export const SNACKBAR_OFFSET_VAR = '--m3ui-snackbar-offset-bottom';
@@ -12,14 +13,13 @@ const snackbarStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: compVar('list', 'item-between-space'),
-  minWidth: 280,
-  maxWidth: 560,
+  minHeight: compVar('snackbar', 'single-line-container-height'),
   paddingBlock: compVar('list', 'item-bottom-space'),
   paddingInline: compVar('list', 'divider-leading-space'),
   background: compVar('snackbar', 'container-color'),
   color: compVar('snackbar', 'supporting-text-color'),
   borderRadius: compVar('snackbar', 'container-shape'),
-  boxShadow: `0 var(--md-sys-elevation-level3) calc(var(--md-sys-elevation-level3) * 2) rgba(0, 0, 0, var(--md-sys-elevation-level3-shadow-opacity))`,
+  boxShadow: elevationShadow('level3'),
   ...typeStyle('body-medium'),
 };
 
@@ -57,11 +57,16 @@ function SnackbarToasts() {
                 border: 'none',
                 cursor: 'pointer',
                 color: compVar('snackbar', 'icon-color'),
-                padding: 4,
+                padding: compVar('list', 'item-top-space'),
                 marginInlineStart: toast.actionProps ? 0 : 'auto',
+                display: 'inline-flex',
+                width: compVar('snackbar', 'icon-size'),
+                height: compVar('snackbar', 'icon-size'),
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
-              ✕
+              <Icon name="close" />
             </BaseToast.Close>
           </motion.div>
         </BaseToast.Root>
@@ -83,12 +88,12 @@ export function SnackbarProvider({ children, limit = 3 }: SnackbarProviderProps)
         <BaseToast.Viewport
           style={{
             position: 'fixed',
-            bottom: `calc(16px + var(${SNACKBAR_OFFSET_VAR}, 0px))`,
+            bottom: `calc(${compVar('floating-toolbar', 'container-external-padding')} + var(${SNACKBAR_OFFSET_VAR}, 0px))`,
             left: '50%',
             transform: 'translateX(-50%)',
             display: 'flex',
             flexDirection: 'column-reverse',
-            gap: 8,
+            gap: compVar('fab-menu-baseline', 'list-item-between-space'),
             zIndex: 9999,
             pointerEvents: 'none',
           }}
