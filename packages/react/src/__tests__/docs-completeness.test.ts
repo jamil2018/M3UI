@@ -8,6 +8,13 @@ import {
   type ComponentCatalogEntry,
 } from '../catalog/index.js';
 import {
+  MATERIAL_WEB_UPSTREAM_VERSION,
+  TIER_A_SLUGS,
+  TIER_B_SLUGS,
+  TIER_C_SLUGS,
+  parityForSlug,
+} from '../catalog/parity.js';
+import {
   readDocsCatalogManifest,
   readRegistryManifest,
   getRegistryItemSlugs,
@@ -135,6 +142,44 @@ describe('docs completeness gate', () => {
       }
       expect(missing, formatMissing('missing @m3ui/react exports', missing)).toEqual([]);
     });
+
+    it('tiered catalog entries expose parity metadata in generated registry artifacts', () => {
+      const tiered = [...TIER_A_SLUGS, ...TIER_B_SLUGS, ...TIER_C_SLUGS];
+      const drifts: string[] = [];
+
+      for (const slug of tiered) {
+        const catalogParity = parityForSlug(slug);
+        const raw = readFileSync(join(PATHS.registryItemsDir, `${slug}.json`), 'utf-8');
+        const item = JSON.parse(raw) as {
+          meta?: {
+            parity?: { tier: string; reference: string; upstreamVersion: string };
+          };
+        };
+
+        if (!item.meta?.parity) {
+          drifts.push(`${slug}: missing registry meta.parity (run pnpm registry:build)`);
+          continue;
+        }
+
+        const expectedTier = (TIER_A_SLUGS as readonly string[]).includes(slug)
+          ? 'A'
+          : (TIER_B_SLUGS as readonly string[]).includes(slug)
+            ? 'B'
+            : 'C';
+
+        if (item.meta.parity.tier !== expectedTier) {
+          drifts.push(`${slug}: tier ${item.meta.parity.tier} !== ${expectedTier}`);
+        }
+        if (item.meta.parity.reference !== catalogParity?.reference) {
+          drifts.push(`${slug}: reference drift`);
+        }
+        if (item.meta.parity.upstreamVersion !== MATERIAL_WEB_UPSTREAM_VERSION) {
+          drifts.push(`${slug}: upstreamVersion drift`);
+        }
+      }
+
+      expect(drifts, drifts.join('\n')).toEqual([]);
+    });
   });
 
   describe('catalog ↔ docs', () => {
@@ -178,6 +223,17 @@ describe('docs completeness gate', () => {
       expect(shapes?.category).toBe('foundations');
       expect(shapes?.docs.publicIndex).toBe(true);
       expect(existsSync(PATHS.shapesDoc)).toBe(true);
+    });
+
+    it('tiered public components carry conformance parity blocks for docs compliance UI', () => {
+      const missing: string[] = [];
+      for (const slug of [...TIER_A_SLUGS, ...TIER_B_SLUGS, ...TIER_C_SLUGS]) {
+        const entry = getCatalogEntry(slug);
+        if (!entry?.conformance.parity?.reference) {
+          missing.push(slug);
+        }
+      }
+      expect(missing, formatMissing('missing conformance.parity', missing)).toEqual([]);
     });
   });
 

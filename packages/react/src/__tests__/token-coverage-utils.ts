@@ -126,6 +126,9 @@ function resolveVarPrefixes(varName: string, content: string, maps: Map<string, 
   const fromMap = content.match(new RegExp(`const\\s+${varName}\\s*=\\s*(\\w+_PREFIX)`));
   if (fromMap && maps.has(fromMap[1]!)) return maps.get(fromMap[1]!)!;
 
+  const fromBracket = content.match(new RegExp(`const\\s+${varName}\\s*=\\s*(\\w+_PREFIX)\\[`));
+  if (fromBracket && maps.has(fromBracket[1]!)) return maps.get(fromBracket[1]!)!;
+
   const fromFn = content.match(new RegExp(`const\\s+${varName}\\s*=\\s*(\\w+)\\(`));
   if (fromFn?.[1] === 'chipPrefix') return [...CHIP_PREFIXES];
 
@@ -196,6 +199,15 @@ export function collectReferencedTokens(): Set<string> {
     for (const m of content.matchAll(/compVar\(\s*(\w+)\s*,\s*['"]([^'"]+)['"]\s*\)/g)) {
       const prefixes = resolveVarPrefixes(m[1]!, content, maps);
       for (const prefix of prefixes) addToken(referenced, prefix, m[2]!);
+    }
+
+    for (const m of content.matchAll(/compElevation\(\s*['"]([^'"]+)['"]\s*(?:,\s*['"]([^'"]+)['"])?\s*\)/g)) {
+      addToken(referenced, m[1]!, m[2] ?? 'container-elevation');
+    }
+
+    for (const m of content.matchAll(/compElevation\(\s*(\w+)\s*(?:,\s*['"]([^'"]+)['"])?\s*\)/g)) {
+      const prefixes = resolveVarPrefixes(m[1]!, content, maps);
+      for (const prefix of prefixes) addToken(referenced, prefix, m[2] ?? 'container-elevation');
     }
   }
 

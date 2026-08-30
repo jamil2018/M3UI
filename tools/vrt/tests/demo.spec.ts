@@ -1,5 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { OVERVIEW_STORY, storyUrl, VRT_MATRIX } from '../storybook-url';
+import { OVERVIEW_STORY, PRIMITIVE_VRT_STORIES, storyUrl, VRT_MATRIX } from '../storybook-url';
+import docsCatalog from '../../../packages/react/registry/docs-catalog.json' with { type: 'json' };
+
+const PUBLIC_COMPONENTS = docsCatalog.entries.filter(
+  (entry) => entry.registryType === 'registry:ui' && entry.docs.publicIndex,
+);
 
 /** Representative component stories beyond the gallery overview. */
 const COMPONENT_STORY_VRT = [
@@ -7,7 +12,7 @@ const COMPONENT_STORY_VRT = [
     storyId: 'actions-button--variants',
     name: 'button',
     ready: (page: import('@playwright/test').Page) =>
-      page.getByRole('button', { name: 'Filled' }).waitFor(),
+      page.getByRole('button', { name: 'filled', exact: true }).waitFor(),
   },
   {
     storyId: 'containment-dialog--variants',
@@ -50,7 +55,7 @@ test('overview story renders', async ({ page }) => {
 
 test('button story interaction', async ({ page }) => {
   await page.goto(storyUrl('actions-button--variants'));
-  const filled = page.locator('#storybook-root').getByRole('button', { name: 'Filled' });
+  const filled = page.locator('#storybook-root').getByRole('button', { name: 'filled', exact: true });
   await expect(filled).toBeVisible({ timeout: 15_000 });
   // PressableShell ripple overlay can intercept pointer events during animation.
   await filled.click({ force: true });
@@ -67,5 +72,28 @@ for (const story of COMPONENT_STORY_VRT) {
         ? story.screenshot(page)
         : page.locator('#storybook-root');
     await expect(target).toHaveScreenshot(`story-${story.name}-light.png`);
+  });
+}
+
+for (const storyId of PRIMITIVE_VRT_STORIES) {
+  const snapshotName = storyId.replace('foundations-primitives--', 'primitive-') + '-light';
+  test(`Primitive VRT: ${snapshotName}`, async ({ page }) => {
+    await page.goto(
+      storyUrl(storyId, { scheme: 'light', contrast: 0, direction: 'ltr', seed: '#6750A4' }),
+    );
+    await page.locator('#storybook-root').waitFor();
+    await expect(page.locator('#storybook-root')).toHaveScreenshot(`${snapshotName}.png`);
+  });
+}
+
+for (const entry of PUBLIC_COMPONENTS) {
+  test(`Conformance VRT: ${entry.slug}`, async ({ page }) => {
+    const storyId = `${entry.category}-${entry.slug}--compliance`;
+    await page.goto(
+      storyUrl(storyId, { scheme: 'light', contrast: 0, direction: 'ltr', reducedMotion: true }),
+    );
+    const contract = page.locator('#storybook-root .m3-story-compliance');
+    await contract.waitFor();
+    await expect(contract).toHaveScreenshot(`conformance-${entry.slug}-light.png`);
   });
 }
