@@ -1,30 +1,52 @@
 /**
  * Reviewed allowlist for md-comp tokens intentionally not referenced in component source.
  * Each entry documents why the token is excluded from direct CSS var usage.
+ *
+ * Tier annotations scope gaps to Material Web parity measurement bands:
+ * - **A** (`labs/gb`) — Expressive upstream reference; gaps must be documented and reviewed
+ * - **B** (`stable`) — Classic MWC reference; token gaps acceptable when behavior is adapted
+ * - **C** (`tokens-only`) — Orphaned token files only; no upstream component implementation
+ * - **global** — Cross-tier patterns (state layers, typography, elevation helpers)
  */
+export type TokenAllowlistTier = 'A' | 'B' | 'C' | 'global';
+
 export interface TokenAllowlistEntry {
   /** Regex tested against full token name including `--md-comp-` prefix */
   pattern: RegExp;
   /** Human-readable justification for auditors */
   reason: string;
+  /** Parity tier scope; omit for patterns that apply across tiers */
+  tier?: TokenAllowlistTier;
 }
+
+/** Tier-scoped allowlist sections for auditors — patterns may appear in TOKEN_ALLOWLIST with tier set. */
+export const TOKEN_ALLOWLIST_TIERS: Record<TokenAllowlistTier, string> = {
+  A: 'labs/gb Expressive components — strictest token coverage expectations',
+  B: 'stable MWC components — Expressive extras live in adaptations[], not comp tokens',
+  C: 'tokens-only components — upstream never shipped; orphaned token files only',
+  global: 'Shared interaction/typography/elevation patterns across all tiers',
+};
 
 export const TOKEN_ALLOWLIST: TokenAllowlistEntry[] = [
   {
     pattern: /-(hover|hovered)-/,
     reason: 'Interaction state colors applied via StateLayer primitive, not direct token binding',
+    tier: 'global',
   },
   {
     pattern: /-(focus|focused)-/,
     reason: 'Focus state colors applied via StateLayer / focus-visible rings',
+    tier: 'global',
   },
   {
     pattern: /-pressed-/,
     reason: 'Pressed state handled by StateLayer opacity and shape morph, not per-token color',
+    tier: 'global',
   },
   {
     pattern: /-disabled-/,
     reason: 'Disabled styling uses shared DISABLED_CONTENT_OPACITY and variant disabled-* subset',
+    tier: 'global',
   },
   {
     pattern: /-selected-/,
@@ -123,12 +145,33 @@ export const TOKEN_ALLOWLIST: TokenAllowlistEntry[] = [
     reason: 'Circular progress uses size + progress-indicator color tokens',
   },
   {
+    pattern: /--md-comp-fab-baseline-(container-height|container-shape|container-width|icon-size)$/,
+    reason: 'Generic FAB baseline dimensions; fab-menu binds fab-menu-baseline close-button tokens for CSS',
+  },
+  {
+    pattern: /--md-comp-radio-button-/,
+    reason: 'Legacy androidx radio-button prefix superseded by upstream md-comp-radio in Tier A',
+    tier: 'A',
+  },
+  {
+    pattern: /radio-button-icon-size/,
+    reason: 'Radio icon size uses radio icon-size token; radio-button prefix is Compose-only alias',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-fab-baseline-/,
+    reason: 'FAB baseline dimension tokens — current FAB API uses fab-medium size subset',
+    tier: 'A',
+  },
+  {
     pattern: /--md-comp-fab-small-/,
     reason: 'FAB size sm uses medium tokens in current API; small spec tokens reserved',
+    tier: 'A',
   },
   {
     pattern: /--md-comp-fab-large-/,
     reason: 'FAB size lg uses medium tokens in current API; large spec tokens reserved',
+    tier: 'A',
   },
   {
     pattern: /--md-comp-extended-fab-small-/,
@@ -159,8 +202,14 @@ export const TOKEN_ALLOWLIST: TokenAllowlistEntry[] = [
     reason: 'Loading indicator uses progress-indicator color tokens and shape morph',
   },
   {
+    pattern: /(filled|outlined)-text-field-(input-color|supporting-color|error-supporting-color)$/,
+    reason: 'Text field input/supporting colors resolved via dynamic focus/error/disabled compVar paths',
+    tier: 'B',
+  },
+  {
     pattern: /text-field-caret-color|text-field-error-input-color/,
     reason: 'Caret and error input colors inherit from input-color and error label tokens',
+    tier: 'B',
   },
   {
     pattern: /text-field-label-color$/,
@@ -366,8 +415,95 @@ export const TOKEN_ALLOWLIST: TokenAllowlistEntry[] = [
     pattern: /time-input-time-field-supporting/,
     reason: 'Time input supporting text uses text-field supporting-color pattern',
   },
+  {
+    pattern: /-(label-text|input-text|supporting-text|headline|headline-text)-(line-height|size|weight)$/,
+    reason: 'Typography size/weight/line-height uses typeStyle() md-sys-typescale on web',
+    tier: 'global',
+  },
+  {
+    pattern: /label-text-populated-(line-height|size)$/,
+    reason: 'Floating label populated size uses typeStyle() transition on web',
+    tier: 'B',
+  },
+  {
+    pattern: /input-text-(prefix-color|suffix-color)$/,
+    reason: 'Input prefix/suffix inherit input-text-color on web',
+    tier: 'B',
+  },
+  {
+    pattern: /select-text-field-/,
+    reason: 'Select reuses text-field tokens; select-text-field tokens are Compose field bindings',
+    tier: 'B',
+  },
+  {
+    pattern: /--md-comp-fab-branded-/,
+    reason: 'FAB branded variant not exposed in current FAB API; uses fab + fab-primary-container subset',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-fab-lowered-container-color$/,
+    reason: 'Lowered FAB uses lowered-container-elevation tokens rather than flat container color',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-fab-label-text-(line-height|size|weight)$/,
+    reason: 'Icon-only FAB label typography reserved for extended FAB label slot',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-circular-progress-/,
+    reason: 'Circular progress uses loading-indicator and progress-indicator token subset',
+  },
+  {
+    pattern: /--md-comp-linear-progress-(track-|four-color|active-indicator-color)/,
+    reason: 'Linear progress track and four-color tokens — component uses active-indicator subset',
+  },
+  {
+    pattern: /slider-(handle-shadow|with-overlap|with-tick-marks)/,
+    reason: 'Slider overlap and tick mark tokens deferred — default slider uses handle width/height subset',
+    tier: 'B',
+  },
+  {
+    pattern: /switch-with-icon-handle-/,
+    reason: 'Switch with icon handle dimensions use selected/unselected handle tokens',
+    tier: 'A',
+  },
+  {
+    pattern: /input-chip-outline-(color|width)$/,
+    reason: 'Input chip outline uses selected/unselected outline-width dynamic tokens',
+    tier: 'A',
+  },
+  {
+    pattern: /text-field-error-input-text-color/,
+    reason: 'Error input text color inherits from error label and input-text-color dynamic tokens',
+    tier: 'B',
+  },
+  {
+    pattern: /--md-comp-linear-progress-active-indicator-height$/,
+    reason: 'Linear progress active indicator height uses track-height token subset',
+  },
+  {
+    pattern: /(input|suggestion|filter)-chip-label-text-(line-height|size|weight)$/,
+    reason: 'Chip label typography uses typeStyle(label-large) with assist-chip font token where applicable',
+    tier: 'A',
+  },
 ];
 
-export function isAllowlistedToken(token: string): TokenAllowlistEntry | undefined {
-  return TOKEN_ALLOWLIST.find((entry) => entry.pattern.test(token));
+export function isAllowlistedToken(
+  token: string,
+  tier?: TokenAllowlistTier,
+): TokenAllowlistEntry | undefined {
+  return TOKEN_ALLOWLIST.find((entry) => {
+    if (tier && entry.tier && entry.tier !== tier && entry.tier !== 'global') return false;
+    return entry.pattern.test(token);
+  });
+}
+
+/** Count allowlist entries annotated per tier (for scaffold audits). */
+export function allowlistTierCounts(): Record<TokenAllowlistTier, number> {
+  const counts: Record<TokenAllowlistTier, number> = { A: 0, B: 0, C: 0, global: 0 };
+  for (const entry of TOKEN_ALLOWLIST) {
+    counts[entry.tier ?? 'global'] += 1;
+  }
+  return counts;
 }
