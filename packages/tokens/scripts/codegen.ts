@@ -20,7 +20,7 @@ import {
   type MaterialWebTokenFile,
 } from './material-web-ingest.js';
 
-interface ScssTokenFile extends MaterialWebTokenFile {}
+type ScssTokenFile = MaterialWebTokenFile;
 
 /** M3 sys token definitions derived from spec + canonical values */
 const STATE_LAYER_OPACITIES = {
