@@ -6,8 +6,12 @@
   "scripts": {
     "sync": "tsx src/sync.ts",
     "check": "tsx src/check.ts",
+    "parity": "tsx src/parity-report.ts",
+    "check:parity": "tsx src/check.ts --parity",
+    "import:figma": "tsx src/import-figma-tokens.ts",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
     "zod": "^3.24.1"

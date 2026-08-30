@@ -10,14 +10,26 @@
   --color-md-on-primary: var(--md-sys-color-on-primary);
   --color-md-primary-container: var(--md-sys-color-primary-container);
   --color-md-on-primary-container: var(--md-sys-color-on-primary-container);
+  --color-md-primary-fixed: var(--md-sys-color-primary-fixed);
+  --color-md-primary-fixed-dim: var(--md-sys-color-primary-fixed-dim);
+  --color-md-on-primary-fixed: var(--md-sys-color-on-primary-fixed);
+  --color-md-on-primary-fixed-variant: var(--md-sys-color-on-primary-fixed-variant);
   --color-md-secondary: var(--md-sys-color-secondary);
   --color-md-on-secondary: var(--md-sys-color-on-secondary);
   --color-md-secondary-container: var(--md-sys-color-secondary-container);
   --color-md-on-secondary-container: var(--md-sys-color-on-secondary-container);
+  --color-md-secondary-fixed: var(--md-sys-color-secondary-fixed);
+  --color-md-secondary-fixed-dim: var(--md-sys-color-secondary-fixed-dim);
+  --color-md-on-secondary-fixed: var(--md-sys-color-on-secondary-fixed);
+  --color-md-on-secondary-fixed-variant: var(--md-sys-color-on-secondary-fixed-variant);
   --color-md-tertiary: var(--md-sys-color-tertiary);
   --color-md-on-tertiary: var(--md-sys-color-on-tertiary);
   --color-md-tertiary-container: var(--md-sys-color-tertiary-container);
   --color-md-on-tertiary-container: var(--md-sys-color-on-tertiary-container);
+  --color-md-tertiary-fixed: var(--md-sys-color-tertiary-fixed);
+  --color-md-tertiary-fixed-dim: var(--md-sys-color-tertiary-fixed-dim);
+  --color-md-on-tertiary-fixed: var(--md-sys-color-on-tertiary-fixed);
+  --color-md-on-tertiary-fixed-variant: var(--md-sys-color-on-tertiary-fixed-variant);
   --color-md-error: var(--md-sys-color-error);
   --color-md-on-error: var(--md-sys-color-on-error);
   --color-md-error-container: var(--md-sys-color-error-container);
@@ -28,6 +40,7 @@
   --color-md-on-surface: var(--md-sys-color-on-surface);
   --color-md-surface-variant: var(--md-sys-color-surface-variant);
   --color-md-on-surface-variant: var(--md-sys-color-on-surface-variant);
+  --color-md-surface-tint: var(--md-sys-color-surface-tint);
   --color-md-outline: var(--md-sys-color-outline);
   --color-md-outline-variant: var(--md-sys-color-outline-variant);
   --color-md-shadow: var(--md-sys-color-shadow);
@@ -50,6 +63,9 @@
   --radius-md-corner-medium: var(--md-sys-shape-corner-medium);
   --radius-md-corner-large: var(--md-sys-shape-corner-large);
   --radius-md-corner-extra-large: var(--md-sys-shape-corner-extra-large);
+  --radius-md-corner-large-increased: var(--md-sys-shape-corner-large-increased);
+  --radius-md-corner-extra-large-increased: var(--md-sys-shape-corner-extra-large-increased);
+  --radius-md-corner-extra-extra-large: var(--md-sys-shape-corner-extra-extra-large);
   --radius-md-corner-full: var(--md-sys-shape-corner-full);
 
   /* Elevation */
