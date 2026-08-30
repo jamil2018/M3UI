@@ -21,7 +21,7 @@ test('docs button page has live preview', async ({ page }) => {
   await page.goto('/components/button');
   await expect(page.getByRole('heading', { name: 'Button', level: 1 })).toBeVisible();
   await expect(
-    docContent(page, 'main.doc-page').getByRole('button', { name: 'Filled', exact: true }),
+    docContent(page, 'main.doc-page').getByRole('button', { name: 'filled', exact: true }),
   ).toBeVisible();
 });
 
