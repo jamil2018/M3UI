@@ -152,7 +152,7 @@ export function DateInput({
     display: 'flex',
     flexDirection: 'column',
     gap: compVar('list', 'item-between-space'),
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
   };
 
   const fieldWrapStyle: CSSProperties = {
@@ -212,7 +212,7 @@ export function DateInput({
             border: 'none',
             outline: 'none',
             background: 'transparent',
-            color: compVar('outlined-text-field', 'input-text-color'),
+            color: compVar('outlined-text-field', 'input-color'),
             paddingBlock: compVar('list', 'item-top-space'),
           }}
         />

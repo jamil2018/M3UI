@@ -60,7 +60,7 @@ export function NavigationBar({
     justifyContent: 'space-around',
     height,
     background: compVar('navigation-bar', 'container-color'),
-    boxShadow: `0 calc(-1 * var(--md-sys-elevation-level2)) var(--md-sys-elevation-level2) rgba(0,0,0,var(--md-sys-elevation-level2-shadow-opacity))`,
+    boxShadow: `0 calc(-1 * var(--md-sys-elevation-level2)) var(--md-sys-elevation-level2) color-mix(in srgb, var(--md-sys-color-shadow) calc(var(--md-sys-elevation-level2-shadow-opacity) * 100%), transparent)`,
   };
 
   return (

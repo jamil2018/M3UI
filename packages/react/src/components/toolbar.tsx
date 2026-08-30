@@ -88,7 +88,7 @@ export function Toolbar({
     ? {
         animate: { y: hidden ? 120 : 0, opacity: hidden ? 0 : 1 },
         transition: springs.defaultSpatial,
-        style: { ...barStyle, position: 'fixed' as const, bottom: 16, left: '50%', x: '-50%', zIndex: 100 },
+        style: { ...barStyle, position: 'fixed' as const, bottom: compVar('floating-toolbar', 'container-external-padding'), left: '50%', x: '-50%', zIndex: 100 },
       }
     : { style: barStyle };
 
@@ -134,14 +134,14 @@ export function ToolbarButton({
           : compVar('floating-toolbar', 'vibrant-button-unselected-icon-color'),
         border: 'none',
         borderRadius: compVar('floating-toolbar', 'container-shape'),
-        padding: 8,
+        padding: compVar('floating-toolbar', 'container-leading-space'),
         cursor: 'pointer',
       }
     : {
         background: 'transparent',
         color: 'inherit',
         border: 'none',
-        padding: 8,
+        padding: compVar('floating-toolbar', 'container-leading-space'),
         cursor: 'pointer',
         borderRadius: compVar('docked-toolbar', 'container-shape'),
       };

@@ -76,7 +76,7 @@ function CarouselSlide({ item, layout, index, count, scrollProgress }: CarouselS
     borderRadius: layout === 'full-screen' ? 0 : sysShape('corner-large'),
     overflow: 'hidden',
     background: compVar('elevated-card', 'container-color'),
-    boxShadow: layout === 'hero' ? `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) rgba(0,0,0,var(--md-sys-elevation-level2-shadow-opacity))` : undefined,
+    boxShadow: layout === 'hero' ? `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) color-mix(in srgb, var(--md-sys-color-shadow) calc(var(--md-sys-elevation-level2-shadow-opacity) * 100%), transparent)` : undefined,
   };
 
   return (

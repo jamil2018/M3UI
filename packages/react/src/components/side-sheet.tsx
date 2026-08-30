@@ -1,6 +1,7 @@
 
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer';
 import { type CSSProperties, type ReactElement, type ReactNode, isValidElement } from 'react';
+import { Icon } from '@m3ui/icons';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import { OverlayMotion, ScrimMotion } from '../lib/overlay-motion.js';
 
@@ -85,7 +86,7 @@ export function SideSheet({
                   {headline && <h2 style={{ ...typeStyle('title-large'), flex: 1, margin: 0 }}>{headline}</h2>}
                   {actions}
                   <BaseDrawer.Close aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                    ✕
+                    <Icon name="close" />
                   </BaseDrawer.Close>
                 </header>
               )}

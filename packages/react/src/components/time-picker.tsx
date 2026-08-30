@@ -281,7 +281,7 @@ function TimeInputFields({
   };
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 16 }} data-testid="time-input-fields">
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: compVar('time-picker', 'time-selector-container-shape'), padding: compVar('list', 'divider-leading-space') }} data-testid="time-input-fields">
       <BaseInput
         aria-label={hourLabel}
         value={String(format === '12h' ? hour : value.hour).padStart(2, '0')}
@@ -309,12 +309,30 @@ function TimeInputFields({
         <ToggleGroup
           value={[period ?? 'AM']}
           onValueChange={(v) => { onChange({ ...value, period: (v[0]) ?? 'AM' }); }}
-          style={{ display: 'flex', flexDirection: 'column', gap: 4 }}
+          style={{ display: 'flex', flexDirection: 'column', gap: compVar('fab-menu-baseline', 'list-item-between-space') }}
         >
-          <Toggle value="AM" style={{ padding: '4px 12px', ...typeStyle('title-medium') }} aria-label={amLabel}>
+          <Toggle
+            value="AM"
+            style={{
+              paddingInline: compVar('list', 'divider-leading-space'),
+              paddingBlock: compVar('list', 'item-top-space'),
+              ...typeStyle('title-medium'),
+              color: compVar('time-picker', 'period-selector-unselected-label-text-color'),
+            }}
+            aria-label={amLabel}
+          >
             {amLabel}
           </Toggle>
-          <Toggle value="PM" style={{ padding: '4px 12px', ...typeStyle('title-medium') }} aria-label={pmLabel}>
+          <Toggle
+            value="PM"
+            style={{
+              paddingInline: compVar('list', 'divider-leading-space'),
+              paddingBlock: compVar('list', 'item-top-space'),
+              ...typeStyle('title-medium'),
+              color: compVar('time-picker', 'period-selector-unselected-label-text-color'),
+            }}
+            aria-label={pmLabel}
+          >
             {pmLabel}
           </Toggle>
         </ToggleGroup>
@@ -368,7 +386,7 @@ export function TimePicker({
     borderRadius: compVar('time-picker', 'container-shape'),
     boxShadow: elevationShadow('level3'),
     padding: compVar('list', 'divider-leading-space'),
-    minWidth: 328,
+    minWidth: `calc(${compVar('time-picker', 'clock-dial-container-size')} + ${compVar('list', 'divider-leading-space')} * 2)`,
   };
 
   const displayTime = () => {

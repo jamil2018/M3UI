@@ -53,7 +53,7 @@ export function Meter({
       style={{ width: '100%' }}
     >
       {label && (
-        <BaseMeter.Label style={{ color: 'var(--md-sys-color-on-surface)', marginBottom: 4 }}>
+        <BaseMeter.Label style={{ color: compVar('progress-indicator', 'active-indicator-color'), marginBottom: compVar('list', 'item-top-space') }}>
           {label}
         </BaseMeter.Label>
       )}
