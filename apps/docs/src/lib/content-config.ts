@@ -1,7 +1,6 @@
-import type { ComponentContentConfig } from '@/components/doc/types';
+﻿import type { ComponentContentConfig } from '@/components/doc/types';
 import type { ComponentDocContent } from '@/content/types';
 import { buttonContent } from '@/content/button';
-import { extractPropsFromSource, mergePropDefinitions } from '@/lib/extract-props';
 
 const CONTENT_OVERRIDES: Partial<Record<string, Partial<ComponentContentConfig>>> = {
   button: buttonContent,
@@ -51,11 +50,4 @@ export function contentToConfig(content: ComponentDocContent): ComponentContentC
   }
 
   return base;
-}
-
-/** Server-only: enrich config with extracted props from component source */
-export function buildDocPageConfig(slug: string, content: ComponentDocContent): ComponentContentConfig {
-  const config = contentToConfig(content);
-  const props = mergePropDefinitions(extractPropsFromSource(slug), config.props ?? []);
-  return { ...config, props };
 }
