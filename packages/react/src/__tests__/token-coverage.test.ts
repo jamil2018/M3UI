@@ -3,7 +3,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COMP_TOKEN_VARS } from '@m3ui/tokens';
-import { collectReferencedTokens } from './token-coverage-utils.js';
+import { collectReferencedTokens } from '../lib/token-coverage-utils.js';
 import {
   allowlistTierCounts,
   isAllowlistedToken,
