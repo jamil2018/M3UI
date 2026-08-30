@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+﻿import { render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { M3Provider, useM3 } from './m3-provider.js';
 
@@ -17,11 +17,11 @@ describe('M3Provider theme boundaries', () => {
     );
     const roots = container.querySelectorAll('[data-m3-root]');
     expect(roots).toHaveLength(2);
-    expect((roots[0] as HTMLElement).style.getPropertyValue('--md-sys-color-primary')).not.toBe('');
-    expect((roots[1] as HTMLElement).style.getPropertyValue('--md-sys-color-primary')).not.toBe(
-      (roots[0] as HTMLElement).style.getPropertyValue('--md-sys-color-primary'),
+    expect((roots[0] as HTMLElement).style.getPropertyValue('--m3-color-primary')).not.toBe('');
+    expect((roots[1] as HTMLElement).style.getPropertyValue('--m3-color-primary')).not.toBe(
+      (roots[0] as HTMLElement).style.getPropertyValue('--m3-color-primary'),
     );
-    expect(document.documentElement.style.getPropertyValue('--md-sys-color-primary')).toBe('');
+    expect(document.documentElement.style.getPropertyValue('--m3-color-primary')).toBe('');
   });
 
   it('synchronizes controlled theme props', async () => {
@@ -30,3 +30,4 @@ describe('M3Provider theme boundaries', () => {
     await waitFor(() => expect(screen.getByTestId('theme')).toHaveTextContent('#006A6A:dark'));
   });
 });
+
