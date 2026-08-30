@@ -22,10 +22,12 @@ function matchesQuery(entry: ComponentCatalogEntry, query: string): boolean {
 
 export function ComponentCatalogIndex({ entries }: ComponentCatalogIndexProps) {
   const [query, setQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState<'all' | CatalogCategory>('all');
 
   const filtered = useMemo(
-    () => entries.filter((entry) => matchesQuery(entry, query)),
-    [entries, query],
+    () => entries.filter((entry) =>
+      matchesQuery(entry, query) && (categoryFilter === 'all' || entry.category === categoryFilter)),
+    [entries, query, categoryFilter],
   );
 
   const grouped = useMemo(() => {
@@ -47,17 +49,32 @@ export function ComponentCatalogIndex({ entries }: ComponentCatalogIndexProps) {
 
   return (
     <div>
-      <label className="docs-catalog-search">
-        <span className="docs-catalog-search-label">Search components</span>
-        <input
-          type="search"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="Search by name, slug, or export…"
-          aria-label="Search components"
-          className="docs-catalog-search-input"
-        />
-      </label>
+      <div className="docs-catalog-toolbar" role="search">
+        <label className="docs-catalog-search">
+          <span className="docs-catalog-search-label">Find a component</span>
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Search name, capability, or export"
+            aria-label="Search components"
+            className="docs-catalog-search-input"
+          />
+        </label>
+        <label className="docs-catalog-filter">
+          <span className="docs-catalog-search-label">Category</span>
+          <select
+            value={categoryFilter}
+            onChange={(event) => setCategoryFilter(event.target.value as 'all' | CatalogCategory)}
+          >
+            <option value="all">All components</option>
+            {CATALOG_CATEGORIES.filter((category) => category !== 'foundations').map((category) => (
+              <option key={category} value={category}>{CATEGORY_LABELS[category]}</option>
+            ))}
+          </select>
+        </label>
+        <p className="docs-catalog-count" aria-live="polite">{filtered.length} results</p>
+      </div>
 
       {filtered.length === 0 ? (
         <p className="docs-catalog-empty">No components match your search.</p>
@@ -84,13 +101,17 @@ export function ComponentCatalogIndex({ entries }: ComponentCatalogIndexProps) {
 function CatalogCard({ entry }: { entry: ComponentCatalogEntry }) {
   return (
     <Link href={`/components/${entry.slug}`} className="docs-catalog-card">
+      <span className="docs-catalog-card-mark" aria-hidden>{entry.title.slice(0, 1)}</span>
       <div className="docs-catalog-card-header">
         <strong className="docs-catalog-card-title">{entry.title}</strong>
-        {entry.status !== 'stable' ? (
-          <span className="docs-catalog-card-badge">{entry.status}</span>
-        ) : null}
+        <span className="docs-catalog-card-badge" data-status={entry.conformance.status}>
+          {entry.conformance.status === 'adapted' ? 'Expressive web adaptation' : entry.conformance.status}
+        </span>
       </div>
       <p className="docs-catalog-card-description">{entry.description}</p>
+      <span className="docs-catalog-card-meta">
+        {entry.conformance.states.length} states · {entry.conformance.sources.length} sources
+      </span>
     </Link>
   );
 }

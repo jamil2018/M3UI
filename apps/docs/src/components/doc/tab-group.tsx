@@ -1,6 +1,6 @@
 'use client';
 
-import { useId, useState, type ReactNode } from 'react';
+import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 
 export interface TabItem {
   id: string;
@@ -18,6 +18,7 @@ export interface TabGroupProps {
 export function TabGroup({ items, defaultTabId, label = 'Tabs' }: TabGroupProps) {
   const baseId = useId();
   const [activeId, setActiveId] = useState(defaultTabId ?? items[0]?.id ?? '');
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   if (items.length === 0) {
     return null;
@@ -26,10 +27,26 @@ export function TabGroup({ items, defaultTabId, label = 'Tabs' }: TabGroupProps)
   return (
     <div className="doc-tabs">
       <div className="doc-tabs-list" role="tablist" aria-label={label}>
-        {items.map((item) => {
+        {items.map((item, index) => {
           const selected = item.id === activeId;
+          const selectAt = (nextIndex: number) => {
+            const normalized = (nextIndex + items.length) % items.length;
+            const nextItem = items[normalized];
+            if (!nextItem) return;
+            setActiveId(nextItem.id);
+            tabRefs.current[normalized]?.focus();
+          };
+          const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+            if (event.key === 'ArrowRight') selectAt(index + 1);
+            else if (event.key === 'ArrowLeft') selectAt(index - 1);
+            else if (event.key === 'Home') selectAt(0);
+            else if (event.key === 'End') selectAt(items.length - 1);
+            else return;
+            event.preventDefault();
+          };
           return (
             <button
+              ref={(node) => { tabRefs.current[index] = node; }}
               key={item.id}
               type="button"
               role="tab"
@@ -39,6 +56,7 @@ export function TabGroup({ items, defaultTabId, label = 'Tabs' }: TabGroupProps)
               tabIndex={selected ? 0 : -1}
               className={`doc-tabs-trigger${selected ? ' doc-tabs-trigger-active' : ''}`}
               onClick={() => { setActiveId(item.id); }}
+              onKeyDown={handleKeyDown}
             >
               {item.label}
             </button>
