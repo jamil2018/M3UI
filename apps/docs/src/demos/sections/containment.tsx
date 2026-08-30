@@ -12,21 +12,34 @@ import {
   SideSheet,
   Carousel,
   Button,
+  Surface,
 } from '@m3ui/react';
-import { column } from '../shared';
+import { caption, column, row } from '../shared';
+
+const ELEVATION_LEVELS = ['level0', 'level1', 'level2', 'level3', 'level4', 'level5'] as const;
 
 export function CardDemo() {
   return (
-    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-      <Card variant="elevated" style={{ padding: 16, minWidth: 140 }}>
-        Elevated
-      </Card>
-      <Card variant="filled" style={{ padding: 16, minWidth: 140 }}>
-        Filled
-      </Card>
-      <Card variant="outlined" style={{ padding: 16, minWidth: 140 }}>
-        Outlined
-      </Card>
+    <div style={column}>
+      <div style={row}>
+        <Card variant="elevated" style={{ padding: 16, minWidth: 140 }}>
+          Elevated
+        </Card>
+        <Card variant="filled" style={{ padding: 16, minWidth: 140 }}>
+          Filled
+        </Card>
+        <Card variant="outlined" style={{ padding: 16, minWidth: 140 }}>
+          Outlined
+        </Card>
+      </div>
+      <p style={caption}>Surface elevation levels (md-sys-elevation tokens)</p>
+      <div style={{ ...row, alignItems: 'stretch' }}>
+        {ELEVATION_LEVELS.map((level) => (
+          <Surface key={level} elevation={level} style={{ padding: 12, minWidth: 72, textAlign: 'center' }}>
+            {level}
+          </Surface>
+        ))}
+      </div>
     </div>
   );
 }

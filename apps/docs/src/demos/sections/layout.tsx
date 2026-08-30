@@ -9,13 +9,24 @@ import {
   PaneScaffoldRoot,
   List,
   ListItem,
+  Icon,
 } from '@m3ui/react';
+import { frame } from '../shared';
 
 export function ScaffoldDemo() {
   return (
-    <div style={{ height: 240, border: '1px solid var(--md-sys-color-outline-variant)', borderRadius: 12, overflow: 'hidden' }}>
-      <Scaffold topAppBar={<TopAppBar title="Inbox" size="small" />} fab={<FabAnchor><Fab aria-label="Compose" icon="+" size="small" /></FabAnchor>}>
-        <p style={{ padding: 16, margin: 0 }}>Main content area with inset-aware padding.</p>
+    <div style={{ ...frame, height: 240 }}>
+      <Scaffold
+        topAppBar={<TopAppBar title="Inbox" size="small" />}
+        fab={
+          <FabAnchor>
+            <Fab aria-label="Compose" icon={<Icon name="edit" />} size="standard" />
+          </FabAnchor>
+        }
+      >
+        <p style={{ padding: 16, margin: 0, color: 'var(--md-sys-color-on-surface)' }}>
+          Main content area with inset-aware padding.
+        </p>
       </Scaffold>
     </div>
   );
@@ -23,7 +34,7 @@ export function ScaffoldDemo() {
 
 export function PaneScaffoldDemo() {
   return (
-    <PaneScaffoldRoot defaultSizeClass="expanded" style={{ minHeight: 240, border: '1px solid var(--md-sys-color-outline-variant)', borderRadius: 12 }}>
+    <PaneScaffoldRoot defaultSizeClass="expanded" style={{ ...frame, minHeight: 240 }}>
       <PaneScaffold
         list={
           <List>
@@ -31,7 +42,7 @@ export function PaneScaffoldDemo() {
             <ListItem headline="Drafts" lines={1} />
           </List>
         }
-        detail={<p style={{ padding: 16 }}>Message detail pane with reply actions.</p>}
+        detail={<p style={{ padding: 16, color: 'var(--md-sys-color-on-surface)' }}>Message detail pane with reply actions.</p>}
       />
     </PaneScaffoldRoot>
   );
