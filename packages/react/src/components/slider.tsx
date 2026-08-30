@@ -24,25 +24,35 @@ export interface SliderProps {
 
 function SliderThumbVisual({
   disabled,
+  focused,
   pressed,
 }: {
   disabled: boolean;
+  focused: boolean;
   pressed: boolean;
 }) {
-  const thumbBaseWidth = compVar('slider', 'handle-width');
-  const thumbPressedWidth = compVar('slider', 'active-handle-width');
+  const thumbWidth = disabled
+    ? compVar('slider', 'disabled-handle-width')
+    : pressed
+      ? compVar('slider', 'pressed-handle-width')
+      : focused
+        ? compVar('slider', 'focus-handle-width')
+        : compVar('slider', 'handle-width');
 
   return (
     <motion.div
       animate={{
-        width: pressed ? thumbPressedWidth : thumbBaseWidth,
+        width: thumbWidth,
         height: compVar('slider', 'handle-height'),
       }}
       transition={prefersReducedMotion() ? { duration: 0 } : springs.fastSpatial}
       style={{
         borderRadius: compVar('slider', 'handle-shape'),
-        background: disabled ? compVar('slider', 'disabled-handle-color') : compVar('slider', 'handle-color'),
-        boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+        background: disabled
+          ? compVar('slider', 'disabled-handle-color')
+          : pressed
+            ? compVar('slider', 'pressed-handle-color')
+            : compVar('slider', 'handle-color'),
       }}
     />
   );
@@ -67,6 +77,7 @@ export function Slider({
   const min = centered ? (minProp ?? -100) : (minProp ?? 0);
   const max = maxProp ?? 100;
   const [thumbPressed, setThumbPressed] = useState(false);
+  const [thumbFocused, setThumbFocused] = useState(false);
 
   const isVertical = orientation === 'vertical';
   const resolvedDefault = defaultValue;
@@ -78,8 +89,8 @@ export function Slider({
     alignItems: 'center',
     gap: compVar('list', 'item-between-space'),
     width: isVertical ? 'auto' : '100%',
-    height: isVertical ? 200 : 'auto',
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity, 0.38)' : 1,
+    height: isVertical ? `calc(${compVar('outlined-text-field', 'container-height')} * 3.5)` : 'auto',
+    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
   };
 
   const controlStyle: CSSProperties = {
@@ -114,10 +125,22 @@ export function Slider({
       : { height: compVar('slider', 'active-track-height'), insetInlineStart: 0 }),
   };
 
+  const valueIndicatorStyle: CSSProperties = {
+    ...typeStyle('label-small'),
+    position: 'absolute',
+    color: compVar('slider', 'value-indicator-label-text-color'),
+    background: compVar('slider', 'value-indicator-container-color'),
+    borderRadius: compVar('slider', 'handle-shape'),
+    padding: compVar('slider', 'active-handle-padding'),
+    whiteSpace: 'nowrap',
+  };
+
   const thumbProps = {
     onPointerDown: () => { setThumbPressed(true); },
     onPointerUp: () => { setThumbPressed(false); },
     onPointerLeave: () => { setThumbPressed(false); },
+    onFocus: () => { setThumbFocused(true); },
+    onBlur: () => { setThumbFocused(false); },
     style: { position: 'absolute' as const },
   };
 
@@ -137,7 +160,7 @@ export function Slider({
       style={rootStyle}
     >
       {label && (
-        <BaseSlider.Label style={{ ...typeStyle('body-medium'), color: 'var(--md-sys-color-on-surface)' }}>
+        <BaseSlider.Label style={{ ...typeStyle('body-medium'), color: compVar('slider', 'label-text-color') }}>
           {label}
         </BaseSlider.Label>
       )}
@@ -148,32 +171,32 @@ export function Slider({
         {isRange ? (
           <>
             <BaseSlider.Thumb {...thumbProps} index={0}>
-              <SliderThumbVisual disabled={disabled} pressed={thumbPressed} />
+              <SliderThumbVisual disabled={disabled} focused={thumbFocused} pressed={thumbPressed} />
               {showValueIndicator && (
                 <BaseSlider.Value
                   style={{
-                    ...typeStyle('label-small'),
-                    position: 'absolute',
-                    ...(isVertical ? { insetInlineStart: '100%', marginInlineStart: 8 } : { bottom: '100%', marginBottom: 8 }),
-                    whiteSpace: 'nowrap',
+                    ...valueIndicatorStyle,
+                    ...(isVertical
+                      ? { insetInlineStart: '100%', marginInlineStart: compVar('slider', 'active-handle-leading-space') }
+                      : { bottom: '100%', marginBottom: compVar('slider', 'value-indicator-active-bottom-space') }),
                   }}
                 />
               )}
             </BaseSlider.Thumb>
             <BaseSlider.Thumb {...thumbProps} index={1}>
-              <SliderThumbVisual disabled={disabled} pressed={thumbPressed} />
+              <SliderThumbVisual disabled={disabled} focused={thumbFocused} pressed={thumbPressed} />
             </BaseSlider.Thumb>
           </>
         ) : (
           <BaseSlider.Thumb {...thumbProps}>
-            <SliderThumbVisual disabled={disabled} pressed={thumbPressed} />
+            <SliderThumbVisual disabled={disabled} focused={thumbFocused} pressed={thumbPressed} />
             {showValueIndicator && (
               <BaseSlider.Value
                 style={{
-                  ...typeStyle('label-small'),
-                  position: 'absolute',
-                  ...(isVertical ? { insetInlineStart: '100%', marginInlineStart: 8 } : { bottom: '100%', marginBottom: 8 }),
-                  whiteSpace: 'nowrap',
+                  ...valueIndicatorStyle,
+                  ...(isVertical
+                    ? { insetInlineStart: '100%', marginInlineStart: compVar('slider', 'active-handle-leading-space') }
+                    : { bottom: '100%', marginBottom: compVar('slider', 'value-indicator-active-bottom-space') }),
                 }}
               />
             )}

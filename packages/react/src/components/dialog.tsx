@@ -2,8 +2,16 @@
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog';
 import { type CSSProperties, type ReactNode } from 'react';
+import { Icon } from '@m3ui/icons';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
-import { OverlayMotion, ScrimMotion } from '../lib/overlay-motion.js';
+import {
+  DialogMotionContainer,
+  DialogMotionStyles,
+  useDialogMotionRefs,
+  useDialogWaapi,
+} from '../lib/dialog-motion.js';
+import { composeRefs } from '../lib/use-popup-waapi.js';
+import { OverlayMotion } from '../lib/overlay-motion.js';
 import { Button } from './button.js';
 
 export interface DialogProps {
@@ -19,14 +27,56 @@ export interface DialogProps {
   'data-testid'?: string;
 }
 
+const dialogInset = compVar('button-medium', 'leading-space');
+const dialogActionGap = compVar('list', 'item-between-space');
+
 const dialogPopupStyle: CSSProperties = {
   background: compVar('dialog', 'container-color'),
   borderRadius: compVar('dialog', 'container-shape'),
   boxShadow: elevationShadow('level3'),
-  padding: compVar('list', 'divider-leading-space'),
-  maxWidth: 560,
-  width: 'calc(100% - 48px)',
+  maxWidth: `min(calc(${dialogInset} * 23), calc(100% - calc(${dialogInset} * 2)))`,
+  width: `calc(100% - calc(${dialogInset} * 2))`,
 };
+
+function DialogWaapiShell({
+  children,
+  className,
+  testId,
+  popupStyle = dialogPopupStyle,
+}: {
+  children: ReactNode;
+  className?: string;
+  testId?: string;
+  popupStyle?: CSSProperties;
+}) {
+  const {
+    popupRef,
+    scrimRef,
+    containerRef,
+    headlineRef,
+    contentRef,
+    actionsRef,
+    getElements,
+  } = useDialogMotionRefs();
+  const waapiRef = useDialogWaapi(getElements);
+
+  return (
+    <>
+      <DialogMotionStyles />
+      {children({
+        scrimRef,
+        popupRef: composeRefs(waapiRef, popupRef),
+        containerRef,
+        headlineRef,
+        contentRef,
+        actionsRef,
+        className,
+        testId,
+        popupStyle,
+      })}
+    </>
+  );
+}
 
 export function Dialog({
   trigger,
@@ -44,48 +94,83 @@ export function Dialog({
     <BaseDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       <BaseDialog.Trigger render={trigger as React.ReactElement} />
       <BaseDialog.Portal>
-        <BaseDialog.Backdrop
-          render={(props) => (
-            <ScrimMotion
-              {...props}
-              style={{
-                ...props.style,
-                position: 'fixed',
-                inset: 0,
-                background: compVar('scrim', 'container-color'),
-                opacity: 0.32,
-              }}
-            />
+        <DialogWaapiShell className={className} testId={testId}>
+          {({ scrimRef, popupRef, containerRef, headlineRef, contentRef, actionsRef, popupStyle: style }) => (
+            <>
+              <BaseDialog.Backdrop
+                render={(props) => (
+                  <div
+                    {...props}
+                    ref={composeRefs(props.ref, scrimRef)}
+                    style={{
+                      ...props.style,
+                      position: 'fixed',
+                      inset: 0,
+                      background: compVar('scrim', 'container-color'),
+                      opacity: 0.32,
+                    }}
+                    aria-hidden
+                  />
+                )}
+              />
+              <BaseDialog.Popup ref={popupRef} className={className} data-testid={testId} style={style}>
+                <DialogMotionContainer containerRef={containerRef}>
+                  {icon && (
+                    <div
+                      style={{
+                        color: compVar('dialog', 'icon-color'),
+                        width: compVar('dialog', 'icon-size'),
+                        height: compVar('dialog', 'icon-size'),
+                        marginTop: dialogInset,
+                        marginInline: dialogInset,
+                        marginBottom: compVar('list', 'item-between-space'),
+                      }}
+                    >
+                      {icon}
+                    </div>
+                  )}
+                  <BaseDialog.Title
+                    ref={headlineRef}
+                    style={{
+                      ...typeStyle('headline-small'),
+                      color: compVar('dialog', 'headline-color'),
+                      margin: 0,
+                      padding: icon ? `0 ${dialogInset}` : `${dialogInset} ${dialogInset} 0`,
+                    }}
+                  >
+                    {headline}
+                  </BaseDialog.Title>
+                  {body && (
+                    <BaseDialog.Description
+                      ref={contentRef}
+                      style={{
+                        ...typeStyle('body-medium'),
+                        color: compVar('dialog', 'supporting-text-color'),
+                        marginTop: icon ? compVar('list', 'item-top-space') : 0,
+                        padding: dialogInset,
+                      }}
+                    >
+                      {body}
+                    </BaseDialog.Description>
+                  )}
+                  {actions && (
+                    <div
+                      ref={actionsRef}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: dialogActionGap,
+                        padding: `${compVar('list', 'divider-leading-space')} ${dialogInset} ${dialogInset}`,
+                      }}
+                    >
+                      {actions}
+                    </div>
+                  )}
+                </DialogMotionContainer>
+              </BaseDialog.Popup>
+            </>
           )}
-        />
-        <BaseDialog.Popup className={className} data-testid={testId}>
-          <OverlayMotion style={dialogPopupStyle}>
-            {icon && (
-              <div
-                style={{
-                  color: compVar('dialog', 'icon-color'),
-                  width: compVar('dialog', 'icon-size'),
-                  marginBottom: compVar('list', 'item-top-space'),
-                }}
-              >
-                {icon}
-              </div>
-            )}
-            <BaseDialog.Title style={{ ...typeStyle('headline-small'), color: compVar('dialog', 'headline-color'), margin: 0 }}>
-              {headline}
-            </BaseDialog.Title>
-            {body && (
-              <BaseDialog.Description style={{ ...typeStyle('body-medium'), color: compVar('dialog', 'supporting-text-color'), marginTop: compVar('list', 'item-top-space') }}>
-                {body}
-              </BaseDialog.Description>
-            )}
-            {actions && (
-              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: compVar('list', 'item-between-space'), marginTop: compVar('list', 'divider-leading-space') }}>
-                {actions}
-              </div>
-            )}
-          </OverlayMotion>
-        </BaseDialog.Popup>
+        </DialogWaapiShell>
       </BaseDialog.Portal>
     </BaseDialog.Root>
   );
@@ -126,22 +211,82 @@ export function AlertDialog({
     <BaseAlertDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       <BaseAlertDialog.Trigger render={trigger as React.ReactElement} />
       <BaseAlertDialog.Portal>
-        <BaseAlertDialog.Backdrop style={{ position: 'fixed', inset: 0, background: compVar('scrim', 'container-color'), opacity: 0.32 }} />
-        <BaseAlertDialog.Popup className={className} data-testid={testId}>
-          <OverlayMotion style={dialogPopupStyle}>
-            {icon && <div style={{ color: compVar('dialog', 'icon-color'), marginBottom: compVar('list', 'item-top-space') }}>{icon}</div>}
-            <BaseAlertDialog.Title style={{ ...typeStyle('headline-small'), color: compVar('dialog', 'headline-color') }}>{headline}</BaseAlertDialog.Title>
-            {body && (
-              <BaseAlertDialog.Description style={{ ...typeStyle('body-medium'), color: compVar('dialog', 'supporting-text-color'), marginTop: compVar('list', 'item-top-space') }}>
-                {body}
-              </BaseAlertDialog.Description>
-            )}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: compVar('list', 'item-between-space'), marginTop: compVar('list', 'divider-leading-space') }}>
-              <BaseAlertDialog.Close render={<Button variant="text" onClick={onCancel}>{cancelLabel}</Button>} />
-              <BaseAlertDialog.Close render={<Button variant="text" onClick={onConfirm}>{confirmLabel}</Button>} />
-            </div>
-          </OverlayMotion>
-        </BaseAlertDialog.Popup>
+        <DialogWaapiShell className={className} testId={testId}>
+          {({ scrimRef, popupRef, containerRef, headlineRef, contentRef, actionsRef, popupStyle: style }) => (
+            <>
+              <BaseAlertDialog.Backdrop
+                render={(props) => (
+                  <div
+                    {...props}
+                    ref={composeRefs(props.ref, scrimRef)}
+                    style={{
+                      ...props.style,
+                      position: 'fixed',
+                      inset: 0,
+                      background: compVar('scrim', 'container-color'),
+                      opacity: 0.32,
+                    }}
+                    aria-hidden
+                  />
+                )}
+              />
+              <BaseAlertDialog.Popup ref={popupRef} className={className} data-testid={testId} style={style}>
+                <DialogMotionContainer containerRef={containerRef}>
+                  {icon && (
+                    <div
+                      style={{
+                        color: compVar('dialog', 'icon-color'),
+                        width: compVar('dialog', 'icon-size'),
+                        height: compVar('dialog', 'icon-size'),
+                        marginTop: dialogInset,
+                        marginInline: dialogInset,
+                        marginBottom: compVar('list', 'item-between-space'),
+                      }}
+                    >
+                      {icon}
+                    </div>
+                  )}
+                  <BaseAlertDialog.Title
+                    ref={headlineRef}
+                    style={{
+                      ...typeStyle('headline-small'),
+                      color: compVar('dialog', 'headline-color'),
+                      margin: 0,
+                      padding: icon ? `0 ${dialogInset}` : `${dialogInset} ${dialogInset} 0`,
+                    }}
+                  >
+                    {headline}
+                  </BaseAlertDialog.Title>
+                  {body && (
+                    <BaseAlertDialog.Description
+                      ref={contentRef}
+                      style={{
+                        ...typeStyle('body-medium'),
+                        color: compVar('dialog', 'supporting-text-color'),
+                        marginTop: icon ? compVar('list', 'item-top-space') : 0,
+                        padding: dialogInset,
+                      }}
+                    >
+                      {body}
+                    </BaseAlertDialog.Description>
+                  )}
+                  <div
+                    ref={actionsRef}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'flex-end',
+                      gap: dialogActionGap,
+                      padding: `${compVar('list', 'divider-leading-space')} ${dialogInset} ${dialogInset}`,
+                    }}
+                  >
+                    <BaseAlertDialog.Close render={<Button variant="text" onClick={onCancel}>{cancelLabel}</Button>} />
+                    <BaseAlertDialog.Close render={<Button variant="text" onClick={onConfirm}>{confirmLabel}</Button>} />
+                  </div>
+                </DialogMotionContainer>
+              </BaseAlertDialog.Popup>
+            </>
+          )}
+        </DialogWaapiShell>
       </BaseAlertDialog.Portal>
     </BaseAlertDialog.Root>
   );
@@ -176,7 +321,7 @@ export function FullScreenDialog({
     background: compVar('dialog', 'container-color'),
     display: 'flex',
     flexDirection: 'column',
-    padding: compVar('list', 'divider-leading-space'),
+    padding: dialogInset,
   };
 
   return (
@@ -185,14 +330,28 @@ export function FullScreenDialog({
       <BaseDialog.Portal>
         <BaseDialog.Popup className={className} data-testid={testId}>
           <OverlayMotion fullScreen style={fullStyle}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: compVar('list', 'item-between-space') }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: dialogActionGap }}>
               <BaseDialog.Close aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                ✕
+                <Icon name="close" />
               </BaseDialog.Close>
-              <BaseDialog.Title style={{ ...typeStyle('headline-small'), flex: 1 }}>{headline}</BaseDialog.Title>
+              <BaseDialog.Title style={{ ...typeStyle('headline-small'), color: compVar('dialog', 'headline-color'), flex: 1 }}>
+                {headline}
+              </BaseDialog.Title>
               {actions}
             </div>
-            {body && <div style={{ flex: 1, overflow: 'auto', marginTop: compVar('list', 'divider-leading-space'), ...typeStyle('body-medium') }}>{body}</div>}
+            {body && (
+              <div
+                style={{
+                  flex: 1,
+                  overflow: 'auto',
+                  marginTop: compVar('list', 'divider-leading-space'),
+                  color: compVar('dialog', 'supporting-text-color'),
+                  ...typeStyle('body-medium'),
+                }}
+              >
+                {body}
+              </div>
+            )}
           </OverlayMotion>
         </BaseDialog.Popup>
       </BaseDialog.Portal>
@@ -202,7 +361,7 @@ export function FullScreenDialog({
 
 export function DialogAction({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <Button variant="text" onClick={onClick} style={{ color: compVar('dialog', 'action-label-text-color'), ...typeStyle('label-large') }}>
+    <Button variant="text" onClick={onClick}>
       {children}
     </Button>
   );
