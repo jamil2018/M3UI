@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { COMPONENT_UPSTREAM_KEYS } from '../catalog/parity.js';
-import { collectReferencedTokens } from './token-coverage-utils.js';
+import { collectReferencedTokens } from '../lib/token-coverage-utils.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SPEC_PATH = join(__dirname, '../../../tokens/src/spec/material-web-tokens.json');

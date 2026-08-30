@@ -4,7 +4,7 @@
  */
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
-import { collectReferencedTokens } from '../../../packages/react/src/__tests__/token-coverage-utils.js';
+import { collectReferencedTokens } from '../../../packages/react/src/lib/token-coverage-utils.js';
 import type { ParsedScssTokenFile } from './parse-scss.js';
 import { REPO_ROOT, readJsonFile, writeJsonFile } from './utils.js';
 
