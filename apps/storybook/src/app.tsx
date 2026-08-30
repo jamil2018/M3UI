@@ -36,7 +36,6 @@ import {
   useSnackbar,
   Meter,
   TopAppBar,
-  BottomAppBar,
   NavigationBar,
   NavigationRail,
   NavigationDrawer,
@@ -61,6 +60,7 @@ import {
   PaneScaffoldRoot,
   AdaptiveNavigation,
   WindowSizeClassProvider,
+  Icon,
 } from '@m3ui/react';
 import type { ContrastPreference } from '@m3ui/color';
 
@@ -157,9 +157,9 @@ export function App() {
             <section data-testid="demo-fab">
               <h2>FAB</h2>
               <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-                <Fab aria-label="Add" icon="+" size="small" />
-                <Fab aria-label="Add" icon="+" size="medium" />
-                <ExtendedFab icon="+" label="Compose" />
+                <Fab aria-label="Add" icon={<Icon name="add" />} size="standard" />
+                <Fab aria-label="Add" icon={<Icon name="add" />} size="medium" />
+                <ExtendedFab icon={<Icon name="edit" />} label="Compose" />
               </div>
             </section>
 
@@ -342,7 +342,7 @@ export function App() {
 
             <section data-testid="demo-scaffold">
               <h2>Scaffold</h2>
-              <Scaffold topAppBar={<TopAppBar title="App" size="small" />} fab={<FabAnchor><Fab aria-label="Add" icon="+" /></FabAnchor>}>
+              <Scaffold topAppBar={<TopAppBar title="App" size="small" />} fab={<FabAnchor><Fab aria-label="Add" icon={<Icon name="add" />} /></FabAnchor>}>
                 <p style={{ padding: 16 }}>Scaffold content area</p>
               </Scaffold>
             </section>
@@ -355,7 +355,7 @@ export function App() {
                   <ButtonGroupItem>Share</ButtonGroupItem>
                 </ButtonGroup>
                 <SplitButton menuItems={<MenuItem>More</MenuItem>}>Send</SplitButton>
-                <FabMenu aria-label="Create" icon="+" actions={[{ label: 'Task', icon: '✓' }]} />
+                <FabMenu aria-label="Create" icon={<Icon name="add" />} actions={[{ label: 'Task', icon: <Icon name="check" /> }]} />
               </div>
               <div style={{ marginTop: 16 }}>
                 <Toolbar variant="floating" data-testid="demo-toolbar">

@@ -1,10 +1,10 @@
-import { NavigationBar } from '@m3ui/react';
+import { NavigationBar, Icon } from '@m3ui/react';
 import type { ComponentExampleDefinition } from './types';
 
 const DESTINATIONS = [
-  { value: 'home', label: 'Home', icon: '🏠' },
-  { value: 'search', label: 'Search', icon: '🔍', badge: 3 },
-  { value: 'library', label: 'Library', icon: '📚' },
+  { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+  { value: 'search', label: 'Search', icon: <Icon name="search" />, badge: 3 },
+  { value: 'library', label: 'Library', icon: <Icon name="photo_library" /> },
 ];
 
 function NavigationBarBasicExample() {
@@ -19,9 +19,9 @@ export const navigationBarExamples: ComponentExampleDefinition[] = [
     description: 'Bottom navigation bar with badges on destinations.',
     source: `<NavigationBar
   destinations={[
-    { value: 'home', label: 'Home', icon: '🏠' },
-    { value: 'search', label: 'Search', icon: '🔍', badge: 3 },
-    { value: 'library', label: 'Library', icon: '📚' },
+    { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+    { value: 'search', label: 'Search', icon: <Icon name="search" />, badge: 3 },
+    { value: 'library', label: 'Library', icon: <Icon name="photo_library" /> },
   ]}
   defaultValue="home"
 />`,

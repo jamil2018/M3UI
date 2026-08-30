@@ -58,6 +58,7 @@ import {
   AdaptiveNavigation,
   WindowSizeClassProvider,
   PlaceholderButton,
+  Icon,
 } from '@m3ui/react';
 
 function SnackbarTrigger() {
@@ -109,9 +110,10 @@ export function FabExample() {
     <section data-testid="demo-fab" className="demo-section">
       <h2>FAB</h2>
       <div className="demo-row">
-        <Fab aria-label="Add" icon="+" size="small" />
-        <Fab aria-label="Add" icon="+" size="medium" />
-        <ExtendedFab icon="+" label="Compose" />
+        <Fab aria-label="Add" icon={<Icon name="add" />} size="standard" />
+        <Fab aria-label="Add" icon={<Icon name="add" />} size="medium" />
+        <Fab aria-label="Add" icon={<Icon name="add" />} size="large" />
+        <ExtendedFab icon={<Icon name="edit" />} label="Compose" size="small" />
       </div>
     </section>
   );
@@ -400,7 +402,7 @@ export function TopAppBarExample() {
   return (
     <section data-testid="demo-top-app-bar" className="demo-section">
       <h2>Top App Bar</h2>
-      <TopAppBar title="Photos" subtitle="Album" size="medium-flexible" trailing={<IconButton aria-label="Search" icon="🔍" />} />
+      <TopAppBar title="Photos" subtitle="Album" size="medium-flexible" trailing={<IconButton aria-label="Search" icon={<Icon name="search" />} />} />
     </section>
   );
 }
@@ -413,10 +415,10 @@ export function BottomAppBarExample() {
         actions={
           <>
             <IconButton aria-label="Menu" icon="☰" variant="standard" />
-            <IconButton aria-label="Search" icon="🔍" variant="standard" />
+            <IconButton aria-label="Search" icon={<Icon name="search" />} variant="standard" />
           </>
         }
-        fab={<Fab aria-label="Create" icon="+" size="small" />}
+        fab={<Fab aria-label="Create" icon={<Icon name="add" />} size="standard" />}
       />
     </section>
   );
@@ -428,8 +430,8 @@ export function NavigationRailExample() {
       <h2>Navigation Rail</h2>
       <NavigationRail
         destinations={[
-          { value: 'home', label: 'Home', icon: '🏠' },
-          { value: 'browse', label: 'Browse', icon: '📂' },
+          { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+          { value: 'browse', label: 'Browse', icon: <Icon name="folder" /> },
           { value: 'settings', label: 'Settings', icon: '⚙️' },
         ]}
         mode="collapsed"
@@ -444,7 +446,7 @@ export function NavigationDrawerExample() {
       <h2>Navigation Drawer</h2>
       <NavigationDrawer
         variant="standard"
-        sections={[{ items: [{ value: 'inbox', label: 'Inbox', icon: '📥' }] }]}
+        sections={[{ items: [{ value: 'inbox', label: 'Inbox', icon: <Icon name="inbox" /> }] }]}
       />
     </section>
   );
@@ -456,8 +458,8 @@ export function NavigationBarExample() {
       <h2>Navigation Bar</h2>
       <NavigationBar
         destinations={[
-          { value: 'home', label: 'Home', icon: '🏠' },
-          { value: 'search', label: 'Search', icon: '🔍', badge: 2 },
+          { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+          { value: 'search', label: 'Search', icon: <Icon name="search" />, badge: 2 },
           { value: 'settings', label: 'Settings', icon: '⚙️' },
         ]}
       />
@@ -564,7 +566,7 @@ export function ScaffoldExample() {
   return (
     <section data-testid="demo-scaffold" className="demo-section">
       <h2>Scaffold</h2>
-      <Scaffold topAppBar={<TopAppBar title="App" size="small" />} fab={<FabAnchor><Fab aria-label="Add" icon="+" /></FabAnchor>}>
+      <Scaffold topAppBar={<TopAppBar title="App" size="small" />} fab={<FabAnchor><Fab aria-label="Add" icon={<Icon name="add" />} /></FabAnchor>}>
         <p style={{ padding: 16 }}>Scaffold content area</p>
       </Scaffold>
     </section>
@@ -596,7 +598,7 @@ export function FabMenuExample() {
   return (
     <section data-testid="demo-fab-menu" className="demo-section">
       <h2>FAB Menu</h2>
-      <FabMenu aria-label="Create" icon="+" actions={[{ label: 'Task', icon: '✓' }]} />
+      <FabMenu aria-label="Create" icon={<Icon name="add" />} actions={[{ label: 'Task', icon: <Icon name="check" /> }]} />
     </section>
   );
 }
@@ -674,8 +676,8 @@ export function AdaptiveNavigationExample() {
       <h2>Adaptive Navigation</h2>
       <AdaptiveNavigation
         destinations={[
-          { value: 'home', label: 'Home', icon: '🏠' },
-          { value: 'search', label: 'Search', icon: '🔍' },
+          { value: 'home', label: 'Home', icon: <Icon name="home" /> },
+          { value: 'search', label: 'Search', icon: <Icon name="search" /> },
           { value: 'settings', label: 'Settings', icon: '⚙️' },
         ]}
         mode="bar"
