@@ -25,3 +25,12 @@ export {
   type UseMorphOptions,
   type UseMorphResult,
 } from './use-morph.js';
+export {
+  PRESSABLE_SHAPE_PRESETS,
+  TOGGLE_SHAPE_PRESETS,
+  PRIMITIVE_SHAPE_INTEGRATION,
+  PRESSABLE_PRESET_SHAPE_NAMES,
+  getPressableShapePair,
+  type PressableShapePair,
+  type PressableShapePreset,
+} from './pressable-shapes.js';

@@ -6,6 +6,13 @@ import {
   LoadingIndicatorShapes,
   MATERIAL_SHAPE_NAMES,
 } from './material-shapes.js';
+import {
+  getPressableShapePair,
+  PRESSABLE_PRESET_SHAPE_NAMES,
+  PRESSABLE_SHAPE_PRESETS,
+  PRIMITIVE_SHAPE_INTEGRATION,
+  TOGGLE_SHAPE_PRESETS,
+} from './pressable-shapes.js';
 import { RoundedPolygon } from './rounded-polygon.js';
 import { progressToIndex, MORPH_PROGRESS_STEPS } from './performance.js';
 
@@ -23,6 +30,45 @@ describe('MaterialShapes library', () => {
   });
 });
 
+describe('pressable shape presets', () => {
+  it('matches Expressive round/square press morph endpoints', () => {
+    expect(PRESSABLE_PRESET_SHAPE_NAMES.round).toEqual({
+      rest: 'circle',
+      pressed: 'cookie4Sided',
+    });
+    expect(PRESSABLE_PRESET_SHAPE_NAMES.square).toEqual({
+      rest: 'square',
+      pressed: 'cookie4Sided',
+    });
+
+    const round = getPressableShapePair('round');
+    expect(round.rest).toBe(MaterialShapes.circle);
+    expect(round.pressed).toBe(MaterialShapes.cookie4Sided);
+    expect(PRESSABLE_SHAPE_PRESETS.square.rest).toBe(MaterialShapes.square);
+  });
+
+  it('morphs pressable presets without self-intersection at endpoints', () => {
+    for (const preset of Object.values(PRESSABLE_SHAPE_PRESETS)) {
+      const morph = new Morph(preset.rest, preset.pressed);
+      for (const p of [0, 1]) {
+        expect(hasSimpleSelfIntersection(morph.asCubics(p))).toBe(false);
+      }
+    }
+    for (const preset of Object.values(TOGGLE_SHAPE_PRESETS)) {
+      const morph = new Morph(preset.rest, preset.pressed);
+      for (const p of [0, 1]) {
+        expect(hasSimpleSelfIntersection(morph.asCubics(p))).toBe(false);
+      }
+    }
+  });
+
+  it('documents ripple and focus-ring integration points', () => {
+    expect(PRIMITIVE_SHAPE_INTEGRATION.ripple.clipPathTarget).toBe('inner-pressable');
+    expect(PRIMITIVE_SHAPE_INTEGRATION.focusRing.outwardShapeVars).toHaveLength(4);
+    expect(PRIMITIVE_SHAPE_INTEGRATION.morph.clipPathEmitter).toBe('cubicsToClipPath');
+  });
+});
+
 describe('path emitters', () => {
   it('emits valid SVG path and clip-path', () => {
     const poly = MaterialShapes.circle;
@@ -30,7 +76,7 @@ describe('path emitters', () => {
     expect(d).toMatch(/^M /);
     expect(d).toContain('C ');
     const clip = cubicsToClipPath(poly.cubics);
-    expect(clip).toMatch(/^path\('/);
+    expect(clip).toMatch(/^polygon\(/);
   });
 });
 

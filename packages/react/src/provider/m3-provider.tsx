@@ -4,6 +4,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  type CSSProperties,
   type ReactNode,
 } from 'react';
 import { DirectionProvider } from '@base-ui/react/direction-provider';
@@ -25,6 +26,9 @@ export interface M3ProviderProps {
   locale?: string;
   messages?: M3Messages;
   className?: string;
+  style?: CSSProperties;
+  /** Android-derived Expressive behavior is adapted to browser rendering. */
+  expressive?: boolean;
 }
 
 interface M3ContextValue {
@@ -42,13 +46,13 @@ interface M3ContextValue {
 const M3Context = createContext<M3ContextValue | null>(null);
 
 function useSystemScheme(): 'light' | 'dark' {
-  const [system, setSystem] = useState<'light' | 'dark'>(() => {
-    if (typeof window === 'undefined') return 'light';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  });
+  // Keep the server render and the first client render identical. The media
+  // query is applied immediately after hydration and then stays subscribed.
+  const [system, setSystem] = useState<'light' | 'dark'>('light');
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    setSystem(mq.matches ? 'dark' : 'light');
     const handler = (e: MediaQueryListEvent) => { setSystem(e.matches ? 'dark' : 'light'); };
     mq.addEventListener('change', handler);
     return () => { mq.removeEventListener('change', handler); };
@@ -66,11 +70,17 @@ export function M3Provider({
   locale = 'en-US',
   messages,
   className,
+  style,
+  expressive = true,
 }: M3ProviderProps) {
   const [seed, setSeed] = useState(initialSeed);
   const [scheme, setScheme] = useState<ColorScheme>(initialScheme);
   const [contrast, setContrast] = useState<ContrastPreference>(initialContrast);
   const systemScheme = useSystemScheme();
+
+  useEffect(() => { setSeed(initialSeed); }, [initialSeed]);
+  useEffect(() => { setScheme(initialScheme); }, [initialScheme]);
+  useEffect(() => { setContrast(initialContrast); }, [initialContrast]);
 
   const resolvedScheme = scheme === 'system' ? systemScheme : scheme;
 
@@ -89,20 +99,6 @@ export function M3Provider({
     loadMaterialSymbols();
   }, []);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    for (const [key, value] of Object.entries(theme.cssVars)) {
-      root.style.setProperty(key, value);
-    }
-    root.dataset.m3Scheme = resolvedScheme;
-    root.dataset.m3Contrast = String(contrast);
-    return () => {
-      for (const key of Object.keys(theme.cssVars)) {
-        root.style.removeProperty(key);
-      }
-    };
-  }, [theme, resolvedScheme, contrast]);
-
   const value = useMemo<M3ContextValue>(
     () => ({
       seed,
@@ -119,6 +115,10 @@ export function M3Provider({
   );
 
   const reducedMotion = prefersReducedMotion();
+  const scopedThemeStyle = useMemo(
+    () => ({ ...theme.cssVars, ...style }),
+    [theme.cssVars, style],
+  );
 
   return (
     <M3Context.Provider value={value}>
@@ -128,7 +128,15 @@ export function M3Provider({
             reducedMotion={reducedMotion ? 'always' : 'user'}
             transition={reducedMotion ? reducedMotionTransition : undefined}
           >
-            <div className={className} data-m3-root dir={direction}>
+            <div
+              className={className}
+              data-m3-root
+              data-m3-expressive={expressive ? 'adapted' : 'standard'}
+              data-m3-scheme={resolvedScheme}
+              data-m3-contrast={String(contrast)}
+              dir={direction}
+              style={scopedThemeStyle}
+            >
               {children}
             </div>
           </MotionConfig>

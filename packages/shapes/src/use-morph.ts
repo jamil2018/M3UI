@@ -41,8 +41,8 @@ function buildPrecomputedMorph(
   from: RoundedPolygon,
   to: RoundedPolygon,
   steps: number,
-  width: number,
-  height: number,
+  _width: number,
+  _height: number,
 ): PrecomputedMorph {
   const key = `${polygonId(from)}→${polygonId(to)}@${steps}`;
   const clipPaths = getCachedMorphPaths(key, () => {
@@ -52,29 +52,13 @@ function buildPrecomputedMorph(
       const progress = i / (steps - 1);
       const cubics = morph.asCubics(progress);
       const normalized = cubicsToClipPath(cubics);
-      if (width === 1 && height === 1) {
-        paths.push(normalized);
-      } else {
-        // Scale path coordinates for element size
-        const scaled = scaleClipPath(normalized, width, height);
-        paths.push(scaled);
-      }
+      // Percentage polygons are relative to the target element, so they work
+      // for arbitrary sizes without an initial 1px clipping frame.
+      paths.push(normalized);
     }
     return paths;
   });
   return { clipPaths, steps };
-}
-
-function scaleClipPath(clipPath: string, width: number, height: number): string {
-  const match = /path\('([^']+)'\)/.exec(clipPath);
-  if (!match?.[1]) return clipPath;
-  let coordIndex = 0;
-  const scaled = match[1].replace(/-?\d*\.?\d+(?:e[-+]?\d+)?/gi, (n) => {
-    const v = parseFloat(n);
-    const scale = coordIndex++ % 2 === 0 ? width : height;
-    return String(v * scale);
-  });
-  return `path('${scaled}')`;
 }
 
 function cubicsToSvg(cubics: ReturnType<Morph['asCubics']>): string {

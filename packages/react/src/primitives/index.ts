@@ -4,5 +4,8 @@ export type { StateLayerProps } from './state-layer.js';
 export { Ripple } from './ripple.js';
 export type { RippleProps } from './ripple.js';
 
+export { FocusRing } from './focus-ring.js';
+export type { FocusRingProps } from './focus-ring.js';
+
 export { Surface, ELEVATION_LEVELS } from './surface.js';
 export type { SurfaceProps } from './surface.js';

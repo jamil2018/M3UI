@@ -14,7 +14,7 @@ const REPO_ROOT = join(__dirname, '../..');
 /** Per-package entry file budgets (raw bytes — minified ESM) */
 export const BUNDLE_BUDGETS: Record<string, { path: string; maxKb: number; label: string }[]> = {
   '@m3ui/react': [
-    { path: 'packages/react/dist/index.js', maxKb: 200, label: 'main entry' },
+    { path: 'packages/react/dist/index.js', maxKb: 210, label: 'main entry' },
     { path: 'packages/react/dist/m3-provider-*.js', maxKb: 10, label: 'M3Provider chunk' },
     { path: 'packages/react/dist/primitives-*.js', maxKb: 10, label: 'primitives chunk' },
   ],
