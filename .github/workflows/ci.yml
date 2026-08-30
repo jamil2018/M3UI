@@ -50,14 +50,18 @@ jobs:
       - name: Registry import check
         run: pnpm --filter @m3ui/react test:registry
 
+      # Material Web parity gates (see docs/PARITY-SYNC.md)
+      - name: Spec sync check
+        run: pnpm spec:sync:check
+
+      - name: Parity report check
+        run: SPEC_PARITY_STRICT=1 pnpm parity:check
+
       - name: Token coverage gate
         run: pnpm --filter @m3ui/react test:coverage
 
       - name: Bundle size budgets
         run: pnpm size:check
-
-      - name: Spec sync check
-        run: pnpm spec:sync:check
 
       - name: RSC boundary audit
         run: pnpm --filter @m3ui/react test:rsc
