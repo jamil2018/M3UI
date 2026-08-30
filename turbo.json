@@ -31,7 +31,7 @@
       "cache": false
     },
     "@m3ui/storybook#test:vrt": {
-      "dependsOn": ["^build", "build"],
+      "dependsOn": ["^build"],
       "cache": false
     },
     "registry:build": {
