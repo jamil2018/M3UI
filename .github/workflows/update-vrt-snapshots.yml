@@ -31,6 +31,7 @@ jobs:
 
       - name: Update VRT snapshots
         run: pnpm test:vrt -- --update-snapshots
+        continue-on-error: true
 
       - name: Create pull request with updated snapshots
         uses: peter-evans/create-pull-request@v7
