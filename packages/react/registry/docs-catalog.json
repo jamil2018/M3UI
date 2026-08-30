@@ -1,6 +1,6 @@
 {
   "$schema": "https://m3ui.dev/schema/docs-catalog.json",
-  "generatedAt": "2026-08-29T10:31:04.722Z",
+  "generatedAt": "2026-08-29T22:28:02.904Z",
   "categories": [
     "actions",
     "inputs",
@@ -41,6 +41,65 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "elevated",
+          "filled",
+          "filled-tonal",
+          "outlined",
+          "text"
+        ],
+        "sizes": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-filled-button-",
+          "--md-comp-elevated-button-",
+          "--md-comp-outlined-button-",
+          "--md-comp-text-button-",
+          "--md-comp-filled-tonal-button-",
+          "--md-comp-button-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [
+              "focus-state-layer-color",
+              "focus-state-layer-opacity",
+              "label-text-tracking",
+              "label-text-type"
+            ],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -69,6 +128,58 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard",
+          "filled",
+          "filled-tonal",
+          "outlined"
+        ],
+        "sizes": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-icon-button-",
+          "--md-comp-filled-icon-button-",
+          "--md-comp-outlined-icon-button-",
+          "--md-comp-filled-tonal-icon-button-",
+          "--md-comp-medium-icon-button-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -98,6 +209,56 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "primary",
+          "secondary",
+          "tertiary",
+          "primary-container",
+          "secondary-container",
+          "tertiary-container"
+        ],
+        "sizes": [
+          "standard",
+          "medium",
+          "large"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-fab-",
+          "--md-comp-extended-fab-",
+          "--md-comp-fab-primary-container-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -125,6 +286,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "unchecked",
+          "checked",
+          "indeterminate"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled",
+          "error",
+          "indeterminate"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-checkbox-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -152,6 +358,48 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "unselected",
+          "selected"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-radio-button-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -178,6 +426,49 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "unselected",
+          "selected",
+          "with-icon"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-switch-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -206,6 +497,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "verified",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "filled",
+          "outlined"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "disabled",
+          "error"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-filled-text-field-",
+          "--md-comp-outlined-text-field-"
+        ],
+        "adaptations": [
+          "Floating label animation uses Motion springs rather than CSS keyframes.",
+          "Shared field internals extracted for select parity (field-internals.ts)."
+        ],
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -232,6 +568,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "elevated",
+          "filled",
+          "outlined"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-elevated-card-",
+          "--md-comp-filled-card-",
+          "--md-comp-outlined-card-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -259,6 +640,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "one-line",
+          "two-line",
+          "three-line"
+        ],
+        "sizes": [
+          "standard",
+          "dense"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-list-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -284,6 +709,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "full-width",
+          "inset",
+          "middle-inset"
+        ],
+        "sizes": [
+          "horizontal",
+          "vertical"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-divider-",
+          "--md-comp-list-divider-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -310,6 +780,48 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "dot",
+          "large"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-badge-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -338,6 +850,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "plain",
+          "rich"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-plain-tooltip-",
+          "--md-comp-rich-tooltip-"
+        ],
+        "adaptations": [
+          "Rich tooltip action slot tokens reserved; PreviewCard hosts rich content."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -367,6 +924,54 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "assist",
+          "filter",
+          "input",
+          "suggestion"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-assist-chip-",
+          "--md-comp-filter-chip-",
+          "--md-comp-input-chip-",
+          "--md-comp-suggestion-chip-",
+          "--md-comp-chips-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -395,6 +1000,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "single-select",
+          "multi-select"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-outlined-segmented-button-"
+        ],
+        "adaptations": [
+          "Selected/unselected colors bound via Toggle pressed state."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -422,6 +1071,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "verified",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "continuous",
+          "discrete",
+          "centered",
+          "range"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-slider-"
+        ],
+        "adaptations": [
+          "Thumb width transition uses Motion springs instead of CSS transitions.",
+          "Vertical orientation height is a web layout default."
+        ],
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -453,6 +1148,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "dropdown",
+          "context",
+          "menubar"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-menu-",
+          "--md-comp-list-"
+        ],
+        "adaptations": [
+          "Menu popup uses Material Web WAAPI: 500ms open with per-item stagger and upward translateY correction, 150ms close to 35% height, abort-signal interruption."
+        ],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -482,6 +1223,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "verified",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "filled",
+          "outlined"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "disabled",
+          "error"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-filled-text-field-",
+          "--md-comp-outlined-text-field-",
+          "--md-comp-menu-"
+        ],
+        "adaptations": [
+          "Field container styling shared with text-field via field-internals.ts.",
+          "Dropdown list reuses Menu WAAPI popup motion."
+        ],
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -511,12 +1298,61 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "filled",
+          "outlined"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-filled-autocomplete-",
+          "--md-comp-outlined-autocomplete-",
+          "--md-comp-filled-text-field-",
+          "--md-comp-outlined-text-field-",
+          "--md-comp-menu-"
+        ],
+        "adaptations": [
+          "Autocomplete field styling reuses text-field tokens; dedicated autocomplete container tokens are redundant on web.",
+          "Suggestion menu reuses menu container tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
       "slug": "progress",
       "title": "Progress",
-      "description": "Linear and circular progress with wavy Expressive variants",
+      "description": "Linear and circular progress indicators",
       "category": "feedback",
       "status": "stable",
       "registryType": "registry:ui",
@@ -540,6 +1376,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "verified",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "linear",
+          "circular",
+          "flat",
+          "wavy"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "determinate",
+          "indeterminate"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-progress-indicator-",
+          "--md-comp-linear-progress-indicator-",
+          "--md-comp-circular-progress-indicator-"
+        ],
+        "adaptations": [
+          "Wavy variant is an Expressive extension not shipped in stable MWC.",
+          "Wavy animation uses SVG path generation with Motion animation frames."
+        ],
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -568,6 +1450,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "expressive"
+        ],
+        "sizes": [
+          "small",
+          "medium",
+          "large"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-loading-indicator-"
+        ],
+        "adaptations": [
+          "Expressive shape-cycling animation is Android-derived; not in Material Web."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -597,6 +1524,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-snackbar-"
+        ],
+        "adaptations": [
+          "Toast queue, dismiss control, and viewport positioning are web-specific.",
+          "Container width follows content; no upstream min/max width tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -623,6 +1594,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-linear-progress-indicator-",
+          "--md-comp-progress-indicator-"
+        ],
+        "adaptations": [
+          "Meter reuses linear progress indicator track and active indicator tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -651,6 +1666,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "default",
+          "center-aligned"
+        ],
+        "sizes": [
+          "small",
+          "medium",
+          "large",
+          "medium-flexible",
+          "large-flexible"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-app-bar-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -679,6 +1740,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-bottom-app-bar-",
+          "--md-comp-app-bar-",
+          "--md-comp-fab-medium-"
+        ],
+        "adaptations": [
+          "Hide-on-scroll behavior is a web extension."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -706,6 +1812,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard",
+          "tall"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-navigation-bar-",
+          "--md-comp-navigation-bar-horizontal-item-",
+          "--md-comp-navigation-bar-vertical-item-"
+        ],
+        "adaptations": [
+          "Vertical layout tokens unused; web bar uses horizontal item subset."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -733,6 +1885,54 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "collapsed",
+          "expanded",
+          "modal"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-navigation-rail-collapsed-",
+          "--md-comp-navigation-rail-expanded-",
+          "--md-comp-navigation-rail-color-",
+          "--md-comp-navigation-rail-baseline-item-"
+        ],
+        "adaptations": [
+          "Expanded/modal layout tokens partially mapped to collapsed width defaults."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -761,6 +1961,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard",
+          "modal"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-navigation-drawer-"
+        ],
+        "adaptations": [
+          "Badge overlay tokens delegated to Badge component."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -789,6 +2033,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "verified",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "primary",
+          "secondary"
+        ],
+        "sizes": [
+          "fixed",
+          "scrollable"
+        ],
+        "states": [
+          "rest",
+          "selected",
+          "disabled"
+        ],
+        "responsive": true,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-primary-navigation-tab-",
+          "--md-comp-secondary-navigation-tab-"
+        ],
+        "adaptations": [
+          "Active indicator position uses Motion springs instead of CSS transitions.",
+          "Scrollable layout is a web composition pattern."
+        ],
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -818,6 +2106,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "bar",
+          "view"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-search-bar-",
+          "--md-comp-search-view-",
+          "--md-comp-menu-"
+        ],
+        "adaptations": [
+          "SearchBar suggestions reuse menu popup tokens; docked view max width follows header height token."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -849,6 +2183,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "verified",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "basic",
+          "alert",
+          "full-screen"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "open",
+          "closed"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-dialog-",
+          "--md-comp-scrim-"
+        ],
+        "adaptations": [
+          "FullScreenDialog is a web layout adaptation beyond stable MWC basic dialog.",
+          "Dialog actions delegate to standard text Button; action-* dialog tokens are unused per upstream.",
+          "Dialog and AlertDialog use Material Web WAAPI open/close choreography; FullScreenDialog keeps Motion overlay."
+        ],
+        "parity": {
+          "tier": "B",
+          "reference": "stable",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -876,6 +2255,51 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard",
+          "modal"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-sheet-bottom-docked-",
+          "--md-comp-sheet-bottom-"
+        ],
+        "adaptations": [
+          "Snap points and drag gestures are web-specific; sheet-bottom-docked tokens drive visuals."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -904,6 +2328,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard",
+          "modal"
+        ],
+        "sizes": [
+          "start",
+          "end"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-navigation-drawer-",
+          "--md-comp-navigation-drawer-modal-"
+        ],
+        "adaptations": [
+          "Side sheet maps to navigation-drawer modal container tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -931,6 +2401,54 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "multi-browse",
+          "uncontained",
+          "hero",
+          "full-screen"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-carousel-",
+          "--md-comp-elevated-card-"
+        ],
+        "adaptations": [
+          "Dedicated carousel tokens are Compose-only; slides use elevated-card container tokens.",
+          "Scroll-linked scale uses Motion; layout widths are percentage-based web defaults."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -959,6 +2477,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-fab-medium-",
+          "--md-comp-list-"
+        ],
+        "adaptations": [
+          "Inset CSS variables compose chrome; no dedicated scaffold tokens in upstream."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -989,6 +2551,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard",
+          "connected"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-button-group-small-",
+          "--md-comp-connected-button-group-small-",
+          "--md-comp-filled-button-"
+        ],
+        "adaptations": [
+          "Expressive neighbor bump uses shape morph springs beyond upstream token spec."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1018,6 +2626,53 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "filled",
+          "filled-tonal",
+          "outlined"
+        ],
+        "sizes": [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-split-button-"
+        ],
+        "adaptations": [],
+        "parity": {
+          "tier": "A",
+          "reference": "labs/gb",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1046,6 +2701,50 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "standard"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-fab-menu-baseline-",
+          "--md-comp-fab-primary-container-"
+        ],
+        "adaptations": [
+          "Shape morph pill expansion uses @m3ui/shapes; list items reuse fab-menu-baseline tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1074,6 +2773,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "docked",
+          "floating"
+        ],
+        "sizes": [
+          "horizontal",
+          "vertical"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-docked-toolbar-",
+          "--md-comp-floating-toolbar-"
+        ],
+        "adaptations": [
+          "Hide-on-scroll floating toolbar is a web extension."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1101,6 +2846,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "filled",
+          "outlined"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-date-input-modal-",
+          "--md-comp-filled-text-field-",
+          "--md-comp-outlined-text-field-"
+        ],
+        "adaptations": [
+          "Inline segments reuse text-field focus and container tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1129,6 +2920,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "docked",
+          "modal",
+          "modal-input"
+        ],
+        "sizes": [
+          "standard",
+          "range"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-date-picker-modal-"
+        ],
+        "adaptations": [
+          "Calendar grid uses modal token subset; range selection is a web extension."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1156,6 +2993,53 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "dial",
+          "input"
+        ],
+        "sizes": [
+          "12h",
+          "24h"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-time-picker-",
+          "--md-comp-time-input-"
+        ],
+        "adaptations": [
+          "Dial geometry reads clock-dial-container-size; inner/outer radii approximate Compose precision.",
+          "Period selector uses period-selector color tokens."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1184,6 +3068,52 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "list-detail",
+          "supporting-pane"
+        ],
+        "sizes": [
+          "compact",
+          "medium",
+          "expanded"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-divider-"
+        ],
+        "adaptations": [
+          "Adaptive list-detail layout is a web composition pattern."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1214,6 +3144,53 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "bar",
+          "rail",
+          "drawer"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-navigation-bar-",
+          "--md-comp-navigation-rail-",
+          "--md-comp-navigation-drawer-"
+        ],
+        "adaptations": [
+          "Composes navigation-bar, navigation-rail, and navigation-drawer with window-size-class switching."
+        ],
+        "parity": {
+          "tier": "C",
+          "reference": "tokens-only",
+          "upstreamVersion": "@material/web@2.5.0",
+          "residualDiff": {
+            "missing": [],
+            "extra": [],
+            "drifted": []
+          }
+        }
       }
     },
     {
@@ -1237,6 +3214,37 @@
         "route": true,
         "publicIndex": false,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "material-tokens",
+          "material-web",
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "placeholder"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "hover",
+          "focus",
+          "pressed",
+          "disabled"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-comp-placeholder-button-"
+        ],
+        "adaptations": []
       }
     },
     {
@@ -1265,6 +3273,35 @@
         "route": true,
         "publicIndex": true,
         "hasContent": false
+      },
+      "conformance": {
+        "version": "1.0",
+        "status": "adapted",
+        "sources": [
+          "android-expressive",
+          "m3ui-web-adaptation"
+        ],
+        "variants": [
+          "shape-crop",
+          "morph"
+        ],
+        "sizes": [
+          "standard"
+        ],
+        "states": [
+          "rest",
+          "morphed"
+        ],
+        "responsive": false,
+        "rtl": true,
+        "reducedMotion": true,
+        "forcedColors": true,
+        "tokenPrefixes": [
+          "--md-sys-shape-"
+        ],
+        "adaptations": [
+          "CSS clip-path and Motion springs adapt the Android Expressive shape system."
+        ]
       }
     }
   ]
