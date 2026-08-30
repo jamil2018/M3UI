@@ -3,14 +3,17 @@ import { Menu as BaseMenu } from '@base-ui/react/menu';
 import { ContextMenu as BaseContextMenu } from '@base-ui/react/context-menu';
 import { Menubar as BaseMenubar } from '@base-ui/react/menubar';
 import { type CSSProperties, type ReactElement, type ReactNode, isValidElement } from 'react';
-import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
-import { PopupMotion } from '../lib/popup-motion.js';
+import { Icon } from '@m3ui/icons';
+import { compVar, compElevation, typeStyle } from '../lib/token-utils.js';
+import { DialogMotionStyles } from '../lib/dialog-motion.js';
+import { MenuMotionPopup } from '../lib/menu-motion.js';
 import { Divider } from './divider.js';
 
 const popupStyle: CSSProperties = {
   background: compVar('menu', 'container-color'),
   borderRadius: compVar('menu', 'container-shape'),
-  boxShadow: elevationShadow('level2'),
+  boxShadow: compElevation('menu'),
+  ['--menu-shadow-color' as string]: compVar('menu', 'container-shadow-color'),
   paddingBlock: compVar('list', 'item-top-space'),
   minWidth: 180,
   outline: 'none',
@@ -21,24 +24,42 @@ const itemStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: compVar('list', 'item-between-space'),
-  paddingBlock: compVar('list', 'item-one-line-container-height'),
+  paddingBlock: compVar('list', 'item-top-space'),
   paddingInline: compVar('list', 'divider-leading-space'),
   ...typeStyle('body-large'),
-  color: compVar('list', 'item-label-text-color'),
+  color: compVar('list-item', 'label-text-color'),
   cursor: 'pointer',
-  borderRadius: compVar('list', 'item-container-expressive-shape'),
+  borderRadius: compVar('list-item', 'container-shape'),
   outline: 'none',
 };
 
-function MenuPopupWrapper({ children, style, ...props }: { children: ReactNode; style?: CSSProperties; 'data-testid'?: string }) {
+function MenuPopupWrapper({
+  children,
+  style,
+  openingUpwards = false,
+  ...props
+}: {
+  children: ReactNode;
+  style?: CSSProperties;
+  openingUpwards?: boolean;
+  'data-testid'?: string;
+}) {
   return (
     <BaseMenu.Portal>
+      <DialogMotionStyles />
       <BaseMenu.Positioner sideOffset={4}>
-        <PopupMotion>
-          <BaseMenu.Popup style={{ ...popupStyle, ...style }} {...props}>
-            {children}
-          </BaseMenu.Popup>
-        </PopupMotion>
+        <BaseMenu.Popup
+          render={(popupProps) => (
+            <MenuMotionPopup
+              {...popupProps}
+              {...props}
+              openingUpwards={openingUpwards}
+              style={{ ...popupStyle, ...style, ...popupProps.style }}
+            >
+              {children}
+            </MenuMotionPopup>
+          )}
+        />
       </BaseMenu.Positioner>
     </BaseMenu.Portal>
   );
@@ -131,14 +152,17 @@ export interface MenuSubmenuProps {
 export function MenuSubmenu({ trigger, children }: MenuSubmenuProps) {
   return (
     <BaseMenu.SubmenuRoot>
-      <BaseMenu.SubmenuTrigger style={itemStyle}>{trigger} ›</BaseMenu.SubmenuTrigger>
+      <BaseMenu.SubmenuTrigger style={itemStyle}>{trigger}<Icon name="chevron_right" size={18} /></BaseMenu.SubmenuTrigger>
       <BaseMenu.Portal>
+        <DialogMotionStyles />
         <BaseMenu.Positioner side="inline-end" sideOffset={4}>
-          <PopupMotion>
-            <BaseMenu.Popup style={popupStyle}>
-              <BaseMenu.Viewport>{children}</BaseMenu.Viewport>
-            </BaseMenu.Popup>
-          </PopupMotion>
+          <BaseMenu.Popup
+            render={(popupProps) => (
+              <MenuMotionPopup {...popupProps} style={{ ...popupStyle, ...popupProps.style }}>
+                <BaseMenu.Viewport>{children}</BaseMenu.Viewport>
+              </MenuMotionPopup>
+            )}
+          />
         </BaseMenu.Positioner>
       </BaseMenu.Portal>
     </BaseMenu.SubmenuRoot>
@@ -159,10 +183,15 @@ export function ContextMenu({ trigger, children, className, 'data-testid': testI
         {trigger}
       </BaseContextMenu.Trigger>
       <BaseContextMenu.Portal>
+        <DialogMotionStyles />
         <BaseContextMenu.Positioner sideOffset={4}>
-          <PopupMotion>
-            <BaseContextMenu.Popup style={popupStyle}>{children}</BaseContextMenu.Popup>
-          </PopupMotion>
+          <BaseContextMenu.Popup
+            render={(popupProps) => (
+              <MenuMotionPopup {...popupProps} style={{ ...popupStyle, ...popupProps.style }}>
+                {children}
+              </MenuMotionPopup>
+            )}
+          />
         </BaseContextMenu.Positioner>
       </BaseContextMenu.Portal>
     </BaseContextMenu.Root>
