@@ -2,7 +2,10 @@ import { defineConfig, devices } from '@playwright/test';
 
 const pnpm = 'npx pnpm@9.15.0';
 
-const storybookServer = process.env.STORYBOOK_STATIC
+const includeDocsVrt = Boolean(process.env.DOCS_VRT || process.env.CI);
+const useStaticStorybook = Boolean(process.env.STORYBOOK_STATIC || process.env.CI);
+
+const storybookServer = useStaticStorybook
   ? {
       command: `${pnpm} --filter @m3ui/storybook preview`,
       url: 'http://localhost:6006',
@@ -41,14 +44,18 @@ export default defineConfig({
         baseURL: 'http://localhost:6006',
       },
     },
-    {
-      name: 'docs-chromium',
-      testMatch: /docs\.spec\.ts/,
-      use: {
-        ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3000',
-      },
-    },
+    ...(includeDocsVrt
+      ? [
+          {
+            name: 'docs-chromium',
+            testMatch: /docs\.spec\.ts/,
+            use: {
+              ...devices['Desktop Chrome'],
+              baseURL: 'http://localhost:3000',
+            },
+          },
+        ]
+      : []),
   ],
-  webServer: process.env.DOCS_VRT ? [storybookServer, docsServer] : storybookServer,
+  webServer: includeDocsVrt ? [storybookServer, docsServer] : storybookServer,
 });
