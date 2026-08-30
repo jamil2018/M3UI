@@ -7,7 +7,7 @@ const examples = getExamplesForSlug("navigation-rail");
 
 const meta = {
   title: 'Navigation/Navigation Rail',
-  tags: ['autodocs'],
+  tags: ["autodocs","parity-tier-C","parity-ref-tokens-only"],
   parameters: {
     docs: {
       description: {
@@ -30,8 +30,52 @@ export const Default: Story = {
 };
 
 export const SmokeTest: Story = {
+  render: () => {
+    const Example = examples[0]!.Component;
+    return <Example />;
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvasElement.firstChild).toBeTruthy();
   },
+};
+
+export const Compliance: Story = {
+  name: 'Compliance contract',
+  tags: ["compliance","parity-tier-C","parity-ref-tokens-only"],
+  render: () => (
+    <section className="m3-story-compliance">
+      <p className="m3-story-kicker">Contract 1.0 · Parity Tier C</p>
+      <h2>Navigation Rail</h2>
+      <p>Collapsed, expanded, and modal navigation rail</p>
+      <dl>
+        <div><dt>Status</dt><dd>adapted</dd></div>
+        <div><dt>Parity tier</dt><dd>C (tokens-only)</dd></div>
+        <div><dt>Sources</dt><dd>material-tokens · material-web · android-expressive · m3ui-web-adaptation</dd></div>
+        <div><dt>States</dt><dd>rest · hover · focus · pressed · disabled</dd></div>
+        <div><dt>Modes</dt><dd>RTL · reduced motion · forced colors</dd></div>
+      </dl>
+      <div className="m3-story-compliance-preview">{(() => { const Example = examples[0]!.Component; return <Example />; })()}</div>
+    </section>
+  ),
+};
+
+export const HighContrast: Story = {
+  globals: { contrast: 1 },
+  render: () => (() => { const Example = examples[0]!.Component; return <Example />; })(),
+};
+
+export const RightToLeft: Story = {
+  globals: { direction: 'rtl' },
+  render: () => (() => { const Example = examples[0]!.Component; return <Example />; })(),
+};
+
+export const ReducedMotion: Story = {
+  globals: { reducedMotion: true },
+  render: () => (() => { const Example = examples[0]!.Component; return <Example />; })(),
+};
+
+export const NarrowViewport: Story = {
+  parameters: { viewport: { defaultViewport: 'mobile' } },
+  render: () => (() => { const Example = examples[0]!.Component; return <Example />; })(),
 };

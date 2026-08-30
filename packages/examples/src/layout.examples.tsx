@@ -7,17 +7,23 @@ import {
   PaneScaffoldRoot,
   List,
   ListItem,
+  Icon,
 } from '@m3ui/react';
+import { demoFrame } from './demo-chrome';
 import type { ComponentExampleDefinition } from './types';
 
 function ScaffoldExample() {
   return (
-    <div style={{ height: 200, overflow: 'hidden' }}>
+    <div style={{ ...demoFrame, height: 200 }}>
       <Scaffold
         topAppBar={<TopAppBar title="Inbox" size="small" />}
-        fab={<FabAnchor><Fab aria-label="Compose" icon="+" size="small" /></FabAnchor>}
+        fab={
+          <FabAnchor>
+            <Fab aria-label="Compose" icon={<Icon name="edit" />} size="standard" />
+          </FabAnchor>
+        }
       >
-        <p style={{ padding: 16, margin: 0 }}>Content</p>
+        <p style={{ padding: 16, margin: 0, color: 'var(--md-sys-color-on-surface)' }}>Content</p>
       </Scaffold>
     </div>
   );
@@ -25,10 +31,14 @@ function ScaffoldExample() {
 
 function PaneScaffoldExample() {
   return (
-    <PaneScaffoldRoot defaultSizeClass="expanded" style={{ minHeight: 200 }}>
+    <PaneScaffoldRoot defaultSizeClass="expanded" style={{ ...demoFrame, minHeight: 200 }}>
       <PaneScaffold
-        list={<List><ListItem headline="Inbox" /></List>}
-        detail={<p style={{ padding: 16 }}>Detail</p>}
+        list={
+          <List>
+            <ListItem headline="Inbox" />
+          </List>
+        }
+        detail={<p style={{ padding: 16, color: 'var(--md-sys-color-on-surface)' }}>Detail</p>}
       />
     </PaneScaffoldRoot>
   );

@@ -6,21 +6,26 @@ import {
   ChipSet,
   RichTooltip,
 } from '@m3ui/react';
+import { demoRow } from './demo-chrome';
 import type { ComponentExampleDefinition } from './types';
 
 function BadgeExample() {
   return (
-    <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+    <div style={{ ...demoRow, gap: 16 }}>
       <Badge variant="dot" />
       <Badge count={5} />
       <Badge count={120} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <Button variant="outlined">Inbox</Button>
+        <Badge count={3} />
+      </div>
     </div>
   );
 }
 
 function TooltipExample() {
   return (
-    <div style={{ display: 'flex', gap: 12 }}>
+    <div style={demoRow}>
       <Tooltip trigger={<Button variant="outlined">Help</Button>} content="Save your draft" />
       <RichTooltip
         trigger={<Button variant="filled-tonal">Rich</Button>}
@@ -37,6 +42,7 @@ function ChipExample() {
       <Chip type="assist" label="Add contact" />
       <Chip type="filter" label="Photos" defaultSelected />
       <Chip type="input" label="Design" onRemove={() => undefined} />
+      <Chip type="suggestion" label="Weekend" elevated />
     </ChipSet>
   );
 }
@@ -68,8 +74,11 @@ export const chipExamples: ComponentExampleDefinition[] = [
     id: 'chip-types',
     componentSlug: 'chip',
     title: 'Chip types',
-    description: 'Assist, filter, and input chips.',
-    source: `<ChipSet>\n  <Chip type="filter" label="Photos" />\n</ChipSet>`,
+    description: 'Assist, filter, input, and elevated suggestion chips.',
+    source: `<ChipSet>
+  <Chip type="filter" label="Photos" />
+  <Chip type="suggestion" label="Weekend" elevated />
+</ChipSet>`,
     Component: ChipExample,
   },
 ];
