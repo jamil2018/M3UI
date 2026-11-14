@@ -29,7 +29,7 @@ const docsServer = {
 
 export default defineConfig({
   testDir: './tools/vrt/tests',
-  snapshotPathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-{projectName}{ext}',
+  snapshotPathTemplate: '{testDir}/{testFileDir}/{testFileName}-snapshots/{platform}/{arg}-{projectName}{ext}',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -50,7 +50,7 @@ export default defineConfig({
             name: 'docs-chromium',
             testMatch: /docs\.spec\.ts/,
             snapshotPathTemplate:
-              '{testDir}/{testFileDir}/{testFileName}-snapshots/fumadocs-16/{arg}-{projectName}{ext}',
+              '{testDir}/{testFileDir}/{testFileName}-snapshots/fumadocs-16/{platform}/{arg}-{projectName}{ext}',
             use: {
               ...devices['Desktop Chrome'],
               baseURL: 'http://localhost:3000',

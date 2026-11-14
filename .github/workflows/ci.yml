@@ -45,3 +45,14 @@ jobs:
 
       - name: Visual and interaction tests
         run: pnpm exec playwright test
+
+      - name: Upload browser failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: browser-failure-diagnostics
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7
