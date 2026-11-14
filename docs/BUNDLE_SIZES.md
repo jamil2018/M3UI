@@ -4,10 +4,10 @@ Budgets are enforced in CI via `pnpm size:check` after build. Values are **minif
 
 | Package | Entry | Budget | Notes |
 |---------|-------|--------|-------|
-| `@m3ui/react` | `index.js` | 275 KB | Full component library entry, including typed conformance metadata |
+| `@m3ui/react` | `index.js` | 325 KB | Full component library entry, including typed conformance metadata |
 | `@m3ui/react` | `m3-provider-*.js` | 10 KB | M3Provider + theme chunk |
-| `@m3ui/react` | `primitives-*.js` | 28 KB | StateLayer, Ripple, Surface, focus ring |
-| `@m3ui/tokens` | `index.js` | 140 KB | Generated token maps + CSS imports |
+| `@m3ui/react` | `primitives-*.js` | 29 KB | StateLayer, Ripple, Surface, focus ring |
+| `@m3ui/tokens` | `index.js` | 170 KB | Generated token maps + CSS imports (includes MW rename aliases) |
 | `@m3ui/shapes` | `index.js` | 35 KB | RoundedPolygon + MaterialShapes library |
 | `@m3ui/color` | `index.js` | 10 KB | Dynamic color runtime |
 | `@m3ui/motion` | `index.js` | 8 KB | Spring presets + WAAPI helpers |

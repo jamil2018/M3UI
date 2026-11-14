@@ -1,6 +1,7 @@
 @import '@m3ui/tokens/tokens.css';
 @import '@m3ui/tokens/theme.css';
 @import '@m3ui/motion/motion.css';
+@import '@m3ui/icons/font.css';
 
 *,
 *::before,
@@ -58,4 +59,15 @@ body {
   flex-wrap: wrap;
   gap: 8px;
   align-items: center;
+}
+
+/* Each demo owns its fixed app chrome instead of covering neighbouring examples. */
+.demo-section { min-width: 0; }
+.demo-section:has(> nav[aria-label="Navigation bar"]),
+[data-testid="demo-scaffold"],
+[data-testid="demo-adaptive-nav"] { transform: translateZ(0); min-height: 160px; }
+.demo-grid h1 { font-size: clamp(1.5rem, 4vw, 2rem); }
+@media (max-width: 600px) {
+  .demo-grid { padding: 12px; }
+  .m3-story-compliance-preview { padding: 12px; }
 }

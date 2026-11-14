@@ -1,8 +1,11 @@
 import {
   argbFromHex,
   hexFromArgb,
-  themeFromSourceColor,
   SchemeExpressive,
+  SchemeMonochrome,
+  SchemeNeutral,
+  SchemeTonalSpot,
+  SchemeVibrant,
   DynamicScheme,
   Hct,
   MaterialDynamicColors,
@@ -179,15 +182,22 @@ function buildScheme(options: CreateThemeOptions): DynamicScheme {
   const sourceColorHct = Hct.fromInt(seedArgb);
   const contrastLevel = contrastToLevel(options.contrast ?? 0);
   const isDark = options.isDark ?? false;
-  const variant = options.variant ?? 'expressive';
+  const variant = options.variant ?? 'tonalSpot';
 
-  if (variant === 'expressive') {
-    return new SchemeExpressive(sourceColorHct, isDark, contrastLevel, SPEC_VERSION);
+  switch (variant) {
+    case 'tonalSpot':
+      return new SchemeTonalSpot(sourceColorHct, isDark, contrastLevel);
+    case 'expressive':
+      return new SchemeExpressive(sourceColorHct, isDark, contrastLevel, SPEC_VERSION);
+    case 'vibrant':
+      return new SchemeVibrant(sourceColorHct, isDark, contrastLevel, SPEC_VERSION);
+    case 'neutral':
+      return new SchemeNeutral(sourceColorHct, isDark, contrastLevel, SPEC_VERSION);
+    case 'monochrome':
+      return new SchemeMonochrome(sourceColorHct, isDark, contrastLevel, SPEC_VERSION);
+    default:
+      return new SchemeTonalSpot(sourceColorHct, isDark, contrastLevel);
   }
-
-  const theme = themeFromSourceColor(seedArgb);
-  const scheme = isDark ? theme.schemes.dark : theme.schemes.light;
-  return scheme as unknown as DynamicScheme;
 }
 
 function sysColorVar(role: ThemeColorRole, includeFallback: boolean): string {

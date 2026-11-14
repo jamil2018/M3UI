@@ -4,21 +4,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: pnpm
 
       - name: Install dependencies
@@ -31,18 +31,14 @@ jobs:
         run: pnpm exec playwright install chromium --with-deps
 
       - name: Update VRT snapshots
-        run: pnpm test:vrt -- --update-snapshots
-        continue-on-error: true
+        run: pnpm exec playwright test --update-snapshots
 
-      - name: Push updated snapshots
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -B chore/vrt-linux-snapshots
-          git add tools/vrt/tests
-          if git diff --staged --quiet; then
-            echo "No snapshot changes to commit"
-            exit 0
-          fi
-          git commit -m "chore(vrt): re-baseline snapshots on Linux CI"
-          git push --force origin chore/vrt-linux-snapshots
+      - name: Upload snapshots for review
+        uses: actions/upload-artifact@v6
+        with:
+          name: vrt-linux-snapshots
+          path: |
+            tools/vrt/tests/demo.spec.ts-snapshots/linux/
+            tools/vrt/tests/docs.spec.ts-snapshots/fumadocs-16/linux/
+          if-no-files-found: error
+          retention-days: 7

@@ -1,3 +1,4 @@
+import { SchemeExpressive, Hct, argbFromHex, hexFromArgb } from '@material/material-color-utilities';
 import { describe, it, expect } from 'vitest';
 import {
   auditThemeContrast,
@@ -9,6 +10,14 @@ import {
 } from '../src/index.js';
 
 describe('@m3ui/color', () => {
+  it.each([false, true])('uses the actual 2025 expressive palette (dark=%s)', (isDark) => {
+    const seed = '#6750A4';
+    const expected = new SchemeExpressive(Hct.fromInt(argbFromHex(seed)), isDark, 0, '2025');
+    const expressive = createTheme({ seed, isDark, variant: 'expressive' });
+    expect(expressive.colors.primary).toBe(hexFromArgb(expected.primary));
+    expect(expressive.colors.tertiaryContainer).toBe(hexFromArgb(expected.tertiaryContainer));
+    expect(expressive.colors).not.toEqual(createTheme({ seed, isDark, variant: 'tonalSpot' }).colors);
+  });
   it.each(['#6750A4', '#006A6A', '#8C5000'])('emits complete accessible schemes for %s', (seed) => {
     for (const isDark of [false, true]) {
       const theme = createTheme({ seed, isDark, variant: 'expressive', contrast: 0 });

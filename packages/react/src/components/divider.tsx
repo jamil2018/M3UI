@@ -29,8 +29,18 @@ export function Divider({
   const horizontalStyle: CSSProperties = {
     ...baseStyle,
     height: compVar('divider', 'thickness'),
-    width: variant === 'full-width' ? '100%' : variant === 'inset' ? `calc(100% - ${compVar('list', 'divider-leading-space')} * 2)` : '80%',
-    marginInlineStart: variant === 'inset' ? compVar('list', 'divider-leading-space') : variant === 'middle-inset' ? '10%' : 0,
+    width:
+      variant === 'full-width'
+        ? '100%'
+        : variant === 'inset'
+          ? `calc(100% - ${compVar('list', 'divider-leading-space')} * 2)`
+          : `calc(100% - ${compVar('list-divider', 'leading-space')} - ${compVar('list-divider', 'trailing-space')})`,
+    marginInlineStart:
+      variant === 'inset'
+        ? compVar('list', 'divider-leading-space')
+        : variant === 'middle-inset'
+          ? compVar('list-divider', 'leading-space')
+          : 0,
   };
 
   const verticalStyle: CSSProperties = {

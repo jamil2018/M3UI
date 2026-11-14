@@ -1,9 +1,12 @@
-
+import { mergeProps } from '@base-ui/react/merge-props';
+import { type ComponentPropsWithRef } from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Toggle } from '@base-ui/react/toggle';
-import { type CSSProperties, type ReactNode } from 'react';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import {
   compVar,
+  disabledContainerMix,
+  disabledContentMix,
   iconButtonSizeTokens,
   ICON_BUTTON_SIZE_PREFIX,
   type ButtonSize,
@@ -15,7 +18,10 @@ export type IconButtonVariant = 'standard' | 'filled' | 'filled-tonal' | 'outlin
 export type IconButtonShape = 'round' | 'square';
 export type IconButtonWidth = 'narrow' | 'default' | 'wide';
 
-export interface IconButtonProps {
+export interface IconButtonProps extends Omit<
+  ComponentPropsWithRef<'button'>,
+  'children' | 'onClick'
+> {
   icon: ReactNode;
   'aria-label': string;
   variant?: IconButtonVariant;
@@ -24,7 +30,10 @@ export interface IconButtonProps {
   width?: IconButtonWidth;
   disabled?: boolean;
   selected?: boolean;
+  defaultSelected?: boolean;
   toggle?: boolean;
+  /** Opt-in polygon cookie morph (1:1 surfaces). Default uses corner-radius morph. */
+  expressiveMorph?: boolean;
   onSelectedChange?: (selected: boolean) => void;
   onClick?: () => void;
   className?: string;
@@ -38,138 +47,141 @@ const VARIANT_PREFIX: Record<IconButtonVariant, string> = {
   outlined: 'outlined-icon-button',
 };
 
-const VARIANT_LAYOUT: Record<IconButtonVariant, CSSProperties> = {
-  standard: {
-    minHeight: compVar('icon-button', 'icon-size'),
-    minWidth: compVar('icon-button', 'icon-size'),
-    ['--icon-button-icon-size' as string]: compVar('icon-button', 'icon-size'),
-    ['--icon-button-disabled-opacity' as string]: compVar('icon-button', 'disabled-icon-opacity'),
-    ['--icon-button-focus-icon-color' as string]: compVar('icon-button', 'focus-icon-color'),
-    ['--icon-button-hover-icon-color' as string]: compVar('icon-button', 'hover-icon-color'),
-    ['--icon-button-hover-state-color' as string]: compVar('icon-button', 'hover-state-layer-color'),
-    ['--icon-button-hover-state-opacity' as string]: compVar('icon-button', 'hover-state-layer-opacity'),
-    ['--icon-button-pressed-icon-color' as string]: compVar('icon-button', 'pressed-icon-color'),
-    ['--icon-button-pressed-state-color' as string]: compVar('icon-button', 'pressed-state-layer-color'),
-    ['--icon-button-pressed-state-opacity' as string]: compVar('icon-button', 'pressed-state-layer-opacity'),
-    ['--icon-button-selected-focus-icon-color' as string]: compVar('icon-button', 'selected-focus-icon-color'),
-    ['--icon-button-selected-hover-icon-color' as string]: compVar('icon-button', 'selected-hover-icon-color'),
-    ['--icon-button-selected-hover-state-color' as string]: compVar('icon-button', 'selected-hover-state-layer-color'),
-    ['--icon-button-selected-hover-state-opacity' as string]: compVar('icon-button', 'selected-hover-state-layer-opacity'),
-    ['--icon-button-selected-pressed-icon-color' as string]: compVar('icon-button', 'selected-pressed-icon-color'),
-    ['--icon-button-selected-pressed-state-color' as string]: compVar('icon-button', 'selected-pressed-state-layer-color'),
-    ['--icon-button-selected-pressed-state-opacity' as string]: compVar('icon-button', 'selected-pressed-state-layer-opacity'),
-    ['--icon-button-state-layer-height' as string]: compVar('icon-button', 'state-layer-height'),
-    ['--icon-button-state-layer-shape' as string]: compVar('icon-button', 'state-layer-shape'),
-    ['--icon-button-state-layer-width' as string]: compVar('icon-button', 'state-layer-width'),
-  },
-  filled: {
-    minHeight: compVar('filled-icon-button', 'container-height'),
-    minWidth: compVar('filled-icon-button', 'container-width'),
-    borderRadius: compVar('filled-icon-button', 'container-shape'),
-    ['--filled-icon-button-icon-size' as string]: compVar('filled-icon-button', 'icon-size'),
-    ['--filled-icon-button-disabled-container-opacity' as string]: compVar('filled-icon-button', 'disabled-container-opacity'),
-    ['--filled-icon-button-disabled-icon-opacity' as string]: compVar('filled-icon-button', 'disabled-icon-opacity'),
-    ['--filled-icon-button-focus-icon-color' as string]: compVar('filled-icon-button', 'focus-icon-color'),
-    ['--filled-icon-button-hover-icon-color' as string]: compVar('filled-icon-button', 'hover-icon-color'),
-    ['--filled-icon-button-hover-state-color' as string]: compVar('filled-icon-button', 'hover-state-layer-color'),
-    ['--filled-icon-button-hover-state-opacity' as string]: compVar('filled-icon-button', 'hover-state-layer-opacity'),
-    ['--filled-icon-button-pressed-icon-color' as string]: compVar('filled-icon-button', 'pressed-icon-color'),
-    ['--filled-icon-button-pressed-state-color' as string]: compVar('filled-icon-button', 'pressed-state-layer-color'),
-    ['--filled-icon-button-pressed-state-opacity' as string]: compVar('filled-icon-button', 'pressed-state-layer-opacity'),
-  },
-  'filled-tonal': {
-    minHeight: compVar('filled-tonal-icon-button', 'container-height'),
-    minWidth: compVar('filled-tonal-icon-button', 'container-width'),
-    borderRadius: compVar('filled-tonal-icon-button', 'container-shape'),
-    ['--filled-tonal-icon-button-icon-size' as string]: compVar('filled-tonal-icon-button', 'icon-size'),
-    ['--filled-tonal-icon-button-disabled-container-opacity' as string]: compVar('filled-tonal-icon-button', 'disabled-container-opacity'),
-    ['--filled-tonal-icon-button-disabled-icon-opacity' as string]: compVar('filled-tonal-icon-button', 'disabled-icon-opacity'),
-    ['--filled-tonal-icon-button-focus-icon-color' as string]: compVar('filled-tonal-icon-button', 'focus-icon-color'),
-    ['--filled-tonal-icon-button-hover-icon-color' as string]: compVar('filled-tonal-icon-button', 'hover-icon-color'),
-    ['--filled-tonal-icon-button-hover-state-color' as string]: compVar('filled-tonal-icon-button', 'hover-state-layer-color'),
-    ['--filled-tonal-icon-button-hover-state-opacity' as string]: compVar('filled-tonal-icon-button', 'hover-state-layer-opacity'),
-    ['--filled-tonal-icon-button-pressed-icon-color' as string]: compVar('filled-tonal-icon-button', 'pressed-icon-color'),
-    ['--filled-tonal-icon-button-pressed-state-color' as string]: compVar('filled-tonal-icon-button', 'pressed-state-layer-color'),
-    ['--filled-tonal-icon-button-pressed-state-opacity' as string]: compVar('filled-tonal-icon-button', 'pressed-state-layer-opacity'),
-  },
-  outlined: {},
-};
+interface InteractionState {
+  disabled: boolean;
+  hovered: boolean;
+  focused: boolean;
+  pressed: boolean;
+  selected: boolean;
+}
+
+function resolveIconColor(variant: IconButtonVariant, p: string, state: InteractionState): string {
+  if (state.disabled) {
+    return disabledContentMix(
+      variant === 'standard' || variant === 'outlined'
+        ? compVar(p, 'disabled-color')
+        : compVar(p, 'disabled-icon-color'),
+    );
+  }
+  if (state.selected) {
+    if (state.pressed) return compVar(p, 'selected-pressed-icon-color');
+    if (state.hovered) return compVar(p, 'selected-hover-icon-color');
+    if (state.focused) return compVar(p, 'selected-focus-icon-color');
+    return variant === 'filled' || variant === 'filled-tonal'
+      ? compVar(p, 'selected-icon-color')
+      : compVar(p, 'selected-color');
+  }
+  const unselected = variant === 'standard' ? 'unselected-' : '';
+  if (state.pressed) return compVar(p, `${unselected}pressed-icon-color`);
+  if (state.hovered) return compVar(p, `${unselected}hover-icon-color`);
+  if (state.focused) return compVar(p, `${unselected}focus-icon-color`);
+  return variant === 'filled' || variant === 'filled-tonal'
+    ? compVar(p, 'icon-color')
+    : compVar(p, 'color');
+}
 
 function getIconButtonVariantStyles(
   variant: IconButtonVariant,
-  disabled: boolean,
-  selected: boolean,
+  state: InteractionState,
   outlineWidth: string,
 ): CSSProperties {
   const p = VARIANT_PREFIX[variant];
-  const colorKey = selected ? 'selected-color' : 'color';
-  const disabledKey = 'disabled-color';
+  const color = resolveIconColor(variant, p, state);
 
   const base: CSSProperties = {
-    color: disabled ? compVar(p, disabledKey) : compVar(p, colorKey),
+    color,
     background: 'transparent',
     border: 'none',
   };
 
-  if (variant === 'filled') {
+  if (variant === 'filled' || variant === 'filled-tonal') {
     return {
       ...base,
-      background: disabled
-        ? compVar(p, 'disabled-container-color')
-        : selected
+      background: state.disabled
+        ? disabledContainerMix(compVar(p, 'disabled-container-color'))
+        : state.selected
           ? compVar(p, 'selected-container-color')
           : compVar(p, 'container-color'),
-      color: disabled
-        ? compVar(p, 'disabled-icon-color')
-        : selected
-          ? compVar(p, 'selected-icon-color')
-          : compVar(p, 'icon-color'),
-    };
-  }
-
-  if (variant === 'filled-tonal') {
-    return {
-      ...base,
-      background: disabled
-        ? compVar(p, 'disabled-container-color')
-        : selected
-          ? compVar(p, 'selected-container-color')
-          : compVar(p, 'container-color'),
-      color: disabled
-        ? compVar(p, 'disabled-icon-color')
-        : selected
-          ? compVar(p, 'selected-icon-color')
-          : compVar(p, 'icon-color'),
     };
   }
 
   if (variant === 'outlined') {
     return {
       ...base,
-      border: `${outlineWidth} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`,
+      background: state.selected
+        ? state.disabled
+          ? disabledContainerMix(compVar(p, 'selected-disabled-container-color'))
+          : compVar(p, 'selected-container-color')
+        : 'transparent',
+      border: state.selected
+        ? 'none'
+        : `${outlineWidth} solid ${state.disabled ? disabledContainerMix(compVar(p, 'disabled-outline-color')) : compVar(p, 'outline-color')}`,
     };
   }
 
   return base;
 }
 
+function stateLayerTokens(p: string, selected: boolean) {
+  if (selected) {
+    return {
+      hoverStateColor: compVar(p, 'selected-hover-state-layer-color'),
+      hoverStateOpacity: compVar(p, 'selected-hover-state-layer-opacity'),
+      pressedStateColor: compVar(p, 'selected-pressed-state-layer-color'),
+      pressedStateOpacity: compVar(p, 'selected-pressed-state-layer-opacity'),
+    };
+  }
+  const unselected = p === 'icon-button' ? 'unselected-' : '';
+  return {
+    hoverStateColor: compVar(p, `${unselected}hover-state-layer-color`),
+    hoverStateOpacity: compVar(p, 'hover-state-layer-opacity'),
+    pressedStateColor: compVar(p, `${unselected}pressed-state-layer-color`),
+    pressedStateOpacity: compVar(p, 'pressed-state-layer-opacity'),
+  };
+}
+
 export function IconButton({
   icon,
   'aria-label': ariaLabel,
   variant = 'standard',
-  size = 'md',
+  size = 'sm',
   shape = 'round',
   width = 'default',
   disabled = false,
-  selected = false,
+  selected,
+  defaultSelected = false,
   toggle = false,
+  expressiveMorph = false,
   onSelectedChange,
   onClick,
   className,
   'data-testid': testId,
+  ...nativeProps
 }: IconButtonProps) {
+  const [internalSelected, setInternalSelected] = useState(defaultSelected);
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const isSelected = selected ?? internalSelected;
+
   const tokens = iconButtonSizeTokens(size, width);
-  const variantStyles = getIconButtonVariantStyles(variant, disabled, selected, tokens.outlineWidth);
+  const p = VARIANT_PREFIX[variant];
+  const interaction: InteractionState = {
+    disabled,
+    hovered,
+    focused,
+    pressed,
+    selected: isSelected,
+  };
+  const variantStyles = getIconButtonVariantStyles(variant, interaction, tokens.outlineWidth);
+  const layers = stateLayerTokens(p, isSelected);
+
+  const shapeRound = isSelected
+    ? compVar(ICON_BUTTON_SIZE_PREFIX[size], 'selected-container-shape-round')
+    : tokens.shapeRound;
+  const shapeSquare = isSelected
+    ? compVar(ICON_BUTTON_SIZE_PREFIX[size], 'selected-container-shape-square')
+    : tokens.shapeSquare;
 
   const buttonStyle: CSSProperties = {
     position: 'relative',
@@ -177,28 +189,56 @@ export function IconButton({
     alignItems: 'center',
     justifyContent: 'center',
     height: tokens.height,
-    minWidth: tokens.height,
+    boxSizing: 'border-box',
+    flexShrink: 0,
     paddingInlineStart: tokens.leadingSpace,
     paddingInlineEnd: tokens.trailingSpace,
     cursor: disabled ? 'not-allowed' : 'pointer',
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
     borderRadius: 'inherit',
-    ...VARIANT_LAYOUT[variant],
     ...variantStyles,
   };
 
   const iconStyle: CSSProperties = {
     width: tokens.iconSize,
     height: tokens.iconSize,
-    color: variantStyles.color ?? compVar(VARIANT_PREFIX[variant], 'icon-color'),
+    color: variantStyles.color,
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
   };
 
+  const interactionHandlers = {
+    onMouseEnter: () => !disabled && setHovered(true),
+    onMouseLeave: () => {
+      setHovered(false);
+      setPressed(false);
+    },
+    onFocus: () => !disabled && setFocused(true),
+    onBlur: () => setFocused(false),
+    onPointerDown: () => !disabled && setPressed(true),
+    onPointerUp: () => setPressed(false),
+    onPointerCancel: () => setPressed(false),
+  };
+
   const content = <span style={iconStyle}>{icon}</span>;
+  const handleSelectedChange = (next: boolean) => {
+    if (selected === undefined) setInternalSelected(next);
+    onSelectedChange?.(next);
+  };
+
   const inner = toggle ? (
-    <span className={className} style={buttonStyle}>{content}</span>
+    <Toggle
+      pressed={isSelected}
+      onPressedChange={handleSelectedChange}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      onClick={onClick}
+      className={className}
+      style={buttonStyle}
+      {...mergeProps(nativeProps, interactionHandlers)}
+    >
+      {content}
+    </Toggle>
   ) : (
     <BaseButton
       aria-label={ariaLabel}
@@ -206,6 +246,7 @@ export function IconButton({
       onClick={onClick}
       className={className}
       style={buttonStyle}
+      {...mergeProps(nativeProps, interactionHandlers)}
     >
       {content}
     </BaseButton>
@@ -215,33 +256,22 @@ export function IconButton({
     <PressableShell
       disabled={disabled}
       shape={shape}
-      shapeRound={selected ? compVar(ICON_BUTTON_SIZE_PREFIX[size], 'selected-container-shape-round') : tokens.shapeRound}
-      shapeSquare={selected ? compVar(ICON_BUTTON_SIZE_PREFIX[size], 'selected-container-shape-square') : tokens.shapeSquare}
+      shapeRound={shapeRound}
+      shapeSquare={shapeSquare}
       pressedShape={tokens.pressedShape}
-      morphFrom={selected ? MaterialShapes.pentagon : MaterialShapes.circle}
-      morphTo={selected ? MaterialShapes.circle : MaterialShapes.pentagon}
-      morphActive={toggle ? selected : undefined}
+      morphFrom={expressiveMorph ? MaterialShapes.circle : undefined}
+      morphTo={expressiveMorph ? MaterialShapes.pentagon : undefined}
+      morphActive={expressiveMorph && toggle ? isSelected : undefined}
       stateLayerColor={variantStyles.color}
+      hoverStateColor={layers.hoverStateColor}
+      hoverStateOpacity={layers.hoverStateOpacity}
+      pressedStateColor={layers.pressedStateColor}
+      pressedStateOpacity={layers.pressedStateOpacity}
       data-testid={testId}
     >
       {inner}
     </PressableShell>
   );
-
-  if (toggle) {
-    return (
-      <Toggle
-        pressed={selected}
-        onPressedChange={onSelectedChange}
-        disabled={disabled}
-        aria-label={ariaLabel}
-        onClick={onClick}
-        style={{ display: 'inline-flex', padding: 0, border: 'none', background: 'transparent' }}
-      >
-        {shell}
-      </Toggle>
-    );
-  }
 
   return shell;
 }

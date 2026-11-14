@@ -24,7 +24,7 @@ const START_LINKS = [
 export default function HomePage() {
   return (
     <HomeLayout {...baseOptions()} id="nd-home-layout">
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 md:px-8 md:py-14">
+      <div className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-10 md:px-8 md:py-14">
         <header className="docs-landing-hero">
           <div className="docs-landing-hero-copy">
             <p className="docs-landing-kicker">Material 3 Expressive for React</p>
@@ -40,8 +40,8 @@ export default function HomePage() {
           </div>
           <div className="docs-landing-facts" aria-label="Library facts">
             <div><strong>44</strong><span>registry components</span></div>
-            <div><strong>4</strong><span>contrast modes</span></div>
-            <div><strong>1.0</strong><span>conformance contract</span></div>
+            <div><strong>3</strong><span>contrast levels</span></div>
+            <div><strong>2</strong><span>light and dark themes</span></div>
           </div>
         </header>
 
@@ -77,7 +77,7 @@ npx shadcn@latest add https://m3ui.dev/r/button.json`}
           M3UI is an unofficial open-source project. It is not affiliated with or endorsed by
           Google. Material is a trademark of Google LLC.
         </p>
-      </main>
+      </div>
     </HomeLayout>
   );
 }

@@ -1,11 +1,11 @@
-
+import { mergeProps } from '@base-ui/react/merge-props';
+import { type ComponentPropsWithRef } from 'react';
 import { Button as BaseButton } from '@base-ui/react/button';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, compElevation, sysColor, sysShape, typeStyle } from '../lib/token-utils.js';
-import { StateLayer } from '../primitives/state-layer.js';
-import { Ripple } from '../primitives/ripple.js';
+import { PressableShell } from '../lib/pressable-shell.js';
 
 export type FabSize = 'standard' | 'medium' | 'large';
 export type ExtendedFabSize = 'small' | 'medium' | 'large';
@@ -17,7 +17,7 @@ export type FabVariant =
   | 'secondary-container'
   | 'tertiary-container';
 
-export interface FabProps {
+export interface FabProps extends Omit<ComponentPropsWithRef<'button'>, 'children' | 'onClick'> {
   icon: ReactNode;
   'aria-label': string;
   size?: FabSize;
@@ -41,31 +41,6 @@ const FAB_SHAPES: Record<FabSize, string> = {
   large: compVar('fab-large', 'container-shape'),
 };
 
-const FAB_CONTRACT: CSSProperties = {
-  ['--fab-container-color' as string]: compVar('fab', 'container-color'),
-  ['--fab-container-elevation' as string]: compElevation('fab'),
-  ['--fab-container-height' as string]: compVar('fab', 'container-height'),
-  ['--fab-container-shadow-color' as string]: compVar('fab', 'container-shadow-color'),
-  ['--fab-container-shape' as string]: compVar('fab', 'container-shape'),
-  ['--fab-container-width' as string]: compVar('fab', 'container-width'),
-  ['--fab-focus-elevation' as string]: compElevation('fab', 'focus-container-elevation'),
-  ['--fab-focus-icon-color' as string]: compVar('fab', 'focus-icon-color'),
-  ['--fab-focus-label-color' as string]: compVar('fab', 'focus-label-text-color'),
-  ['--fab-hover-elevation' as string]: compElevation('fab', 'hover-container-elevation'),
-  ['--fab-hover-icon-color' as string]: compVar('fab', 'hover-icon-color'),
-  ['--fab-hover-label-color' as string]: compVar('fab', 'hover-label-text-color'),
-  ['--fab-hover-state-color' as string]: compVar('fab', 'hover-state-layer-color'),
-  ['--fab-hover-state-opacity' as string]: compVar('fab', 'hover-state-layer-opacity'),
-  ['--fab-icon-color' as string]: compVar('fab', 'icon-color'),
-  ['--fab-icon-size' as string]: compVar('fab', 'icon-size'),
-  ['--fab-label-color' as string]: compVar('fab', 'label-text-color'),
-  ['--fab-pressed-elevation' as string]: compElevation('fab', 'pressed-container-elevation'),
-  ['--fab-pressed-icon-color' as string]: compVar('fab', 'pressed-icon-color'),
-  ['--fab-pressed-label-color' as string]: compVar('fab', 'pressed-label-text-color'),
-  ['--fab-pressed-state-color' as string]: compVar('fab', 'pressed-state-layer-color'),
-  ['--fab-pressed-state-opacity' as string]: compVar('fab', 'pressed-state-layer-opacity'),
-};
-
 const FAB_COLORS: Record<FabVariant, { container: string; content: string }> = {
   primary: { container: sysColor('primary'), content: sysColor('on-primary') },
   secondary: { container: sysColor('secondary'), content: sysColor('on-secondary') },
@@ -74,40 +49,76 @@ const FAB_COLORS: Record<FabVariant, { container: string; content: string }> = {
     container: compVar('fab-primary-container', 'container-color'),
     content: compVar('fab-primary-container', 'icon-color'),
   },
-  'secondary-container': { container: sysColor('secondary-container'), content: sysColor('on-secondary-container') },
-  'tertiary-container': { container: sysColor('tertiary-container'), content: sysColor('on-tertiary-container') },
+  'secondary-container': {
+    container: sysColor('secondary-container'),
+    content: sysColor('on-secondary-container'),
+  },
+  'tertiary-container': {
+    container: sysColor('tertiary-container'),
+    content: sysColor('on-tertiary-container'),
+  },
 };
+
+const PRESSED_SHAPE = compVar('button-large', 'pressed-container-shape');
 
 function fabContainerElevation(
   variant: FabVariant,
   lowered: boolean,
   hovered: boolean,
   pressed: boolean,
+  focused: boolean,
 ): string {
-  const p = 'fab-primary-container';
-  if (variant !== 'primary-container') {
-    return compElevation(p);
-  }
   if (lowered) {
-    if (pressed) return compElevation(p, 'pressed-container-elevation');
-    if (hovered) return compElevation(p, 'hovered-container-elevation');
-    return compElevation(p, 'container-elevation');
+    const p = 'extended-fab-primary';
+    if (pressed) return compElevation(p, 'lowered-pressed-container-elevation');
+    if (hovered) return compElevation(p, 'lowered-hover-container-elevation');
+    if (focused) return compElevation(p, 'lowered-focus-container-elevation');
+    return compElevation(p, 'lowered-container-elevation');
   }
+  const p = variant === 'primary-container' ? 'fab-primary-container' : 'fab';
   if (pressed) return compElevation(p, 'pressed-container-elevation');
-  if (hovered) return compElevation(p, 'hovered-container-elevation');
+  if (hovered) {
+    return compElevation(
+      p,
+      variant === 'primary-container' ? 'hovered-container-elevation' : 'hover-container-elevation',
+    );
+  }
+  if (focused) {
+    return compElevation(
+      p,
+      variant === 'primary-container' ? 'focused-container-elevation' : 'focus-container-elevation',
+    );
+  }
   return compElevation(p, 'container-elevation');
 }
 
-function extendedFabElevation(lowered: boolean, hovered: boolean, pressed: boolean): string {
+function extendedFabElevation(
+  lowered: boolean,
+  hovered: boolean,
+  pressed: boolean,
+  focused: boolean,
+): string {
   const p = 'extended-fab-primary';
   if (lowered) {
     if (pressed) return compElevation(p, 'lowered-pressed-container-elevation');
     if (hovered) return compElevation(p, 'lowered-hover-container-elevation');
+    if (focused) return compElevation(p, 'lowered-focus-container-elevation');
     return compElevation(p, 'lowered-container-elevation');
   }
   if (pressed) return compElevation(p, 'pressed-container-elevation');
   if (hovered) return compElevation(p, 'hover-container-elevation');
+  if (focused) return compElevation(p, 'focus-container-elevation');
   return compElevation(p, 'container-elevation');
+}
+
+function fabStateLayers() {
+  // State-layer tokens live on `fab` (not fab-primary-container).
+  return {
+    hoverStateColor: compVar('fab', 'hover-state-layer-color'),
+    hoverStateOpacity: compVar('fab', 'hover-state-layer-opacity'),
+    pressedStateColor: compVar('fab', 'pressed-state-layer-color'),
+    pressedStateOpacity: compVar('fab', 'pressed-state-layer-opacity'),
+  };
 }
 
 export function Fab({
@@ -120,12 +131,16 @@ export function Fab({
   onClick,
   className,
   'data-testid': testId,
+  ...nativeProps
 }: FabProps) {
   const [pressed, setPressed] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const sizePrefix = FAB_SIZE_PREFIX[size];
   const colors = FAB_COLORS[variant];
-  const elevation = fabContainerElevation(variant, lowered, hovered, pressed);
+  const elevation = fabContainerElevation(variant, lowered, hovered, pressed, focused);
+  const layers = fabStateLayers();
+  const shape = FAB_SHAPES[size];
 
   const fabStyle: CSSProperties = {
     position: 'relative',
@@ -134,12 +149,16 @@ export function Fab({
     justifyContent: 'center',
     width: compVar(sizePrefix, 'container-width'),
     height: compVar(sizePrefix, 'container-height'),
-    borderRadius: FAB_SHAPES[size],
-    background: disabled ? `color-mix(in srgb, ${sysColor('on-surface')} 12%, transparent)` : colors.container,
-    color: disabled ? `color-mix(in srgb, ${sysColor('on-surface')} 38%, transparent)` : colors.content,
+    borderRadius: 'inherit',
+    background: disabled
+      ? `color-mix(in srgb, ${sysColor('on-surface')} 12%, transparent)`
+      : colors.container,
+    color: disabled
+      ? `color-mix(in srgb, ${sysColor('on-surface')} 38%, transparent)`
+      : colors.content,
     border: 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    ...FAB_CONTRACT,
+    boxShadow: disabled ? 'none' : elevation,
   };
 
   const iconStyle: CSSProperties = {
@@ -151,40 +170,55 @@ export function Fab({
   };
 
   return (
-    <Ripple disabled={disabled} color={colors.content} style={{ display: 'inline-flex', borderRadius: FAB_SHAPES[size] }}>
-      <StateLayer disabled={disabled} color={colors.content} style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
-        <motion.div
-          data-testid={testId}
-          style={{ display: 'inline-flex', borderRadius: 'inherit', boxShadow: disabled ? 'none' : elevation }}
-          animate={{ boxShadow: disabled ? 'none' : elevation }}
-          transition={springs.fastSpatial}
-          onPointerDown={() => !disabled && setPressed(true)}
-          onPointerUp={() => { setPressed(false); }}
-          onPointerLeave={() => { setPressed(false); }}
-          onMouseEnter={() => !disabled && setHovered(true)}
-          onMouseLeave={() => { setHovered(false); }}
-        >
-          <BaseButton
-            aria-label={ariaLabel}
-            disabled={disabled}
-            onClick={onClick}
-            className={className}
-            style={fabStyle}
-          >
-            <span style={iconStyle}>{icon}</span>
-          </BaseButton>
-        </motion.div>
-      </StateLayer>
-    </Ripple>
+    <PressableShell
+      disabled={disabled}
+      shape="round"
+      shapeRound={shape}
+      pressedShape={PRESSED_SHAPE}
+      stateLayerColor={colors.content}
+      hoverStateColor={layers.hoverStateColor}
+      hoverStateOpacity={layers.hoverStateOpacity}
+      pressedStateColor={layers.pressedStateColor}
+      pressedStateOpacity={layers.pressedStateOpacity}
+      style={{ display: 'inline-flex' }}
+      data-testid={testId}
+    >
+      <BaseButton
+        aria-label={ariaLabel}
+        disabled={disabled}
+        onClick={onClick}
+        className={className}
+        style={fabStyle}
+        {...mergeProps(nativeProps, {
+          onMouseEnter: () => !disabled && setHovered(true),
+          onMouseLeave: () => {
+            setHovered(false);
+            setPressed(false);
+          },
+          onFocus: () => !disabled && setFocused(true),
+          onBlur: () => setFocused(false),
+          onPointerDown: () => !disabled && setPressed(true),
+          onPointerUp: () => setPressed(false),
+          onPointerCancel: () => setPressed(false),
+        })}
+      >
+        <span style={iconStyle}>{icon}</span>
+      </BaseButton>
+    </PressableShell>
   );
 }
 
-export interface ExtendedFabProps {
+export interface ExtendedFabProps extends Omit<
+  ComponentPropsWithRef<'button'>,
+  'children' | 'onClick'
+> {
   icon: ReactNode;
   label: string;
   size?: ExtendedFabSize;
   variant?: FabVariant;
   lowered?: boolean;
+  /** When false, collapses the label with a spring width/opacity exit. Default true. */
+  expanded?: boolean;
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
@@ -215,37 +249,50 @@ export function ExtendedFab({
   size = 'small',
   variant = 'primary-container',
   lowered = false,
+  expanded = true,
   disabled = false,
   onClick,
   className,
   'data-testid': testId,
+  ...nativeProps
 }: ExtendedFabProps) {
   const [pressed, setPressed] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
   const sizePrefix = EXTENDED_FAB_SIZE_PREFIX[size];
-  const colors = variant === 'primary-container'
-    ? {
-        container: compVar('extended-fab-primary', 'container-color'),
-        content: compVar('extended-fab-primary', 'label-text-color'),
-      }
-    : FAB_COLORS[variant];
-  const elevation = extendedFabElevation(lowered, hovered, pressed);
+  const colors =
+    variant === 'primary-container'
+      ? {
+          container: compVar('extended-fab-primary', 'container-color'),
+          content: compVar('extended-fab-primary', 'label-text-color'),
+        }
+      : FAB_COLORS[variant];
+  const elevation = extendedFabElevation(lowered, hovered, pressed, focused);
+  const layers = fabStateLayers();
+  const shape = EXTENDED_FAB_SHAPES[size];
 
   const fabStyle: CSSProperties = {
     position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: compVar(sizePrefix, 'icon-label-space'),
+    gap: expanded ? compVar(sizePrefix, 'icon-label-space') : 0,
     height: compVar(sizePrefix, 'container-height'),
     paddingInlineStart: compVar(sizePrefix, 'leading-space'),
-    paddingInlineEnd: compVar(sizePrefix, 'trailing-space'),
+    paddingInlineEnd: expanded
+      ? compVar(sizePrefix, 'trailing-space')
+      : compVar(sizePrefix, 'leading-space'),
     minWidth: compVar(sizePrefix, 'container-height'),
-    borderRadius: EXTENDED_FAB_SHAPES[size],
-    background: disabled ? `color-mix(in srgb, ${sysColor('on-surface')} 12%, transparent)` : colors.container,
-    color: disabled ? `color-mix(in srgb, ${sysColor('on-surface')} 38%, transparent)` : colors.content,
+    borderRadius: 'inherit',
+    background: disabled
+      ? `color-mix(in srgb, ${sysColor('on-surface')} 12%, transparent)`
+      : colors.container,
+    color: disabled
+      ? `color-mix(in srgb, ${sysColor('on-surface')} 38%, transparent)`
+      : colors.content,
     border: 'none',
     cursor: disabled ? 'not-allowed' : 'pointer',
+    boxShadow: disabled ? 'none' : elevation,
     ...typeStyle(EXTENDED_FAB_TYPE[size]),
   };
 
@@ -259,30 +306,54 @@ export function ExtendedFab({
   };
 
   return (
-    <Ripple disabled={disabled} color={colors.content} style={{ display: 'inline-flex', borderRadius: EXTENDED_FAB_SHAPES[size] }}>
-      <StateLayer disabled={disabled} color={colors.content} style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
-        <motion.div
-          data-testid={testId}
-          style={{ display: 'inline-flex', borderRadius: 'inherit', boxShadow: disabled ? 'none' : elevation }}
-          animate={{ boxShadow: disabled ? 'none' : elevation }}
-          transition={springs.fastSpatial}
-          onPointerDown={() => !disabled && setPressed(true)}
-          onPointerUp={() => { setPressed(false); }}
-          onPointerLeave={() => { setPressed(false); }}
-          onMouseEnter={() => !disabled && setHovered(true)}
-          onMouseLeave={() => { setHovered(false); }}
-        >
-          <BaseButton
-            disabled={disabled}
-            onClick={onClick}
-            className={className}
-            style={fabStyle}
-          >
-            <span style={iconStyle}>{icon}</span>
-            <span>{label}</span>
-          </BaseButton>
-        </motion.div>
-      </StateLayer>
-    </Ripple>
+    <PressableShell
+      disabled={disabled}
+      shape="round"
+      shapeRound={shape}
+      pressedShape={PRESSED_SHAPE}
+      stateLayerColor={colors.content}
+      hoverStateColor={layers.hoverStateColor}
+      hoverStateOpacity={layers.hoverStateOpacity}
+      pressedStateColor={layers.pressedStateColor}
+      pressedStateOpacity={layers.pressedStateOpacity}
+      style={{ display: 'inline-flex' }}
+      data-testid={testId}
+    >
+      <BaseButton
+        aria-label={label}
+        disabled={disabled}
+        onClick={onClick}
+        className={className}
+        style={fabStyle}
+        {...mergeProps(nativeProps, {
+          onMouseEnter: () => !disabled && setHovered(true),
+          onMouseLeave: () => {
+            setHovered(false);
+            setPressed(false);
+          },
+          onFocus: () => !disabled && setFocused(true),
+          onBlur: () => setFocused(false),
+          onPointerDown: () => !disabled && setPressed(true),
+          onPointerUp: () => setPressed(false),
+          onPointerCancel: () => setPressed(false),
+        })}
+      >
+        <span style={iconStyle}>{icon}</span>
+        <AnimatePresence initial={false}>
+          {expanded && (
+            <motion.span
+              key="label"
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: 'auto', opacity: 1 }}
+              exit={{ width: 0, opacity: 0 }}
+              transition={springs.fastSpatial}
+              style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}
+            >
+              {label}
+            </motion.span>
+          )}
+        </AnimatePresence>
+      </BaseButton>
+    </PressableShell>
   );
 }

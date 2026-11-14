@@ -1,9 +1,10 @@
-
 import { Tabs as BaseTabs } from '@base-ui/react/tabs';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
 import { useState, type CSSProperties, type ReactNode } from 'react';
-import { compVar, sysShape, typeStyle } from '../lib/token-utils.js';
+import { compVar, typeStyle } from '../lib/token-utils.js';
+import { FocusRing } from '../primitives/focus-ring.js';
+import { Ripple } from '../primitives/ripple.js';
 
 export type TabsVariant = 'primary' | 'secondary';
 export type TabsLayout = 'fixed' | 'scrollable';
@@ -39,9 +40,7 @@ function tabLabelColor(prefix: string, selected: boolean): string {
 }
 
 function tabIconColor(prefix: string, selected: boolean): string {
-  return selected
-    ? compVar(prefix, 'active-icon-color')
-    : compVar(prefix, 'inactive-icon-color');
+  return selected ? compVar(prefix, 'active-icon-color') : compVar(prefix, 'inactive-icon-color');
 }
 
 export function Tabs({
@@ -68,15 +67,42 @@ export function Tabs({
   };
 
   const listStyle: CSSProperties = {
+    position: 'relative',
     display: 'flex',
     height: compVar(prefix, 'container-height'),
     background: compVar(prefix, 'container-color'),
-    borderBottom:
-      variant === 'secondary'
-        ? `${compVar(prefix, 'divider-height')} solid ${compVar(prefix, 'divider-color')}`
-        : undefined,
+    borderBottom: `${compVar(prefix, 'divider-height')} solid ${compVar(prefix, 'divider-color')}`,
     overflowX: layout === 'scrollable' ? 'auto' : 'hidden',
   };
+
+  const indicatorBaseStyle: CSSProperties = {
+    position: 'absolute',
+    bottom: 0,
+    left:
+      variant === 'primary'
+        ? 'calc(var(--active-tab-left) + var(--active-tab-width) * 0.2)'
+        : 'var(--active-tab-left)',
+    width:
+      variant === 'primary'
+        ? 'max(24px, calc(var(--active-tab-width) * 0.6))'
+        : 'var(--active-tab-width)',
+    pointerEvents: 'none',
+  };
+
+  const indicatorStyle: CSSProperties =
+    variant === 'primary'
+      ? {
+          ...indicatorBaseStyle,
+          height: compVar('primary-navigation-tab', 'active-indicator-height'),
+          background: compVar('primary-navigation-tab', 'active-indicator-color'),
+          borderRadius: `${compVar('primary-navigation-tab', 'active-indicator-shape')} ${compVar('primary-navigation-tab', 'active-indicator-shape')} 0px 0px`,
+        }
+      : {
+          ...indicatorBaseStyle,
+          height: compVar('secondary-navigation-tab', 'active-indicator-height'),
+          background: compVar('secondary-navigation-tab', 'active-indicator-color'),
+          borderRadius: 0,
+        };
 
   return (
     <BaseTabs.Root
@@ -100,22 +126,26 @@ export function Tabs({
             selected={item.value === selectedValue}
           />
         ))}
-        {variant === 'primary' && (
-          <BaseTabs.Indicator
-            render={(props) => (
+        <BaseTabs.Indicator
+          render={(props) => {
+            const measured =
+              parseFloat(String(props.style?.['--active-tab-width' as keyof CSSProperties] ?? 0)) >
+              0;
+            return (
               <motion.span
+                key={measured ? 'measured' : 'unmeasured'}
+                initial={false}
                 {...(props as object)}
+                layout
                 transition={springs.fastSpatial}
                 style={{
                   ...props.style,
-                  height: compVar('primary-navigation-tab', 'active-indicator-height'),
-                  background: compVar('primary-navigation-tab', 'active-indicator-color'),
-                  borderRadius: sysShape('corner-full'),
+                  ...indicatorStyle,
                 }}
               />
-            )}
-          />
-        )}
+            );
+          }}
+        />
       </BaseTabs.List>
       {items.map((item) => (
         <BaseTabs.Panel
@@ -142,6 +172,7 @@ function TabTrigger({ item, variant, layout, itemCount, selected }: TabTriggerPr
   const prefix = VARIANT_PREFIX[variant];
   const flex = layout === 'fixed' ? 1 / itemCount : undefined;
   const stacked = Boolean(item.icon);
+  const labelColor = tabLabelColor(prefix, selected);
 
   return (
     <BaseTabs.Tab
@@ -149,35 +180,54 @@ function TabTrigger({ item, variant, layout, itemCount, selected }: TabTriggerPr
       disabled={item.disabled}
       style={{
         flex,
-        minWidth: layout === 'scrollable' ? compVar('primary-navigation-tab', 'icon-and-label-text-container-height') : undefined,
+        minWidth:
+          layout === 'scrollable'
+            ? compVar('primary-navigation-tab', 'icon-and-label-text-container-height')
+            : undefined,
         display: 'inline-flex',
-        flexDirection: stacked ? 'column' : 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: compVar('list', 'item-top-space'),
-        height: stacked ? compVar('primary-navigation-tab', 'icon-and-label-text-container-height') : '100%',
-        paddingInline: compVar('list', 'item-between-space'),
+        height: stacked
+          ? compVar('primary-navigation-tab', 'icon-and-label-text-container-height')
+          : '100%',
+        padding: 0,
         border: 'none',
         background: 'transparent',
         cursor: item.disabled ? 'not-allowed' : 'pointer',
-        ...typeStyle('title-small'),
-        color: tabLabelColor(prefix, selected),
         opacity: item.disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
+        color: labelColor,
       }}
     >
-      {item.icon && (
-        <span
+      <FocusRing style={{ width: '100%', height: '100%', display: 'inline-flex' }}>
+        <Ripple
+          color={labelColor}
+          disabled={item.disabled}
           style={{
-            width: compVar(prefix, 'icon-size'),
-            height: compVar(prefix, 'icon-size'),
             display: 'inline-flex',
-            color: tabIconColor(prefix, selected),
+            flexDirection: stacked ? 'column' : 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: compVar('list', 'item-top-space'),
+            width: '100%',
+            height: '100%',
+            paddingInline: compVar('list', 'item-between-space'),
+            ...typeStyle('title-small'),
+            color: labelColor,
           }}
         >
-          {item.icon}
-        </span>
-      )}
-      {item.label}
+          {item.icon && (
+            <span
+              style={{
+                width: compVar(prefix, 'icon-size'),
+                height: compVar(prefix, 'icon-size'),
+                display: 'inline-flex',
+                color: tabIconColor(prefix, selected),
+              }}
+            >
+              {item.icon}
+            </span>
+          )}
+          {item.label}
+        </Ripple>
+      </FocusRing>
     </BaseTabs.Tab>
   );
 }

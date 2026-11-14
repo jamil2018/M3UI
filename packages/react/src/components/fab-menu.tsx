@@ -1,13 +1,12 @@
-
-import { Button as BaseButton } from '@base-ui/react/button';
-import { AnimatePresence, motion } from 'motion/react';
+import { Menu as BaseMenu } from '@base-ui/react/menu';
+import { M3PortalScope } from '../provider/m3-provider.js';
+import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
 import { Icon } from '@m3ui/icons';
-import { MaterialShapes, useMorph, staggerDelay } from '@m3ui/shapes';
+import { staggerDelay } from '@m3ui/shapes';
 import { useState, type CSSProperties, type ReactNode } from 'react';
-import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
-import { StateLayer } from '../primitives/state-layer.js';
-import { Ripple } from '../primitives/ripple.js';
+import { compVar, elevationShadow, sysShape, typeStyle } from '../lib/token-utils.js';
+import { PressableShell } from '../lib/pressable-shell.js';
 
 export interface FabMenuAction {
   label: string;
@@ -37,14 +36,10 @@ export function FabMenu({
 }: FabMenuProps) {
   const [open, setOpen] = useState(false);
 
-  const { clipPath } = useMorph({
-    from: MaterialShapes.circle,
-    to: MaterialShapes.pill,
-    active: open,
-    transition: springs.defaultSpatial,
-    width: 56,
-    height: Math.max(56, actions.length * 60 + 16),
-  });
+  const closeShape = compVar('fab-menu-baseline', 'close-button-container-shape');
+  const openShape = sysShape('corner-full');
+  const itemShape = compVar('fab-menu-baseline', 'list-item-container-shape');
+  const pressedShape = compVar('button-large', 'pressed-container-shape');
 
   const rootStyle: CSSProperties = {
     position: 'relative',
@@ -62,7 +57,7 @@ export function FabMenu({
     justifyContent: 'center',
     width: compVar('fab-menu-baseline', 'close-button-container-width'),
     height: compVar('fab-menu-baseline', 'close-button-container-height'),
-    borderRadius: compVar('fab-menu-baseline', 'close-button-container-shape'),
+    borderRadius: 'inherit',
     background: compVar('fab-primary-container', 'container-color'),
     color: compVar('fab-primary-container', 'icon-color'),
     border: 'none',
@@ -72,16 +67,15 @@ export function FabMenu({
   };
 
   const menuContainerStyle: CSSProperties = {
-    position: 'absolute',
-    insetInlineEnd: 0,
-    bottom: `calc(100% + ${compVar('fab-menu-baseline', 'close-button-between-space')})`,
-    zIndex: 3,
+    maxHeight: 'var(--available-height)',
+    maxWidth: 'var(--available-width)',
+    overflowY: 'auto',
+    outline: 'none',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'stretch',
     gap: compVar('fab-menu-baseline', 'list-item-between-space'),
     padding: compVar('fab-menu-baseline', 'close-button-between-space'),
-    clipPath: open ? clipPath : undefined,
   };
 
   const itemStyle: CSSProperties = {
@@ -91,7 +85,7 @@ export function FabMenu({
     height: compVar('fab-menu-baseline', 'list-item-container-height'),
     paddingInlineStart: compVar('fab-menu-baseline', 'list-item-leading-space'),
     paddingInlineEnd: compVar('fab-menu-baseline', 'list-item-trailing-space'),
-    borderRadius: compVar('fab-menu-baseline', 'list-item-container-shape'),
+    borderRadius: 'inherit',
     background: compVar('fab-primary-container', 'container-color'),
     color: compVar('fab-primary-container', 'icon-color'),
     border: 'none',
@@ -110,59 +104,90 @@ export function FabMenu({
 
   return (
     <div className={className} data-testid={testId} style={rootStyle}>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            style={menuContainerStyle}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={springs.defaultEffects}
-            role="menu"
-            aria-label="FAB actions"
-          >
-            {actions.map((action, index) => (
-              <motion.div
-                key={action.label}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 12 }}
-                transition={{
-                  ...springs.defaultSpatial,
-                  delay: staggerDelay(index) / 1000,
-                }}
-              >
-                <Ripple style={{ display: 'inline-flex', borderRadius: compVar('fab-menu-baseline', 'list-item-container-shape') }}>
-                  <StateLayer style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
-                    <BaseButton
-                      type="button"
-                      role="menuitem"
-                      disabled={action.disabled}
-                      onClick={() => {
-                        action.onClick?.();
-                        setOpen(false);
+      <BaseMenu.Root open={open} onOpenChange={setOpen}>
+        <BaseMenu.Portal>
+          <M3PortalScope>
+            <BaseMenu.Positioner
+              side="top"
+              align="end"
+              sideOffset={8}
+              collisionPadding={8}
+              style={{ zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)' }}
+            >
+              <BaseMenu.Popup style={menuContainerStyle} aria-label="FAB actions">
+                {actions.map((action, index) => {
+                  const itemDisabled = disabled || Boolean(action.disabled);
+                  return (
+                    <motion.div
+                      key={action.label}
+                      initial={{ opacity: 0, scale: 0.8, y: 16 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{
+                        opacity: 0,
+                        scale: 0.8,
+                        y: 12,
+                        transition: { ...springs.fastSpatial, opacity: springs.fastEffects },
                       }}
-                      style={itemStyle}
+                      transition={{
+                        ...springs.defaultSpatial,
+                        delay: staggerDelay(index) / 1000,
+                        opacity: { ...springs.defaultEffects, delay: staggerDelay(index) / 1000 },
+                      }}
                     >
-                      {action.icon && <span style={iconBox}>{action.icon}</span>}
-                      <span>{action.label}</span>
-                    </BaseButton>
-                  </StateLayer>
-                </Ripple>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+                      <PressableShell
+                        disabled={itemDisabled}
+                        shape="round"
+                        shapeRound={itemShape}
+                        pressedShape={pressedShape}
+                        stateLayerColor={compVar('fab-primary-container', 'icon-color')}
+                        hoverStateColor={compVar('fab', 'hover-state-layer-color')}
+                        hoverStateOpacity={compVar('fab', 'hover-state-layer-opacity')}
+                        pressedStateColor={compVar('fab', 'pressed-state-layer-color')}
+                        pressedStateOpacity={compVar('fab', 'pressed-state-layer-opacity')}
+                        style={{ display: 'inline-flex', borderRadius: itemShape }}
+                      >
+                        <BaseMenu.Item
+                          disabled={itemDisabled}
+                          onClick={() => {
+                            action.onClick?.();
+                            setOpen(false);
+                          }}
+                          style={{
+                            ...itemStyle,
+                            cursor: itemDisabled ? 'not-allowed' : 'pointer',
+                            opacity: itemDisabled
+                              ? 'var(--md-sys-state-disabled-content-opacity)'
+                              : 1,
+                          }}
+                        >
+                          {action.icon && <span style={iconBox}>{action.icon}</span>}
+                          <span>{action.label}</span>
+                        </BaseMenu.Item>
+                      </PressableShell>
+                    </motion.div>
+                  );
+                })}
+              </BaseMenu.Popup>
+            </BaseMenu.Positioner>
+          </M3PortalScope>
+        </BaseMenu.Portal>
 
-      <Ripple disabled={disabled} style={{ display: 'inline-flex', borderRadius: compVar('fab-menu-baseline', 'close-button-container-shape') }}>
-        <StateLayer disabled={disabled} style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
-          <BaseButton
-            type="button"
+        <PressableShell
+          disabled={disabled}
+          shape="round"
+          shapeRound={open ? openShape : closeShape}
+          pressedShape={pressedShape}
+          stateLayerColor={compVar('fab-primary-container', 'icon-color')}
+          hoverStateColor={compVar('fab', 'hover-state-layer-color')}
+          hoverStateOpacity={compVar('fab', 'hover-state-layer-opacity')}
+          pressedStateColor={compVar('fab', 'pressed-state-layer-color')}
+          pressedStateOpacity={compVar('fab', 'pressed-state-layer-opacity')}
+          style={{ display: 'inline-flex', zIndex: 2 }}
+        >
+          <BaseMenu.Trigger
             aria-label={open ? 'Close menu' : ariaLabel}
             aria-expanded={open}
             disabled={disabled}
-            onClick={() => { setOpen((v) => !v); }}
             style={fabStyle}
           >
             <motion.span
@@ -173,14 +198,14 @@ export function FabMenu({
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
-              animate={{ rotate: open ? 45 : 0 }}
-              transition={springs.fastEffects}
+              animate={{ rotate: 0 }}
+              transition={springs.fastSpatial}
             >
               {open ? closeIcon : icon}
             </motion.span>
-          </BaseButton>
-        </StateLayer>
-      </Ripple>
+          </BaseMenu.Trigger>
+        </PressableShell>
+      </BaseMenu.Root>
     </div>
   );
 }

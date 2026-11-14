@@ -6,6 +6,7 @@ import {
   type CSSProperties,
   type ReactNode,
 } from 'react';
+import { EASING, prefersReducedMotion } from '@m3ui/motion';
 import { STATE_LAYER_OPACITIES } from '@m3ui/tokens';
 
 export interface RippleProps {
@@ -14,6 +15,14 @@ export interface RippleProps {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
+  /** Hover state-layer color (defaults to `color`) */
+  hoverColor?: string;
+  /** Pressed state-layer color (defaults to `color`) */
+  pressedColor?: string;
+  /** Hover state-layer opacity override */
+  hoverOpacity?: string | number;
+  /** Pressed state-layer opacity override */
+  pressedOpacity?: string | number;
 }
 
 const PRESS_GROW_MS = 450;
@@ -66,25 +75,31 @@ const RIPPLE_STYLES = `
   position: absolute;
 }
 .m3-ripple-surface::before {
-  background-color: var(--m3-ripple-hover-color, currentColor);
+  background-color: var(--md-comp-ripple-hover-color, var(--m3-ripple-hover-color, currentColor));
   inset: 0;
   transition: opacity 15ms linear, background-color 15ms linear;
 }
 .m3-ripple-surface::after {
   background: radial-gradient(
     closest-side,
-    var(--m3-ripple-pressed-color, currentColor) max(calc(100% - 70px), 65%),
+    var(--md-comp-ripple-pressed-color, var(--m3-ripple-pressed-color, currentColor)) max(calc(100% - 70px), 65%),
     transparent 100%
   );
   transform-origin: center center;
   transition: opacity 375ms linear;
 }
 .m3-ripple-surface[data-hovered="true"]::before {
-  opacity: var(--m3-ripple-hover-opacity, ${STATE_LAYER_OPACITIES.hover});
+  opacity: var(--md-comp-ripple-hover-opacity, var(--m3-ripple-hover-opacity, ${STATE_LAYER_OPACITIES.hover}));
 }
 .m3-ripple-surface[data-pressed="true"]::after {
-  opacity: var(--m3-ripple-pressed-opacity, ${STATE_LAYER_OPACITIES.pressed});
+  opacity: var(--md-comp-ripple-pressed-opacity, var(--m3-ripple-pressed-opacity, ${STATE_LAYER_OPACITIES.pressed}));
   transition-duration: 105ms;
+}
+@media (prefers-reduced-motion: reduce) {
+  .m3-ripple-surface::before,
+  .m3-ripple-surface::after {
+    transition: none;
+  }
 }
 `;
 
@@ -110,7 +125,17 @@ const RIPPLE_EVENTS = [
   'pointerup',
 ] as const;
 
-export function Ripple({ children, color, disabled = false, className, style }: RippleProps) {
+export function Ripple({
+  children,
+  color,
+  disabled = false,
+  className,
+  style,
+  hoverColor,
+  pressedColor,
+  hoverOpacity,
+  pressedOpacity,
+}: RippleProps) {
   const hostRef = useRef<HTMLDivElement>(null);
   const surfaceRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef(State.INACTIVE);
@@ -150,15 +175,15 @@ export function Ripple({ children, color, disabled = false, className, style }: 
     const surface = surfaceRef.current;
     if (!surface) return { width: 0, height: 0 };
     const { width, height } = surface.getBoundingClientRect();
-    const zoom = surface.offsetWidth > 0 ? width / surface.offsetWidth : 1;
-    return { width: width / zoom, height: height / zoom, zoom };
+    const zoom = surface.offsetWidth > 0 && width > 0 ? width / surface.offsetWidth : 1;
+    return { width, height, zoom };
   }, []);
 
   const determineRippleSize = useCallback(() => {
     const { width, height, zoom = 1 } = getBoundingSize();
     const maxDim = Math.max(width, height);
     const softEdgeSize = Math.max(SOFT_EDGE_CONTAINER_RATIO * maxDim, SOFT_EDGE_MINIMUM_SIZE);
-    const initialSize = Math.floor((maxDim * INITIAL_ORIGIN_SCALE) / zoom);
+    const initialSize = Math.max(1, Math.floor((maxDim * INITIAL_ORIGIN_SCALE) / zoom));
     const hypotenuse = Math.sqrt(width ** 2 + height ** 2);
     const maxRadius = hypotenuse + PADDING;
     initialSizeRef.current = initialSize;
@@ -214,11 +239,14 @@ export function Ripple({ children, color, disabled = false, className, style }: 
       if (!surface) return;
       setPressed(true);
       growAnimationRef.current?.cancel();
+      growAnimationRef.current = undefined;
       if (typeof surface.animate !== 'function') return;
       determineRippleSize();
       const { startPoint, endPoint } = getTranslationCoordinates(positionEvent);
       const translateStart = `${startPoint.x}px, ${startPoint.y}px`;
       const translateEnd = `${endPoint.x}px, ${endPoint.y}px`;
+      const reducedMotion = prefersReducedMotion();
+      const endTransform = `translate(${translateEnd}) scale(${rippleScaleRef.current})`;
       growAnimationRef.current = surface.animate(
         {
           top: [0, 0],
@@ -226,14 +254,14 @@ export function Ripple({ children, color, disabled = false, className, style }: 
           height: [rippleSizeRef.current, rippleSizeRef.current],
           width: [rippleSizeRef.current, rippleSizeRef.current],
           transform: [
-            `translate(${translateStart}) scale(1)`,
-            `translate(${translateEnd}) scale(${rippleScaleRef.current})`,
+            reducedMotion ? endTransform : `translate(${translateStart}) scale(1)`,
+            endTransform,
           ],
         },
         {
           pseudoElement: PRESS_PSEUDO,
-          duration: PRESS_GROW_MS,
-          easing: 'var(--md-sys-motion-easing-standard, cubic-bezier(0.2, 0, 0, 1))',
+          duration: reducedMotion ? 0 : PRESS_GROW_MS,
+          easing: EASING.STANDARD,
           fill: ANIMATION_FILL,
         },
       );
@@ -309,7 +337,7 @@ export function Ripple({ children, color, disabled = false, className, style }: 
       await new Promise<void>((resolve) => {
         setTimeout(resolve, TOUCH_DELAY_MS);
       });
-      if (stateRef.current !== State.TOUCH_DELAY) return;
+      if (stateRef.current !== State.TOUCH_DELAY || rippleStartEventRef.current !== event) return;
       stateRef.current = State.HOLDING;
       startPressAnimation(event);
     },
@@ -399,11 +427,22 @@ export function Ripple({ children, color, disabled = false, className, style }: 
       setHovered(false);
       setPressed(false);
       stateRef.current = State.INACTIVE;
+      rippleStartEventRef.current = undefined;
       growAnimationRef.current?.cancel();
+      growAnimationRef.current = undefined;
     }
   }, [disabled]);
 
+  useEffect(() => () => {
+    stateRef.current = State.INACTIVE;
+    rippleStartEventRef.current = undefined;
+    growAnimationRef.current?.cancel();
+    growAnimationRef.current = undefined;
+  }, []);
+
   const rippleColor = color ?? 'currentColor';
+  const resolvedHoverColor = hoverColor ?? rippleColor;
+  const resolvedPressedColor = pressedColor ?? rippleColor;
 
   return (
     <div
@@ -422,8 +461,22 @@ export function Ripple({ children, color, disabled = false, className, style }: 
           data-pressed={pressed || undefined}
           style={
             {
-              '--m3-ripple-hover-color': rippleColor,
-              '--m3-ripple-pressed-color': rippleColor,
+              '--m3-ripple-hover-color': resolvedHoverColor,
+              '--m3-ripple-pressed-color': resolvedPressedColor,
+              '--md-comp-ripple-hover-color': resolvedHoverColor,
+              '--md-comp-ripple-pressed-color': resolvedPressedColor,
+              ...(hoverOpacity != null
+                ? {
+                    '--m3-ripple-hover-opacity': String(hoverOpacity),
+                    '--md-comp-ripple-hover-opacity': String(hoverOpacity),
+                  }
+                : {}),
+              ...(pressedOpacity != null
+                ? {
+                    '--m3-ripple-pressed-opacity': String(pressedOpacity),
+                    '--md-comp-ripple-pressed-opacity': String(pressedOpacity),
+                  }
+                : {}),
             } as CSSProperties
           }
         />

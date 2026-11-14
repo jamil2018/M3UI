@@ -1,15 +1,27 @@
+import { M3PortalScope } from '../provider/m3-provider.js';
 
 import { Autocomplete as BaseAutocomplete } from '@base-ui/react/autocomplete';
 import { Combobox as BaseCombobox } from '@base-ui/react/combobox';
-import { type CSSProperties, type ReactNode } from 'react';
-import { compVar, typeStyle } from '../lib/token-utils.js';
+import { useId, useState, type CSSProperties, type ReactNode } from 'react';
+import {
+  FieldDecorations,
+  FieldFloatingLabel,
+  fieldInputStyles,
+  fieldTokenPrefix,
+  fieldWrapStyles,
+  type FieldVariant,
+} from '../lib/field-internals.js';
+import { StateLayer } from '../lib/state-layer.js';
+import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import { PopupMotion } from '../lib/popup-motion.js';
 
-export type AutocompleteVariant = 'filled' | 'outlined';
+export type AutocompleteVariant = FieldVariant;
 
 export interface AutocompleteOption {
   value: string;
   label: ReactNode;
+  /** Search text for a rich label; plain text labels are used automatically. */
+  textValue?: string;
   disabled?: boolean;
 }
 
@@ -26,41 +38,18 @@ export interface AutocompleteProps {
   'data-testid'?: string;
 }
 
-function inputFieldStyle(variant: AutocompleteVariant, disabled: boolean): CSSProperties {
-  const textFieldPrefix = variant === 'filled' ? 'filled-text-field' : 'outlined-text-field';
-  return {
-    display: 'flex',
-    alignItems: 'center',
-    gap: compVar('list', 'item-between-space'),
-    minHeight: compVar('outlined-text-field', 'container-height'),
-    paddingInline: compVar('outlined-text-field', 'leading-space'),
-    borderRadius: compVar(textFieldPrefix, 'text-field-container-shape'),
-    background:
-      variant === 'filled'
-        ? disabled
-          ? compVar('filled-text-field', 'disabled-container-color')
-          : compVar('filled-text-field', 'container-color')
-        : 'transparent',
-    border:
-      variant === 'outlined'
-        ? `${compVar('outlined-text-field', 'outline-width')} solid ${disabled ? compVar('outlined-text-field', 'disabled-outline-color') : compVar('outlined-text-field', 'outline-color')}`
-        : 'none',
-    borderBottom:
-      variant === 'filled'
-        ? `${compVar('filled-text-field', 'active-indicator-height')} solid ${compVar('filled-text-field', 'active-indicator-color')}`
-        : undefined,
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
-    width: '100%',
-  };
+function optionText(option: AutocompleteOption | undefined, fallback: string) {
+  return option?.textValue ?? (typeof option?.label === 'string' ? option.label : fallback);
 }
 
 const popupStyle: CSSProperties = {
   background: compVar('menu', 'container-color'),
   borderRadius: compVar('menu', 'container-shape'),
-  boxShadow: `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) color-mix(in srgb, var(--md-sys-color-shadow) calc(var(--md-sys-elevation-level2-shadow-opacity) * 100%), transparent)`,
+  boxShadow: elevationShadow('level2'),
   paddingBlock: compVar('list', 'item-top-space'),
-  maxHeight: compVar('search-bar', 'container-height'),
-  overflow: 'auto',
+  maxHeight: '280px',
+  overflowX: 'hidden',
+  overflowY: 'auto',
   width: 'var(--anchor-width)',
   maxWidth: 'var(--available-width)',
 };
@@ -68,13 +57,88 @@ const popupStyle: CSSProperties = {
 const itemStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  minHeight: compVar('list', 'item-one-line-container-height'),
+  minHeight: compVar('list-item', 'one-line-container-height'),
   paddingBlock: 0,
-  paddingInline: compVar('list', 'divider-leading-space'),
+  paddingInline: 0,
   ...typeStyle('body-large'),
   color: compVar('list', 'item-label-text-color'),
   cursor: 'pointer',
+  borderRadius: compVar('list', 'item-container-shape'),
 };
+
+function FieldInputShell({
+  variant,
+  label,
+  disabled,
+  value,
+  inputId,
+  children,
+}: {
+  variant: AutocompleteVariant;
+  label?: string;
+  disabled: boolean;
+  value?: string;
+  inputId: string;
+  children: (args: {
+    inputStyle: CSSProperties;
+    interaction: { disabled: boolean; focused: boolean; hovered: boolean };
+    floated: boolean;
+    prefixToken: string;
+  }) => ReactNode;
+}) {
+  const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const prefixToken = fieldTokenPrefix(variant);
+  const interaction = { disabled, focused, hovered };
+  const floated = focused || Boolean(value);
+  const notched = variant === 'outlined' && Boolean(label);
+
+  return (
+    <div
+      style={fieldWrapStyles(variant, interaction, { notched })}
+      onMouseEnter={() => {
+        setHovered(true);
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+      }}
+      onFocusCapture={() => {
+        setFocused(true);
+      }}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) {
+          setFocused(false);
+        }
+      }}
+    >
+      <FieldDecorations
+        variant={variant}
+        prefix={prefixToken}
+        state={interaction}
+        label={label}
+        floated={floated}
+      />
+      {label && (
+        <FieldFloatingLabel
+          variant={variant}
+          prefix={prefixToken}
+          state={interaction}
+          label={label}
+          floated={floated}
+          htmlFor={inputId}
+        />
+      )}
+      {children({
+        inputStyle: {
+          ...fieldInputStyles(prefixToken, interaction, Boolean(label)),
+        },
+        interaction,
+        floated,
+        prefixToken,
+      })}
+    </div>
+  );
+}
 
 export function Autocomplete({
   variant = 'outlined',
@@ -88,48 +152,104 @@ export function Autocomplete({
   className,
   'data-testid': testId,
 }: AutocompleteProps) {
-  const tokenPrefix = variant === 'filled' ? 'filled-text-field' : 'outlined-text-field';
+  const inputId = useId();
+  const [internalValue, setInternalValue] = useState(defaultValue ?? '');
+  const currentValue = value ?? internalValue;
 
   return (
-    <div className={className} data-testid={testId} style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%' }}>
-      {label && (
-        <span style={{ ...typeStyle('body-small'), color: compVar(tokenPrefix, 'focus-label-color') }}>{label}</span>
-      )}
+    <div
+      className={className}
+      data-testid={testId}
+      style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%' }}
+    >
       <BaseAutocomplete.Root
         value={value}
         defaultValue={defaultValue}
-        onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
+        onValueChange={(next) => {
+          if (next == null) return;
+          if (value === undefined) setInternalValue(next);
+          onValueChange?.(next);
+        }}
         disabled={disabled}
         items={options.map((o) => o.value)}
+        itemToStringValue={(item) =>
+          optionText(
+            options.find((o) => o.value === item),
+            item,
+          )
+        }
         openOnInputClick
       >
-        <BaseAutocomplete.InputGroup style={inputFieldStyle(variant, disabled)}>
-          <BaseAutocomplete.Input
-            placeholder={placeholder}
-            style={{
-              ...typeStyle('body-large'),
-              flex: 1,
-              border: 'none',
-              background: 'transparent',
-              outline: 'none',
-              color: compVar(tokenPrefix, 'input-text-color'),
-            }}
-          />
+        <BaseAutocomplete.InputGroup style={{ width: '100%' }}>
+          <FieldInputShell
+            variant={variant}
+            label={label}
+            disabled={disabled}
+            value={currentValue}
+            inputId={inputId}
+          >
+            {({ inputStyle, floated }) => (
+              <BaseAutocomplete.Input
+                id={inputId}
+                placeholder={!label ? placeholder : floated ? placeholder : undefined}
+                aria-label={label}
+                style={inputStyle}
+              />
+            )}
+          </FieldInputShell>
         </BaseAutocomplete.InputGroup>
         <BaseAutocomplete.Portal>
-          <BaseAutocomplete.Positioner sideOffset={4} style={{ zIndex: 1000 }}>
-            <PopupMotion>
-              <BaseAutocomplete.Popup style={popupStyle}>
-                <BaseAutocomplete.List>
-                  {options.map((opt) => (
-                    <BaseAutocomplete.Item key={opt.value} value={opt.value} disabled={opt.disabled} style={itemStyle}>
-                      {opt.label}
-                    </BaseAutocomplete.Item>
-                  ))}
-                </BaseAutocomplete.List>
-              </BaseAutocomplete.Popup>
-            </PopupMotion>
-          </BaseAutocomplete.Positioner>
+          <M3PortalScope>
+            <BaseAutocomplete.Positioner
+              sideOffset={4}
+              style={{ zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)' }}
+            >
+              <PopupMotion>
+                <BaseAutocomplete.Popup style={popupStyle}>
+                  <BaseAutocomplete.Empty style={{ padding: 16 }}>
+                    No results found
+                  </BaseAutocomplete.Empty>
+                  <BaseAutocomplete.List>
+                    {(optionValue: string) => {
+                      const opt = options.find((option) => option.value === optionValue)!;
+                      return (
+                        <BaseAutocomplete.Item
+                          key={opt.value}
+                          value={opt.value}
+                          disabled={opt.disabled}
+                          style={(state) => ({
+                            ...itemStyle,
+                            background: state.highlighted
+                              ? compVar('list', 'item-selected-container-color')
+                              : undefined,
+                            color: state.highlighted
+                              ? compVar('list', 'item-selected-label-text-color')
+                              : itemStyle.color,
+                            opacity: state.disabled ? 0.38 : 1,
+                          })}
+                        >
+                          <StateLayer
+                            states={['hover', 'pressed']}
+                            disabled={opt.disabled}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              width: '100%',
+                              minHeight: compVar('list-item', 'one-line-container-height'),
+                              paddingInline: compVar('list', 'divider-leading-space'),
+                              borderRadius: 'inherit',
+                            }}
+                          >
+                            {opt.label}
+                          </StateLayer>
+                        </BaseAutocomplete.Item>
+                      );
+                    }}
+                  </BaseAutocomplete.List>
+                </BaseAutocomplete.Popup>
+              </PopupMotion>
+            </BaseAutocomplete.Positioner>
+          </M3PortalScope>
         </BaseAutocomplete.Portal>
       </BaseAutocomplete.Root>
     </div>
@@ -153,48 +273,102 @@ export function Combobox({
   className,
   'data-testid': testId,
 }: ComboboxProps) {
-  const tokenPrefix = variant === 'filled' ? 'filled-text-field' : 'outlined-text-field';
+  const inputId = useId();
+  const [internalValue, setInternalValue] = useState(defaultValue ?? '');
+  const currentValue = value ?? internalValue;
 
   return (
-    <div className={className} data-testid={testId} style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%' }}>
-      {label && (
-        <span style={{ ...typeStyle('body-small'), color: compVar(tokenPrefix, 'focus-label-color') }}>{label}</span>
-      )}
+    <div
+      className={className}
+      data-testid={testId}
+      style={{ display: 'flex', flexDirection: 'column', gap: 4, width: '100%' }}
+    >
       <BaseCombobox.Root
         value={value}
         defaultValue={defaultValue}
-        onValueChange={onValueChange ? (value) => { if (value != null) onValueChange(value); } : undefined}
+        onValueChange={(next) => {
+          if (next == null) return;
+          if (value === undefined) setInternalValue(next);
+          onValueChange?.(next);
+        }}
         disabled={disabled}
         items={options.map((o) => o.value)}
+        itemToStringLabel={(item) =>
+          optionText(
+            options.find((o) => o.value === item),
+            item,
+          )
+        }
         openOnInputClick
       >
-        <BaseCombobox.InputGroup style={inputFieldStyle(variant, disabled)}>
-          <BaseCombobox.Input
-            placeholder={placeholder}
-            style={{
-              ...typeStyle('body-large'),
-              flex: 1,
-              border: 'none',
-              background: 'transparent',
-              outline: 'none',
-              color: compVar(tokenPrefix, 'input-text-color'),
-            }}
-          />
+        <BaseCombobox.InputGroup style={{ width: '100%' }}>
+          <FieldInputShell
+            variant={variant}
+            label={label}
+            disabled={disabled}
+            value={currentValue}
+            inputId={inputId}
+          >
+            {({ inputStyle, floated }) => (
+              <BaseCombobox.Input
+                id={inputId}
+                placeholder={!label ? placeholder : floated ? placeholder : undefined}
+                aria-label={label}
+                style={inputStyle}
+              />
+            )}
+          </FieldInputShell>
         </BaseCombobox.InputGroup>
         <BaseCombobox.Portal>
-          <BaseCombobox.Positioner sideOffset={4} style={{ zIndex: 1000 }}>
-            <PopupMotion>
-              <BaseCombobox.Popup style={popupStyle}>
-                <BaseCombobox.List>
-                  {options.map((opt) => (
-                    <BaseCombobox.Item key={opt.value} value={opt.value} disabled={opt.disabled} style={itemStyle}>
-                      {opt.label}
-                    </BaseCombobox.Item>
-                  ))}
-                </BaseCombobox.List>
-              </BaseCombobox.Popup>
-            </PopupMotion>
-          </BaseCombobox.Positioner>
+          <M3PortalScope>
+            <BaseCombobox.Positioner
+              sideOffset={4}
+              style={{ zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)' }}
+            >
+              <PopupMotion>
+                <BaseCombobox.Popup style={popupStyle}>
+                  <BaseCombobox.Empty style={{ padding: 16 }}>No results found</BaseCombobox.Empty>
+                  <BaseCombobox.List>
+                    {(optionValue: string) => {
+                      const opt = options.find((option) => option.value === optionValue)!;
+                      return (
+                        <BaseCombobox.Item
+                          key={opt.value}
+                          value={opt.value}
+                          disabled={opt.disabled}
+                          style={(state) => ({
+                            ...itemStyle,
+                            background: state.highlighted
+                              ? compVar('list', 'item-selected-container-color')
+                              : undefined,
+                            color: state.highlighted
+                              ? compVar('list', 'item-selected-label-text-color')
+                              : itemStyle.color,
+                            opacity: state.disabled ? 0.38 : 1,
+                          })}
+                        >
+                          <StateLayer
+                            states={['hover', 'pressed']}
+                            disabled={opt.disabled}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              width: '100%',
+                              minHeight: compVar('list-item', 'one-line-container-height'),
+                              paddingInline: compVar('list', 'divider-leading-space'),
+                              borderRadius: 'inherit',
+                            }}
+                          >
+                            {opt.label}
+                          </StateLayer>
+                        </BaseCombobox.Item>
+                      );
+                    }}
+                  </BaseCombobox.List>
+                </BaseCombobox.Popup>
+              </PopupMotion>
+            </BaseCombobox.Positioner>
+          </M3PortalScope>
         </BaseCombobox.Portal>
       </BaseCombobox.Root>
     </div>

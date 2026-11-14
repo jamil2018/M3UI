@@ -487,6 +487,84 @@ export const TOKEN_ALLOWLIST: TokenAllowlistEntry[] = [
     reason: 'Chip label typography uses typeStyle(label-large) with assist-chip font token where applicable',
     tier: 'A',
   },
+  {
+    pattern: /-tracking$/,
+    reason: 'Typography tracking uses typeStyle() md-sys-typescale; comp *-tracking tokens are Compose residuals',
+    tier: 'global',
+  },
+  {
+    pattern: /container-shadow-color$/,
+    reason: 'Shadow color derived from md-sys-color-shadow via elevationShadow()',
+    tier: 'global',
+  },
+  {
+    pattern: /with-icon-icon-size$|with-leading-icon-leading-icon-size$|with-trailing-icon-trailing-icon-size$/,
+    reason: 'With-icon size tokens alias icon-size / leading-icon-size used by helpers',
+    tier: 'global',
+  },
+  {
+    pattern: /--md-comp-(assist|suggestion)-chip-(outline-color|outline-width)$/,
+    reason: 'MW shortened outline tokens; components bind flat-outline-* Compose aliases',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-checkbox-(outline-color|outline-width|error-outline-color)$/,
+    reason: 'MW shortened outline tokens; checkbox binds unselected-/error-* Compose aliases',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-chips-leading-icon-size$/,
+    reason: 'Chip-set leading icon size uses per-chip icon-size tokens',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-fab-(container-color|container-height|container-shadow-color|container-shape|container-width|icon-size)$/,
+    reason: 'Generic MW fab container tokens; FAB API binds fab-medium / fab-primary-container size subset',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-(filled|filled-tonal)-icon-button-container-(height|shape|width)$/,
+    reason: 'Icon button size tokens come from iconButtonSizeTokens(); variant contracts omit size geometry',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-(filled|filled-tonal)-icon-button-icon-size$|--md-comp-icon-button-icon-size$/,
+    reason: 'Icon button icon-size resolved via size prefix helpers, not bare variant icon-size',
+    tier: 'A',
+  },
+  {
+    pattern: /(filled|outlined)-select-menu-/,
+    reason: 'Select menu reuses menu + list-item tokens; select-menu-* are Compose field bindings',
+    tier: 'B',
+  },
+  {
+    pattern: /(filled|outlined)-text-field-(input-text-color|supporting-text-color)$/,
+    reason: 'MW input-text/supporting-text color aliases; fieldToken binds input-color / supporting-color',
+    tier: 'B',
+  },
+  {
+    pattern: /--md-comp-input-chip-with-avatar-avatar-/,
+    reason: 'Input chip avatar slot not exposed — leading icon used instead',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-input-chip-with-leading-icon-leading-icon-size$/,
+    reason: 'Input chip leading icon size uses icon-size / leading-icon-size helpers',
+    tier: 'A',
+  },
+  {
+    pattern: /--md-comp-linear-progress-active-indicator-shape$/,
+    reason: 'Linear progress shape inherits track/active shapes from progress-indicator tokens',
+  },
+  {
+    pattern: /--md-comp-outlined-button-outline-width$/,
+    reason: 'Outlined button outline width uses size outlined-outline-width via buttonSizeTokens()',
+  },
+  {
+    pattern: /--md-comp-switch-(handle-color|handle-height|handle-width|icon-size|track-color)$/,
+    reason: 'MW shortened switch handle/track tokens; component binds selected-/unselected-* aliases',
+    tier: 'A',
+  },
 ];
 
 export function isAllowlistedToken(

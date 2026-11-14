@@ -105,11 +105,51 @@ export function collectSupportedContracts(spec: MaterialWebSpec): Map<string, Ma
   return contracts;
 }
 
-export function resolveScssTokenValue(value: string): string | undefined {
+/** Map LevelN / dp length elevation values to two-layer shadow CSS vars. */
+export function elevationValueToShadowVar(raw: string): string | undefined {
+  const trimmed = raw.trim();
+  if (trimmed === '0' || trimmed === '0px' || trimmed === 'Level0') {
+    return 'var(--md-sys-elevation-level0-shadow)';
+  }
+  if (trimmed === '1' || trimmed === '1px' || trimmed === 'Level1') {
+    return 'var(--md-sys-elevation-level1-shadow)';
+  }
+  if (trimmed === '2' || trimmed === '3' || trimmed === '3px' || trimmed === 'Level2') {
+    return 'var(--md-sys-elevation-level2-shadow)';
+  }
+  if (trimmed === '6' || trimmed === '6px' || trimmed === 'Level3') {
+    return 'var(--md-sys-elevation-level3-shadow)';
+  }
+  if (trimmed === '8' || trimmed === '8px' || trimmed === 'Level4') {
+    return 'var(--md-sys-elevation-level4-shadow)';
+  }
+  if (trimmed === '12' || trimmed === '12px' || trimmed === 'Level5') {
+    return 'var(--md-sys-elevation-level5-shadow)';
+  }
+  return undefined;
+}
+
+export function resolveScssTokenValue(value: string, suffix?: string): string | undefined {
   const trimmed = value.trim();
-  if (!trimmed || trimmed.includes('map.get') || trimmed.startsWith('if(')) return undefined;
+  if (!trimmed || trimmed.startsWith('if(')) return undefined;
+
+  if (suffix?.endsWith('-elevation')) {
+    const shadow = elevationValueToShadowVar(trimmed);
+    if (shadow) return shadow;
+  }
+
+  if (/^Level[0-5]$/.test(trimmed)) {
+    return `var(--md-sys-elevation-${trimmed.toLowerCase()})`;
+  }
+
   if (/^[\d.]+px$/.test(trimmed) || /^[\d.]+$/.test(trimmed)) return trimmed;
   if (trimmed.startsWith('var(') || trimmed === 'none' || trimmed.startsWith('#')) return trimmed;
+
+  const mapGet = /^map\.get\(\$deps,\s*'md-sys-([^']+)',\s*'([^']+)'\)$/.exec(trimmed);
+  if (mapGet) {
+    return `var(--md-sys-${mapGet[1]}-${mapGet[2]})`;
+  }
+  if (trimmed.includes('map.get')) return undefined;
 
   const refMatch = /^md-sys-(.+)\.\$(.+)$/.exec(trimmed);
   if (refMatch) {
@@ -138,30 +178,89 @@ export function findResolvedValues(
     if (!key.includes(needle)) continue;
     const raw = spec[key]?.variables[tokenSuffix];
     if (!raw) continue;
-    const resolved = resolveScssTokenValue(raw);
+    const resolved = resolveScssTokenValue(raw, tokenSuffix);
     if (resolved) return resolved;
   }
   return undefined;
 }
 
+/**
+ * Resolve a token suffix to a CSS value, following MW `renamed` aliases
+ * (Compose `unselected-hover-*` ↔ MW `hover-*`) when needed.
+ */
+function resolveContractSuffixValue(
+  spec: MaterialWebSpec,
+  compKey: string,
+  suffix: string,
+  reverseRename: ReadonlyMap<string, string>,
+): string | undefined {
+  const candidates = [suffix];
+  const composeAlias = reverseRename.get(suffix);
+  if (composeAlias) candidates.push(composeAlias);
+
+  for (const candidate of candidates) {
+    const raw = findResolvedValues(spec, compKey, candidate) ?? spec[compKey]?.variables[candidate];
+    if (!raw) continue;
+    const value = resolveScssTokenValue(raw, suffix);
+    if (value) return value;
+  }
+  return undefined;
+}
+
+/**
+ * Expand a Material Web contract into CSS custom properties.
+ *
+ * Emits:
+ * 1. Supported MW token names (with values resolved via latest/sass, including rename backfill)
+ * 2. Compose/legacy aliases from `tokenLists.renamed` that share the same resolved value
+ * 3. Unsupported tokens that still have resolvable sass values (e.g. checkbox error state layers)
+ */
 export function expandContractToCssVars(spec: MaterialWebSpec, compKey: string): ResolvedCompToken[] {
   const lists = spec[compKey]?.tokenLists;
   if (!lists?.supported?.length) return [];
 
-  return lists.supported
-    .map((suffix) => {
-      const raw = findResolvedValues(spec, compKey, suffix) ?? spec[compKey]?.variables[suffix];
-      const value = raw ? resolveScssTokenValue(raw) : undefined;
-      return {
-        compKey,
-        suffix,
-        cssVar: m3uiCompVarName(compKey, suffix),
-        upstreamVar: upstreamCssVarName(compKey, suffix),
-        value,
-        supported: true,
-      };
-    })
-    .filter((token) => token.value !== undefined);
+  const renamed = lists.renamed ?? {};
+  const reverseRename = new Map<string, string>();
+  for (const [composeName, mwName] of Object.entries(renamed)) {
+    reverseRename.set(mwName, composeName);
+  }
+
+  const results: ResolvedCompToken[] = [];
+  const seen = new Set<string>();
+
+  const add = (suffix: string, supported: boolean): void => {
+    const cssVar = m3uiCompVarName(compKey, suffix);
+    if (seen.has(cssVar)) return;
+    const value = resolveContractSuffixValue(spec, compKey, suffix, reverseRename);
+    if (!value) return;
+    seen.add(cssVar);
+    results.push({
+      compKey,
+      suffix,
+      cssVar,
+      upstreamVar: upstreamCssVarName(compKey, suffix),
+      value,
+      supported,
+    });
+  };
+
+  for (const suffix of lists.supported) {
+    add(suffix, true);
+  }
+
+  // Compose → MW renames: also emit the Compose-named alias used by React helpers.
+  for (const [composeName, mwName] of Object.entries(renamed)) {
+    if (lists.supported.includes(mwName) || seen.has(m3uiCompVarName(compKey, mwName))) {
+      add(composeName, true);
+    }
+  }
+
+  // Unsupported-but-valued tokens (error state layers, etc.) for runtime parity.
+  for (const suffix of lists.unsupported ?? []) {
+    add(suffix, false);
+  }
+
+  return results;
 }
 
 /** Motion custom properties from labs/gb/styles/motion SCSS entries in spec. */
@@ -199,7 +298,13 @@ export function extractMotionTokensFromSpec(spec: MaterialWebSpec): Record<strin
   };
 
   for (const [varName, raw] of Object.entries(sassVars)) {
-    if (!varName.startsWith('duration-') && !varName.startsWith('easing-')) continue;
+    if (
+      !varName.startsWith('duration-') &&
+      !varName.startsWith('easing-') &&
+      !varName.startsWith('spring-')
+    ) {
+      continue;
+    }
     const cssName = `--md-sys-motion-${varName}`;
     if (motion[cssName]) continue;
     const resolved = resolveSassMotion(raw);

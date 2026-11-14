@@ -1,8 +1,9 @@
-
+import { SurfaceAction } from '../lib/surface-action.js';
 import { type CSSProperties, type ReactNode } from 'react';
 import { compVar, compElevation, typeStyle } from '../lib/token-utils.js';
-import { StateLayer } from '../primitives/state-layer.js';
+import { FocusRing } from '../primitives/focus-ring.js';
 import { Ripple } from '../primitives/ripple.js';
+import { focusRingAttachmentStyle } from '../lib/pressable-shell.js';
 import { Divider } from './divider.js';
 
 export type ListItemLines = 1 | 2 | 3;
@@ -22,6 +23,8 @@ export function List({ children, className, 'data-testid': testId }: ListProps) 
         listStyle: 'none',
         margin: 0,
         padding: 0,
+        width: '100%',
+        minWidth: 240,
         borderRadius: compVar('list', 'container-shape'),
         background: compVar('list', 'item-container-color'),
       }}
@@ -61,6 +64,10 @@ export function ListItem({
   className,
   'data-testid': testId,
 }: ListItemProps) {
+  const itemShape = selected
+    ? compVar('list', 'item-selected-container-shape')
+    : compVar('list', 'item-container-expressive-shape');
+
   const itemStyle: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -69,41 +76,66 @@ export function ListItem({
     paddingBlockEnd: compVar('list', 'item-bottom-space'),
     paddingInlineStart: compVar('list-item', 'leading-space'),
     paddingInlineEnd: compVar('list-item', 'trailing-space'),
-    borderRadius: compVar('list', 'item-container-shape'),
-    background: selected ? compVar('list', 'item-selected-container-color') : compVar('list', 'item-container-color'),
+    borderRadius: itemShape,
+    background: selected
+      ? compVar('list', 'item-selected-container-color')
+      : compVar('list', 'item-container-color'),
     boxShadow: compElevation('list-item'),
-    minHeight: lines >= 2 ? compVar('list-item', 'two-line-container-height') : undefined,
+    minHeight:
+      lines === 3
+        ? compVar('list-item', 'three-line-container-height')
+        : lines === 2
+          ? compVar('list-item', 'two-line-container-height')
+          : compVar('list-item', 'one-line-container-height'),
     cursor: interactive ? 'pointer' : undefined,
     position: 'relative',
+    width: '100%',
+  };
+
+  const contentLayout: CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: compVar('list', 'item-between-space'),
+    width: '100%',
   };
 
   const headlineStyle: CSSProperties = {
     ...typeStyle('body-large'),
     fontFamily: compVar('list-item', 'label-text-font'),
-    color: compVar('list-item', 'label-text-color'),
+    color: selected
+      ? compVar('list', 'item-selected-label-text-color')
+      : compVar('list-item', 'label-text-color'),
   };
 
   const supportingStyle: CSSProperties = {
     ...typeStyle('body-medium'),
     fontFamily: compVar('list-item', 'supporting-text-font'),
-    color: compVar('list', 'item-supporting-text-color'),
+    color: selected
+      ? compVar('list', 'item-selected-supporting-text-color')
+      : compVar('list', 'item-supporting-text-color'),
   };
 
   const overlineStyle: CSSProperties = {
     ...typeStyle('label-small'),
-    color: compVar('list', 'item-overline-color'),
+    color: selected
+      ? compVar('list', 'item-selected-overline-color')
+      : compVar('list', 'item-overline-color'),
   };
 
   const iconStyle: CSSProperties = {
     width: compVar('list', 'item-leading-icon-size'),
     height: compVar('list', 'item-leading-icon-size'),
-    color: compVar('list', 'item-leading-icon-color'),
+    color: selected
+      ? compVar('list', 'item-selected-leading-icon-color')
+      : compVar('list', 'item-leading-icon-color'),
     flexShrink: 0,
   };
 
   const trailingStyle: CSSProperties = {
     ...iconStyle,
-    color: compVar('list-item', 'trailing-icon-color'),
+    color: selected
+      ? compVar('list', 'item-selected-trailing-icon-color')
+      : compVar('list-item', 'trailing-icon-color'),
   };
 
   const itemContent = (
@@ -119,13 +151,20 @@ export function ListItem({
   );
 
   const item = (
-    <li className={className} data-testid={testId} style={itemStyle} onClick={interactive ? onClick : undefined}>
+    <li className={className} data-testid={testId} style={itemStyle}>
       {interactive ? (
-        <Ripple>
-          <StateLayer style={{ display: 'flex', alignItems: 'center', gap: compVar('list', 'item-between-space'), width: '100%' }}>
-            {itemContent}
-          </StateLayer>
-        </Ripple>
+        <FocusRing
+          style={{ width: '100%', display: 'flex', ...focusRingAttachmentStyle(itemShape) }}
+        >
+          <Ripple
+            style={{
+              ...contentLayout,
+              borderRadius: 'inherit',
+            }}
+          >
+            <SurfaceAction onClick={onClick}>{itemContent}</SurfaceAction>
+          </Ripple>
+        </FocusRing>
       ) : (
         itemContent
       )}

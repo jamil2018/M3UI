@@ -1,10 +1,11 @@
-
+import { M3PortalScope } from '../provider/m3-provider.js';
 import { Toast as BaseToast } from '@base-ui/react/toast';
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { presets } from '@m3ui/motion';
 import { Icon } from '@m3ui/icons';
 import { type CSSProperties, type ReactNode } from 'react';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
+import { Ripple } from '../primitives/ripple.js';
 
 /** Offset for Phase 3 FAB / bottom app bar — set via CSS on ancestor */
 export const SNACKBAR_OFFSET_VAR = '--m3ui-snackbar-offset-bottom';
@@ -12,7 +13,12 @@ export const SNACKBAR_OFFSET_VAR = '--m3ui-snackbar-offset-bottom';
 const snackbarStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   gap: compVar('list', 'item-between-space'),
+  minWidth: 'min(344px, calc(100vw - 32px))',
+  maxWidth: 'min(672px, calc(100vw - 32px))',
+  boxSizing: 'border-box',
+  overflowWrap: 'anywhere',
   minHeight: compVar('snackbar', 'single-line-container-height'),
   paddingBlock: compVar('list', 'item-bottom-space'),
   paddingInline: compVar('list', 'divider-leading-space'),
@@ -34,44 +40,54 @@ const actionStyle: CSSProperties = {
   flexShrink: 0,
 };
 
+const closeStyle: CSSProperties = {
+  background: 'transparent',
+  border: 'none',
+  cursor: 'pointer',
+  color: compVar('snackbar', 'icon-color'),
+  padding: compVar('list', 'item-top-space'),
+  display: 'inline-flex',
+  width: compVar('snackbar', 'icon-size'),
+  height: compVar('snackbar', 'icon-size'),
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
 function SnackbarToasts() {
   const { toasts } = BaseToast.useToastManager();
 
   return (
-    <>
+    <AnimatePresence>
       {toasts.map((toast) => (
         <BaseToast.Root key={toast.id} toast={toast} style={{ pointerEvents: 'auto' }}>
           <motion.div
             initial={{ opacity: 0, y: 24, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.95 }}
-            transition={presets.spatial.enter}
+            exit={{ opacity: 0, y: 24, scale: 0.95, transition: { ...presets.spatial.exit, opacity: presets.effects.exit } }}
+            transition={{ ...presets.spatial.enter, opacity: presets.effects.enter }}
             style={snackbarStyle}
           >
             <BaseToast.Title style={{ flex: 1 }} />
-            {toast.actionProps && <BaseToast.Action style={actionStyle} {...toast.actionProps} />}
-            <BaseToast.Close
-              aria-label="Dismiss"
+            {toast.actionProps && (
+              <Ripple style={{ marginInlineStart: 'auto', flexShrink: 0, borderRadius: compVar('snackbar', 'container-shape') }}>
+                <BaseToast.Action style={actionStyle} {...toast.actionProps} />
+              </Ripple>
+            )}
+            <Ripple
               style={{
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                color: compVar('snackbar', 'icon-color'),
-                padding: compVar('list', 'item-top-space'),
                 marginInlineStart: toast.actionProps ? 0 : 'auto',
+                borderRadius: '50%',
                 display: 'inline-flex',
-                width: compVar('snackbar', 'icon-size'),
-                height: compVar('snackbar', 'icon-size'),
-                alignItems: 'center',
-                justifyContent: 'center',
               }}
             >
-              <Icon name="close" />
-            </BaseToast.Close>
+              <BaseToast.Close aria-label="Dismiss" style={closeStyle}>
+                <Icon name="close" />
+              </BaseToast.Close>
+            </Ripple>
           </motion.div>
         </BaseToast.Root>
       ))}
-    </>
+    </AnimatePresence>
   );
 }
 
@@ -84,7 +100,7 @@ export function SnackbarProvider({ children, limit = 3 }: SnackbarProviderProps)
   return (
     <BaseToast.Provider limit={limit}>
       {children}
-      <BaseToast.Portal>
+      <BaseToast.Portal><M3PortalScope>
         <BaseToast.Viewport
           style={{
             position: 'fixed',
@@ -100,7 +116,7 @@ export function SnackbarProvider({ children, limit = 3 }: SnackbarProviderProps)
         >
           <SnackbarToasts />
         </BaseToast.Viewport>
-      </BaseToast.Portal>
+      </M3PortalScope></BaseToast.Portal>
     </BaseToast.Provider>
   );
 }

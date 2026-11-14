@@ -71,4 +71,16 @@ describe('FocusRing primitive', () => {
     const ring = container.querySelector('.m3-focus-ring');
     expect(ring?.getAttribute('data-visible')).not.toBe('true');
   });
+
+  it('restores keyboard focus indication without requiring another focus event', () => {
+    const matchesSpy = vi.spyOn(HTMLElement.prototype, 'matches').mockImplementation(function (this: HTMLElement, selector: string) {
+      return selector === ':focus-visible' || Element.prototype.matches.call(this, selector);
+    });
+    const { container } = render(<FocusRing><button>Focusable</button></FocusRing>);
+    const button = screen.getByRole('button', { name: 'Focusable' });
+    fireEvent.pointerDown(button);
+    fireEvent.keyDown(button, { key: ' ' });
+    expect(container.querySelector('.m3-focus-ring')).toHaveAttribute('data-visible', 'true');
+    matchesSpy.mockRestore();
+  });
 });

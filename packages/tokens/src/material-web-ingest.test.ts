@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+  elevationValueToShadowVar,
   expandContractToCssVars,
   extractMotionTokensFromSpec,
   hasMaterialWebContract,
@@ -45,6 +46,15 @@ describe('material-web-ingest', () => {
     expect(resolveScssTokenValue('if( $exclude-hardcoded-values, null, foo)')).toBeUndefined();
   });
 
+  it('maps bare LevelN elevation values to two-layer shadow vars', () => {
+    expect(elevationValueToShadowVar('Level1')).toBe('var(--md-sys-elevation-level1-shadow)');
+    expect(elevationValueToShadowVar('6px')).toBe('var(--md-sys-elevation-level3-shadow)');
+    expect(resolveScssTokenValue('Level1', 'container-elevation')).toBe(
+      'var(--md-sys-elevation-level1-shadow)',
+    );
+    expect(resolveScssTokenValue('Level1')).toBe('var(--md-sys-elevation-level1)');
+  });
+
   it('expands supported contracts to CSS var entries', () => {
     const spec: MaterialWebSpec = {
       ...CONTRACT_SPEC,
@@ -57,6 +67,47 @@ describe('material-web-ingest', () => {
     expect(tokens).toHaveLength(2);
     expect(tokens.find((t) => t.suffix === 'container-color')?.value).toBe('var(--md-sys-color-primary)');
     expect(tokens.find((t) => t.suffix === 'container-height')?.value).toBe('40px');
+  });
+
+  it('emits Compose renamed aliases and resolvable unsupported state-layer tokens', () => {
+    const spec: MaterialWebSpec = {
+      'md-comp-checkbox': {
+        fileName: '_md-comp-checkbox.scss',
+        variables: {},
+        tokenLists: {
+          supported: ['hover-state-layer-color', 'selected-hover-state-layer-color'],
+          unsupported: ['error-hover-state-layer-color', 'focus-state-layer-color'],
+          renamed: {
+            'unselected-hover-state-layer-color': 'hover-state-layer-color',
+          },
+        },
+      },
+      'latest-sass-_md-comp-checkbox': {
+        fileName: 'latest-sass-_md-comp-checkbox.scss',
+        variables: {
+          'unselected-hover-state-layer-color': 'md-sys-color.$on-surface',
+          'selected-hover-state-layer-color': 'md-sys-color.$primary',
+          'error-hover-state-layer-color': 'md-sys-color.$error',
+        },
+      },
+    };
+    const tokens = expandContractToCssVars(spec, 'md-comp-checkbox');
+    expect(tokens.find((t) => t.suffix === 'hover-state-layer-color')?.value).toBe(
+      'var(--md-sys-color-on-surface)',
+    );
+    expect(tokens.find((t) => t.suffix === 'unselected-hover-state-layer-color')?.value).toBe(
+      'var(--md-sys-color-on-surface)',
+    );
+    expect(tokens.find((t) => t.suffix === 'error-hover-state-layer-color')?.value).toBe(
+      'var(--md-sys-color-error)',
+    );
+    expect(tokens.find((t) => t.suffix === 'focus-state-layer-color')).toBeUndefined();
+  });
+
+  it('resolves map.get($deps, …) SCSS references', () => {
+    expect(
+      resolveScssTokenValue("map.get($deps, 'md-sys-color', 'error')"),
+    ).toBe('var(--md-sys-color-error)');
   });
 
   it('summarizes ingest counts', () => {
@@ -80,6 +131,9 @@ describe('material-web-ingest', () => {
         variables: {
           'easing-standard': 'cubic-bezier(0.2, 0, 0, 1)',
           'duration-short2': '100ms',
+          'spring-fast-spatial-stiffness': '1400',
+          'spring-fast-spatial-damping': '0.9',
+          'spring-fast-spatial': '/* Type "custom_composite" is not supported. */ null',
         },
       },
     };
@@ -87,6 +141,9 @@ describe('material-web-ingest', () => {
     expect(motion['--md-sys-motion-easing-emphasized']).toBe('cubic-bezier(0.2, 0, 0, 1)');
     expect(motion['--md-sys-motion-duration-short1']).toBe('50ms');
     expect(motion['--md-sys-motion-duration-short2']).toBe('100ms');
-    expect(summarizeMaterialWebIngest(spec).motionVarCount).toBeGreaterThanOrEqual(3);
+    expect(motion['--md-sys-motion-spring-fast-spatial-stiffness']).toBe('1400');
+    expect(motion['--md-sys-motion-spring-fast-spatial-damping']).toBe('0.9');
+    expect(motion['--md-sys-motion-spring-fast-spatial']).toBeUndefined();
+    expect(summarizeMaterialWebIngest(spec).motionVarCount).toBeGreaterThanOrEqual(5);
   });
 });

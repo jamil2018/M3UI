@@ -13,13 +13,18 @@ export function cubicsToSvgPath(cubics: Cubic[], close = true): string {
   return parts.join(' ');
 }
 
-export function cubicsToClipPath(cubics: Cubic[]): string {
+/**
+ * Convert cubics to a CSS percentage polygon.
+ * When `aspectRatio` (width/height) is not 1, compress the longer axis toward
+ * center so 1:1 MaterialShapes are not stretched on rectangular surfaces.
+ */
+export function cubicsToClipPath(cubics: Cubic[], aspectRatio = 1): string {
   if (cubics.length === 0) return 'none';
 
   // CSS path() coordinates are absolute pixels. Material shape geometry is
   // normalized to 0..1, which would clip a component to roughly one pixel.
   // Percentage polygons stay relative to the target element at every size.
-  const samplesPerCubic = 8;
+  const samplesPerCubic = 12;
   const points: string[] = [];
   const pointAt = (start: number, control0: number, control1: number, end: number, t: number) => {
     const inverse = 1 - t;
@@ -29,11 +34,24 @@ export function cubicsToClipPath(cubics: Cubic[]): string {
       + t ** 3 * end;
   };
 
+  const correctAspect = (x: number, y: number): [number, number] => {
+    if (aspectRatio === 1 || !Number.isFinite(aspectRatio) || aspectRatio <= 0) {
+      return [x, y];
+    }
+    if (aspectRatio > 1) {
+      // Wider than tall — compress X toward center
+      return [0.5 + (x - 0.5) / aspectRatio, y];
+    }
+    // Taller than wide — compress Y toward center
+    return [x, 0.5 + (y - 0.5) * aspectRatio];
+  };
+
   cubics.forEach((cubic, cubicIndex) => {
     for (let sample = cubicIndex === 0 ? 0 : 1; sample <= samplesPerCubic; sample += 1) {
       const t = sample / samplesPerCubic;
-      const x = pointAt(cubic.anchor0X, cubic.control0X, cubic.control1X, cubic.anchor1X, t);
-      const y = pointAt(cubic.anchor0Y, cubic.control0Y, cubic.control1Y, cubic.anchor1Y, t);
+      const rawX = pointAt(cubic.anchor0X, cubic.control0X, cubic.control1X, cubic.anchor1X, t);
+      const rawY = pointAt(cubic.anchor0Y, cubic.control0Y, cubic.control1Y, cubic.anchor1Y, t);
+      const [x, y] = correctAspect(rawX, rawY);
       points.push(`${(x * 100).toFixed(4)}% ${(y * 100).toFixed(4)}%`);
     }
   });

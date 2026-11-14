@@ -1,6 +1,6 @@
 /* eslint-disable -- manual foundations story for VRT prep; updates when primitives land */
 import type { Meta, StoryObj } from '@storybook/react';
-import { within } from '@storybook/test';
+import { userEvent, within } from 'storybook/test';
 import { Button, Surface } from '@m3ui/react';
 
 const meta = {
@@ -41,7 +41,8 @@ export const FocusRingStates: Story = {
     </div>
   ),
   play: async ({ canvasElement }) => {
-    within(canvasElement).getByRole('button', { name: 'Focused' }).focus();
+    within(canvasElement);
+    await userEvent.tab();
   },
 };
 

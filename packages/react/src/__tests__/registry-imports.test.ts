@@ -1,4 +1,8 @@
 import { describe, it, expect } from 'vitest';
+import ts from 'typescript';
+import * as publicComponents from '../index.js';
+import * as publicProvider from '../provider/index.js';
+import * as publicPrimitives from '../primitives/index.js';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -79,6 +83,27 @@ describe('registry E2E validation', () => {
       expect(json.meta?.parity?.upstreamVersion, slug).toBeTruthy();
     },
   );
+
+  it.each(files)('%s imports helpers that exist in the published entry points', (file) => {
+    const json = JSON.parse(readFileSync(join(REGISTRY_DIR, file), 'utf-8')) as RegistryItemJson;
+    const namespaces: Record<string, object> = {
+      '@m3ui/react': publicComponents,
+      '@m3ui/react/provider': publicProvider,
+      '@m3ui/react/primitives': publicPrimitives,
+    };
+    for (const source of json.files ?? []) {
+      const ast = ts.createSourceFile(file + '.tsx', source.content ?? '', ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+      for (const statement of ast.statements) {
+        if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) continue;
+        const namespace = namespaces[statement.moduleSpecifier.text];
+        const clause = statement.importClause;
+        if (!namespace || !clause || clause.isTypeOnly || !clause.namedBindings || !ts.isNamedImports(clause.namedBindings)) continue;
+        for (const binding of clause.namedBindings.elements) {
+          if (!binding.isTypeOnly) expect.soft(namespace, file).toHaveProperty((binding.propertyName ?? binding.name).text);
+        }
+      }
+    }
+  });
 
   it('registry.json manifest carries parity metadata for tiered components', () => {
     const manifest = JSON.parse(readFileSync(REGISTRY_MANIFEST, 'utf-8')) as {

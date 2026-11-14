@@ -1,8 +1,8 @@
-
-import { ScrollArea as BaseScrollArea } from '@base-ui/react/scroll-area';
-import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef, type CSSProperties, type ReactNode } from 'react';
-import { compVar, sysShape } from '../lib/token-utils.js';
+import { Icon } from '@m3ui/icons';
+import { IconButton } from './icon-button.js';
+import { usePrefersReducedMotion } from '../lib/use-reduced-motion.js';
+import { compVar, sysShape, elevationShadow } from '../lib/token-utils.js';
 
 export type CarouselLayout = 'multi-browse' | 'uncontained' | 'hero' | 'full-screen';
 
@@ -32,56 +32,75 @@ const LAYOUT_GAP: Record<CarouselLayout, string> = {
   'full-screen': '0px',
 };
 
-export function Carousel({ items, layout = 'multi-browse', className, 'data-testid': testId }: CarouselProps) {
+export function Carousel({
+  items,
+  layout = 'multi-browse',
+  className,
+  'data-testid': testId,
+}: CarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { scrollXProgress } = useScroll({ container: scrollRef });
-
+  const reducedMotion = usePrefersReducedMotion();
+  const browse = (direction: number) => {
+    const viewport = scrollRef.current;
+    if (!viewport) return;
+    const rtl = getComputedStyle(viewport).direction === 'rtl';
+    viewport.scrollBy({
+      left: direction * (rtl ? -1 : 1) * viewport.clientWidth * 0.85,
+      behavior: reducedMotion ? 'instant' : 'smooth',
+    });
+  };
   const trackStyle: CSSProperties = {
     display: 'flex',
     gap: LAYOUT_GAP[layout],
     overflowX: 'auto',
     scrollSnapType: 'x mandatory',
-    scrollBehavior: 'smooth',
-    WebkitOverflowScrolling: 'touch',
-    paddingInline: layout === 'uncontained' ? compVar('list', 'divider-leading-space') : 0,
-    height: layout === 'full-screen' ? '100vh' : undefined,
+    minWidth: 0,
+    height: layout === 'full-screen' ? '100dvh' : undefined,
   };
-
   return (
-    <BaseScrollArea.Root className={className} data-testid={testId} data-layout={layout} style={{ width: '100%' }}>
-      <BaseScrollArea.Viewport ref={scrollRef} style={trackStyle}>
+    <section
+      aria-label="Carousel"
+      aria-roledescription="carousel"
+      className={className}
+      data-testid={testId}
+      data-layout={layout}
+      style={{ width: '100%', minWidth: 0 }}
+    >
+      <div ref={scrollRef} tabIndex={0} aria-label="Slides" style={trackStyle}>
         {items.map((item, index) => (
-          <CarouselSlide key={item.key} item={item} layout={layout} index={index} count={items.length} scrollProgress={scrollXProgress} />
+          <div
+            key={item.key}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${index + 1} of ${items.length}`}
+            style={{
+              flex: `0 0 ${items.length === 1 ? '100%' : LAYOUT_ITEM_WIDTH[layout]}`,
+              minWidth: 0,
+              scrollSnapAlign: 'start',
+              borderRadius: layout === 'full-screen' ? 0 : sysShape('corner-extra-large'),
+              overflow: 'hidden',
+              background: compVar('elevated-card', 'container-color'),
+              boxShadow: layout === 'hero' ? elevationShadow('level2') : undefined,
+            }}
+          >
+            {item.content}
+          </div>
         ))}
-      </BaseScrollArea.Viewport>
-    </BaseScrollArea.Root>
-  );
-}
-
-interface CarouselSlideProps {
-  item: CarouselItem;
-  layout: CarouselLayout;
-  index: number;
-  count: number;
-  scrollProgress: ReturnType<typeof useScroll>['scrollXProgress'];
-}
-
-function CarouselSlide({ item, layout, index, count, scrollProgress }: CarouselSlideProps) {
-  const itemCenter = count > 1 ? index / (count - 1) : 0;
-  const scale = useTransform(scrollProgress, [Math.max(0, itemCenter - 0.2), itemCenter, Math.min(1, itemCenter + 0.2)], [0.92, 1, 0.92]);
-
-  const slideStyle: CSSProperties = {
-    flex: layout === 'full-screen' ? '0 0 100%' : `0 0 ${LAYOUT_ITEM_WIDTH[layout]}`,
-    scrollSnapAlign: layout === 'uncontained' ? 'center' : 'start',
-    borderRadius: layout === 'full-screen' ? 0 : sysShape('corner-large'),
-    overflow: 'hidden',
-    background: compVar('elevated-card', 'container-color'),
-    boxShadow: layout === 'hero' ? `0 var(--md-sys-elevation-level2) calc(var(--md-sys-elevation-level2) * 2) color-mix(in srgb, var(--md-sys-color-shadow) calc(var(--md-sys-elevation-level2-shadow-opacity) * 100%), transparent)` : undefined,
-  };
-
-  return (
-    <motion.div style={{ ...slideStyle, scale: layout !== 'full-screen' ? scale : 1 }}>
-      {item.content}
-    </motion.div>
+      </div>
+      {items.length > 1 && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 8 }}>
+          <IconButton
+            aria-label="Previous slides"
+            icon={<Icon name="arrow_back" />}
+            onClick={() => browse(-1)}
+          />
+          <IconButton
+            aria-label="Next slides"
+            icon={<Icon name="arrow_forward" />}
+            onClick={() => browse(1)}
+          />
+        </div>
+      )}
+    </section>
   );
 }

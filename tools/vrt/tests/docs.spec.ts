@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { DOCS_VRT_MATRIX, DOCS_VRT_PAGES, docsUrl } from '../docs-url';
 
 const docContent = (page: import('@playwright/test').Page, selector: string) =>
@@ -9,9 +9,15 @@ for (const pageDef of DOCS_VRT_PAGES) {
     test(`Docs VRT: ${pageDef.name} ${name}`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });
       await page.goto(docsUrl(pageDef.path));
+      await expect(page.locator('html')).toHaveAttribute('data-m3-scheme', scheme);
       const content = docContent(page, pageDef.contentSelector);
       await content.waitFor();
       await expect(page.getByRole('heading', { name: pageDef.heading, level: 1 })).toBeVisible();
+      // These pages render button/dialog demos after client hydration. A stable
+      // server-rendered placeholder is not a ready visual baseline.
+      for (const stage of await content.locator('.doc-live-preview-stage').all()) {
+        await expect(stage.getByRole('button').first()).toBeVisible();
+      }
       await expect(content).toHaveScreenshot(`${pageDef.name}-${name}.png`);
     });
   }
@@ -33,6 +39,7 @@ for (const viewport of [
   test(`docs responsive shell: ${viewport.name}`, async ({ page }) => {
     await page.setViewportSize({ width: viewport.width, height: viewport.height });
     await page.goto('/components');
+    await expect(page.locator('html')).toHaveAttribute('data-m3-scheme', /light|dark/);
     await expect(page.getByRole('heading', { name: 'Components', level: 1 })).toBeVisible();
     await expect(page.locator('main')).toHaveScreenshot(`components-${viewport.name}.png`);
   });

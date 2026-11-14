@@ -17,7 +17,7 @@ describe('Chip', () => {
   it('calls onRemove for input chip', () => {
     let removed = false;
     renderWithM3(<Chip type="input" label="Tag" onRemove={() => { removed = true; }} />);
-    fireEvent.click(screen.getByRole('button', { name: 'Remove' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Remove Tag' }));
     expect(removed).toBe(true);
   });
 

@@ -43,7 +43,7 @@ describe('prefers-reduced-motion coverage', () => {
 
   it.each(DIRECT_REDUCED_MOTION_SOURCES)('%s references prefersReducedMotion', (relPath) => {
     const src = readFileSync(join(__dirname, relPath), 'utf-8');
-    expect(src).toMatch(/prefersReducedMotion/);
+    expect(src).toMatch(/prefersReducedMotion|usePrefersReducedMotion/);
   });
 
   it('M3Provider wires prefersReducedMotion into MotionConfig', () => {
@@ -61,7 +61,7 @@ describe('prefers-reduced-motion coverage', () => {
     '%s uses Motion presets inheriting reducedMotion from provider',
     (relPath) => {
       const src = readFileSync(join(__dirname, relPath), 'utf-8');
-      const usesPresets = src.includes('presets');
+      const usesPresets = src.includes('presets') || src.includes('springs');
       const usesOverlayMotion = src.includes('OverlayMotion') || src.includes('MenuMotionPopup');
       expect(usesPresets || usesOverlayMotion).toBe(true);
     },

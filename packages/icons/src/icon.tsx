@@ -55,6 +55,7 @@ export function Icon({
 /** Load Material Symbols font — call once in app root */
 export function loadMaterialSymbols(): void {
   if (typeof document === 'undefined') return;
+  if (Array.from(document.fonts ?? []).some((face) => face.family.replaceAll('"', '') === 'Material Symbols Outlined')) return;
   const id = 'm3ui-material-symbols';
   if (document.getElementById(id)) return;
 

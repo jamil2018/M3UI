@@ -1,7 +1,6 @@
-
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useId, useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, typeStyle } from '../lib/token-utils.js';
 import { useRegisterInset } from '../lib/inset-context.js';
 import { PressableShell } from '../lib/pressable-shell.js';
@@ -20,6 +19,8 @@ export interface NavigationBarProps {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   iconOnly?: boolean;
+  /** Icon-above-label (vertical) or icon-beside-label (horizontal) destination layout */
+  itemLayout?: 'vertical' | 'horizontal';
   className?: string;
   'data-testid'?: string;
 }
@@ -30,6 +31,7 @@ export function NavigationBar({
   defaultValue,
   onValueChange,
   iconOnly = false,
+  itemLayout = 'vertical',
   className,
   'data-testid': testId,
 }: NavigationBarProps) {
@@ -37,6 +39,7 @@ export function NavigationBar({
     throw new RangeError('NavigationBar requires 3–5 destinations');
   }
 
+  const navId = useId();
   const [internal, setInternal] = useState(defaultValue ?? destinations[0]?.value ?? '');
   const active = controlled ?? internal;
 
@@ -68,7 +71,7 @@ export function NavigationBar({
       className={className}
       data-testid={testId}
       data-layout={iconOnly ? 'icon-only' : 'icon-label'}
-      role="tablist"
+      data-item-layout={itemLayout}
       style={barStyle}
       aria-label="Navigation bar"
     >
@@ -80,7 +83,11 @@ export function NavigationBar({
             destination={dest}
             active={isActive}
             iconOnly={iconOnly}
-            onSelect={() => { select(dest.value); }}
+            itemLayout={itemLayout}
+            layoutId={`${navId}-indicator`}
+            onSelect={() => {
+              select(dest.value);
+            }}
           />
         );
       })}
@@ -92,17 +99,53 @@ interface NavigationBarItemProps {
   destination: NavigationDestination;
   active: boolean;
   iconOnly: boolean;
+  itemLayout: 'vertical' | 'horizontal';
+  layoutId: string;
   onSelect: () => void;
 }
 
-function NavigationBarItem({ destination, active, iconOnly, onSelect }: NavigationBarItemProps) {
+function NavigationBarItem({
+  destination,
+  active,
+  iconOnly,
+  itemLayout,
+  layoutId,
+  onSelect,
+}: NavigationBarItemProps) {
+  const vertical = itemLayout === 'vertical';
+  const itemPrefix = vertical ? 'navigation-bar-vertical-item' : 'navigation-bar-horizontal-item';
+
   const iconStyle: CSSProperties = {
-    width: compVar('navigation-bar-horizontal-item', 'icon-size'),
-    height: compVar('navigation-bar-horizontal-item', 'icon-size'),
+    width: compVar(itemPrefix, 'icon-size'),
+    height: compVar(itemPrefix, 'icon-size'),
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
   };
+
+  const indicatorStyle: CSSProperties = vertical
+    ? {
+        position: 'absolute',
+        inset: 0,
+        borderRadius: compVar('navigation-bar', 'item-active-indicator-shape'),
+        background: compVar('navigation-bar', 'item-active-indicator-color'),
+        zIndex: 0,
+      }
+    : {
+        position: 'absolute',
+        height: compVar('navigation-bar-horizontal-item', 'active-indicator-height'),
+        insetInline: compVar('navigation-bar-horizontal-item', 'active-indicator-leading-space'),
+        borderRadius: compVar('navigation-bar', 'item-active-indicator-shape'),
+        background: compVar('navigation-bar', 'item-active-indicator-color'),
+        zIndex: 0,
+      };
+
+  const badgeOverlay =
+    destination.badge != null && destination.badge > 0 ? (
+      <span style={{ position: 'absolute', top: -2, insetInlineEnd: 8, zIndex: 2 }}>
+        <Badge count={destination.badge} />
+      </span>
+    ) : null;
 
   return (
     <PressableShell
@@ -114,12 +157,11 @@ function NavigationBarItem({ destination, active, iconOnly, onSelect }: Navigati
     >
       <button
         type="button"
-        role="tab"
-        aria-selected={active}
+        aria-current={active ? 'page' : undefined}
         onClick={onSelect}
         style={{
           display: 'flex',
-          flexDirection: 'column',
+          flexDirection: vertical ? 'column' : 'row',
           alignItems: 'center',
           justifyContent: 'center',
           gap: iconOnly ? 0 : compVar('navigation-bar', 'item-active-indicator-icon-label-space'),
@@ -135,47 +177,72 @@ function NavigationBarItem({ destination, active, iconOnly, onSelect }: Navigati
             : compVar('navigation-bar', 'item-inactive-label-text-color'),
         }}
       >
-        {active && (
+        {!vertical && active && (
           <motion.span
-            layoutId="nav-bar-indicator"
+            layoutId={layoutId}
             transition={springs.fastSpatial}
-            style={{
-              position: 'absolute',
-              height: compVar('navigation-bar-horizontal-item', 'active-indicator-height'),
-              insetInline: compVar('navigation-bar-horizontal-item', 'active-indicator-leading-space'),
-              borderRadius: compVar('navigation-bar', 'item-active-indicator-shape'),
-              background: compVar('navigation-bar', 'item-active-indicator-color'),
-              zIndex: 0,
-            }}
+            style={indicatorStyle}
             aria-hidden
           />
         )}
         <span
           style={{
-            ...iconStyle,
-            zIndex: 1,
-            color: active
-              ? compVar('navigation-bar', 'item-active-icon-color')
-              : compVar('navigation-bar', 'item-inactive-icon-color'),
+            position: 'relative',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: vertical
+              ? compVar('navigation-bar-vertical-item', 'active-indicator-width')
+              : iconStyle.width,
+            height: vertical
+              ? compVar('navigation-bar-vertical-item', 'active-indicator-height')
+              : iconStyle.height,
+            borderRadius: compVar('navigation-bar', 'item-active-indicator-shape'),
           }}
         >
-          {destination.icon}
+          {vertical && active && (
+            <motion.span
+              layoutId={layoutId}
+              transition={springs.fastSpatial}
+              style={indicatorStyle}
+              aria-hidden
+            />
+          )}
+          <span
+            style={{
+              ...iconStyle,
+              zIndex: 1,
+              color: active
+                ? compVar('navigation-bar', 'item-active-icon-color')
+                : compVar('navigation-bar', 'item-inactive-icon-color'),
+            }}
+          >
+            {destination.icon}
+          </span>
+          {badgeOverlay}
         </span>
-        {!iconOnly && (
+        {
           <span
             style={{
               ...typeStyle('label-medium'),
+              ...(iconOnly
+                ? {
+                    position: 'absolute',
+                    width: 1,
+                    height: 1,
+                    padding: 0,
+                    margin: -1,
+                    overflow: 'hidden',
+                    clipPath: 'inset(50%)',
+                    whiteSpace: 'nowrap',
+                  }
+                : {}),
               zIndex: 1,
             }}
           >
             {destination.label}
           </span>
-        )}
-        {destination.badge != null && destination.badge > 0 && (
-          <span style={{ position: 'absolute', top: 4, insetInlineEnd: '20%', zIndex: 2 }}>
-            <Badge count={destination.badge} />
-          </span>
-        )}
+        }
       </button>
     </PressableShell>
   );

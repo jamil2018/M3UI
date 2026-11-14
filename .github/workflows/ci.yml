@@ -14,60 +14,45 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint
+      - name: Dependency security audit
+        run: pnpm audit --audit-level=low
 
-      - name: Typecheck
-        run: pnpm typecheck
+      - name: Lint, typecheck, unit and accessibility tests
+        run: pnpm check
 
-      - name: Build
+      - name: Build docs, Storybook, and packages
         run: pnpm build
 
-      - name: Unit tests
-        run: pnpm test
-
-      - name: A11y tests
-        run: pnpm test:a11y
+      - name: Spec, parity, and bundle gates
+        run: pnpm parity:gates
+        env:
+          SPEC_PARITY_STRICT: '1'
 
       - name: Install Playwright browsers
         run: pnpm exec playwright install chromium --with-deps
 
-      - name: VRT
-        run: pnpm test:vrt
+      - name: Visual and interaction tests
+        run: pnpm exec playwright test
 
-      - name: Registry import check
-        run: pnpm --filter @m3ui/react test:registry
-
-      # Material Web parity gates (see docs/PARITY-SYNC.md)
-      - name: Spec sync check
-        run: pnpm spec:sync:check
-
-      - name: Parity report check
-        run: SPEC_PARITY_STRICT=1 pnpm parity:check
-
-      - name: Token coverage gate
-        run: pnpm --filter @m3ui/react test:coverage
-
-      - name: Bundle size budgets
-        run: pnpm size:check
-
-      - name: RSC boundary audit
-        run: pnpm --filter @m3ui/react test:rsc
-
-      - name: Reduced motion coverage
-        run: pnpm --filter @m3ui/react test:motion
-
-      - name: Docs completeness gate
-        run: pnpm --filter @m3ui/react test:docs
+      - name: Upload browser failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v6
+        with:
+          name: browser-failure-diagnostics
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore
+          retention-days: 7

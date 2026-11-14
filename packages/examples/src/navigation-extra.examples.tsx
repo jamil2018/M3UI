@@ -8,6 +8,7 @@ import {
   Icon,
 } from '@m3ui/react';
 import type { ComponentExampleDefinition } from './types';
+import { demoFrame } from './demo-chrome';
 
 const DESTINATIONS = [
   { value: 'home', label: 'Home', icon: <Icon name="home" /> },
@@ -27,10 +28,12 @@ function TopAppBarExample() {
 
 function BottomAppBarExample() {
   return (
-    <BottomAppBar
-      fab={<Fab aria-label="Create" icon={<Icon name="add" />} size="standard" />}
-      actions={<IconButton aria-label="Menu" icon={<Icon name="menu" />} />}
-    />
+    <div style={{ ...demoFrame, height: 160 }}>
+      <BottomAppBar
+        fab={<Fab aria-label="Create" icon={<Icon name="add" />} size="standard" />}
+        actions={<IconButton aria-label="Menu" icon={<Icon name="menu" />} />}
+      />
+    </div>
   );
 }
 

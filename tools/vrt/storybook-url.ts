@@ -1,9 +1,12 @@
 /** Storybook iframe URL with theme globals for deterministic VRT. */
 export function storyUrl(storyId: string, globals: Record<string, string | number | boolean> = {}) {
   const params = new URLSearchParams({ id: storyId, viewMode: 'story' });
+  // Playwright owns audit timing. Storybook's automatic axe pass otherwise races
+  // interactions and our explicit browser audits.
+  globals = { 'a11y.manual': true, ...globals };
   if (Object.keys(globals).length > 0) {
     const globalsStr = Object.entries(globals)
-      .map(([key, value]) => `${key}:${value}`)
+      .map(([key, value]) => `${key}:${typeof value === 'boolean' ? `!${value}` : value}`)
       .join(';');
     params.set('globals', globalsStr);
   }

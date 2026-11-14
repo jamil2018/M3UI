@@ -1,4 +1,4 @@
-export { M3Provider, useM3, useM3Theme, useSetM3Seed, useM3Color } from './provider/index.js';
+export { M3Provider, M3PortalScope, useM3, useM3Theme, useSetM3Seed, useM3Color } from './provider/index.js';
 export type { M3ProviderProps, ColorScheme, Direction } from './provider/index.js';
 
 export { StateLayer, Ripple, Surface } from './primitives/index.js';
@@ -152,7 +152,7 @@ export { Scaffold, FabAnchor } from './components/scaffold.js';
 export type { ScaffoldProps } from './components/scaffold.js';
 
 export { ButtonGroup, ButtonGroupItem } from './components/button-group.js';
-export type { ButtonGroupProps, ButtonGroupItemProps, ButtonGroupVariant } from './components/button-group.js';
+export type { ButtonGroupProps, ButtonGroupItemProps, ButtonGroupVariant, ButtonGroupButtonVariant } from './components/button-group.js';
 
 export { SplitButton } from './components/split-button.js';
 export type { SplitButtonProps } from './components/split-button.js';
@@ -234,7 +234,7 @@ export type { InsetProviderProps } from './lib/inset-context.js';
 export { OverlayMotion, ScrimMotion } from './lib/overlay-motion.js';
 export type { OverlayMotionProps, ScrimMotionProps } from './lib/overlay-motion.js';
 
-export { PressableShell } from './lib/pressable-shell.js';
+export { PressableShell, focusRingAttachmentStyle } from './lib/pressable-shell.js';
 export type { PressableShellProps } from './lib/pressable-shell.js';
 export { PopupMotion } from './lib/popup-motion.js';
 export type { PopupMotionProps } from './lib/popup-motion.js';
@@ -242,6 +242,8 @@ export { generateLinearWavePath, generateCircularWavePath } from './lib/wavy-pat
 
 export {
   compVar,
+  disabledContainerMix,
+  disabledContentMix,
   sysColor,
   sysShape,
   typeStyle,
@@ -261,14 +263,24 @@ export {
   fieldTokenPrefix,
   fieldWrapStyles,
   fieldLabelStyles,
+  fieldLabelAnimate,
   fieldInputStyles,
   fieldSupportingStyles,
   fieldIconStyles,
+  fieldTrailingIconStyles,
+  fieldAffixStyles,
   fieldTriggerStyles,
+  fieldOutlineWidth,
+  fieldNotchFieldsetStyles,
+  fieldNotchLegendStyles,
   fieldLeadingSpace,
   fieldContainerHeight,
+  FieldOutlinedNotch,
+  FieldFilledDecorations,
+  FieldFloatingLabel,
+  FieldDecorations,
 } from './lib/field-internals.js';
-export type { FieldVariant, FieldInteractionState } from './lib/field-internals.js';
+export type { FieldVariant, FieldInteractionState, FieldWrapOptions } from './lib/field-internals.js';
 
 export {
   DialogMotionStyles,
@@ -278,7 +290,9 @@ export {
 } from './lib/dialog-motion.js';
 export { MenuMotionPopup } from './lib/menu-motion.js';
 export type { MenuMotionPopupProps } from './lib/menu-motion.js';
-export { composeRefs } from './lib/use-popup-waapi.js';
+export { usePrefersReducedMotion } from './lib/use-reduced-motion.js';
+export { modalPopupLayout } from './lib/modal-layout.js';
+export { composeRefs, usePopupWaapiAnimation } from './lib/use-popup-waapi.js';
 
 /** @deprecated Use Button instead — kept for registry install testing */
 export { PlaceholderButton } from './components/placeholder-button.js';
@@ -300,3 +314,7 @@ export type {
   ConformanceSource,
   ConformanceStatus,
 } from './catalog/index.js';
+
+export { formatCalendarDate } from './components/date-input.js';
+
+export { SurfaceAction } from './lib/surface-action.js';
