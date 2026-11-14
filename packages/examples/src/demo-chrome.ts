@@ -17,6 +17,9 @@ export const demoColumn: CSSProperties = {
 
 /** Framed demo surface using sys color and shape tokens */
 export const demoFrame: CSSProperties = {
+  width: '100%',
+  position: 'relative',
+  transform: 'translateZ(0)',
   border: '1px solid var(--md-sys-color-outline-variant)',
   borderRadius: 'var(--md-sys-shape-corner-medium, 12px)',
   background: 'var(--md-sys-color-surface-container-lowest)',

@@ -1,14 +1,11 @@
-import {
-  LinearProgress,
-  CircularProgress,
-  LoadingIndicator,
-  Meter,
-} from '@m3ui/react';
+import { LinearProgress, CircularProgress, LoadingIndicator, Meter } from '@m3ui/react';
 import type { ComponentExampleDefinition } from './types';
 
 function ProgressExample() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 400 }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 400 }}
+    >
       <LinearProgress value={60} />
       <LinearProgress value={40} variant="wavy" />
       <CircularProgress value={75} />

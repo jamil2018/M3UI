@@ -262,3 +262,18 @@ test('search suggestions remain clickable above their parent dialog', async ({ p
   await expect(option).toBeVisible();
   await option.click();
 });
+
+for (const [story, selector] of [
+  ['containment-divider--compliance', '[role="separator"]'],
+  ['selection-slider--compliance', '[data-slider-track]'],
+  ['feedback-progress--compliance', '[role="progressbar"]'],
+] as const) {
+  test(`centered compliance preview preserves track width: ${story}`, async ({ page }) => {
+    await page.goto(storyUrl(story, { reducedMotion: true }));
+    const tracks = page.locator(selector);
+    await expect(tracks.first()).toBeVisible();
+    for (const track of (await tracks.all()).slice(0, 2)) {
+      expect((await track.boundingBox())!.width).toBeGreaterThan(200);
+    }
+  });
+}

@@ -13,6 +13,11 @@ for (const pageDef of DOCS_VRT_PAGES) {
       const content = docContent(page, pageDef.contentSelector);
       await content.waitFor();
       await expect(page.getByRole('heading', { name: pageDef.heading, level: 1 })).toBeVisible();
+      // These pages render button/dialog demos after client hydration. A stable
+      // server-rendered placeholder is not a ready visual baseline.
+      for (const stage of await content.locator('.doc-live-preview-stage').all()) {
+        await expect(stage.getByRole('button').first()).toBeVisible();
+      }
       await expect(content).toHaveScreenshot(`${pageDef.name}-${name}.png`);
     });
   }

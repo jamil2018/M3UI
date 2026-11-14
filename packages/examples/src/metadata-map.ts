@@ -402,7 +402,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "slider",
       "title": "Single and range",
       "description": "Continuous slider with value indicator and dual-thumb range.",
-      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 400 }}>\n  <Slider defaultValue={50} label=\"Volume\" showValueIndicator min={0} max={100} />\n  <Slider defaultValue={[25, 75]} label=\"Range\" showValueIndicator min={0} max={100} />\n</div>"
+      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%', maxWidth: 400 }}>\n  <Slider defaultValue={50} label=\"Volume\" showValueIndicator min={0} max={100} />\n  <Slider defaultValue={[25, 75]} label=\"Range\" showValueIndicator min={0} max={100} />\n</div>"
     }
   ],
   "snackbar": [

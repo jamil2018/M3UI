@@ -21,7 +21,7 @@ function ListExample() {
 
 function DividerExample() {
   return (
-    <div style={{ maxWidth: 320 }}>
+    <div style={{ width: '100%', maxWidth: 320, display: 'grid', gap: 24 }}>
       <Divider />
       <Divider variant="inset" />
     </div>
@@ -32,8 +32,22 @@ function CarouselExample() {
   return (
     <Carousel
       items={[
-        { key: '1', content: <Card variant="elevated" style={{ padding: 24 }}>One</Card> },
-        { key: '2', content: <Card variant="elevated" style={{ padding: 24 }}>Two</Card> },
+        {
+          key: '1',
+          content: (
+            <Card variant="elevated" style={{ padding: 24 }}>
+              One
+            </Card>
+          ),
+        },
+        {
+          key: '2',
+          content: (
+            <Card variant="elevated" style={{ padding: 24 }}>
+              Two
+            </Card>
+          ),
+        },
       ]}
       layout="multi-browse"
     />
