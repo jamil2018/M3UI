@@ -1,12 +1,13 @@
-
+import { useDirection } from '@base-ui/react/direction-provider';
+import { M3PortalScope } from '../provider/m3-provider.js';
 import { Button as BaseButton } from '@base-ui/react/button';
 import { Menu as BaseMenu } from '@base-ui/react/menu';
+import { Icon } from '@m3ui/icons';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, typeStyle, type ButtonSize, BUTTON_SIZE_PREFIX } from '../lib/token-utils.js';
-import { StateLayer } from '../primitives/state-layer.js';
-import { Ripple } from '../primitives/ripple.js';
+import { PressableShell } from '../lib/pressable-shell.js';
 import { PopupMotion } from '../lib/popup-motion.js';
 
 export interface SplitButtonProps {
@@ -48,17 +49,32 @@ export function SplitButton({
   'data-testid': testId,
 }: SplitButtonProps) {
   const [open, setOpen] = useState(false);
+  const direction = useDirection();
+  const corners = (start: string, end: string) =>
+    direction === 'rtl' ? `${end} ${start} ${start} ${end}` : `${start} ${end} ${end} ${start}`;
   const p = VARIANT_PREFIX[variant];
   const sizeP = splitButtonSizePrefix(size);
   const btnP = BUTTON_SIZE_PREFIX[size];
+  const height = compVar(sizeP, 'container-height');
+  const outerShape = `min(${compVar(sizeP, 'container-shape')}, calc(${height} / 2))`;
+  const innerCorner = compVar(sizeP, 'inner-corner-corner-size');
+  const innerPressedCorner = compVar(sizeP, 'inner-pressed-corner-corner-size');
+  const pressedShape = compVar(btnP, 'pressed-container-shape');
+  const betweenSpace = compVar(sizeP, 'between-space');
+
+  const leadingRestRadius = corners(outerShape, innerCorner);
+  const trailingRestRadius = corners(innerCorner, outerShape);
+  const leadingPressedRadius = corners(outerShape, innerPressedCorner);
+  const trailingPressedRadius = corners(innerPressedCorner, outerShape);
+  const leadingOpenRadius = corners(outerShape, pressedShape);
+  const trailingOpenRadius = outerShape;
 
   const containerStyle: CSSProperties = {
     display: 'inline-flex',
     alignItems: 'stretch',
-    gap: open ? compVar(sizeP, 'between-space') : 0,
+    gap: betweenSpace,
     height: compVar(sizeP, 'container-height'),
-    borderRadius: compVar(sizeP, 'container-shape'),
-    overflow: 'hidden',
+    borderRadius: outerShape,
   };
 
   const segmentBase: CSSProperties = {
@@ -83,84 +99,97 @@ export function SplitButton({
     ...segmentBase,
     paddingInlineStart: compVar(sizeP, 'leading-button-leading-space'),
     paddingInlineEnd: compVar(sizeP, 'leading-button-trailing-space'),
-    borderRadius: `${compVar(sizeP, 'container-shape')} 0 0 ${compVar(sizeP, 'container-shape')}`,
-    border: variant === 'outlined'
-      ? `${compVar(btnP, 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`
-      : undefined,
-    borderInlineEnd: variant === 'outlined' ? 'none' : undefined,
+    borderRadius: 'inherit',
+    border:
+      variant === 'outlined'
+        ? `${compVar(btnP, 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`
+        : undefined,
   };
 
   const trailingStyle: CSSProperties = {
     ...segmentBase,
     paddingInlineStart: compVar(sizeP, 'trailing-button-leading-space'),
     paddingInlineEnd: compVar(sizeP, 'trailing-button-trailing-space'),
-    borderRadius: `0 ${compVar(sizeP, 'container-shape')} ${compVar(sizeP, 'container-shape')} 0`,
-    border: variant === 'outlined'
-      ? `${compVar(btnP, 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`
-      : undefined,
+    borderRadius: 'inherit',
+    border:
+      variant === 'outlined'
+        ? `${compVar(btnP, 'outlined-outline-width')} solid ${disabled ? compVar(p, 'disabled-outline-color') : compVar(p, 'outline-color')}`
+        : undefined,
     minWidth: compVar(sizeP, 'trailing-button-leading-space'),
   };
 
   return (
-    <motion.div
-      className={className}
-      data-testid={testId}
-      style={containerStyle}
-      animate={{ gap: open ? 2 : 0 }}
-      transition={springs.fastSpatial}
-    >
-      <Ripple disabled={disabled} style={{ display: 'inline-flex', borderRadius: `${compVar(sizeP, 'container-shape')} 0 0 ${compVar(sizeP, 'container-shape')}` }}>
-        <StateLayer disabled={disabled} style={{ display: 'inline-flex', borderRadius: 'inherit' }}>
-          <BaseButton
-            type="button"
-            disabled={disabled}
-            onClick={onClick}
-            style={leadingStyle}
-          >
-            {children}
-          </BaseButton>
-        </StateLayer>
-      </Ripple>
+    <div className={className} data-testid={testId} style={containerStyle}>
+      <PressableShell
+        disabled={disabled}
+        shape="round"
+        shapeRound={open ? leadingOpenRadius : leadingRestRadius}
+        pressedShape={open ? leadingOpenRadius : leadingPressedRadius}
+        stateLayerColor={segmentBase.color}
+        hoverStateColor={compVar(p, 'hover-state-layer-color')}
+        hoverStateOpacity={compVar(p, 'hover-state-layer-opacity')}
+        pressedStateColor={compVar(p, 'pressed-state-layer-color')}
+        pressedStateOpacity={compVar(p, 'pressed-state-layer-opacity')}
+        style={{ display: 'inline-flex' }}
+      >
+        <BaseButton type="button" disabled={disabled} onClick={onClick} style={leadingStyle}>
+          {children}
+        </BaseButton>
+      </PressableShell>
 
       <BaseMenu.Root open={open} onOpenChange={setOpen}>
-        <BaseMenu.Trigger
+        <PressableShell
           disabled={disabled}
-          style={trailingStyle}
-          aria-label="Show menu"
+          shape="round"
+          shapeRound={open ? trailingOpenRadius : trailingRestRadius}
+          pressedShape={open ? pressedShape : trailingPressedRadius}
+          stateLayerColor={segmentBase.color}
+          hoverStateColor={compVar(p, 'hover-state-layer-color')}
+          hoverStateOpacity={compVar(p, 'hover-state-layer-opacity')}
+          pressedStateColor={compVar(p, 'pressed-state-layer-color')}
+          pressedStateOpacity={compVar(p, 'pressed-state-layer-opacity')}
+          style={{ display: 'inline-flex' }}
         >
-          <motion.span
-            style={{
-              display: 'inline-flex',
-              width: compVar(sizeP, 'trailing-icon-size'),
-              height: compVar(sizeP, 'trailing-icon-size'),
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            animate={{ rotate: open ? 180 : 0 }}
-            transition={springs.fastEffects}
-          >
-            ▾
-          </motion.span>
-        </BaseMenu.Trigger>
+          <BaseMenu.Trigger disabled={disabled} style={trailingStyle} aria-label="Show menu">
+            <motion.span
+              style={{
+                display: 'inline-flex',
+                width: compVar(sizeP, 'trailing-icon-size'),
+                height: compVar(sizeP, 'trailing-icon-size'),
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              animate={{ rotate: open ? 180 : 0 }}
+              transition={springs.fastEffects}
+            >
+              <Icon name="keyboard_arrow_down" />
+            </motion.span>
+          </BaseMenu.Trigger>
+        </PressableShell>
         <BaseMenu.Portal>
-          <BaseMenu.Positioner sideOffset={4}>
-            <PopupMotion>
-              <BaseMenu.Popup
-                style={{
-                  background: compVar('menu', 'container-color'),
-                  borderRadius: compVar('menu', 'container-shape'),
-                  padding: compVar('list', 'item-top-space'),
-                  minWidth: 160,
-                  outline: 'none',
-                  zIndex: 1000,
-                }}
-              >
-                <BaseMenu.Viewport>{menuItems}</BaseMenu.Viewport>
-              </BaseMenu.Popup>
-            </PopupMotion>
-          </BaseMenu.Positioner>
+          <M3PortalScope>
+            <BaseMenu.Positioner
+              sideOffset={4}
+              style={{ zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)' }}
+            >
+              <PopupMotion>
+                <BaseMenu.Popup
+                  style={{
+                    background: compVar('menu', 'container-color'),
+                    borderRadius: compVar('menu', 'container-shape'),
+                    padding: compVar('list', 'item-top-space'),
+                    minWidth: 160,
+                    outline: 'none',
+                    zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)',
+                  }}
+                >
+                  <BaseMenu.Viewport>{menuItems}</BaseMenu.Viewport>
+                </BaseMenu.Popup>
+              </PopupMotion>
+            </BaseMenu.Positioner>
+          </M3PortalScope>
         </BaseMenu.Portal>
       </BaseMenu.Root>
-    </motion.div>
+    </div>
   );
 }

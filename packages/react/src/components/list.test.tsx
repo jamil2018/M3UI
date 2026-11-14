@@ -22,7 +22,7 @@ describe('List', () => {
         <ListItem headline="Tap me" interactive onClick={() => { clicked = true; }} />
       </List>,
     );
-    fireEvent.click(screen.getByText('Tap me'));
+    fireEvent.click(screen.getByRole('button', { name: 'Tap me' }));
     expect(clicked).toBe(true);
   });
 });

@@ -2,7 +2,7 @@
 import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';
 import { motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
+import { useRef, useState, type CSSProperties, type ReactNode, type RefObject } from 'react';
 import { compVar, elevationShadow } from '../lib/token-utils.js';
 import { useRegisterInset } from '../lib/inset-context.js';
 
@@ -44,13 +44,13 @@ export function Toolbar({
 
   const { scrollY } = useScroll({ container: scrollTarget });
   const [hidden, setHidden] = useState(false);
-  let lastY = 0;
+  const lastYRef = useRef(0);
 
   useMotionValueEvent(scrollY, 'change', (y) => {
     if (!hideOnScroll || !isFloating) return;
-    if (y > lastY + 8) setHidden(true);
-    else if (y < lastY - 8) setHidden(false);
-    lastY = y;
+    if (y > lastYRef.current + 8) setHidden(true);
+    else if (y < lastYRef.current - 8) setHidden(false);
+    lastYRef.current = y;
   });
 
   const dockedStyle: CSSProperties = {
@@ -126,6 +126,11 @@ export function ToolbarButton({
 }: ToolbarButtonProps) {
   const style: CSSProperties = vibrant
     ? {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '40px',
+        minHeight: '40px',
         background: selected
           ? compVar('floating-toolbar', 'vibrant-button-selected-container-color')
           : 'transparent',
@@ -138,12 +143,21 @@ export function ToolbarButton({
         cursor: 'pointer',
       }
     : {
-        background: 'transparent',
-        color: 'inherit',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minWidth: '40px',
+        minHeight: '40px',
+        background: selected
+          ? compVar('navigation-bar', 'item-active-indicator-color')
+          : 'transparent',
+        color: selected
+          ? compVar('navigation-bar', 'item-active-icon-color')
+          : 'inherit',
         border: 'none',
         padding: compVar('floating-toolbar', 'container-leading-space'),
         cursor: 'pointer',
-        borderRadius: compVar('docked-toolbar', 'container-shape'),
+        borderRadius: compVar('floating-toolbar', 'container-shape'),
       };
 
   return (

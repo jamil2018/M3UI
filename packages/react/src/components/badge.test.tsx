@@ -23,4 +23,15 @@ describe('Badge', () => {
     const { container } = renderWithM3(<Badge count={0} />);
     expect(container.textContent).toBe('');
   });
+
+  it('overlays badge on children', () => {
+    renderWithM3(
+      <Badge count={3} data-testid="wrapped">
+        <span>Inbox</span>
+      </Badge>,
+    );
+    expect(screen.getByTestId('wrapped')).toBeInTheDocument();
+    expect(screen.getByText('Inbox')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
+  });
 });

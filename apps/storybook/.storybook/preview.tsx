@@ -26,7 +26,8 @@ export const m3Decorator: Decorator = (Story, context) => {
   const { seed, scheme, contrast, direction, reducedMotion } = globals;
 
   return (
-    <M3Provider seed={seed} scheme={scheme} contrast={contrast} direction={direction}>
+    <M3Provider seed={seed} scheme={scheme} contrast={contrast} direction={direction}
+      style={{ padding: context.title.startsWith('Foundations/') || context.title.startsWith('Gallery/') ? 0 : 24, minHeight: '100vh', background: 'var(--md-sys-color-background)', color: 'var(--md-sys-color-on-background)' }}>
       <MotionConfig
         reducedMotion={reducedMotion ? 'always' : 'user'}
         transition={reducedMotion ? reducedMotionTransition : undefined}
@@ -47,7 +48,7 @@ const preview: Preview = {
       test: 'todo',
     },
     viewport: {
-      viewports: {
+      options: {
         mobile: { name: 'Mobile', styles: { width: '390px', height: '844px' } },
         tablet: { name: 'Tablet', styles: { width: '768px', height: '1024px' } },
         desktop: { name: 'Desktop', styles: { width: '1280px', height: '800px' } },

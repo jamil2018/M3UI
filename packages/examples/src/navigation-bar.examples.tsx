@@ -8,7 +8,7 @@ const DESTINATIONS = [
 ];
 
 function NavigationBarBasicExample() {
-  return <NavigationBar destinations={DESTINATIONS} defaultValue="home" />;
+  return <div style={{ position: "relative", transform: "translateZ(0)", minHeight: 120, width: "100%" }}><NavigationBar destinations={DESTINATIONS} defaultValue="home" /></div>;
 }
 
 export const navigationBarExamples: ComponentExampleDefinition[] = [

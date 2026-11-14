@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import '@m3ui/tokens/tokens.css';
 @import '@m3ui/tokens/theme.css';
+@import '@m3ui/icons/font.css';
 @import 'fumadocs-ui/style.css';
 
 :root {
@@ -34,6 +35,12 @@
   --fd-accent: 270 18% 90%;
   --fd-accent-foreground: 270 10% 12%;
   --fd-ring: 262 52% 47%;
+}
+
+/* Fumadocs 16 renders its shell without the former #nd-docs-layout wrapper. */
+.docs-theme-root {
+  min-height: 100vh;
+  background: var(--md-sys-color-background);
 }
 
 /* Resolve documentation aliases inside each scoped theme. Defining these only
@@ -704,15 +711,15 @@ body {
   grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 0.6fr);
   gap: clamp(2rem, 8vw, 7rem);
   max-width: none;
-  padding-block: clamp(2rem, 6vw, 5rem);
+  padding-block: clamp(1rem, 3vw, 2.5rem);
 }
 
 .docs-landing-hero h1 {
-  max-width: 12ch;
-  font-size: clamp(3.25rem, 9vw, 7.5rem);
+  max-width: 18ch;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: var(--md-sys-typescale-display-large-weight-emphasized);
   letter-spacing: -0.055em;
-  line-height: 0.94;
+  line-height: 1.05;
 }
 
 .docs-landing-hero p {

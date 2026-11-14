@@ -22,7 +22,8 @@ const DESTINATIONS = [
 describe('DateInput', () => {
   it('renders with label', () => {
     renderWithM3(<DateInput label="Birth date" data-testid="date-input" />);
-    expect(screen.getByText('Birth date')).toBeInTheDocument();
+    // Outlined notch legend + floating label both render the label text.
+    expect(screen.getAllByText('Birth date').length).toBeGreaterThanOrEqual(1);
   });
 
   it('has no a11y violations', async () => {
@@ -68,12 +69,12 @@ describe('DatePicker', () => {
   });
 
   it('has no a11y violations when open', async () => {
-    const { container } = renderWithM3(
+    renderWithM3(
       <WindowSizeClassProvider defaultSizeClass="compact">
         <DatePicker variant="modal" defaultOpen data-testid="date-picker-a11y" />
       </WindowSizeClassProvider>,
     );
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe(document.body)).toHaveNoViolations();
   });
 });
 
@@ -109,8 +110,8 @@ describe('TimePicker', () => {
   });
 
   it('has no a11y violations', async () => {
-    const { container } = renderWithM3(<TimePicker variant="input" defaultOpen data-testid="time-picker-a11y" />);
-    expect(await axe(container)).toHaveNoViolations();
+    renderWithM3(<TimePicker variant="input" defaultOpen data-testid="time-picker-a11y" />);
+    expect(await axe(document.body)).toHaveNoViolations();
   });
 });
 

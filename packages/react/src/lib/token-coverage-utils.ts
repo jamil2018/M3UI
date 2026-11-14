@@ -39,6 +39,30 @@ const EXTENDED_FAB_SIZE_PREFIX = {
   lg: 'extended-fab-large',
 } as const;
 const CHIP_PREFIXES = ['assist-chip', 'filter-chip', 'input-chip', 'suggestion-chip'] as const;
+const FIELD_PREFIXES = ['filled-text-field', 'outlined-text-field'] as const;
+const BUTTON_VARIANT_PREFIXES = [
+  'elevated-button',
+  'filled-button',
+  'filled-tonal-button',
+  'outlined-button',
+  'text-button',
+] as const;
+const ICON_BUTTON_VARIANT_PREFIXES = [
+  'icon-button',
+  'filled-icon-button',
+  'filled-tonal-icon-button',
+  'outlined-icon-button',
+] as const;
+
+const FIELD_STATE_PREFIXES = [
+  '',
+  'disabled-',
+  'error-',
+  'error-focus-',
+  'error-hover-',
+  'focus-',
+  'hover-',
+] as const;
 
 const BUTTON_SIZE_PROPS = [
   'container-height',
@@ -71,6 +95,195 @@ const ICON_BASE_PROPS = [
   'outlined-outline-width',
   'selected-container-shape-round',
   'selected-container-shape-square',
+] as const;
+
+/** Properties referenced via Slider component. */
+const SLIDER_HELPER_PROPS = [
+  'active-handle-leading-space',
+  'active-handle-padding',
+  'active-track-color',
+  'active-track-height',
+  'active-track-shape',
+  'disabled-active-track-color',
+  'disabled-handle-color',
+  'disabled-handle-width',
+  'disabled-inactive-track-color',
+  'disabled-stop-color',
+  'focus-handle-width',
+  'handle-color',
+  'handle-height',
+  'handle-shape',
+  'handle-width',
+  'inactive-track-color',
+  'inactive-track-height',
+  'inactive-track-shape',
+  'label-text-color',
+  'pressed-handle-color',
+  'pressed-handle-width',
+  'stop-indicator-color',
+  'stop-indicator-color-selected',
+  'stop-indicator-shape',
+  'stop-indicator-size',
+  'stop-indicator-trailing-space',
+  'value-indicator-active-bottom-space',
+  'value-indicator-container-color',
+  'value-indicator-label-text-color',
+] as const;
+const CHECKBOX_HELPER_PROPS = [
+  'container-size',
+  'container-shape',
+  'icon-size',
+  'state-layer-size',
+  'state-layer-shape',
+  'selected-container-color',
+  'selected-disabled-container-color',
+  'selected-disabled-icon-color',
+  'selected-icon-color',
+  'selected-hover-container-color',
+  'selected-hover-icon-color',
+  'selected-pressed-container-color',
+  'selected-pressed-icon-color',
+  'selected-outline-width',
+  'selected-hover-state-layer-color',
+  'selected-hover-state-layer-opacity',
+  'selected-pressed-state-layer-color',
+  'selected-pressed-state-layer-opacity',
+  'selected-error-container-color',
+  'selected-error-hover-container-color',
+  'selected-error-hover-icon-color',
+  'selected-error-pressed-container-color',
+  'selected-error-pressed-icon-color',
+  'selected-error-icon-color',
+  'unselected-outline-color',
+  'unselected-outline-width',
+  'unselected-disabled-outline-color',
+  'unselected-hover-outline-color',
+  'unselected-hover-outline-width',
+  'unselected-pressed-outline-color',
+  'unselected-pressed-outline-width',
+  'unselected-hover-icon-color',
+  'unselected-pressed-icon-color',
+  'unselected-error-outline-color',
+  'unselected-error-hover-outline-color',
+  'unselected-error-pressed-outline-color',
+  'unselected-hover-state-layer-color',
+  'unselected-hover-state-layer-opacity',
+  'unselected-pressed-state-layer-color',
+  'unselected-pressed-state-layer-opacity',
+  'error-hover-state-layer-color',
+  'error-hover-state-layer-opacity',
+  'error-pressed-state-layer-color',
+  'error-pressed-state-layer-opacity',
+] as const;
+
+/** Dynamic getChipStyles / chip shell keys expanded across chip prefixes. */
+const CHIP_HELPER_PROPS = [
+  'container-height',
+  'container-shape',
+  'icon-size',
+  'leading-icon-size',
+  'disabled-icon-color',
+  'disabled-leading-icon-color',
+  'selected-leading-icon-color',
+  'unselected-leading-icon-color',
+  'leading-icon-color',
+  'label-text-color',
+  'disabled-label-text-color',
+  'hover-label-text-color',
+  'focus-label-text-color',
+  'pressed-label-text-color',
+  'hover-state-layer-color',
+  'hover-state-layer-opacity',
+  'pressed-state-layer-color',
+  'pressed-state-layer-opacity',
+  'flat-outline-width',
+  'flat-outline-color',
+  'flat-disabled-outline-color',
+  'flat-disabled-selected-container-color',
+  'flat-container-elevation',
+  'elevated-container-color',
+  'elevated-disabled-container-color',
+  'elevated-container-elevation',
+  'elevated-hover-container-elevation',
+  'elevated-focus-container-elevation',
+  'elevated-pressed-container-elevation',
+  'selected-label-text-color',
+  'unselected-label-text-color',
+  'selected-hover-label-text-color',
+  'unselected-hover-label-text-color',
+  'selected-focus-label-text-color',
+  'unselected-focus-label-text-color',
+  'selected-pressed-label-text-color',
+  'unselected-pressed-label-text-color',
+  'selected-hover-state-layer-color',
+  'unselected-hover-state-layer-color',
+  'selected-hover-state-layer-opacity',
+  'unselected-hover-state-layer-opacity',
+  'selected-pressed-state-layer-color',
+  'unselected-pressed-state-layer-color',
+  'selected-pressed-state-layer-opacity',
+  'unselected-pressed-state-layer-opacity',
+  'selected-container-color',
+  'selected-outline-width',
+  'unselected-outline-width',
+  'unselected-outline-color',
+  'disabled-unselected-outline-color',
+  'disabled-selected-container-color',
+  'container-elevation',
+  'flat-selected-container-color',
+  'flat-selected-outline-width',
+  'flat-unselected-outline-width',
+  'flat-unselected-outline-color',
+  'flat-disabled-unselected-outline-color',
+  'elevated-selected-container-color',
+  'elevated-unselected-container-color',
+] as const;
+
+/** Properties referenced via getVariantStyles / elevationFor / labelColor / outlineColor. */
+const BUTTON_VARIANT_HELPER_PROPS = [
+  'container-color',
+  'disabled-container-color',
+  'container-elevation',
+  'disabled-container-elevation',
+  'hover-container-elevation',
+  'focus-container-elevation',
+  'pressed-container-elevation',
+  'label-text-color',
+  'label-color',
+  'disabled-label-text-color',
+  'disabled-label-color',
+  'hover-label-text-color',
+  'focus-label-text-color',
+  'pressed-label-text-color',
+  'outline-color',
+  'disabled-outline-color',
+  'hovered-outline-color',
+  'focused-outline-color',
+  'pressed-outline-color',
+  'icon-color',
+  'disabled-icon-color',
+  'hover-icon-color',
+  'focus-icon-color',
+  'pressed-icon-color',
+  'container-height',
+  'container-shape',
+  'icon-size',
+  'label-text-font',
+  'label-text-size',
+  'label-text-line-height',
+  'label-text-weight',
+] as const;
+
+const FIELD_HELPER_BASES = [
+  'container-color',
+  'active-indicator-color',
+  'outline-color',
+  'label-color',
+  'input-color',
+  'caret-color',
+  'supporting-color',
+  'leading-icon-color',
+  'trailing-icon-color',
 ] as const;
 
 export function collectSourceFiles(dir = REACT_SRC): string[] {
@@ -110,18 +323,45 @@ function extractPrefixMaps(content: string): Map<string, string[]> {
   return maps;
 }
 
+/**
+ * Resolve a dynamic `compVar(varName, …)` / `compElevation(varName, …)` prefix.
+ * Recognizes Phase 3–4 helpers (getVariantStyles, getCheckboxColors, getChipStyles,
+ * fieldToken) without requiring dead `*_CONTRACT` dumps.
+ */
 function resolveVarPrefixes(varName: string, content: string, maps: Map<string, string[]>): string[] {
   const specials: Record<string, string[]> = {
     sizePrefix: [...Object.values(FAB_SIZE_PREFIX), ...Object.values(EXTENDED_FAB_SIZE_PREFIX)],
     containerPrefix: ['fab-primary-container', 'extended-fab-primary'],
     sizeP: Object.values(SPLIT_BUTTON_SIZE_PREFIX),
     btnP: Object.values(BUTTON_SIZE_PREFIX),
-    tokenPrefix: ['filled-text-field', 'outlined-text-field'],
+    tokenPrefix: [...FIELD_PREFIXES],
+    prefixToken: [...FIELD_PREFIXES],
+    RADIO: ['radio'],
   };
   if (specials[varName]) return specials[varName];
 
-  if (varName === 'p' && content.includes('function chipPrefix')) return [...CHIP_PREFIXES];
-  if (varName === 'p' && content.includes("const p = 'switch'")) return ['switch'];
+  if (varName === 'p') {
+    if (content.includes('function chipPrefix') || content.includes('function getChipStyles')) {
+      return [...CHIP_PREFIXES];
+    }
+    if (content.includes('function getCheckboxColors') || content.includes("const p = 'checkbox'")) {
+      return ['checkbox'];
+    }
+    if (content.includes("const p = 'switch'")) return ['switch'];
+    if (content.includes('function getVariantStyles') || content.includes('function elevationFor')) {
+      return [...BUTTON_VARIANT_PREFIXES];
+    }
+    if (content.includes('function getIconButtonVariantStyles') || content.includes('function stateLayerTokens')) {
+      return [...ICON_BUTTON_VARIANT_PREFIXES];
+    }
+  }
+
+  if (
+    (varName === 'prefix' || varName === 'prefixToken') &&
+    (content.includes('fieldTokenPrefix') || content.includes('function fieldToken'))
+  ) {
+    return [...FIELD_PREFIXES];
+  }
 
   const fromMap = content.match(new RegExp(`const\\s+${varName}\\s*=\\s*(\\w+_PREFIX)`));
   if (fromMap && maps.has(fromMap[1]!)) return maps.get(fromMap[1]!)!;
@@ -131,6 +371,7 @@ function resolveVarPrefixes(varName: string, content: string, maps: Map<string, 
 
   const fromFn = content.match(new RegExp(`const\\s+${varName}\\s*=\\s*(\\w+)\\(`));
   if (fromFn?.[1] === 'chipPrefix') return [...CHIP_PREFIXES];
+  if (fromFn?.[1] === 'fieldTokenPrefix') return [...FIELD_PREFIXES];
 
   const direct = content.match(new RegExp(`const\\s+${varName}\\s*=\\s*['"]([a-z0-9-]+)['"]`));
   if (direct) return [direct[1]!];
@@ -159,6 +400,8 @@ function expandKnownHelpers(): Set<string> {
       'between-space',
       'container-height',
       'container-shape',
+      'inner-corner-corner-size',
+      'inner-pressed-corner-corner-size',
       'leading-button-leading-space',
       'leading-button-trailing-space',
       'trailing-button-leading-space',
@@ -169,11 +412,120 @@ function expandKnownHelpers(): Set<string> {
     }
   }
   for (const prefix of CHIP_PREFIXES) {
-    for (const prop of ['container-height', 'container-shape', 'icon-size', 'leading-icon-size']) {
+    for (const prop of CHIP_HELPER_PROPS) addToken(tokens, prefix, prop);
+  }
+  for (const prefix of BUTTON_VARIANT_PREFIXES) {
+    for (const prop of BUTTON_VARIANT_HELPER_PROPS) addToken(tokens, prefix, prop);
+  }
+  for (const prefix of ICON_BUTTON_VARIANT_PREFIXES) {
+    for (const prop of [
+      'color',
+      'container-color',
+      'disabled-container-color',
+      'selected-container-color',
+      'outline-color',
+      'disabled-outline-color',
+      'hover-state-layer-color',
+      'hover-state-layer-opacity',
+      'pressed-state-layer-color',
+      'pressed-state-layer-opacity',
+      'selected-hover-state-layer-color',
+      'selected-hover-state-layer-opacity',
+      'selected-pressed-state-layer-color',
+      'selected-pressed-state-layer-opacity',
+      'disabled-icon-color',
+      'selected-icon-color',
+    ]) {
       addToken(tokens, prefix, prop);
     }
   }
+  for (const prop of CHECKBOX_HELPER_PROPS) addToken(tokens, 'checkbox', prop);
+
+  for (const prefix of FIELD_PREFIXES) {
+    for (const base of FIELD_HELPER_BASES) {
+      for (const state of FIELD_STATE_PREFIXES) {
+        addToken(tokens, prefix, `${state}${base}`);
+      }
+    }
+    for (const prop of [
+      'container-shape',
+      'container-height',
+      'leading-space',
+      'active-indicator-height',
+      'outline-width',
+      'focus-outline-width',
+      'hover-outline-width',
+      'trailing-icon-size',
+    ]) {
+      addToken(tokens, prefix, prop);
+    }
+  }
+
+  for (const prop of SLIDER_HELPER_PROPS) addToken(tokens, 'slider', prop);
+  for (const prop of [
+    'item-container-shape',
+    'item-container-expressive-shape',
+    'item-selected-container-shape',
+    'item-selected-label-text-color',
+    'item-selected-supporting-text-color',
+    'item-selected-overline-color',
+    'item-selected-leading-icon-color',
+    'item-selected-trailing-icon-color',
+  ]) {
+    addToken(tokens, 'list', prop);
+  }
+  addToken(tokens, 'list-item', 'container-shape');
+  addToken(tokens, 'docked-toolbar', 'container-shape');
   return tokens;
+}
+
+/** Expand `fieldToken(prefix, 'base', state)` into all interaction-state suffixes. */
+function expandFieldTokenCalls(content: string, maps: Map<string, string[]>, referenced: Set<string>): void {
+  for (const m of content.matchAll(/fieldToken\(\s*(\w+)\s*,\s*['"]([^'"]+)['"]/g)) {
+    const prefixes = resolveVarPrefixes(m[1]!, content, maps);
+    const resolved = prefixes.length > 0 ? prefixes : [...FIELD_PREFIXES];
+    for (const prefix of resolved) {
+      for (const state of FIELD_STATE_PREFIXES) {
+        addToken(referenced, prefix, `${state}${m[2]!}`);
+      }
+    }
+  }
+}
+
+/**
+ * Expand template-literal property keys used by getChipStyles / fieldToken helpers,
+ * e.g. compVar(p, `${sel}-pressed-label-text-color`) or compVar(p, `flat-${sel}-outline-width`).
+ */
+function expandTemplateCompVars(content: string, maps: Map<string, string[]>, referenced: Set<string>): void {
+  for (const m of content.matchAll(
+    /compVar\(\s*(\w+)\s*,\s*`(?:\$\{[^}]+\}-)+([^`$]+)`/g,
+  )) {
+    const prefixes = resolveVarPrefixes(m[1]!, content, maps);
+    const rest = m[2]!;
+    const selVariants = ['selected', 'unselected'];
+    for (const prefix of prefixes) {
+      for (const sel of selVariants) {
+        addToken(referenced, prefix, `${sel}-${rest}`);
+        addToken(referenced, prefix, `flat-${sel}-${rest}`);
+        addToken(referenced, prefix, `elevated-${sel}-${rest}`);
+      }
+      // fieldToken-style: disabled-/error-/focus-/hover- + base
+      for (const state of FIELD_STATE_PREFIXES) {
+        if (state) addToken(referenced, prefix, `${state}${rest}`);
+      }
+    }
+  }
+
+  // Ternary property keys: selected ? 'a' : 'b'
+  for (const m of content.matchAll(
+    /compVar\(\s*(\w+)\s*,\s*[^'"`]*\?\s*['"]([^'"]+)['"]\s*:\s*['"]([^'"]+)['"]/g,
+  )) {
+    const prefixes = resolveVarPrefixes(m[1]!, content, maps);
+    for (const prefix of prefixes) {
+      addToken(referenced, prefix, m[2]!);
+      addToken(referenced, prefix, m[3]!);
+    }
+  }
 }
 
 /** Scan source for static and inferred md-comp token references. */
@@ -209,6 +561,9 @@ export function collectReferencedTokens(): Set<string> {
       const prefixes = resolveVarPrefixes(m[1]!, content, maps);
       for (const prefix of prefixes) addToken(referenced, prefix, m[2] ?? 'container-elevation');
     }
+
+    expandFieldTokenCalls(content, maps, referenced);
+    expandTemplateCompVars(content, maps, referenced);
   }
 
   return referenced;

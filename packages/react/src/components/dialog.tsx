@@ -1,3 +1,5 @@
+import { modalPopupLayout } from '../lib/modal-layout.js';
+import { M3PortalScope } from '../provider/m3-provider.js';
 
 import { Dialog as BaseDialog } from '@base-ui/react/dialog';
 import { AlertDialog as BaseAlertDialog } from '@base-ui/react/alert-dialog';
@@ -31,6 +33,7 @@ const dialogInset = compVar('button-medium', 'leading-space');
 const dialogActionGap = compVar('list', 'item-between-space');
 
 const dialogPopupStyle: CSSProperties = {
+  ...modalPopupLayout,
   background: compVar('dialog', 'container-color'),
   borderRadius: compVar('dialog', 'container-shape'),
   boxShadow: elevationShadow('level3'),
@@ -61,15 +64,8 @@ function DialogWaapiShell({
   testId?: string;
   popupStyle?: CSSProperties;
 }) {
-  const {
-    popupRef,
-    scrimRef,
-    containerRef,
-    headlineRef,
-    contentRef,
-    actionsRef,
-    getElements,
-  } = useDialogMotionRefs();
+  const { popupRef, scrimRef, containerRef, headlineRef, contentRef, actionsRef, getElements } =
+    useDialogMotionRefs();
   const waapiRef = useDialogWaapi(getElements);
 
   return (
@@ -106,83 +102,100 @@ export function Dialog({
     <BaseDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       <BaseDialog.Trigger render={trigger as React.ReactElement} />
       <BaseDialog.Portal>
-        <DialogWaapiShell className={className} testId={testId}>
-          {({ scrimRef, popupRef, containerRef, headlineRef, contentRef, actionsRef, popupStyle: style }) => (
-            <>
-              <BaseDialog.Backdrop
-                render={(props) => (
-                  <div
-                    {...props}
-                    ref={composeRefs(props.ref as Ref<HTMLDivElement> | undefined, scrimRef)}
-                    style={{
-                      ...props.style,
-                      position: 'fixed',
-                      inset: 0,
-                      background: compVar('scrim', 'container-color'),
-                      opacity: 0.32,
-                    }}
-                    aria-hidden
-                  />
-                )}
-              />
-              <BaseDialog.Popup ref={popupRef} className={className} data-testid={testId} style={style}>
-                <DialogMotionContainer containerRef={containerRef}>
-                  {icon && (
+        <M3PortalScope>
+          <DialogWaapiShell className={className} testId={testId}>
+            {({
+              scrimRef,
+              popupRef,
+              containerRef,
+              headlineRef,
+              contentRef,
+              actionsRef,
+              popupStyle: style,
+            }) => (
+              <>
+                <BaseDialog.Backdrop
+                  render={(props) => (
                     <div
+                      {...props}
+                      ref={composeRefs(props.ref as Ref<HTMLDivElement> | undefined, scrimRef)}
                       style={{
-                        color: compVar('dialog', 'icon-color'),
-                        width: compVar('dialog', 'icon-size'),
-                        height: compVar('dialog', 'icon-size'),
-                        marginTop: dialogInset,
-                        marginInline: dialogInset,
-                        marginBottom: compVar('list', 'item-between-space'),
+                        ...props.style,
+                        position: 'fixed',
+                        zIndex: 'var(--m3-overlay-layer, 1100)',
+                        inset: 0,
+                        background: compVar('scrim', 'container-color'),
+                        opacity: 0.32,
+                      }}
+                      aria-hidden
+                    />
+                  )}
+                />
+                <BaseDialog.Popup
+                  ref={popupRef}
+                  className={className}
+                  data-testid={testId}
+                  style={style}
+                >
+                  <DialogMotionContainer containerRef={containerRef}>
+                    {icon && (
+                      <div
+                        style={{
+                          color: compVar('dialog', 'icon-color'),
+                          width: compVar('dialog', 'icon-size'),
+                          height: compVar('dialog', 'icon-size'),
+                          marginTop: dialogInset,
+                          marginInline: dialogInset,
+                          marginBottom: compVar('list', 'item-between-space'),
+                        }}
+                      >
+                        {icon}
+                      </div>
+                    )}
+                    <BaseDialog.Title
+                      ref={headlineRef}
+                      style={{
+                        ...typeStyle('headline-small'),
+                        color: compVar('dialog', 'headline-color'),
+                        margin: 0,
+                        padding: icon ? `0 ${dialogInset}` : `${dialogInset} ${dialogInset} 0`,
                       }}
                     >
-                      {icon}
-                    </div>
-                  )}
-                  <BaseDialog.Title
-                    ref={headlineRef}
-                    style={{
-                      ...typeStyle('headline-small'),
-                      color: compVar('dialog', 'headline-color'),
-                      margin: 0,
-                      padding: icon ? `0 ${dialogInset}` : `${dialogInset} ${dialogInset} 0`,
-                    }}
-                  >
-                    {headline}
-                  </BaseDialog.Title>
-                  {body && (
-                    <BaseDialog.Description
-                      ref={contentRef}
-                      style={{
-                        ...typeStyle('body-medium'),
-                        color: compVar('dialog', 'supporting-text-color'),
-                        marginTop: icon ? compVar('list', 'item-top-space') : 0,
-                        padding: dialogInset,
-                      }}
-                    >
-                      {body}
-                    </BaseDialog.Description>
-                  )}
-                  {actions && (
-                    <div
-                      ref={actionsRef}
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        gap: dialogActionGap,
-                        padding: `${compVar('list', 'divider-leading-space')} ${dialogInset} ${dialogInset}`,
-                      }}
-                    >
-                      {actions}
-                    </div>
-                  )}
-                </DialogMotionContainer>
-              </BaseDialog.Popup>
-            </>
-          )}
-        </DialogWaapiShell>
+                      {headline}
+                    </BaseDialog.Title>
+                    {body && (
+                      <BaseDialog.Description
+                        ref={contentRef}
+                        style={{
+                          ...typeStyle('body-medium'),
+                          color: compVar('dialog', 'supporting-text-color'),
+                          marginTop: icon ? compVar('list', 'item-top-space') : 0,
+                          padding: dialogInset,
+                        }}
+                      >
+                        {body}
+                      </BaseDialog.Description>
+                    )}
+                    {actions && (
+                      <div
+                        ref={actionsRef}
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                          flexWrap: 'wrap',
+                          gap: dialogActionGap,
+                          padding: `${compVar('list', 'divider-leading-space')} ${dialogInset} ${dialogInset}`,
+                        }}
+                      >
+                        {actions}
+                      </div>
+                    )}
+                  </DialogMotionContainer>
+                </BaseDialog.Popup>
+              </>
+            )}
+          </DialogWaapiShell>
+        </M3PortalScope>
       </BaseDialog.Portal>
     </BaseDialog.Root>
   );
@@ -223,82 +236,111 @@ export function AlertDialog({
     <BaseAlertDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       <BaseAlertDialog.Trigger render={trigger as React.ReactElement} />
       <BaseAlertDialog.Portal>
-        <DialogWaapiShell className={className} testId={testId}>
-          {({ scrimRef, popupRef, containerRef, headlineRef, contentRef, actionsRef, popupStyle: style }) => (
-            <>
-              <BaseAlertDialog.Backdrop
-                render={(props) => (
-                  <div
-                    {...props}
-                    ref={composeRefs(props.ref as Ref<HTMLDivElement> | undefined, scrimRef)}
-                    style={{
-                      ...props.style,
-                      position: 'fixed',
-                      inset: 0,
-                      background: compVar('scrim', 'container-color'),
-                      opacity: 0.32,
-                    }}
-                    aria-hidden
-                  />
-                )}
-              />
-              <BaseAlertDialog.Popup ref={popupRef} className={className} data-testid={testId} style={style}>
-                <DialogMotionContainer containerRef={containerRef}>
-                  {icon && (
+        <M3PortalScope>
+          <DialogWaapiShell className={className} testId={testId}>
+            {({
+              scrimRef,
+              popupRef,
+              containerRef,
+              headlineRef,
+              contentRef,
+              actionsRef,
+              popupStyle: style,
+            }) => (
+              <>
+                <BaseAlertDialog.Backdrop
+                  render={(props) => (
                     <div
+                      {...props}
+                      ref={composeRefs(props.ref as Ref<HTMLDivElement> | undefined, scrimRef)}
                       style={{
-                        color: compVar('dialog', 'icon-color'),
-                        width: compVar('dialog', 'icon-size'),
-                        height: compVar('dialog', 'icon-size'),
-                        marginTop: dialogInset,
-                        marginInline: dialogInset,
-                        marginBottom: compVar('list', 'item-between-space'),
+                        ...props.style,
+                        position: 'fixed',
+                        zIndex: 'var(--m3-overlay-layer, 1100)',
+                        inset: 0,
+                        background: compVar('scrim', 'container-color'),
+                        opacity: 0.32,
+                      }}
+                      aria-hidden
+                    />
+                  )}
+                />
+                <BaseAlertDialog.Popup
+                  ref={popupRef}
+                  className={className}
+                  data-testid={testId}
+                  style={style}
+                >
+                  <DialogMotionContainer containerRef={containerRef}>
+                    {icon && (
+                      <div
+                        style={{
+                          color: compVar('dialog', 'icon-color'),
+                          width: compVar('dialog', 'icon-size'),
+                          height: compVar('dialog', 'icon-size'),
+                          marginTop: dialogInset,
+                          marginInline: dialogInset,
+                          marginBottom: compVar('list', 'item-between-space'),
+                        }}
+                      >
+                        {icon}
+                      </div>
+                    )}
+                    <BaseAlertDialog.Title
+                      ref={headlineRef}
+                      style={{
+                        ...typeStyle('headline-small'),
+                        color: compVar('dialog', 'headline-color'),
+                        margin: 0,
+                        padding: icon ? `0 ${dialogInset}` : `${dialogInset} ${dialogInset} 0`,
                       }}
                     >
-                      {icon}
+                      {headline}
+                    </BaseAlertDialog.Title>
+                    {body && (
+                      <BaseAlertDialog.Description
+                        ref={contentRef}
+                        style={{
+                          ...typeStyle('body-medium'),
+                          color: compVar('dialog', 'supporting-text-color'),
+                          marginTop: icon ? compVar('list', 'item-top-space') : 0,
+                          padding: dialogInset,
+                        }}
+                      >
+                        {body}
+                      </BaseAlertDialog.Description>
+                    )}
+                    <div
+                      ref={actionsRef}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        flexWrap: 'wrap',
+                        gap: dialogActionGap,
+                        padding: `${compVar('list', 'divider-leading-space')} ${dialogInset} ${dialogInset}`,
+                      }}
+                    >
+                      <BaseAlertDialog.Close
+                        render={
+                          <Button variant="text" onClick={onCancel}>
+                            {cancelLabel}
+                          </Button>
+                        }
+                      />
+                      <BaseAlertDialog.Close
+                        render={
+                          <Button variant="text" onClick={onConfirm}>
+                            {confirmLabel}
+                          </Button>
+                        }
+                      />
                     </div>
-                  )}
-                  <BaseAlertDialog.Title
-                    ref={headlineRef}
-                    style={{
-                      ...typeStyle('headline-small'),
-                      color: compVar('dialog', 'headline-color'),
-                      margin: 0,
-                      padding: icon ? `0 ${dialogInset}` : `${dialogInset} ${dialogInset} 0`,
-                    }}
-                  >
-                    {headline}
-                  </BaseAlertDialog.Title>
-                  {body && (
-                    <BaseAlertDialog.Description
-                      ref={contentRef}
-                      style={{
-                        ...typeStyle('body-medium'),
-                        color: compVar('dialog', 'supporting-text-color'),
-                        marginTop: icon ? compVar('list', 'item-top-space') : 0,
-                        padding: dialogInset,
-                      }}
-                    >
-                      {body}
-                    </BaseAlertDialog.Description>
-                  )}
-                  <div
-                    ref={actionsRef}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'flex-end',
-                      gap: dialogActionGap,
-                      padding: `${compVar('list', 'divider-leading-space')} ${dialogInset} ${dialogInset}`,
-                    }}
-                  >
-                    <BaseAlertDialog.Close render={<Button variant="text" onClick={onCancel}>{cancelLabel}</Button>} />
-                    <BaseAlertDialog.Close render={<Button variant="text" onClick={onConfirm}>{confirmLabel}</Button>} />
-                  </div>
-                </DialogMotionContainer>
-              </BaseAlertDialog.Popup>
-            </>
-          )}
-        </DialogWaapiShell>
+                  </DialogMotionContainer>
+                </BaseAlertDialog.Popup>
+              </>
+            )}
+          </DialogWaapiShell>
+        </M3PortalScope>
       </BaseAlertDialog.Portal>
     </BaseAlertDialog.Root>
   );
@@ -329,6 +371,7 @@ export function FullScreenDialog({
 }: FullScreenDialogProps) {
   const fullStyle: CSSProperties = {
     position: 'fixed',
+    zIndex: 'var(--m3-overlay-layer, 1100)',
     inset: 0,
     background: compVar('dialog', 'container-color'),
     display: 'flex',
@@ -340,32 +383,52 @@ export function FullScreenDialog({
     <BaseDialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       <BaseDialog.Trigger render={trigger as React.ReactElement} />
       <BaseDialog.Portal>
-        <BaseDialog.Popup className={className} data-testid={testId}>
-          <OverlayMotion fullScreen style={fullStyle}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: dialogActionGap }}>
-              <BaseDialog.Close aria-label="Close" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                <Icon name="close" />
-              </BaseDialog.Close>
-              <BaseDialog.Title style={{ ...typeStyle('headline-small'), color: compVar('dialog', 'headline-color'), flex: 1 }}>
-                {headline}
-              </BaseDialog.Title>
-              {actions}
-            </div>
-            {body && (
-              <div
-                style={{
-                  flex: 1,
-                  overflow: 'auto',
-                  marginTop: compVar('list', 'divider-leading-space'),
-                  color: compVar('dialog', 'supporting-text-color'),
-                  ...typeStyle('body-medium'),
-                }}
-              >
-                {body}
+        <M3PortalScope>
+          <BaseDialog.Popup
+            className={className}
+            data-testid={testId}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)',
+              overflow: 'hidden',
+            }}
+          >
+            <OverlayMotion fullScreen style={fullStyle}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: dialogActionGap }}>
+                <BaseDialog.Close
+                  aria-label="Close"
+                  style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+                >
+                  <Icon name="close" />
+                </BaseDialog.Close>
+                <BaseDialog.Title
+                  style={{
+                    ...typeStyle('headline-small'),
+                    color: compVar('dialog', 'headline-color'),
+                    flex: 1,
+                  }}
+                >
+                  {headline}
+                </BaseDialog.Title>
+                {actions}
               </div>
-            )}
-          </OverlayMotion>
-        </BaseDialog.Popup>
+              {body && (
+                <div
+                  style={{
+                    flex: 1,
+                    overflow: 'auto',
+                    marginTop: compVar('list', 'divider-leading-space'),
+                    color: compVar('dialog', 'supporting-text-color'),
+                    ...typeStyle('body-medium'),
+                  }}
+                >
+                  {body}
+                </div>
+              )}
+            </OverlayMotion>
+          </BaseDialog.Popup>
+        </M3PortalScope>
       </BaseDialog.Portal>
     </BaseDialog.Root>
   );

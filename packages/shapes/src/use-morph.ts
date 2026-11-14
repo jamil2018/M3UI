@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useMotionValue, useSpring, type SpringOptions } from 'motion/react';
+import { useMotionValue, useSpring, useReducedMotionConfig, type SpringOptions } from 'motion/react';
 import { springs, prefersReducedMotion } from '@m3ui/motion';
 import { Morph } from './morph.js';
 import { cubicsToClipPath } from './paths.js';
@@ -33,28 +33,27 @@ export interface UseMorphResult {
 }
 
 function polygonId(poly: RoundedPolygon): string {
-  const b = poly.calculateBounds();
-  return `${poly.cubics.length}:${b.map((n) => n.toFixed(3)).join(',')}`;
+  // Bounds and segment counts collide for distinct shapes (e.g. rounded squares).
+  return poly.cubics.map((c) => [c.anchor0X, c.anchor0Y, c.control0X, c.control0Y,
+    c.control1X, c.control1Y, c.anchor1X, c.anchor1Y].join(',')).join(';');
 }
 
 function buildPrecomputedMorph(
   from: RoundedPolygon,
   to: RoundedPolygon,
   steps: number,
-  _width: number,
-  _height: number,
+  width: number,
+  height: number,
 ): PrecomputedMorph {
-  const key = `${polygonId(from)}→${polygonId(to)}@${steps}`;
+  const aspectRatio = height > 0 ? width / height : 1;
+  const key = `${polygonId(from)}→${polygonId(to)}@${steps}@ar${aspectRatio.toFixed(4)}`;
   const clipPaths = getCachedMorphPaths(key, () => {
     const morph = new Morph(from, to);
     const paths: string[] = [];
     for (let i = 0; i < steps; i++) {
       const progress = i / (steps - 1);
       const cubics = morph.asCubics(progress);
-      const normalized = cubicsToClipPath(cubics);
-      // Percentage polygons are relative to the target element, so they work
-      // for arbitrary sizes without an initial 1px clipping frame.
-      paths.push(normalized);
+      paths.push(cubicsToClipPath(cubics, aspectRatio));
     }
     return paths;
   });
@@ -80,31 +79,35 @@ export function useMorph({
   width = 1,
   height = width,
 }: UseMorphOptions): UseMorphResult {
-  const reduced = prefersReducedMotion();
+  const reduced = useReducedMotionConfig() ?? prefersReducedMotion();
   const target = active ? 1 : 0;
+  const morph = useMemo(() => new Morph(from, to), [from, to]);
 
   const precomputed = useMemo(
     () => buildPrecomputedMorph(from, to, steps, width, height),
     [from, to, steps, width, height],
   );
 
-  const motionTarget = useMotionValue(reduced ? target : active ? 0 : 0);
+  const motionTarget = useMotionValue(reduced ? target : active ? 1 : 0);
   const springProgress = useSpring(motionTarget, reduced ? { duration: 0.01 } : transition);
 
   useEffect(() => {
-    motionTarget.set(reduced ? target : target);
+    motionTarget.set(target);
   }, [target, reduced, motionTarget]);
 
-  const [clipPath, setClipPath] = useState(precomputed.clipPaths[0] ?? 'none');
-  const [svgPath, setSvgPath] = useState('');
-  const [progress, setProgress] = useState(0);
+  const [clipPath, setClipPath] = useState(
+    () => precomputed.clipPaths[progressToIndex(target, steps)] ?? 'none',
+  );
+  const [svgPath, setSvgPath] = useState(() => {
+    return cubicsToSvg(morph.asCubics(target));
+  });
+  const [progress, setProgress] = useState(target);
 
   useEffect(() => {
     if (reduced) {
       const idx = progressToIndex(target, steps);
       setClipPath(precomputed.clipPaths[idx] ?? 'none');
       setProgress(target);
-      const morph = new Morph(from, to);
       setSvgPath(cubicsToSvg(morph.asCubics(target)));
       return;
     }
@@ -112,9 +115,10 @@ export function useMorph({
       const idx = progressToIndex(p, steps);
       setClipPath(precomputed.clipPaths[idx] ?? 'none');
       setProgress(p);
+      setSvgPath(cubicsToSvg(morph.asCubics(p)));
     });
     return unsub;
-  }, [reduced, target, steps, precomputed, from, to, springProgress]);
+  }, [reduced, target, steps, precomputed, morph, springProgress]);
 
   return { clipPath, svgPath, progress, precomputed };
 }

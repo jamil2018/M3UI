@@ -1,17 +1,12 @@
 import { ELEVATION_LEVELS, type ElevationLevel } from '@m3ui/tokens';
 import { type HTMLAttributes, type ReactNode } from 'react';
 import { useM3Theme } from '../provider/m3-provider.js';
+import { elevationShadow } from '../lib/token-utils.js';
 
 export interface SurfaceProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   elevation?: ElevationLevel;
   tint?: boolean;
-}
-
-function elevationToShadow(level: ElevationLevel): string {
-  const { elevation, shadowOpacity } = ELEVATION_LEVELS[level];
-  if (elevation === 0) return 'none';
-  return `0px ${elevation}px ${elevation * 2}px rgba(0, 0, 0, ${shadowOpacity})`;
 }
 
 export function Surface({
@@ -38,7 +33,7 @@ export function Surface({
         background: tintOverlay
           ? `${tintOverlay}, var(--md-sys-color-surface, ${theme.colors.surface})`
           : `var(--md-sys-color-surface, ${theme.colors.surface})`,
-        boxShadow: elevationToShadow(elevation),
+        boxShadow: elevationShadow(elevation),
         borderRadius: 'var(--md-sys-shape-corner-medium, 12px)',
         color: `var(--md-sys-color-on-surface, ${theme.colors.onSurface})`,
         ...style,

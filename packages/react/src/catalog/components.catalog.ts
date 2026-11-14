@@ -214,7 +214,7 @@ export const COMPONENT_CATALOG: ComponentCatalogEntry[] = [
     {
       related: ['checkbox', 'switch'],
       conformance: tierAConformance('radio', {
-        tokenPrefixes: ['--md-comp-radio-button-'],
+        tokenPrefixes: ['--md-comp-radio-', '--md-comp-radio-button-'],
       }),
     },
   ),

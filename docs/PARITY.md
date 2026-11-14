@@ -1,6 +1,6 @@
 # Material Web Parity Report
 
-Generated: 2026-08-29T22:11:50.121Z
+Generated: 2026-10-17T16:34:38.070Z
 
 Compares upstream material-web `$supported-tokens` contracts against tokens referenced in `@m3ui/react` source.
 Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{component}-*` via `compVar()`.
@@ -10,8 +10,8 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 | Metric | Count |
 | --- | ---: |
 | Components with contracts | 44 |
-| Missing upstream tokens | 1237 |
-| Extra tokens (no upstream counterpart) | 131 |
+| Missing upstream tokens | 1098 |
+| Extra tokens (no upstream counterpart) | 569 |
 | Value drift | 0 |
 
 ## Per-component
@@ -20,27 +20,35 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-assist-chip-*` · Our prefix: `--md-comp-assist-chip-*`
 - Contract: 45 supported, 10 unsupported
-- **Missing (19)** — upstream supported, not referenced in source:
+- **Missing (25)** — upstream supported, not referenced in source:
   - `--md-comp-assist-chip-container-shape-end-end` → upstream `--md-assist-chip-container-shape-end-end`
   - `--md-comp-assist-chip-container-shape-end-start` → upstream `--md-assist-chip-container-shape-end-start`
   - `--md-comp-assist-chip-container-shape-start-end` → upstream `--md-assist-chip-container-shape-start-end`
   - `--md-comp-assist-chip-container-shape-start-start` → upstream `--md-assist-chip-container-shape-start-start`
-  - `--md-comp-assist-chip-disabled-leading-icon-color` → upstream `--md-assist-chip-disabled-leading-icon-color`
+  - `--md-comp-assist-chip-disabled-label-text-opacity` → upstream `--md-assist-chip-disabled-label-text-opacity`
   - `--md-comp-assist-chip-disabled-leading-icon-opacity` → upstream `--md-assist-chip-disabled-leading-icon-opacity`
   - `--md-comp-assist-chip-disabled-outline-color` → upstream `--md-assist-chip-disabled-outline-color`
   - `--md-comp-assist-chip-disabled-outline-opacity` → upstream `--md-assist-chip-disabled-outline-opacity`
+  - `--md-comp-assist-chip-elevated-container-shadow-color` → upstream `--md-assist-chip-elevated-container-shadow-color`
+  - `--md-comp-assist-chip-elevated-disabled-container-elevation` → upstream `--md-assist-chip-elevated-disabled-container-elevation`
+  - `--md-comp-assist-chip-elevated-disabled-container-opacity` → upstream `--md-assist-chip-elevated-disabled-container-opacity`
   - `--md-comp-assist-chip-focus-leading-icon-color` → upstream `--md-assist-chip-focus-leading-icon-color`
   - `--md-comp-assist-chip-focus-outline-color` → upstream `--md-assist-chip-focus-outline-color`
   - `--md-comp-assist-chip-hover-leading-icon-color` → upstream `--md-assist-chip-hover-leading-icon-color`
   - `--md-comp-assist-chip-icon-label-space` → upstream `--md-assist-chip-icon-label-space`
-  - `--md-comp-assist-chip-leading-icon-color` → upstream `--md-assist-chip-leading-icon-color`
+  - `--md-comp-assist-chip-label-text-font` → upstream `--md-assist-chip-label-text-font`
+  - `--md-comp-assist-chip-label-text-line-height` → upstream `--md-assist-chip-label-text-line-height`
+  - `--md-comp-assist-chip-label-text-size` → upstream `--md-assist-chip-label-text-size`
+  - `--md-comp-assist-chip-label-text-weight` → upstream `--md-assist-chip-label-text-weight`
   - `--md-comp-assist-chip-leading-space` → upstream `--md-assist-chip-leading-space`
   - `--md-comp-assist-chip-outline-color` → upstream `--md-assist-chip-outline-color`
   - `--md-comp-assist-chip-outline-width` → upstream `--md-assist-chip-outline-width`
   - `--md-comp-assist-chip-pressed-leading-icon-color` → upstream `--md-assist-chip-pressed-leading-icon-color`
   - `--md-comp-assist-chip-trailing-space` → upstream `--md-assist-chip-trailing-space`
   - `--md-comp-assist-chip-with-leading-icon-leading-space` → upstream `--md-assist-chip-with-leading-icon-leading-space`
-- **Extra (5)** — referenced in source, not upstream supported:
+- **Extra (7)** — referenced in source, not upstream supported:
+  - `--md-comp-assist-chip-container-elevation`
+  - `--md-comp-assist-chip-disabled-icon-color`
   - `--md-comp-assist-chip-flat-container-elevation`
   - `--md-comp-assist-chip-flat-disabled-outline-color`
   - `--md-comp-assist-chip-flat-outline-color`
@@ -51,7 +59,7 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-checkbox-*` · Our prefix: `--md-comp-checkbox-*`
 - Contract: 39 supported, 27 unsupported
-- **Missing (19)** — upstream supported, not referenced in source:
+- **Missing (22)** — upstream supported, not referenced in source:
   - `--md-comp-checkbox-container-shape-end-end` → upstream `--md-checkbox-container-shape-end-end`
   - `--md-comp-checkbox-container-shape-end-start` → upstream `--md-checkbox-container-shape-end-start`
   - `--md-comp-checkbox-container-shape-start-end` → upstream `--md-checkbox-container-shape-start-end`
@@ -71,29 +79,52 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-checkbox-pressed-outline-width` → upstream `--md-checkbox-pressed-outline-width`
   - `--md-comp-checkbox-pressed-state-layer-color` → upstream `--md-checkbox-pressed-state-layer-color`
   - `--md-comp-checkbox-pressed-state-layer-opacity` → upstream `--md-checkbox-pressed-state-layer-opacity`
-- **Extra (7)** — referenced in source, not upstream supported:
+  - `--md-comp-checkbox-selected-disabled-container-opacity` → upstream `--md-checkbox-selected-disabled-container-opacity`
+  - `--md-comp-checkbox-selected-focus-container-color` → upstream `--md-checkbox-selected-focus-container-color`
+  - `--md-comp-checkbox-selected-focus-icon-color` → upstream `--md-checkbox-selected-focus-icon-color`
+- **Extra (25)** — referenced in source, not upstream supported:
+  - `--md-comp-checkbox-error-hover-state-layer-color`
+  - `--md-comp-checkbox-error-hover-state-layer-opacity`
+  - `--md-comp-checkbox-error-pressed-state-layer-color`
+  - `--md-comp-checkbox-error-pressed-state-layer-opacity`
   - `--md-comp-checkbox-selected-error-container-color`
+  - `--md-comp-checkbox-selected-error-hover-container-color`
+  - `--md-comp-checkbox-selected-error-hover-icon-color`
   - `--md-comp-checkbox-selected-error-icon-color`
+  - `--md-comp-checkbox-selected-error-pressed-container-color`
+  - `--md-comp-checkbox-selected-error-pressed-icon-color`
   - `--md-comp-checkbox-selected-outline-width`
   - `--md-comp-checkbox-unselected-disabled-outline-color`
+  - `--md-comp-checkbox-unselected-error-hover-outline-color`
   - `--md-comp-checkbox-unselected-error-outline-color`
+  - `--md-comp-checkbox-unselected-error-pressed-outline-color`
+  - `--md-comp-checkbox-unselected-hover-outline-color`
+  - `--md-comp-checkbox-unselected-hover-outline-width`
+  - `--md-comp-checkbox-unselected-hover-state-layer-color`
+  - `--md-comp-checkbox-unselected-hover-state-layer-opacity`
   - `--md-comp-checkbox-unselected-outline-color`
   - `--md-comp-checkbox-unselected-outline-width`
+  - `--md-comp-checkbox-unselected-pressed-outline-color`
+  - `--md-comp-checkbox-unselected-pressed-outline-width`
+  - `--md-comp-checkbox-unselected-pressed-state-layer-color`
+  - `--md-comp-checkbox-unselected-pressed-state-layer-opacity`
 
 ### `md-comp-circular-progress`
 
 - Upstream prefix: `--md-circular-progress-*` · Our prefix: `--md-comp-circular-progress-*`
 - Contract: 7 supported, 1 unsupported
-- **Missing (7)** — upstream supported, not referenced in source:
-  - `--md-comp-circular-progress-active-indicator-color` → upstream `--md-circular-progress-active-indicator-color`
+- **Missing (5)** — upstream supported, not referenced in source:
   - `--md-comp-circular-progress-active-indicator-width` → upstream `--md-circular-progress-active-indicator-width`
   - `--md-comp-circular-progress-four-color-active-indicator-four-color` → upstream `--md-circular-progress-four-color-active-indicator-four-color`
   - `--md-comp-circular-progress-four-color-active-indicator-one-color` → upstream `--md-circular-progress-four-color-active-indicator-one-color`
   - `--md-comp-circular-progress-four-color-active-indicator-three-color` → upstream `--md-circular-progress-four-color-active-indicator-three-color`
   - `--md-comp-circular-progress-four-color-active-indicator-two-color` → upstream `--md-circular-progress-four-color-active-indicator-two-color`
-  - `--md-comp-circular-progress-size` → upstream `--md-circular-progress-size`
-- **Extra (1)** — referenced in source, not upstream supported:
+- **Extra (5)** — referenced in source, not upstream supported:
+  - `--md-comp-circular-progress-active-shape`
   - `--md-comp-circular-progress-indicator-size`
+  - `--md-comp-circular-progress-stop-color`
+  - `--md-comp-circular-progress-track-color`
+  - `--md-comp-circular-progress-track-shape`
 
 ### `md-comp-dialog`
 
@@ -124,14 +155,14 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 - Upstream prefix: `--md-elevated-button-*` · Our prefix: `--md-comp-elevated-button-*`
 - Contract: 42 supported, 4 unsupported
 - **Missing (14)** — upstream supported, not referenced in source:
+  - `--md-comp-elevated-button-container-shadow-color` → upstream `--md-elevated-button-container-shadow-color`
   - `--md-comp-elevated-button-container-shape-end-end` → upstream `--md-elevated-button-container-shape-end-end`
   - `--md-comp-elevated-button-container-shape-end-start` → upstream `--md-elevated-button-container-shape-end-start`
   - `--md-comp-elevated-button-container-shape-start-end` → upstream `--md-elevated-button-container-shape-start-end`
   - `--md-comp-elevated-button-container-shape-start-start` → upstream `--md-elevated-button-container-shape-start-start`
+  - `--md-comp-elevated-button-disabled-container-opacity` → upstream `--md-elevated-button-disabled-container-opacity`
   - `--md-comp-elevated-button-disabled-icon-opacity` → upstream `--md-elevated-button-disabled-icon-opacity`
-  - `--md-comp-elevated-button-focus-icon-color` → upstream `--md-elevated-button-focus-icon-color`
-  - `--md-comp-elevated-button-hover-icon-color` → upstream `--md-elevated-button-hover-icon-color`
-  - `--md-comp-elevated-button-icon-size` → upstream `--md-elevated-button-icon-size`
+  - `--md-comp-elevated-button-disabled-label-text-opacity` → upstream `--md-elevated-button-disabled-label-text-opacity`
   - `--md-comp-elevated-button-leading-space` → upstream `--md-elevated-button-leading-space`
   - `--md-comp-elevated-button-trailing-space` → upstream `--md-elevated-button-trailing-space`
   - `--md-comp-elevated-button-with-leading-icon-leading-space` → upstream `--md-elevated-button-with-leading-icon-leading-space`
@@ -143,7 +174,9 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-elevated-card-*` · Our prefix: `--md-comp-elevated-card-*`
 - Contract: 4 supported, 17 unsupported
-- **Status: parity OK**
+- **Missing (2)** — upstream supported, not referenced in source:
+  - `--md-comp-elevated-card-container-elevation` → upstream `--md-elevated-card-container-elevation`
+  - `--md-comp-elevated-card-container-shadow-color` → upstream `--md-elevated-card-container-shadow-color`
 
 ### `md-comp-elevation`
 
@@ -157,11 +190,26 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-fab-*` · Our prefix: `--md-comp-fab-*`
 - Contract: 84 supported, 2 unsupported
-- **Missing (55)** — upstream supported, not referenced in source:
+- **Missing (73)** — upstream supported, not referenced in source:
+  - `--md-comp-fab-container-color` → upstream `--md-fab-container-color`
+  - `--md-comp-fab-container-elevation` → upstream `--md-fab-container-elevation`
+  - `--md-comp-fab-container-height` → upstream `--md-fab-container-height`
+  - `--md-comp-fab-container-shadow-color` → upstream `--md-fab-container-shadow-color`
+  - `--md-comp-fab-container-shape` → upstream `--md-fab-container-shape`
   - `--md-comp-fab-container-shape-end-end` → upstream `--md-fab-container-shape-end-end`
   - `--md-comp-fab-container-shape-end-start` → upstream `--md-fab-container-shape-end-start`
   - `--md-comp-fab-container-shape-start-end` → upstream `--md-fab-container-shape-start-end`
   - `--md-comp-fab-container-shape-start-start` → upstream `--md-fab-container-shape-start-start`
+  - `--md-comp-fab-container-width` → upstream `--md-fab-container-width`
+  - `--md-comp-fab-focus-container-elevation` → upstream `--md-fab-focus-container-elevation`
+  - `--md-comp-fab-focus-icon-color` → upstream `--md-fab-focus-icon-color`
+  - `--md-comp-fab-focus-label-text-color` → upstream `--md-fab-focus-label-text-color`
+  - `--md-comp-fab-hover-container-elevation` → upstream `--md-fab-hover-container-elevation`
+  - `--md-comp-fab-hover-icon-color` → upstream `--md-fab-hover-icon-color`
+  - `--md-comp-fab-hover-label-text-color` → upstream `--md-fab-hover-label-text-color`
+  - `--md-comp-fab-icon-color` → upstream `--md-fab-icon-color`
+  - `--md-comp-fab-icon-size` → upstream `--md-fab-icon-size`
+  - `--md-comp-fab-label-text-color` → upstream `--md-fab-label-text-color`
   - `--md-comp-fab-label-text-font` → upstream `--md-fab-label-text-font`
   - `--md-comp-fab-label-text-line-height` → upstream `--md-fab-label-text-line-height`
   - `--md-comp-fab-label-text-size` → upstream `--md-fab-label-text-size`
@@ -175,6 +223,9 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-fab-lowered-focus-container-elevation` → upstream `--md-fab-lowered-focus-container-elevation`
   - `--md-comp-fab-lowered-hover-container-elevation` → upstream `--md-fab-lowered-hover-container-elevation`
   - `--md-comp-fab-lowered-pressed-container-elevation` → upstream `--md-fab-lowered-pressed-container-elevation`
+  - `--md-comp-fab-pressed-container-elevation` → upstream `--md-fab-pressed-container-elevation`
+  - `--md-comp-fab-pressed-icon-color` → upstream `--md-fab-pressed-icon-color`
+  - `--md-comp-fab-pressed-label-text-color` → upstream `--md-fab-pressed-label-text-color`
   - `--md-comp-fab-primary-container-color` → upstream `--md-fab-primary-container-color`
   - `--md-comp-fab-primary-focus-icon-color` → upstream `--md-fab-primary-focus-icon-color`
   - `--md-comp-fab-primary-focus-label-text-color` → upstream `--md-fab-primary-focus-label-text-color`
@@ -213,7 +264,7 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-fab-tertiary-pressed-icon-color` → upstream `--md-fab-tertiary-pressed-icon-color`
   - `--md-comp-fab-tertiary-pressed-label-text-color` → upstream `--md-fab-tertiary-pressed-label-text-color`
   - `--md-comp-fab-tertiary-pressed-state-layer-color` → upstream `--md-fab-tertiary-pressed-state-layer-color`
-- **Extra (21)** — referenced in source, not upstream supported:
+- **Extra (18)** — referenced in source, not upstream supported:
   - `--md-comp-fab-baseline-container-shape`
   - `--md-comp-fab-medium-container-height`
   - `--md-comp-fab-medium-container-width`
@@ -231,10 +282,7 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-fab-menu-baseline-list-item-leading-space`
   - `--md-comp-fab-menu-baseline-list-item-trailing-space`
   - `--md-comp-fab-primary-container-container-color`
-  - `--md-comp-fab-primary-container-container-elevation`
-  - `--md-comp-fab-primary-container-hovered-container-elevation`
   - `--md-comp-fab-primary-container-icon-color`
-  - `--md-comp-fab-primary-container-pressed-container-elevation`
 
 ### `md-comp-fab-branded`
 
@@ -286,14 +334,14 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 - Upstream prefix: `--md-filled-button-*` · Our prefix: `--md-comp-filled-button-*`
 - Contract: 42 supported, 4 unsupported
 - **Missing (14)** — upstream supported, not referenced in source:
+  - `--md-comp-filled-button-container-shadow-color` → upstream `--md-filled-button-container-shadow-color`
   - `--md-comp-filled-button-container-shape-end-end` → upstream `--md-filled-button-container-shape-end-end`
   - `--md-comp-filled-button-container-shape-end-start` → upstream `--md-filled-button-container-shape-end-start`
   - `--md-comp-filled-button-container-shape-start-end` → upstream `--md-filled-button-container-shape-start-end`
   - `--md-comp-filled-button-container-shape-start-start` → upstream `--md-filled-button-container-shape-start-start`
+  - `--md-comp-filled-button-disabled-container-opacity` → upstream `--md-filled-button-disabled-container-opacity`
   - `--md-comp-filled-button-disabled-icon-opacity` → upstream `--md-filled-button-disabled-icon-opacity`
-  - `--md-comp-filled-button-focus-icon-color` → upstream `--md-filled-button-focus-icon-color`
-  - `--md-comp-filled-button-hover-icon-color` → upstream `--md-filled-button-hover-icon-color`
-  - `--md-comp-filled-button-icon-size` → upstream `--md-filled-button-icon-size`
+  - `--md-comp-filled-button-disabled-label-text-opacity` → upstream `--md-filled-button-disabled-label-text-opacity`
   - `--md-comp-filled-button-leading-space` → upstream `--md-filled-button-leading-space`
   - `--md-comp-filled-button-trailing-space` → upstream `--md-filled-button-trailing-space`
   - `--md-comp-filled-button-with-leading-icon-leading-space` → upstream `--md-filled-button-with-leading-icon-leading-space`
@@ -305,18 +353,16 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-filled-card-*` · Our prefix: `--md-comp-filled-card-*`
 - Contract: 4 supported, 17 unsupported
-- **Status: parity OK**
+- **Missing (2)** — upstream supported, not referenced in source:
+  - `--md-comp-filled-card-container-elevation` → upstream `--md-filled-card-container-elevation`
+  - `--md-comp-filled-card-container-shadow-color` → upstream `--md-filled-card-container-shadow-color`
 
 ### `md-comp-filled-field`
 
 - Upstream prefix: `--md-filled-field-*` · Our prefix: `--md-comp-filled-field-*`
 - Contract: 90 supported, 0 unsupported
-- **Missing (90)** — upstream supported, not referenced in source:
-  - `--md-comp-filled-field-active-indicator-color` → upstream `--md-filled-field-active-indicator-color`
-  - `--md-comp-filled-field-active-indicator-height` → upstream `--md-filled-field-active-indicator-height`
+- **Missing (75)** — upstream supported, not referenced in source:
   - `--md-comp-filled-field-bottom-space` → upstream `--md-filled-field-bottom-space`
-  - `--md-comp-filled-field-container-color` → upstream `--md-filled-field-container-color`
-  - `--md-comp-filled-field-container-shape` → upstream `--md-filled-field-container-shape`
   - `--md-comp-filled-field-container-shape-end-end` → upstream `--md-filled-field-container-shape-end-end`
   - `--md-comp-filled-field-container-shape-end-start` → upstream `--md-filled-field-container-shape-end-start`
   - `--md-comp-filled-field-container-shape-start-end` → upstream `--md-filled-field-container-shape-start-end`
@@ -327,10 +373,8 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-field-content-size` → upstream `--md-filled-field-content-size`
   - `--md-comp-filled-field-content-space` → upstream `--md-filled-field-content-space`
   - `--md-comp-filled-field-content-weight` → upstream `--md-filled-field-content-weight`
-  - `--md-comp-filled-field-disabled-active-indicator-color` → upstream `--md-filled-field-disabled-active-indicator-color`
   - `--md-comp-filled-field-disabled-active-indicator-height` → upstream `--md-filled-field-disabled-active-indicator-height`
   - `--md-comp-filled-field-disabled-active-indicator-opacity` → upstream `--md-filled-field-disabled-active-indicator-opacity`
-  - `--md-comp-filled-field-disabled-container-color` → upstream `--md-filled-field-disabled-container-color`
   - `--md-comp-filled-field-disabled-container-opacity` → upstream `--md-filled-field-disabled-container-opacity`
   - `--md-comp-filled-field-disabled-content-color` → upstream `--md-filled-field-disabled-content-color`
   - `--md-comp-filled-field-disabled-content-opacity` → upstream `--md-filled-field-disabled-content-opacity`
@@ -342,15 +386,12 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-field-disabled-supporting-text-opacity` → upstream `--md-filled-field-disabled-supporting-text-opacity`
   - `--md-comp-filled-field-disabled-trailing-content-color` → upstream `--md-filled-field-disabled-trailing-content-color`
   - `--md-comp-filled-field-disabled-trailing-content-opacity` → upstream `--md-filled-field-disabled-trailing-content-opacity`
-  - `--md-comp-filled-field-error-active-indicator-color` → upstream `--md-filled-field-error-active-indicator-color`
   - `--md-comp-filled-field-error-content-color` → upstream `--md-filled-field-error-content-color`
-  - `--md-comp-filled-field-error-focus-active-indicator-color` → upstream `--md-filled-field-error-focus-active-indicator-color`
   - `--md-comp-filled-field-error-focus-content-color` → upstream `--md-filled-field-error-focus-content-color`
   - `--md-comp-filled-field-error-focus-label-text-color` → upstream `--md-filled-field-error-focus-label-text-color`
   - `--md-comp-filled-field-error-focus-leading-content-color` → upstream `--md-filled-field-error-focus-leading-content-color`
   - `--md-comp-filled-field-error-focus-supporting-text-color` → upstream `--md-filled-field-error-focus-supporting-text-color`
   - `--md-comp-filled-field-error-focus-trailing-content-color` → upstream `--md-filled-field-error-focus-trailing-content-color`
-  - `--md-comp-filled-field-error-hover-active-indicator-color` → upstream `--md-filled-field-error-hover-active-indicator-color`
   - `--md-comp-filled-field-error-hover-content-color` → upstream `--md-filled-field-error-hover-content-color`
   - `--md-comp-filled-field-error-hover-label-text-color` → upstream `--md-filled-field-error-hover-label-text-color`
   - `--md-comp-filled-field-error-hover-leading-content-color` → upstream `--md-filled-field-error-hover-leading-content-color`
@@ -360,22 +401,16 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-field-error-hover-trailing-content-color` → upstream `--md-filled-field-error-hover-trailing-content-color`
   - `--md-comp-filled-field-error-label-text-color` → upstream `--md-filled-field-error-label-text-color`
   - `--md-comp-filled-field-error-leading-content-color` → upstream `--md-filled-field-error-leading-content-color`
-  - `--md-comp-filled-field-error-supporting-text-color` → upstream `--md-filled-field-error-supporting-text-color`
   - `--md-comp-filled-field-error-trailing-content-color` → upstream `--md-filled-field-error-trailing-content-color`
-  - `--md-comp-filled-field-focus-active-indicator-color` → upstream `--md-filled-field-focus-active-indicator-color`
-  - `--md-comp-filled-field-focus-active-indicator-height` → upstream `--md-filled-field-focus-active-indicator-height`
   - `--md-comp-filled-field-focus-content-color` → upstream `--md-filled-field-focus-content-color`
   - `--md-comp-filled-field-focus-label-text-color` → upstream `--md-filled-field-focus-label-text-color`
   - `--md-comp-filled-field-focus-leading-content-color` → upstream `--md-filled-field-focus-leading-content-color`
   - `--md-comp-filled-field-focus-supporting-text-color` → upstream `--md-filled-field-focus-supporting-text-color`
   - `--md-comp-filled-field-focus-trailing-content-color` → upstream `--md-filled-field-focus-trailing-content-color`
-  - `--md-comp-filled-field-hover-active-indicator-color` → upstream `--md-filled-field-hover-active-indicator-color`
   - `--md-comp-filled-field-hover-active-indicator-height` → upstream `--md-filled-field-hover-active-indicator-height`
   - `--md-comp-filled-field-hover-content-color` → upstream `--md-filled-field-hover-content-color`
   - `--md-comp-filled-field-hover-label-text-color` → upstream `--md-filled-field-hover-label-text-color`
   - `--md-comp-filled-field-hover-leading-content-color` → upstream `--md-filled-field-hover-leading-content-color`
-  - `--md-comp-filled-field-hover-state-layer-color` → upstream `--md-filled-field-hover-state-layer-color`
-  - `--md-comp-filled-field-hover-state-layer-opacity` → upstream `--md-filled-field-hover-state-layer-opacity`
   - `--md-comp-filled-field-hover-supporting-text-color` → upstream `--md-filled-field-hover-supporting-text-color`
   - `--md-comp-filled-field-hover-trailing-content-color` → upstream `--md-filled-field-hover-trailing-content-color`
   - `--md-comp-filled-field-label-text-color` → upstream `--md-filled-field-label-text-color`
@@ -402,16 +437,62 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-field-with-label-top-space` → upstream `--md-filled-field-with-label-top-space`
   - `--md-comp-filled-field-with-leading-content-leading-space` → upstream `--md-filled-field-with-leading-content-leading-space`
   - `--md-comp-filled-field-with-trailing-content-trailing-space` → upstream `--md-filled-field-with-trailing-content-trailing-space`
+- **Extra (39)** — referenced in source, not upstream supported:
+  - `--md-comp-filled-field-caret-color`
+  - `--md-comp-filled-field-disabled-input-color`
+  - `--md-comp-filled-field-disabled-label-color`
+  - `--md-comp-filled-field-disabled-leading-icon-color`
+  - `--md-comp-filled-field-disabled-supporting-color`
+  - `--md-comp-filled-field-disabled-trailing-icon-color`
+  - `--md-comp-filled-field-error-focus-caret-color`
+  - `--md-comp-filled-field-error-focus-input-color`
+  - `--md-comp-filled-field-error-focus-label-color`
+  - `--md-comp-filled-field-error-focus-leading-icon-color`
+  - `--md-comp-filled-field-error-focus-supporting-color`
+  - `--md-comp-filled-field-error-focus-trailing-icon-color`
+  - `--md-comp-filled-field-error-hover-input-color`
+  - `--md-comp-filled-field-error-hover-label-color`
+  - `--md-comp-filled-field-error-hover-leading-icon-color`
+  - `--md-comp-filled-field-error-hover-supporting-color`
+  - `--md-comp-filled-field-error-hover-trailing-icon-color`
+  - `--md-comp-filled-field-error-input-color`
+  - `--md-comp-filled-field-error-label-color`
+  - `--md-comp-filled-field-error-leading-icon-color`
+  - `--md-comp-filled-field-error-supporting-color`
+  - `--md-comp-filled-field-error-trailing-icon-color`
+  - `--md-comp-filled-field-focus-input-color`
+  - `--md-comp-filled-field-focus-label-color`
+  - `--md-comp-filled-field-focus-leading-icon-color`
+  - `--md-comp-filled-field-focus-supporting-color`
+  - `--md-comp-filled-field-focus-trailing-icon-color`
+  - `--md-comp-filled-field-hover-input-color`
+  - `--md-comp-filled-field-hover-label-color`
+  - `--md-comp-filled-field-hover-leading-icon-color`
+  - `--md-comp-filled-field-hover-supporting-color`
+  - `--md-comp-filled-field-hover-trailing-icon-color`
+  - `--md-comp-filled-field-input-color`
+  - `--md-comp-filled-field-label-color`
+  - `--md-comp-filled-field-leading-icon-color`
+  - `--md-comp-filled-field-leading-icon-size`
+  - `--md-comp-filled-field-supporting-color`
+  - `--md-comp-filled-field-trailing-icon-color`
+  - `--md-comp-filled-field-trailing-icon-size`
 
 ### `md-comp-filled-icon-button`
 
 - Upstream prefix: `--md-filled-icon-button-*` · Our prefix: `--md-comp-filled-icon-button-*`
 - Contract: 35 supported, 4 unsupported
-- **Missing (17)** — upstream supported, not referenced in source:
+- **Missing (23)** — upstream supported, not referenced in source:
+  - `--md-comp-filled-icon-button-container-height` → upstream `--md-filled-icon-button-container-height`
+  - `--md-comp-filled-icon-button-container-shape` → upstream `--md-filled-icon-button-container-shape`
   - `--md-comp-filled-icon-button-container-shape-end-end` → upstream `--md-filled-icon-button-container-shape-end-end`
   - `--md-comp-filled-icon-button-container-shape-end-start` → upstream `--md-filled-icon-button-container-shape-end-start`
   - `--md-comp-filled-icon-button-container-shape-start-end` → upstream `--md-filled-icon-button-container-shape-start-end`
   - `--md-comp-filled-icon-button-container-shape-start-start` → upstream `--md-filled-icon-button-container-shape-start-start`
+  - `--md-comp-filled-icon-button-container-width` → upstream `--md-filled-icon-button-container-width`
+  - `--md-comp-filled-icon-button-disabled-container-opacity` → upstream `--md-filled-icon-button-disabled-container-opacity`
+  - `--md-comp-filled-icon-button-disabled-icon-opacity` → upstream `--md-filled-icon-button-disabled-icon-opacity`
+  - `--md-comp-filled-icon-button-icon-size` → upstream `--md-filled-icon-button-icon-size`
   - `--md-comp-filled-icon-button-toggle-focus-icon-color` → upstream `--md-filled-icon-button-toggle-focus-icon-color`
   - `--md-comp-filled-icon-button-toggle-hover-icon-color` → upstream `--md-filled-icon-button-toggle-hover-icon-color`
   - `--md-comp-filled-icon-button-toggle-hover-state-layer-color` → upstream `--md-filled-icon-button-toggle-hover-state-layer-color`
@@ -425,6 +506,10 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-icon-button-toggle-selected-pressed-icon-color` → upstream `--md-filled-icon-button-toggle-selected-pressed-icon-color`
   - `--md-comp-filled-icon-button-toggle-selected-pressed-state-layer-color` → upstream `--md-filled-icon-button-toggle-selected-pressed-state-layer-color`
   - `--md-comp-filled-icon-button-unselected-container-color` → upstream `--md-filled-icon-button-unselected-container-color`
+- **Extra (3)** — referenced in source, not upstream supported:
+  - `--md-comp-filled-icon-button-color`
+  - `--md-comp-filled-icon-button-disabled-color`
+  - `--md-comp-filled-icon-button-selected-color`
 
 ### `md-comp-filled-select`
 
@@ -511,19 +596,74 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-select-text-field-supporting-text-weight` → upstream `--md-filled-select-text-field-supporting-text-weight`
   - `--md-comp-filled-select-text-field-trailing-icon-color` → upstream `--md-filled-select-text-field-trailing-icon-color`
   - `--md-comp-filled-select-text-field-trailing-icon-size` → upstream `--md-filled-select-text-field-trailing-icon-size`
+- **Extra (56)** — referenced in source, not upstream supported:
+  - `--md-comp-filled-select-active-indicator-color`
+  - `--md-comp-filled-select-active-indicator-height`
+  - `--md-comp-filled-select-caret-color`
+  - `--md-comp-filled-select-container-color`
+  - `--md-comp-filled-select-container-elevation`
+  - `--md-comp-filled-select-container-shape`
+  - `--md-comp-filled-select-disabled-active-indicator-color`
+  - `--md-comp-filled-select-disabled-container-color`
+  - `--md-comp-filled-select-disabled-input-color`
+  - `--md-comp-filled-select-disabled-label-color`
+  - `--md-comp-filled-select-disabled-leading-icon-color`
+  - `--md-comp-filled-select-disabled-supporting-color`
+  - `--md-comp-filled-select-disabled-trailing-icon-color`
+  - `--md-comp-filled-select-error-active-indicator-color`
+  - `--md-comp-filled-select-error-focus-active-indicator-color`
+  - `--md-comp-filled-select-error-focus-caret-color`
+  - `--md-comp-filled-select-error-focus-input-color`
+  - `--md-comp-filled-select-error-focus-label-color`
+  - `--md-comp-filled-select-error-focus-leading-icon-color`
+  - `--md-comp-filled-select-error-focus-supporting-color`
+  - `--md-comp-filled-select-error-focus-trailing-icon-color`
+  - `--md-comp-filled-select-error-hover-active-indicator-color`
+  - `--md-comp-filled-select-error-hover-input-color`
+  - `--md-comp-filled-select-error-hover-label-color`
+  - `--md-comp-filled-select-error-hover-leading-icon-color`
+  - `--md-comp-filled-select-error-hover-supporting-color`
+  - `--md-comp-filled-select-error-hover-trailing-icon-color`
+  - `--md-comp-filled-select-error-input-color`
+  - `--md-comp-filled-select-error-label-color`
+  - `--md-comp-filled-select-error-leading-icon-color`
+  - `--md-comp-filled-select-error-supporting-color`
+  - `--md-comp-filled-select-error-supporting-text-color`
+  - `--md-comp-filled-select-error-trailing-icon-color`
+  - `--md-comp-filled-select-focus-active-indicator-color`
+  - `--md-comp-filled-select-focus-active-indicator-height`
+  - `--md-comp-filled-select-focus-input-color`
+  - `--md-comp-filled-select-focus-label-color`
+  - `--md-comp-filled-select-focus-leading-icon-color`
+  - `--md-comp-filled-select-focus-supporting-color`
+  - `--md-comp-filled-select-focus-trailing-icon-color`
+  - `--md-comp-filled-select-hover-active-indicator-color`
+  - `--md-comp-filled-select-hover-input-color`
+  - `--md-comp-filled-select-hover-label-color`
+  - `--md-comp-filled-select-hover-leading-icon-color`
+  - `--md-comp-filled-select-hover-state-layer-color`
+  - `--md-comp-filled-select-hover-state-layer-opacity`
+  - `--md-comp-filled-select-hover-supporting-color`
+  - `--md-comp-filled-select-hover-trailing-icon-color`
+  - `--md-comp-filled-select-input-color`
+  - `--md-comp-filled-select-label-color`
+  - `--md-comp-filled-select-leading-icon-color`
+  - `--md-comp-filled-select-leading-icon-size`
+  - `--md-comp-filled-select-menu-list-item-leading-icon-color`
+  - `--md-comp-filled-select-supporting-color`
+  - `--md-comp-filled-select-trailing-icon-color`
+  - `--md-comp-filled-select-trailing-icon-size`
 
 ### `md-comp-filled-text-field`
 
 - Upstream prefix: `--md-filled-text-field-*` · Our prefix: `--md-comp-filled-text-field-*`
 - Contract: 97 supported, 6 unsupported
-- **Missing (88)** — upstream supported, not referenced in source:
+- **Missing (64)** — upstream supported, not referenced in source:
   - `--md-comp-filled-text-field-bottom-space` → upstream `--md-filled-text-field-bottom-space`
-  - `--md-comp-filled-text-field-caret-color` → upstream `--md-filled-text-field-caret-color`
   - `--md-comp-filled-text-field-container-shape-end-end` → upstream `--md-filled-text-field-container-shape-end-end`
   - `--md-comp-filled-text-field-container-shape-end-start` → upstream `--md-filled-text-field-container-shape-end-start`
   - `--md-comp-filled-text-field-container-shape-start-end` → upstream `--md-filled-text-field-container-shape-start-end`
   - `--md-comp-filled-text-field-container-shape-start-start` → upstream `--md-filled-text-field-container-shape-start-start`
-  - `--md-comp-filled-text-field-disabled-active-indicator-color` → upstream `--md-filled-text-field-disabled-active-indicator-color`
   - `--md-comp-filled-text-field-disabled-active-indicator-height` → upstream `--md-filled-text-field-disabled-active-indicator-height`
   - `--md-comp-filled-text-field-disabled-active-indicator-opacity` → upstream `--md-filled-text-field-disabled-active-indicator-opacity`
   - `--md-comp-filled-text-field-disabled-container-opacity` → upstream `--md-filled-text-field-disabled-container-opacity`
@@ -531,49 +671,30 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-text-field-disabled-input-text-opacity` → upstream `--md-filled-text-field-disabled-input-text-opacity`
   - `--md-comp-filled-text-field-disabled-label-text-color` → upstream `--md-filled-text-field-disabled-label-text-color`
   - `--md-comp-filled-text-field-disabled-label-text-opacity` → upstream `--md-filled-text-field-disabled-label-text-opacity`
-  - `--md-comp-filled-text-field-disabled-leading-icon-color` → upstream `--md-filled-text-field-disabled-leading-icon-color`
   - `--md-comp-filled-text-field-disabled-leading-icon-opacity` → upstream `--md-filled-text-field-disabled-leading-icon-opacity`
   - `--md-comp-filled-text-field-disabled-supporting-text-color` → upstream `--md-filled-text-field-disabled-supporting-text-color`
   - `--md-comp-filled-text-field-disabled-supporting-text-opacity` → upstream `--md-filled-text-field-disabled-supporting-text-opacity`
-  - `--md-comp-filled-text-field-disabled-trailing-icon-color` → upstream `--md-filled-text-field-disabled-trailing-icon-color`
   - `--md-comp-filled-text-field-disabled-trailing-icon-opacity` → upstream `--md-filled-text-field-disabled-trailing-icon-opacity`
-  - `--md-comp-filled-text-field-error-focus-active-indicator-color` → upstream `--md-filled-text-field-error-focus-active-indicator-color`
-  - `--md-comp-filled-text-field-error-focus-caret-color` → upstream `--md-filled-text-field-error-focus-caret-color`
   - `--md-comp-filled-text-field-error-focus-input-text-color` → upstream `--md-filled-text-field-error-focus-input-text-color`
   - `--md-comp-filled-text-field-error-focus-label-text-color` → upstream `--md-filled-text-field-error-focus-label-text-color`
-  - `--md-comp-filled-text-field-error-focus-leading-icon-color` → upstream `--md-filled-text-field-error-focus-leading-icon-color`
   - `--md-comp-filled-text-field-error-focus-supporting-text-color` → upstream `--md-filled-text-field-error-focus-supporting-text-color`
-  - `--md-comp-filled-text-field-error-focus-trailing-icon-color` → upstream `--md-filled-text-field-error-focus-trailing-icon-color`
-  - `--md-comp-filled-text-field-error-hover-active-indicator-color` → upstream `--md-filled-text-field-error-hover-active-indicator-color`
   - `--md-comp-filled-text-field-error-hover-input-text-color` → upstream `--md-filled-text-field-error-hover-input-text-color`
   - `--md-comp-filled-text-field-error-hover-label-text-color` → upstream `--md-filled-text-field-error-hover-label-text-color`
-  - `--md-comp-filled-text-field-error-hover-leading-icon-color` → upstream `--md-filled-text-field-error-hover-leading-icon-color`
   - `--md-comp-filled-text-field-error-hover-state-layer-color` → upstream `--md-filled-text-field-error-hover-state-layer-color`
   - `--md-comp-filled-text-field-error-hover-state-layer-opacity` → upstream `--md-filled-text-field-error-hover-state-layer-opacity`
   - `--md-comp-filled-text-field-error-hover-supporting-text-color` → upstream `--md-filled-text-field-error-hover-supporting-text-color`
-  - `--md-comp-filled-text-field-error-hover-trailing-icon-color` → upstream `--md-filled-text-field-error-hover-trailing-icon-color`
   - `--md-comp-filled-text-field-error-input-text-color` → upstream `--md-filled-text-field-error-input-text-color`
   - `--md-comp-filled-text-field-error-label-text-color` → upstream `--md-filled-text-field-error-label-text-color`
-  - `--md-comp-filled-text-field-error-leading-icon-color` → upstream `--md-filled-text-field-error-leading-icon-color`
-  - `--md-comp-filled-text-field-error-trailing-icon-color` → upstream `--md-filled-text-field-error-trailing-icon-color`
-  - `--md-comp-filled-text-field-focus-active-indicator-color` → upstream `--md-filled-text-field-focus-active-indicator-color`
-  - `--md-comp-filled-text-field-focus-active-indicator-height` → upstream `--md-filled-text-field-focus-active-indicator-height`
   - `--md-comp-filled-text-field-focus-caret-color` → upstream `--md-filled-text-field-focus-caret-color`
   - `--md-comp-filled-text-field-focus-input-text-color` → upstream `--md-filled-text-field-focus-input-text-color`
   - `--md-comp-filled-text-field-focus-label-text-color` → upstream `--md-filled-text-field-focus-label-text-color`
-  - `--md-comp-filled-text-field-focus-leading-icon-color` → upstream `--md-filled-text-field-focus-leading-icon-color`
   - `--md-comp-filled-text-field-focus-supporting-text-color` → upstream `--md-filled-text-field-focus-supporting-text-color`
-  - `--md-comp-filled-text-field-focus-trailing-icon-color` → upstream `--md-filled-text-field-focus-trailing-icon-color`
-  - `--md-comp-filled-text-field-hover-active-indicator-color` → upstream `--md-filled-text-field-hover-active-indicator-color`
   - `--md-comp-filled-text-field-hover-active-indicator-height` → upstream `--md-filled-text-field-hover-active-indicator-height`
   - `--md-comp-filled-text-field-hover-input-text-color` → upstream `--md-filled-text-field-hover-input-text-color`
   - `--md-comp-filled-text-field-hover-label-text-color` → upstream `--md-filled-text-field-hover-label-text-color`
-  - `--md-comp-filled-text-field-hover-leading-icon-color` → upstream `--md-filled-text-field-hover-leading-icon-color`
-  - `--md-comp-filled-text-field-hover-state-layer-color` → upstream `--md-filled-text-field-hover-state-layer-color`
-  - `--md-comp-filled-text-field-hover-state-layer-opacity` → upstream `--md-filled-text-field-hover-state-layer-opacity`
   - `--md-comp-filled-text-field-hover-supporting-text-color` → upstream `--md-filled-text-field-hover-supporting-text-color`
-  - `--md-comp-filled-text-field-hover-trailing-icon-color` → upstream `--md-filled-text-field-hover-trailing-icon-color`
   - `--md-comp-filled-text-field-icon-input-space` → upstream `--md-filled-text-field-icon-input-space`
+  - `--md-comp-filled-text-field-input-text-color` → upstream `--md-filled-text-field-input-text-color`
   - `--md-comp-filled-text-field-input-text-font` → upstream `--md-filled-text-field-input-text-font`
   - `--md-comp-filled-text-field-input-text-line-height` → upstream `--md-filled-text-field-input-text-line-height`
   - `--md-comp-filled-text-field-input-text-placeholder-color` → upstream `--md-filled-text-field-input-text-placeholder-color`
@@ -590,38 +711,54 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-text-field-label-text-populated-size` → upstream `--md-filled-text-field-label-text-populated-size`
   - `--md-comp-filled-text-field-label-text-size` → upstream `--md-filled-text-field-label-text-size`
   - `--md-comp-filled-text-field-label-text-weight` → upstream `--md-filled-text-field-label-text-weight`
-  - `--md-comp-filled-text-field-leading-icon-color` → upstream `--md-filled-text-field-leading-icon-color`
-  - `--md-comp-filled-text-field-leading-icon-size` → upstream `--md-filled-text-field-leading-icon-size`
   - `--md-comp-filled-text-field-leading-space` → upstream `--md-filled-text-field-leading-space`
+  - `--md-comp-filled-text-field-supporting-text-color` → upstream `--md-filled-text-field-supporting-text-color`
   - `--md-comp-filled-text-field-supporting-text-font` → upstream `--md-filled-text-field-supporting-text-font`
   - `--md-comp-filled-text-field-supporting-text-line-height` → upstream `--md-filled-text-field-supporting-text-line-height`
   - `--md-comp-filled-text-field-supporting-text-size` → upstream `--md-filled-text-field-supporting-text-size`
   - `--md-comp-filled-text-field-supporting-text-weight` → upstream `--md-filled-text-field-supporting-text-weight`
   - `--md-comp-filled-text-field-top-space` → upstream `--md-filled-text-field-top-space`
-  - `--md-comp-filled-text-field-trailing-icon-color` → upstream `--md-filled-text-field-trailing-icon-color`
-  - `--md-comp-filled-text-field-trailing-icon-size` → upstream `--md-filled-text-field-trailing-icon-size`
   - `--md-comp-filled-text-field-trailing-space` → upstream `--md-filled-text-field-trailing-space`
   - `--md-comp-filled-text-field-with-label-bottom-space` → upstream `--md-filled-text-field-with-label-bottom-space`
   - `--md-comp-filled-text-field-with-label-top-space` → upstream `--md-filled-text-field-with-label-top-space`
   - `--md-comp-filled-text-field-with-leading-icon-leading-space` → upstream `--md-filled-text-field-with-leading-icon-leading-space`
   - `--md-comp-filled-text-field-with-trailing-icon-trailing-space` → upstream `--md-filled-text-field-with-trailing-icon-trailing-space`
-- **Extra (5)** — referenced in source, not upstream supported:
+- **Extra (21)** — referenced in source, not upstream supported:
+  - `--md-comp-filled-text-field-disabled-input-color`
+  - `--md-comp-filled-text-field-disabled-label-color`
+  - `--md-comp-filled-text-field-disabled-supporting-color`
+  - `--md-comp-filled-text-field-error-focus-input-color`
   - `--md-comp-filled-text-field-error-focus-label-color`
+  - `--md-comp-filled-text-field-error-focus-supporting-color`
+  - `--md-comp-filled-text-field-error-hover-input-color`
+  - `--md-comp-filled-text-field-error-hover-label-color`
+  - `--md-comp-filled-text-field-error-hover-supporting-color`
+  - `--md-comp-filled-text-field-error-input-color`
+  - `--md-comp-filled-text-field-error-label-color`
   - `--md-comp-filled-text-field-error-supporting-color`
+  - `--md-comp-filled-text-field-focus-input-color`
   - `--md-comp-filled-text-field-focus-label-color`
+  - `--md-comp-filled-text-field-focus-supporting-color`
+  - `--md-comp-filled-text-field-hover-input-color`
+  - `--md-comp-filled-text-field-hover-label-color`
+  - `--md-comp-filled-text-field-hover-supporting-color`
   - `--md-comp-filled-text-field-input-color`
+  - `--md-comp-filled-text-field-label-color`
   - `--md-comp-filled-text-field-supporting-color`
 
 ### `md-comp-filled-tonal-button`
 
 - Upstream prefix: `--md-filled-tonal-button-*` · Our prefix: `--md-comp-filled-tonal-button-*`
 - Contract: 42 supported, 4 unsupported
-- **Missing (11)** — upstream supported, not referenced in source:
+- **Missing (14)** — upstream supported, not referenced in source:
+  - `--md-comp-filled-tonal-button-container-shadow-color` → upstream `--md-filled-tonal-button-container-shadow-color`
   - `--md-comp-filled-tonal-button-container-shape-end-end` → upstream `--md-filled-tonal-button-container-shape-end-end`
   - `--md-comp-filled-tonal-button-container-shape-end-start` → upstream `--md-filled-tonal-button-container-shape-end-start`
   - `--md-comp-filled-tonal-button-container-shape-start-end` → upstream `--md-filled-tonal-button-container-shape-start-end`
   - `--md-comp-filled-tonal-button-container-shape-start-start` → upstream `--md-filled-tonal-button-container-shape-start-start`
+  - `--md-comp-filled-tonal-button-disabled-container-opacity` → upstream `--md-filled-tonal-button-disabled-container-opacity`
   - `--md-comp-filled-tonal-button-disabled-icon-opacity` → upstream `--md-filled-tonal-button-disabled-icon-opacity`
+  - `--md-comp-filled-tonal-button-disabled-label-text-opacity` → upstream `--md-filled-tonal-button-disabled-label-text-opacity`
   - `--md-comp-filled-tonal-button-leading-space` → upstream `--md-filled-tonal-button-leading-space`
   - `--md-comp-filled-tonal-button-trailing-space` → upstream `--md-filled-tonal-button-trailing-space`
   - `--md-comp-filled-tonal-button-with-leading-icon-leading-space` → upstream `--md-filled-tonal-button-with-leading-icon-leading-space`
@@ -633,11 +770,17 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-filled-tonal-icon-button-*` · Our prefix: `--md-comp-filled-tonal-icon-button-*`
 - Contract: 35 supported, 4 unsupported
-- **Missing (17)** — upstream supported, not referenced in source:
+- **Missing (23)** — upstream supported, not referenced in source:
+  - `--md-comp-filled-tonal-icon-button-container-height` → upstream `--md-filled-tonal-icon-button-container-height`
+  - `--md-comp-filled-tonal-icon-button-container-shape` → upstream `--md-filled-tonal-icon-button-container-shape`
   - `--md-comp-filled-tonal-icon-button-container-shape-end-end` → upstream `--md-filled-tonal-icon-button-container-shape-end-end`
   - `--md-comp-filled-tonal-icon-button-container-shape-end-start` → upstream `--md-filled-tonal-icon-button-container-shape-end-start`
   - `--md-comp-filled-tonal-icon-button-container-shape-start-end` → upstream `--md-filled-tonal-icon-button-container-shape-start-end`
   - `--md-comp-filled-tonal-icon-button-container-shape-start-start` → upstream `--md-filled-tonal-icon-button-container-shape-start-start`
+  - `--md-comp-filled-tonal-icon-button-container-width` → upstream `--md-filled-tonal-icon-button-container-width`
+  - `--md-comp-filled-tonal-icon-button-disabled-container-opacity` → upstream `--md-filled-tonal-icon-button-disabled-container-opacity`
+  - `--md-comp-filled-tonal-icon-button-disabled-icon-opacity` → upstream `--md-filled-tonal-icon-button-disabled-icon-opacity`
+  - `--md-comp-filled-tonal-icon-button-icon-size` → upstream `--md-filled-tonal-icon-button-icon-size`
   - `--md-comp-filled-tonal-icon-button-toggle-focus-icon-color` → upstream `--md-filled-tonal-icon-button-toggle-focus-icon-color`
   - `--md-comp-filled-tonal-icon-button-toggle-hover-icon-color` → upstream `--md-filled-tonal-icon-button-toggle-hover-icon-color`
   - `--md-comp-filled-tonal-icon-button-toggle-hover-state-layer-color` → upstream `--md-filled-tonal-icon-button-toggle-hover-state-layer-color`
@@ -651,83 +794,75 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-filled-tonal-icon-button-toggle-selected-pressed-icon-color` → upstream `--md-filled-tonal-icon-button-toggle-selected-pressed-icon-color`
   - `--md-comp-filled-tonal-icon-button-toggle-selected-pressed-state-layer-color` → upstream `--md-filled-tonal-icon-button-toggle-selected-pressed-state-layer-color`
   - `--md-comp-filled-tonal-icon-button-unselected-container-color` → upstream `--md-filled-tonal-icon-button-unselected-container-color`
+- **Extra (3)** — referenced in source, not upstream supported:
+  - `--md-comp-filled-tonal-icon-button-color`
+  - `--md-comp-filled-tonal-icon-button-disabled-color`
+  - `--md-comp-filled-tonal-icon-button-selected-color`
 
 ### `md-comp-filter-chip`
 
 - Upstream prefix: `--md-filter-chip-*` · Our prefix: `--md-comp-filter-chip-*`
 - Contract: 73 supported, 24 unsupported
-- **Missing (65)** — upstream supported, not referenced in source:
+- **Missing (40)** — upstream supported, not referenced in source:
   - `--md-comp-filter-chip-container-shape-end-end` → upstream `--md-filter-chip-container-shape-end-end`
   - `--md-comp-filter-chip-container-shape-end-start` → upstream `--md-filter-chip-container-shape-end-start`
   - `--md-comp-filter-chip-container-shape-start-end` → upstream `--md-filter-chip-container-shape-start-end`
   - `--md-comp-filter-chip-container-shape-start-start` → upstream `--md-filter-chip-container-shape-start-start`
   - `--md-comp-filter-chip-disabled-label-text-opacity` → upstream `--md-filter-chip-disabled-label-text-opacity`
-  - `--md-comp-filter-chip-disabled-leading-icon-color` → upstream `--md-filter-chip-disabled-leading-icon-color`
   - `--md-comp-filter-chip-disabled-leading-icon-opacity` → upstream `--md-filter-chip-disabled-leading-icon-opacity`
   - `--md-comp-filter-chip-disabled-outline-color` → upstream `--md-filter-chip-disabled-outline-color`
   - `--md-comp-filter-chip-disabled-outline-opacity` → upstream `--md-filter-chip-disabled-outline-opacity`
-  - `--md-comp-filter-chip-disabled-selected-container-color` → upstream `--md-filter-chip-disabled-selected-container-color`
   - `--md-comp-filter-chip-disabled-selected-container-opacity` → upstream `--md-filter-chip-disabled-selected-container-opacity`
   - `--md-comp-filter-chip-disabled-trailing-icon-color` → upstream `--md-filter-chip-disabled-trailing-icon-color`
   - `--md-comp-filter-chip-disabled-trailing-icon-opacity` → upstream `--md-filter-chip-disabled-trailing-icon-opacity`
-  - `--md-comp-filter-chip-elevated-container-color` → upstream `--md-filter-chip-elevated-container-color`
   - `--md-comp-filter-chip-elevated-container-shadow-color` → upstream `--md-filter-chip-elevated-container-shadow-color`
   - `--md-comp-filter-chip-elevated-disabled-container-elevation` → upstream `--md-filter-chip-elevated-disabled-container-elevation`
   - `--md-comp-filter-chip-elevated-disabled-container-opacity` → upstream `--md-filter-chip-elevated-disabled-container-opacity`
-  - `--md-comp-filter-chip-elevated-focus-container-elevation` → upstream `--md-filter-chip-elevated-focus-container-elevation`
-  - `--md-comp-filter-chip-elevated-hover-container-elevation` → upstream `--md-filter-chip-elevated-hover-container-elevation`
-  - `--md-comp-filter-chip-elevated-pressed-container-elevation` → upstream `--md-filter-chip-elevated-pressed-container-elevation`
-  - `--md-comp-filter-chip-focus-label-text-color` → upstream `--md-filter-chip-focus-label-text-color`
   - `--md-comp-filter-chip-focus-leading-icon-color` → upstream `--md-filter-chip-focus-leading-icon-color`
   - `--md-comp-filter-chip-focus-outline-color` → upstream `--md-filter-chip-focus-outline-color`
   - `--md-comp-filter-chip-focus-trailing-icon-color` → upstream `--md-filter-chip-focus-trailing-icon-color`
-  - `--md-comp-filter-chip-hover-label-text-color` → upstream `--md-filter-chip-hover-label-text-color`
   - `--md-comp-filter-chip-hover-leading-icon-color` → upstream `--md-filter-chip-hover-leading-icon-color`
-  - `--md-comp-filter-chip-hover-state-layer-color` → upstream `--md-filter-chip-hover-state-layer-color`
-  - `--md-comp-filter-chip-hover-state-layer-opacity` → upstream `--md-filter-chip-hover-state-layer-opacity`
   - `--md-comp-filter-chip-hover-trailing-icon-color` → upstream `--md-filter-chip-hover-trailing-icon-color`
   - `--md-comp-filter-chip-icon-label-space` → upstream `--md-filter-chip-icon-label-space`
-  - `--md-comp-filter-chip-label-text-color` → upstream `--md-filter-chip-label-text-color`
   - `--md-comp-filter-chip-label-text-font` → upstream `--md-filter-chip-label-text-font`
   - `--md-comp-filter-chip-label-text-line-height` → upstream `--md-filter-chip-label-text-line-height`
   - `--md-comp-filter-chip-label-text-size` → upstream `--md-filter-chip-label-text-size`
   - `--md-comp-filter-chip-label-text-weight` → upstream `--md-filter-chip-label-text-weight`
-  - `--md-comp-filter-chip-leading-icon-color` → upstream `--md-filter-chip-leading-icon-color`
   - `--md-comp-filter-chip-leading-space` → upstream `--md-filter-chip-leading-space`
   - `--md-comp-filter-chip-outline-color` → upstream `--md-filter-chip-outline-color`
   - `--md-comp-filter-chip-outline-width` → upstream `--md-filter-chip-outline-width`
-  - `--md-comp-filter-chip-pressed-label-text-color` → upstream `--md-filter-chip-pressed-label-text-color`
   - `--md-comp-filter-chip-pressed-leading-icon-color` → upstream `--md-filter-chip-pressed-leading-icon-color`
-  - `--md-comp-filter-chip-pressed-state-layer-color` → upstream `--md-filter-chip-pressed-state-layer-color`
-  - `--md-comp-filter-chip-pressed-state-layer-opacity` → upstream `--md-filter-chip-pressed-state-layer-opacity`
   - `--md-comp-filter-chip-pressed-trailing-icon-color` → upstream `--md-filter-chip-pressed-trailing-icon-color`
-  - `--md-comp-filter-chip-selected-container-color` → upstream `--md-filter-chip-selected-container-color`
-  - `--md-comp-filter-chip-selected-focus-label-text-color` → upstream `--md-filter-chip-selected-focus-label-text-color`
   - `--md-comp-filter-chip-selected-focus-leading-icon-color` → upstream `--md-filter-chip-selected-focus-leading-icon-color`
   - `--md-comp-filter-chip-selected-focus-trailing-icon-color` → upstream `--md-filter-chip-selected-focus-trailing-icon-color`
-  - `--md-comp-filter-chip-selected-hover-label-text-color` → upstream `--md-filter-chip-selected-hover-label-text-color`
   - `--md-comp-filter-chip-selected-hover-leading-icon-color` → upstream `--md-filter-chip-selected-hover-leading-icon-color`
-  - `--md-comp-filter-chip-selected-hover-state-layer-color` → upstream `--md-filter-chip-selected-hover-state-layer-color`
-  - `--md-comp-filter-chip-selected-hover-state-layer-opacity` → upstream `--md-filter-chip-selected-hover-state-layer-opacity`
   - `--md-comp-filter-chip-selected-hover-trailing-icon-color` → upstream `--md-filter-chip-selected-hover-trailing-icon-color`
-  - `--md-comp-filter-chip-selected-leading-icon-color` → upstream `--md-filter-chip-selected-leading-icon-color`
-  - `--md-comp-filter-chip-selected-outline-width` → upstream `--md-filter-chip-selected-outline-width`
-  - `--md-comp-filter-chip-selected-pressed-label-text-color` → upstream `--md-filter-chip-selected-pressed-label-text-color`
   - `--md-comp-filter-chip-selected-pressed-leading-icon-color` → upstream `--md-filter-chip-selected-pressed-leading-icon-color`
-  - `--md-comp-filter-chip-selected-pressed-state-layer-color` → upstream `--md-filter-chip-selected-pressed-state-layer-color`
-  - `--md-comp-filter-chip-selected-pressed-state-layer-opacity` → upstream `--md-filter-chip-selected-pressed-state-layer-opacity`
   - `--md-comp-filter-chip-selected-pressed-trailing-icon-color` → upstream `--md-filter-chip-selected-pressed-trailing-icon-color`
   - `--md-comp-filter-chip-selected-trailing-icon-color` → upstream `--md-filter-chip-selected-trailing-icon-color`
   - `--md-comp-filter-chip-trailing-icon-color` → upstream `--md-filter-chip-trailing-icon-color`
   - `--md-comp-filter-chip-trailing-space` → upstream `--md-filter-chip-trailing-space`
   - `--md-comp-filter-chip-with-leading-icon-leading-space` → upstream `--md-filter-chip-with-leading-icon-leading-space`
   - `--md-comp-filter-chip-with-trailing-icon-trailing-space` → upstream `--md-filter-chip-with-trailing-icon-trailing-space`
-- **Extra (5)** — referenced in source, not upstream supported:
+- **Extra (18)** — referenced in source, not upstream supported:
+  - `--md-comp-filter-chip-container-elevation`
   - `--md-comp-filter-chip-elevated-unselected-container-color`
   - `--md-comp-filter-chip-flat-container-elevation`
+  - `--md-comp-filter-chip-flat-disabled-selected-container-color`
   - `--md-comp-filter-chip-flat-disabled-unselected-outline-color`
   - `--md-comp-filter-chip-flat-selected-container-color`
+  - `--md-comp-filter-chip-flat-selected-outline-width`
+  - `--md-comp-filter-chip-flat-unselected-outline-color`
+  - `--md-comp-filter-chip-flat-unselected-outline-width`
+  - `--md-comp-filter-chip-unselected-focus-label-text-color`
+  - `--md-comp-filter-chip-unselected-hover-label-text-color`
+  - `--md-comp-filter-chip-unselected-hover-state-layer-color`
+  - `--md-comp-filter-chip-unselected-hover-state-layer-opacity`
   - `--md-comp-filter-chip-unselected-label-text-color`
+  - `--md-comp-filter-chip-unselected-leading-icon-color`
+  - `--md-comp-filter-chip-unselected-pressed-label-text-color`
+  - `--md-comp-filter-chip-unselected-pressed-state-layer-color`
+  - `--md-comp-filter-chip-unselected-pressed-state-layer-opacity`
 
 ### `md-comp-focus-ring`
 
@@ -753,18 +888,19 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 - **Missing (2)** — upstream supported, not referenced in source:
   - `--md-comp-icon-font` → upstream `--md-icon-font`
   - `--md-comp-icon-size` → upstream `--md-icon-size`
-- **Extra (22)** — referenced in source, not upstream supported:
+- **Extra (20)** — referenced in source, not upstream supported:
+  - `--md-comp-icon-button-color`
+  - `--md-comp-icon-button-disabled-color`
   - `--md-comp-icon-button-disabled-icon-color`
-  - `--md-comp-icon-button-disabled-icon-opacity`
   - `--md-comp-icon-button-focus-icon-color`
   - `--md-comp-icon-button-hover-icon-color`
   - `--md-comp-icon-button-hover-state-layer-color`
   - `--md-comp-icon-button-hover-state-layer-opacity`
   - `--md-comp-icon-button-icon-color`
-  - `--md-comp-icon-button-icon-size`
   - `--md-comp-icon-button-pressed-icon-color`
   - `--md-comp-icon-button-pressed-state-layer-color`
   - `--md-comp-icon-button-pressed-state-layer-opacity`
+  - `--md-comp-icon-button-selected-color`
   - `--md-comp-icon-button-selected-focus-icon-color`
   - `--md-comp-icon-button-selected-hover-icon-color`
   - `--md-comp-icon-button-selected-hover-state-layer-color`
@@ -773,21 +909,27 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-icon-button-selected-pressed-icon-color`
   - `--md-comp-icon-button-selected-pressed-state-layer-color`
   - `--md-comp-icon-button-selected-pressed-state-layer-opacity`
-  - `--md-comp-icon-button-state-layer-height`
-  - `--md-comp-icon-button-state-layer-shape`
-  - `--md-comp-icon-button-state-layer-width`
 
 ### `md-comp-icon-button`
 
 - Upstream prefix: `--md-icon-button-*` · Our prefix: `--md-comp-icon-button-*`
 - Contract: 22 supported, 4 unsupported
-- **Status: parity OK**
+- **Missing (5)** — upstream supported, not referenced in source:
+  - `--md-comp-icon-button-disabled-icon-opacity` → upstream `--md-icon-button-disabled-icon-opacity`
+  - `--md-comp-icon-button-icon-size` → upstream `--md-icon-button-icon-size`
+  - `--md-comp-icon-button-state-layer-height` → upstream `--md-icon-button-state-layer-height`
+  - `--md-comp-icon-button-state-layer-shape` → upstream `--md-icon-button-state-layer-shape`
+  - `--md-comp-icon-button-state-layer-width` → upstream `--md-icon-button-state-layer-width`
+- **Extra (3)** — referenced in source, not upstream supported:
+  - `--md-comp-icon-button-color`
+  - `--md-comp-icon-button-disabled-color`
+  - `--md-comp-icon-button-selected-color`
 
 ### `md-comp-input-chip`
 
 - Upstream prefix: `--md-input-chip-*` · Our prefix: `--md-comp-input-chip-*`
 - Contract: 66 supported, 19 unsupported
-- **Missing (59)** — upstream supported, not referenced in source:
+- **Missing (40)** — upstream supported, not referenced in source:
   - `--md-comp-input-chip-avatar-shape` → upstream `--md-input-chip-avatar-shape`
   - `--md-comp-input-chip-avatar-size` → upstream `--md-input-chip-avatar-size`
   - `--md-comp-input-chip-container-shape-end-end` → upstream `--md-input-chip-container-shape-end-end`
@@ -796,82 +938,67 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-input-chip-container-shape-start-start` → upstream `--md-input-chip-container-shape-start-start`
   - `--md-comp-input-chip-disabled-avatar-opacity` → upstream `--md-input-chip-disabled-avatar-opacity`
   - `--md-comp-input-chip-disabled-label-text-opacity` → upstream `--md-input-chip-disabled-label-text-opacity`
-  - `--md-comp-input-chip-disabled-leading-icon-color` → upstream `--md-input-chip-disabled-leading-icon-color`
   - `--md-comp-input-chip-disabled-leading-icon-opacity` → upstream `--md-input-chip-disabled-leading-icon-opacity`
   - `--md-comp-input-chip-disabled-outline-color` → upstream `--md-input-chip-disabled-outline-color`
   - `--md-comp-input-chip-disabled-outline-opacity` → upstream `--md-input-chip-disabled-outline-opacity`
   - `--md-comp-input-chip-disabled-selected-container-opacity` → upstream `--md-input-chip-disabled-selected-container-opacity`
   - `--md-comp-input-chip-disabled-trailing-icon-color` → upstream `--md-input-chip-disabled-trailing-icon-color`
   - `--md-comp-input-chip-disabled-trailing-icon-opacity` → upstream `--md-input-chip-disabled-trailing-icon-opacity`
-  - `--md-comp-input-chip-focus-label-text-color` → upstream `--md-input-chip-focus-label-text-color`
   - `--md-comp-input-chip-focus-leading-icon-color` → upstream `--md-input-chip-focus-leading-icon-color`
   - `--md-comp-input-chip-focus-outline-color` → upstream `--md-input-chip-focus-outline-color`
   - `--md-comp-input-chip-focus-trailing-icon-color` → upstream `--md-input-chip-focus-trailing-icon-color`
-  - `--md-comp-input-chip-hover-label-text-color` → upstream `--md-input-chip-hover-label-text-color`
   - `--md-comp-input-chip-hover-leading-icon-color` → upstream `--md-input-chip-hover-leading-icon-color`
-  - `--md-comp-input-chip-hover-state-layer-color` → upstream `--md-input-chip-hover-state-layer-color`
-  - `--md-comp-input-chip-hover-state-layer-opacity` → upstream `--md-input-chip-hover-state-layer-opacity`
   - `--md-comp-input-chip-hover-trailing-icon-color` → upstream `--md-input-chip-hover-trailing-icon-color`
   - `--md-comp-input-chip-icon-label-space` → upstream `--md-input-chip-icon-label-space`
-  - `--md-comp-input-chip-icon-size` → upstream `--md-input-chip-icon-size`
   - `--md-comp-input-chip-label-text-font` → upstream `--md-input-chip-label-text-font`
   - `--md-comp-input-chip-label-text-line-height` → upstream `--md-input-chip-label-text-line-height`
   - `--md-comp-input-chip-label-text-size` → upstream `--md-input-chip-label-text-size`
   - `--md-comp-input-chip-label-text-weight` → upstream `--md-input-chip-label-text-weight`
-  - `--md-comp-input-chip-leading-icon-color` → upstream `--md-input-chip-leading-icon-color`
   - `--md-comp-input-chip-leading-space` → upstream `--md-input-chip-leading-space`
   - `--md-comp-input-chip-outline-color` → upstream `--md-input-chip-outline-color`
   - `--md-comp-input-chip-outline-width` → upstream `--md-input-chip-outline-width`
-  - `--md-comp-input-chip-pressed-label-text-color` → upstream `--md-input-chip-pressed-label-text-color`
   - `--md-comp-input-chip-pressed-leading-icon-color` → upstream `--md-input-chip-pressed-leading-icon-color`
-  - `--md-comp-input-chip-pressed-state-layer-color` → upstream `--md-input-chip-pressed-state-layer-color`
-  - `--md-comp-input-chip-pressed-state-layer-opacity` → upstream `--md-input-chip-pressed-state-layer-opacity`
   - `--md-comp-input-chip-pressed-trailing-icon-color` → upstream `--md-input-chip-pressed-trailing-icon-color`
-  - `--md-comp-input-chip-selected-focus-label-text-color` → upstream `--md-input-chip-selected-focus-label-text-color`
   - `--md-comp-input-chip-selected-focus-leading-icon-color` → upstream `--md-input-chip-selected-focus-leading-icon-color`
   - `--md-comp-input-chip-selected-focus-trailing-icon-color` → upstream `--md-input-chip-selected-focus-trailing-icon-color`
-  - `--md-comp-input-chip-selected-hover-label-text-color` → upstream `--md-input-chip-selected-hover-label-text-color`
   - `--md-comp-input-chip-selected-hover-leading-icon-color` → upstream `--md-input-chip-selected-hover-leading-icon-color`
-  - `--md-comp-input-chip-selected-hover-state-layer-color` → upstream `--md-input-chip-selected-hover-state-layer-color`
-  - `--md-comp-input-chip-selected-hover-state-layer-opacity` → upstream `--md-input-chip-selected-hover-state-layer-opacity`
   - `--md-comp-input-chip-selected-hover-trailing-icon-color` → upstream `--md-input-chip-selected-hover-trailing-icon-color`
-  - `--md-comp-input-chip-selected-leading-icon-color` → upstream `--md-input-chip-selected-leading-icon-color`
-  - `--md-comp-input-chip-selected-outline-width` → upstream `--md-input-chip-selected-outline-width`
-  - `--md-comp-input-chip-selected-pressed-label-text-color` → upstream `--md-input-chip-selected-pressed-label-text-color`
   - `--md-comp-input-chip-selected-pressed-leading-icon-color` → upstream `--md-input-chip-selected-pressed-leading-icon-color`
-  - `--md-comp-input-chip-selected-pressed-state-layer-color` → upstream `--md-input-chip-selected-pressed-state-layer-color`
-  - `--md-comp-input-chip-selected-pressed-state-layer-opacity` → upstream `--md-input-chip-selected-pressed-state-layer-opacity`
   - `--md-comp-input-chip-selected-pressed-trailing-icon-color` → upstream `--md-input-chip-selected-pressed-trailing-icon-color`
   - `--md-comp-input-chip-selected-trailing-icon-color` → upstream `--md-input-chip-selected-trailing-icon-color`
   - `--md-comp-input-chip-trailing-icon-color` → upstream `--md-input-chip-trailing-icon-color`
   - `--md-comp-input-chip-trailing-space` → upstream `--md-input-chip-trailing-space`
   - `--md-comp-input-chip-with-leading-icon-leading-space` → upstream `--md-input-chip-with-leading-icon-leading-space`
   - `--md-comp-input-chip-with-trailing-icon-trailing-space` → upstream `--md-input-chip-with-trailing-icon-trailing-space`
-- **Extra (6)** — referenced in source, not upstream supported:
+- **Extra (15)** — referenced in source, not upstream supported:
   - `--md-comp-input-chip-container-elevation`
   - `--md-comp-input-chip-disabled-unselected-outline-color`
   - `--md-comp-input-chip-leading-icon-size`
   - `--md-comp-input-chip-trailing-icon-size`
+  - `--md-comp-input-chip-unselected-focus-label-text-color`
+  - `--md-comp-input-chip-unselected-hover-label-text-color`
+  - `--md-comp-input-chip-unselected-hover-state-layer-color`
+  - `--md-comp-input-chip-unselected-hover-state-layer-opacity`
   - `--md-comp-input-chip-unselected-label-text-color`
+  - `--md-comp-input-chip-unselected-leading-icon-color`
   - `--md-comp-input-chip-unselected-outline-color`
+  - `--md-comp-input-chip-unselected-outline-width`
+  - `--md-comp-input-chip-unselected-pressed-label-text-color`
+  - `--md-comp-input-chip-unselected-pressed-state-layer-color`
+  - `--md-comp-input-chip-unselected-pressed-state-layer-opacity`
 
 ### `md-comp-item`
 
 - Upstream prefix: `--md-item-*` · Our prefix: `--md-comp-item-*`
 - Contract: 20 supported, 0 unsupported
-- **Missing (20)** — upstream supported, not referenced in source:
-  - `--md-comp-item-label-text-color` → upstream `--md-item-label-text-color`
-  - `--md-comp-item-label-text-font` → upstream `--md-item-label-text-font`
+- **Missing (15)** — upstream supported, not referenced in source:
   - `--md-comp-item-label-text-line-height` → upstream `--md-item-label-text-line-height`
   - `--md-comp-item-label-text-size` → upstream `--md-item-label-text-size`
   - `--md-comp-item-label-text-weight` → upstream `--md-item-label-text-weight`
-  - `--md-comp-item-overline-color` → upstream `--md-item-overline-color`
   - `--md-comp-item-overline-font` → upstream `--md-item-overline-font`
   - `--md-comp-item-overline-line-height` → upstream `--md-item-overline-line-height`
   - `--md-comp-item-overline-size` → upstream `--md-item-overline-size`
   - `--md-comp-item-overline-weight` → upstream `--md-item-overline-weight`
-  - `--md-comp-item-supporting-text-color` → upstream `--md-item-supporting-text-color`
-  - `--md-comp-item-supporting-text-font` → upstream `--md-item-supporting-text-font`
   - `--md-comp-item-supporting-text-line-height` → upstream `--md-item-supporting-text-line-height`
   - `--md-comp-item-supporting-text-size` → upstream `--md-item-supporting-text-size`
   - `--md-comp-item-supporting-text-weight` → upstream `--md-item-supporting-text-weight`
@@ -880,25 +1007,84 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-item-trailing-supporting-text-line-height` → upstream `--md-item-trailing-supporting-text-line-height`
   - `--md-comp-item-trailing-supporting-text-size` → upstream `--md-item-trailing-supporting-text-size`
   - `--md-comp-item-trailing-supporting-text-weight` → upstream `--md-item-trailing-supporting-text-weight`
+- **Extra (52)** — referenced in source, not upstream supported:
+  - `--md-comp-item-between-space`
+  - `--md-comp-item-bottom-space`
+  - `--md-comp-item-container-color`
+  - `--md-comp-item-container-elevation`
+  - `--md-comp-item-container-expressive-shape`
+  - `--md-comp-item-container-shape`
+  - `--md-comp-item-divider-leading-space`
+  - `--md-comp-item-divider-trailing-space`
+  - `--md-comp-item-item-between-space`
+  - `--md-comp-item-item-bottom-space`
+  - `--md-comp-item-item-container-color`
+  - `--md-comp-item-item-container-elevation`
+  - `--md-comp-item-item-container-expressive-shape`
+  - `--md-comp-item-item-container-shape`
+  - `--md-comp-item-item-label-text-color`
+  - `--md-comp-item-item-label-text-font`
+  - `--md-comp-item-item-leading-icon-color`
+  - `--md-comp-item-item-leading-icon-size`
+  - `--md-comp-item-item-leading-space`
+  - `--md-comp-item-item-one-line-container-height`
+  - `--md-comp-item-item-overline-color`
+  - `--md-comp-item-item-selected-container-color`
+  - `--md-comp-item-item-selected-container-shape`
+  - `--md-comp-item-item-selected-label-text-color`
+  - `--md-comp-item-item-selected-leading-icon-color`
+  - `--md-comp-item-item-selected-overline-color`
+  - `--md-comp-item-item-selected-supporting-text-color`
+  - `--md-comp-item-item-selected-trailing-icon-color`
+  - `--md-comp-item-item-supporting-text-color`
+  - `--md-comp-item-item-supporting-text-font`
+  - `--md-comp-item-item-three-line-container-height`
+  - `--md-comp-item-item-top-space`
+  - `--md-comp-item-item-trailing-icon-color`
+  - `--md-comp-item-item-trailing-space`
+  - `--md-comp-item-item-two-line-container-height`
+  - `--md-comp-item-leading-icon-color`
+  - `--md-comp-item-leading-icon-size`
+  - `--md-comp-item-leading-space`
+  - `--md-comp-item-one-line-container-height`
+  - `--md-comp-item-segmented-gap`
+  - `--md-comp-item-selected-container-color`
+  - `--md-comp-item-selected-container-shape`
+  - `--md-comp-item-selected-label-text-color`
+  - `--md-comp-item-selected-leading-icon-color`
+  - `--md-comp-item-selected-overline-color`
+  - `--md-comp-item-selected-supporting-text-color`
+  - `--md-comp-item-selected-trailing-icon-color`
+  - `--md-comp-item-three-line-container-height`
+  - `--md-comp-item-top-space`
+  - `--md-comp-item-trailing-icon-color`
+  - `--md-comp-item-trailing-space`
+  - `--md-comp-item-two-line-container-height`
 
 ### `md-comp-linear-progress`
 
 - Upstream prefix: `--md-linear-progress-*` · Our prefix: `--md-comp-linear-progress-*`
 - Contract: 9 supported, 1 unsupported
-- **Missing (9)** — upstream supported, not referenced in source:
-  - `--md-comp-linear-progress-active-indicator-color` → upstream `--md-linear-progress-active-indicator-color`
+- **Missing (6)** — upstream supported, not referenced in source:
   - `--md-comp-linear-progress-active-indicator-height` → upstream `--md-linear-progress-active-indicator-height`
   - `--md-comp-linear-progress-four-color-active-indicator-four-color` → upstream `--md-linear-progress-four-color-active-indicator-four-color`
   - `--md-comp-linear-progress-four-color-active-indicator-one-color` → upstream `--md-linear-progress-four-color-active-indicator-one-color`
   - `--md-comp-linear-progress-four-color-active-indicator-three-color` → upstream `--md-linear-progress-four-color-active-indicator-three-color`
   - `--md-comp-linear-progress-four-color-active-indicator-two-color` → upstream `--md-linear-progress-four-color-active-indicator-two-color`
-  - `--md-comp-linear-progress-track-color` → upstream `--md-linear-progress-track-color`
   - `--md-comp-linear-progress-track-height` → upstream `--md-linear-progress-track-height`
-  - `--md-comp-linear-progress-track-shape` → upstream `--md-linear-progress-track-shape`
-- **Extra (3)** — referenced in source, not upstream supported:
+- **Extra (12)** — referenced in source, not upstream supported:
+  - `--md-comp-linear-progress-active-shape`
+  - `--md-comp-linear-progress-active-thickness`
+  - `--md-comp-linear-progress-height`
   - `--md-comp-linear-progress-indicator-active-thickness`
   - `--md-comp-linear-progress-indicator-height`
+  - `--md-comp-linear-progress-indicator-stop-size`
+  - `--md-comp-linear-progress-indicator-track-active-space`
   - `--md-comp-linear-progress-indicator-track-thickness`
+  - `--md-comp-linear-progress-stop-color`
+  - `--md-comp-linear-progress-stop-size`
+  - `--md-comp-linear-progress-track-active-space`
+  - `--md-comp-linear-progress-track-thickness`
 
 ### `md-comp-list`
 
@@ -906,9 +1092,10 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 - Contract: 1 supported, 0 unsupported
 - **Missing (1)** — upstream supported, not referenced in source:
   - `--md-comp-list-container-color` → upstream `--md-list-container-color`
-- **Extra (23)** — referenced in source, not upstream supported:
+- **Extra (31)** — referenced in source, not upstream supported:
   - `--md-comp-list-container-shape`
   - `--md-comp-list-divider-leading-space`
+  - `--md-comp-list-divider-trailing-space`
   - `--md-comp-list-item-between-space`
   - `--md-comp-list-item-bottom-space`
   - `--md-comp-list-item-container-color`
@@ -923,8 +1110,15 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-list-item-one-line-container-height`
   - `--md-comp-list-item-overline-color`
   - `--md-comp-list-item-selected-container-color`
+  - `--md-comp-list-item-selected-container-shape`
+  - `--md-comp-list-item-selected-label-text-color`
+  - `--md-comp-list-item-selected-leading-icon-color`
+  - `--md-comp-list-item-selected-overline-color`
+  - `--md-comp-list-item-selected-supporting-text-color`
+  - `--md-comp-list-item-selected-trailing-icon-color`
   - `--md-comp-list-item-supporting-text-color`
   - `--md-comp-list-item-supporting-text-font`
+  - `--md-comp-list-item-three-line-container-height`
   - `--md-comp-list-item-top-space`
   - `--md-comp-list-item-trailing-icon-color`
   - `--md-comp-list-item-trailing-space`
@@ -952,7 +1146,7 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-list-item-trailing-supporting-text-line-height` → upstream `--md-list-item-trailing-supporting-text-line-height`
   - `--md-comp-list-item-trailing-supporting-text-size` → upstream `--md-list-item-trailing-supporting-text-size`
   - `--md-comp-list-item-trailing-supporting-text-weight` → upstream `--md-list-item-trailing-supporting-text-weight`
-- **Extra (8)** — referenced in source, not upstream supported:
+- **Extra (15)** — referenced in source, not upstream supported:
   - `--md-comp-list-item-between-space`
   - `--md-comp-list-item-container-color`
   - `--md-comp-list-item-container-elevation`
@@ -961,13 +1155,21 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-list-item-leading-icon-size`
   - `--md-comp-list-item-overline-color`
   - `--md-comp-list-item-selected-container-color`
+  - `--md-comp-list-item-selected-container-shape`
+  - `--md-comp-list-item-selected-label-text-color`
+  - `--md-comp-list-item-selected-leading-icon-color`
+  - `--md-comp-list-item-selected-overline-color`
+  - `--md-comp-list-item-selected-supporting-text-color`
+  - `--md-comp-list-item-selected-trailing-icon-color`
+  - `--md-comp-list-item-three-line-container-height`
 
 ### `md-comp-menu`
 
 - Upstream prefix: `--md-menu-*` · Our prefix: `--md-comp-menu-*`
 - Contract: 6 supported, 4 unsupported
-- **Missing (2)** — upstream supported, not referenced in source:
+- **Missing (3)** — upstream supported, not referenced in source:
   - `--md-comp-menu-bottom-space` → upstream `--md-menu-bottom-space`
+  - `--md-comp-menu-container-shadow-color` → upstream `--md-menu-container-shadow-color`
   - `--md-comp-menu-top-space` → upstream `--md-menu-top-space`
 - **Extra (1)** — referenced in source, not upstream supported:
   - `--md-comp-menu-menu-list-item-leading-icon-color`
@@ -976,38 +1178,66 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-menu-item-*` · Our prefix: `--md-comp-menu-item-*`
 - Contract: 31 supported, 5 unsupported
-- **Missing (31)** — upstream supported, not referenced in source:
-  - `--md-comp-menu-item-bottom-space` → upstream `--md-menu-item-bottom-space`
-  - `--md-comp-menu-item-container-color` → upstream `--md-menu-item-container-color`
+- **Missing (16)** — upstream supported, not referenced in source:
   - `--md-comp-menu-item-disabled-opacity` → upstream `--md-menu-item-disabled-opacity`
   - `--md-comp-menu-item-hover-state-layer-color` → upstream `--md-menu-item-hover-state-layer-color`
   - `--md-comp-menu-item-hover-state-layer-opacity` → upstream `--md-menu-item-hover-state-layer-opacity`
-  - `--md-comp-menu-item-label-text-color` → upstream `--md-menu-item-label-text-color`
-  - `--md-comp-menu-item-label-text-font` → upstream `--md-menu-item-label-text-font`
   - `--md-comp-menu-item-label-text-line-height` → upstream `--md-menu-item-label-text-line-height`
   - `--md-comp-menu-item-label-text-size` → upstream `--md-menu-item-label-text-size`
   - `--md-comp-menu-item-label-text-weight` → upstream `--md-menu-item-label-text-weight`
-  - `--md-comp-menu-item-leading-icon-color` → upstream `--md-menu-item-leading-icon-color`
-  - `--md-comp-menu-item-leading-space` → upstream `--md-menu-item-leading-space`
-  - `--md-comp-menu-item-one-line-container-height` → upstream `--md-menu-item-one-line-container-height`
   - `--md-comp-menu-item-pressed-state-layer-color` → upstream `--md-menu-item-pressed-state-layer-color`
   - `--md-comp-menu-item-pressed-state-layer-opacity` → upstream `--md-menu-item-pressed-state-layer-opacity`
-  - `--md-comp-menu-item-selected-container-color` → upstream `--md-menu-item-selected-container-color`
-  - `--md-comp-menu-item-selected-label-text-color` → upstream `--md-menu-item-selected-label-text-color`
-  - `--md-comp-menu-item-supporting-text-color` → upstream `--md-menu-item-supporting-text-color`
-  - `--md-comp-menu-item-supporting-text-font` → upstream `--md-menu-item-supporting-text-font`
   - `--md-comp-menu-item-supporting-text-line-height` → upstream `--md-menu-item-supporting-text-line-height`
   - `--md-comp-menu-item-supporting-text-size` → upstream `--md-menu-item-supporting-text-size`
   - `--md-comp-menu-item-supporting-text-weight` → upstream `--md-menu-item-supporting-text-weight`
-  - `--md-comp-menu-item-top-space` → upstream `--md-menu-item-top-space`
-  - `--md-comp-menu-item-trailing-icon-color` → upstream `--md-menu-item-trailing-icon-color`
-  - `--md-comp-menu-item-trailing-space` → upstream `--md-menu-item-trailing-space`
   - `--md-comp-menu-item-trailing-supporting-text-color` → upstream `--md-menu-item-trailing-supporting-text-color`
   - `--md-comp-menu-item-trailing-supporting-text-font` → upstream `--md-menu-item-trailing-supporting-text-font`
   - `--md-comp-menu-item-trailing-supporting-text-line-height` → upstream `--md-menu-item-trailing-supporting-text-line-height`
   - `--md-comp-menu-item-trailing-supporting-text-size` → upstream `--md-menu-item-trailing-supporting-text-size`
   - `--md-comp-menu-item-trailing-supporting-text-weight` → upstream `--md-menu-item-trailing-supporting-text-weight`
-  - `--md-comp-menu-item-two-line-container-height` → upstream `--md-menu-item-two-line-container-height`
+- **Extra (42)** — referenced in source, not upstream supported:
+  - `--md-comp-menu-item-between-space`
+  - `--md-comp-menu-item-container-elevation`
+  - `--md-comp-menu-item-container-expressive-shape`
+  - `--md-comp-menu-item-container-shape`
+  - `--md-comp-menu-item-divider-leading-space`
+  - `--md-comp-menu-item-divider-trailing-space`
+  - `--md-comp-menu-item-item-between-space`
+  - `--md-comp-menu-item-item-bottom-space`
+  - `--md-comp-menu-item-item-container-color`
+  - `--md-comp-menu-item-item-container-elevation`
+  - `--md-comp-menu-item-item-container-expressive-shape`
+  - `--md-comp-menu-item-item-container-shape`
+  - `--md-comp-menu-item-item-label-text-color`
+  - `--md-comp-menu-item-item-label-text-font`
+  - `--md-comp-menu-item-item-leading-icon-color`
+  - `--md-comp-menu-item-item-leading-icon-size`
+  - `--md-comp-menu-item-item-leading-space`
+  - `--md-comp-menu-item-item-one-line-container-height`
+  - `--md-comp-menu-item-item-overline-color`
+  - `--md-comp-menu-item-item-selected-container-color`
+  - `--md-comp-menu-item-item-selected-container-shape`
+  - `--md-comp-menu-item-item-selected-label-text-color`
+  - `--md-comp-menu-item-item-selected-leading-icon-color`
+  - `--md-comp-menu-item-item-selected-overline-color`
+  - `--md-comp-menu-item-item-selected-supporting-text-color`
+  - `--md-comp-menu-item-item-selected-trailing-icon-color`
+  - `--md-comp-menu-item-item-supporting-text-color`
+  - `--md-comp-menu-item-item-supporting-text-font`
+  - `--md-comp-menu-item-item-three-line-container-height`
+  - `--md-comp-menu-item-item-top-space`
+  - `--md-comp-menu-item-item-trailing-icon-color`
+  - `--md-comp-menu-item-item-trailing-space`
+  - `--md-comp-menu-item-item-two-line-container-height`
+  - `--md-comp-menu-item-leading-icon-size`
+  - `--md-comp-menu-item-overline-color`
+  - `--md-comp-menu-item-segmented-gap`
+  - `--md-comp-menu-item-selected-container-shape`
+  - `--md-comp-menu-item-selected-leading-icon-color`
+  - `--md-comp-menu-item-selected-overline-color`
+  - `--md-comp-menu-item-selected-supporting-text-color`
+  - `--md-comp-menu-item-selected-trailing-icon-color`
+  - `--md-comp-menu-item-three-line-container-height`
 
 ### `md-comp-outlined-button`
 
@@ -1019,29 +1249,33 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-button-container-shape-start-end` → upstream `--md-outlined-button-container-shape-start-end`
   - `--md-comp-outlined-button-container-shape-start-start` → upstream `--md-outlined-button-container-shape-start-start`
   - `--md-comp-outlined-button-disabled-icon-opacity` → upstream `--md-outlined-button-disabled-icon-opacity`
-  - `--md-comp-outlined-button-focus-icon-color` → upstream `--md-outlined-button-focus-icon-color`
-  - `--md-comp-outlined-button-hover-icon-color` → upstream `--md-outlined-button-hover-icon-color`
-  - `--md-comp-outlined-button-icon-size` → upstream `--md-outlined-button-icon-size`
+  - `--md-comp-outlined-button-disabled-label-text-opacity` → upstream `--md-outlined-button-disabled-label-text-opacity`
+  - `--md-comp-outlined-button-disabled-outline-opacity` → upstream `--md-outlined-button-disabled-outline-opacity`
   - `--md-comp-outlined-button-leading-space` → upstream `--md-outlined-button-leading-space`
+  - `--md-comp-outlined-button-outline-width` → upstream `--md-outlined-button-outline-width`
   - `--md-comp-outlined-button-trailing-space` → upstream `--md-outlined-button-trailing-space`
   - `--md-comp-outlined-button-with-leading-icon-leading-space` → upstream `--md-outlined-button-with-leading-icon-leading-space`
   - `--md-comp-outlined-button-with-leading-icon-trailing-space` → upstream `--md-outlined-button-with-leading-icon-trailing-space`
   - `--md-comp-outlined-button-with-trailing-icon-leading-space` → upstream `--md-outlined-button-with-trailing-icon-leading-space`
   - `--md-comp-outlined-button-with-trailing-icon-trailing-space` → upstream `--md-outlined-button-with-trailing-icon-trailing-space`
+- **Extra (2)** — referenced in source, not upstream supported:
+  - `--md-comp-outlined-button-focused-outline-color`
+  - `--md-comp-outlined-button-hovered-outline-color`
 
 ### `md-comp-outlined-card`
 
 - Upstream prefix: `--md-outlined-card-*` · Our prefix: `--md-comp-outlined-card-*`
 - Contract: 6 supported, 21 unsupported
-- **Status: parity OK**
+- **Missing (2)** — upstream supported, not referenced in source:
+  - `--md-comp-outlined-card-container-elevation` → upstream `--md-outlined-card-container-elevation`
+  - `--md-comp-outlined-card-container-shadow-color` → upstream `--md-outlined-card-container-shadow-color`
 
 ### `md-comp-outlined-field`
 
 - Upstream prefix: `--md-outlined-field-*` · Our prefix: `--md-comp-outlined-field-*`
 - Contract: 83 supported, 0 unsupported
-- **Missing (83)** — upstream supported, not referenced in source:
+- **Missing (70)** — upstream supported, not referenced in source:
   - `--md-comp-outlined-field-bottom-space` → upstream `--md-outlined-field-bottom-space`
-  - `--md-comp-outlined-field-container-shape` → upstream `--md-outlined-field-container-shape`
   - `--md-comp-outlined-field-container-shape-end-end` → upstream `--md-outlined-field-container-shape-end-end`
   - `--md-comp-outlined-field-container-shape-end-start` → upstream `--md-outlined-field-container-shape-end-start`
   - `--md-comp-outlined-field-container-shape-start-end` → upstream `--md-outlined-field-container-shape-start-end`
@@ -1058,7 +1292,6 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-field-disabled-label-text-opacity` → upstream `--md-outlined-field-disabled-label-text-opacity`
   - `--md-comp-outlined-field-disabled-leading-content-color` → upstream `--md-outlined-field-disabled-leading-content-color`
   - `--md-comp-outlined-field-disabled-leading-content-opacity` → upstream `--md-outlined-field-disabled-leading-content-opacity`
-  - `--md-comp-outlined-field-disabled-outline-color` → upstream `--md-outlined-field-disabled-outline-color`
   - `--md-comp-outlined-field-disabled-outline-opacity` → upstream `--md-outlined-field-disabled-outline-opacity`
   - `--md-comp-outlined-field-disabled-outline-width` → upstream `--md-outlined-field-disabled-outline-width`
   - `--md-comp-outlined-field-disabled-supporting-text-color` → upstream `--md-outlined-field-disabled-supporting-text-color`
@@ -1069,32 +1302,24 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-field-error-focus-content-color` → upstream `--md-outlined-field-error-focus-content-color`
   - `--md-comp-outlined-field-error-focus-label-text-color` → upstream `--md-outlined-field-error-focus-label-text-color`
   - `--md-comp-outlined-field-error-focus-leading-content-color` → upstream `--md-outlined-field-error-focus-leading-content-color`
-  - `--md-comp-outlined-field-error-focus-outline-color` → upstream `--md-outlined-field-error-focus-outline-color`
   - `--md-comp-outlined-field-error-focus-supporting-text-color` → upstream `--md-outlined-field-error-focus-supporting-text-color`
   - `--md-comp-outlined-field-error-focus-trailing-content-color` → upstream `--md-outlined-field-error-focus-trailing-content-color`
   - `--md-comp-outlined-field-error-hover-content-color` → upstream `--md-outlined-field-error-hover-content-color`
   - `--md-comp-outlined-field-error-hover-label-text-color` → upstream `--md-outlined-field-error-hover-label-text-color`
   - `--md-comp-outlined-field-error-hover-leading-content-color` → upstream `--md-outlined-field-error-hover-leading-content-color`
-  - `--md-comp-outlined-field-error-hover-outline-color` → upstream `--md-outlined-field-error-hover-outline-color`
   - `--md-comp-outlined-field-error-hover-supporting-text-color` → upstream `--md-outlined-field-error-hover-supporting-text-color`
   - `--md-comp-outlined-field-error-hover-trailing-content-color` → upstream `--md-outlined-field-error-hover-trailing-content-color`
   - `--md-comp-outlined-field-error-label-text-color` → upstream `--md-outlined-field-error-label-text-color`
   - `--md-comp-outlined-field-error-leading-content-color` → upstream `--md-outlined-field-error-leading-content-color`
-  - `--md-comp-outlined-field-error-outline-color` → upstream `--md-outlined-field-error-outline-color`
-  - `--md-comp-outlined-field-error-supporting-text-color` → upstream `--md-outlined-field-error-supporting-text-color`
   - `--md-comp-outlined-field-error-trailing-content-color` → upstream `--md-outlined-field-error-trailing-content-color`
   - `--md-comp-outlined-field-focus-content-color` → upstream `--md-outlined-field-focus-content-color`
   - `--md-comp-outlined-field-focus-label-text-color` → upstream `--md-outlined-field-focus-label-text-color`
   - `--md-comp-outlined-field-focus-leading-content-color` → upstream `--md-outlined-field-focus-leading-content-color`
-  - `--md-comp-outlined-field-focus-outline-color` → upstream `--md-outlined-field-focus-outline-color`
-  - `--md-comp-outlined-field-focus-outline-width` → upstream `--md-outlined-field-focus-outline-width`
   - `--md-comp-outlined-field-focus-supporting-text-color` → upstream `--md-outlined-field-focus-supporting-text-color`
   - `--md-comp-outlined-field-focus-trailing-content-color` → upstream `--md-outlined-field-focus-trailing-content-color`
   - `--md-comp-outlined-field-hover-content-color` → upstream `--md-outlined-field-hover-content-color`
   - `--md-comp-outlined-field-hover-label-text-color` → upstream `--md-outlined-field-hover-label-text-color`
   - `--md-comp-outlined-field-hover-leading-content-color` → upstream `--md-outlined-field-hover-leading-content-color`
-  - `--md-comp-outlined-field-hover-outline-color` → upstream `--md-outlined-field-hover-outline-color`
-  - `--md-comp-outlined-field-hover-outline-width` → upstream `--md-outlined-field-hover-outline-width`
   - `--md-comp-outlined-field-hover-supporting-text-color` → upstream `--md-outlined-field-hover-supporting-text-color`
   - `--md-comp-outlined-field-hover-trailing-content-color` → upstream `--md-outlined-field-hover-trailing-content-color`
   - `--md-comp-outlined-field-label-text-color` → upstream `--md-outlined-field-label-text-color`
@@ -1106,10 +1331,7 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-field-label-text-size` → upstream `--md-outlined-field-label-text-size`
   - `--md-comp-outlined-field-label-text-weight` → upstream `--md-outlined-field-label-text-weight`
   - `--md-comp-outlined-field-leading-content-color` → upstream `--md-outlined-field-leading-content-color`
-  - `--md-comp-outlined-field-leading-space` → upstream `--md-outlined-field-leading-space`
-  - `--md-comp-outlined-field-outline-color` → upstream `--md-outlined-field-outline-color`
   - `--md-comp-outlined-field-outline-label-padding` → upstream `--md-outlined-field-outline-label-padding`
-  - `--md-comp-outlined-field-outline-width` → upstream `--md-outlined-field-outline-width`
   - `--md-comp-outlined-field-supporting-text-color` → upstream `--md-outlined-field-supporting-text-color`
   - `--md-comp-outlined-field-supporting-text-font` → upstream `--md-outlined-field-supporting-text-font`
   - `--md-comp-outlined-field-supporting-text-leading-space` → upstream `--md-outlined-field-supporting-text-leading-space`
@@ -1123,6 +1345,47 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-field-trailing-space` → upstream `--md-outlined-field-trailing-space`
   - `--md-comp-outlined-field-with-leading-content-leading-space` → upstream `--md-outlined-field-with-leading-content-leading-space`
   - `--md-comp-outlined-field-with-trailing-content-trailing-space` → upstream `--md-outlined-field-with-trailing-content-trailing-space`
+- **Extra (40)** — referenced in source, not upstream supported:
+  - `--md-comp-outlined-field-caret-color`
+  - `--md-comp-outlined-field-container-height`
+  - `--md-comp-outlined-field-disabled-input-color`
+  - `--md-comp-outlined-field-disabled-label-color`
+  - `--md-comp-outlined-field-disabled-leading-icon-color`
+  - `--md-comp-outlined-field-disabled-supporting-color`
+  - `--md-comp-outlined-field-disabled-trailing-icon-color`
+  - `--md-comp-outlined-field-error-focus-caret-color`
+  - `--md-comp-outlined-field-error-focus-input-color`
+  - `--md-comp-outlined-field-error-focus-label-color`
+  - `--md-comp-outlined-field-error-focus-leading-icon-color`
+  - `--md-comp-outlined-field-error-focus-supporting-color`
+  - `--md-comp-outlined-field-error-focus-trailing-icon-color`
+  - `--md-comp-outlined-field-error-hover-input-color`
+  - `--md-comp-outlined-field-error-hover-label-color`
+  - `--md-comp-outlined-field-error-hover-leading-icon-color`
+  - `--md-comp-outlined-field-error-hover-supporting-color`
+  - `--md-comp-outlined-field-error-hover-trailing-icon-color`
+  - `--md-comp-outlined-field-error-input-color`
+  - `--md-comp-outlined-field-error-label-color`
+  - `--md-comp-outlined-field-error-leading-icon-color`
+  - `--md-comp-outlined-field-error-supporting-color`
+  - `--md-comp-outlined-field-error-trailing-icon-color`
+  - `--md-comp-outlined-field-focus-input-color`
+  - `--md-comp-outlined-field-focus-label-color`
+  - `--md-comp-outlined-field-focus-leading-icon-color`
+  - `--md-comp-outlined-field-focus-supporting-color`
+  - `--md-comp-outlined-field-focus-trailing-icon-color`
+  - `--md-comp-outlined-field-hover-input-color`
+  - `--md-comp-outlined-field-hover-label-color`
+  - `--md-comp-outlined-field-hover-leading-icon-color`
+  - `--md-comp-outlined-field-hover-supporting-color`
+  - `--md-comp-outlined-field-hover-trailing-icon-color`
+  - `--md-comp-outlined-field-input-color`
+  - `--md-comp-outlined-field-label-color`
+  - `--md-comp-outlined-field-leading-icon-color`
+  - `--md-comp-outlined-field-leading-icon-size`
+  - `--md-comp-outlined-field-supporting-color`
+  - `--md-comp-outlined-field-trailing-icon-color`
+  - `--md-comp-outlined-field-trailing-icon-size`
 
 ### `md-comp-outlined-icon-button`
 
@@ -1157,30 +1420,27 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-icon-button-selected-icon-color` → upstream `--md-outlined-icon-button-selected-icon-color`
   - `--md-comp-outlined-icon-button-selected-pressed-icon-color` → upstream `--md-outlined-icon-button-selected-pressed-icon-color`
   - `--md-comp-outlined-icon-button-selected-pressed-state-layer-color` → upstream `--md-outlined-icon-button-selected-pressed-state-layer-color`
+- **Extra (4)** — referenced in source, not upstream supported:
+  - `--md-comp-outlined-icon-button-color`
+  - `--md-comp-outlined-icon-button-disabled-color`
+  - `--md-comp-outlined-icon-button-selected-color`
+  - `--md-comp-outlined-icon-button-selected-disabled-container-color`
 
 ### `md-comp-outlined-segmented-button`
 
 - Upstream prefix: `--md-outlined-segmented-button-*` · Our prefix: `--md-comp-outlined-segmented-button-*`
 - Contract: 38 supported, 9 unsupported
-- **Missing (32)** — upstream supported, not referenced in source:
-  - `--md-comp-outlined-segmented-button-disabled-icon-color` → upstream `--md-outlined-segmented-button-disabled-icon-color`
-  - `--md-comp-outlined-segmented-button-disabled-outline-color` → upstream `--md-outlined-segmented-button-disabled-outline-color`
-  - `--md-comp-outlined-segmented-button-hover-state-layer-opacity` → upstream `--md-outlined-segmented-button-hover-state-layer-opacity`
+- **Missing (20)** — upstream supported, not referenced in source:
   - `--md-comp-outlined-segmented-button-label-text-font` → upstream `--md-outlined-segmented-button-label-text-font`
   - `--md-comp-outlined-segmented-button-label-text-line-height` → upstream `--md-outlined-segmented-button-label-text-line-height`
   - `--md-comp-outlined-segmented-button-label-text-size` → upstream `--md-outlined-segmented-button-label-text-size`
   - `--md-comp-outlined-segmented-button-label-text-weight` → upstream `--md-outlined-segmented-button-label-text-weight`
-  - `--md-comp-outlined-segmented-button-pressed-state-layer-opacity` → upstream `--md-outlined-segmented-button-pressed-state-layer-opacity`
   - `--md-comp-outlined-segmented-button-selected-focus-icon-color` → upstream `--md-outlined-segmented-button-selected-focus-icon-color`
   - `--md-comp-outlined-segmented-button-selected-focus-label-text-color` → upstream `--md-outlined-segmented-button-selected-focus-label-text-color`
   - `--md-comp-outlined-segmented-button-selected-hover-icon-color` → upstream `--md-outlined-segmented-button-selected-hover-icon-color`
   - `--md-comp-outlined-segmented-button-selected-hover-label-text-color` → upstream `--md-outlined-segmented-button-selected-hover-label-text-color`
-  - `--md-comp-outlined-segmented-button-selected-hover-state-layer-color` → upstream `--md-outlined-segmented-button-selected-hover-state-layer-color`
-  - `--md-comp-outlined-segmented-button-selected-icon-color` → upstream `--md-outlined-segmented-button-selected-icon-color`
-  - `--md-comp-outlined-segmented-button-selected-label-text-color` → upstream `--md-outlined-segmented-button-selected-label-text-color`
   - `--md-comp-outlined-segmented-button-selected-pressed-icon-color` → upstream `--md-outlined-segmented-button-selected-pressed-icon-color`
   - `--md-comp-outlined-segmented-button-selected-pressed-label-text-color` → upstream `--md-outlined-segmented-button-selected-pressed-label-text-color`
-  - `--md-comp-outlined-segmented-button-selected-pressed-state-layer-color` → upstream `--md-outlined-segmented-button-selected-pressed-state-layer-color`
   - `--md-comp-outlined-segmented-button-shape-end-end` → upstream `--md-outlined-segmented-button-shape-end-end`
   - `--md-comp-outlined-segmented-button-shape-end-start` → upstream `--md-outlined-segmented-button-shape-end-start`
   - `--md-comp-outlined-segmented-button-shape-start-end` → upstream `--md-outlined-segmented-button-shape-start-end`
@@ -1189,12 +1449,8 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-segmented-button-unselected-focus-label-text-color` → upstream `--md-outlined-segmented-button-unselected-focus-label-text-color`
   - `--md-comp-outlined-segmented-button-unselected-hover-icon-color` → upstream `--md-outlined-segmented-button-unselected-hover-icon-color`
   - `--md-comp-outlined-segmented-button-unselected-hover-label-text-color` → upstream `--md-outlined-segmented-button-unselected-hover-label-text-color`
-  - `--md-comp-outlined-segmented-button-unselected-hover-state-layer-color` → upstream `--md-outlined-segmented-button-unselected-hover-state-layer-color`
-  - `--md-comp-outlined-segmented-button-unselected-icon-color` → upstream `--md-outlined-segmented-button-unselected-icon-color`
-  - `--md-comp-outlined-segmented-button-unselected-label-text-color` → upstream `--md-outlined-segmented-button-unselected-label-text-color`
   - `--md-comp-outlined-segmented-button-unselected-pressed-icon-color` → upstream `--md-outlined-segmented-button-unselected-pressed-icon-color`
   - `--md-comp-outlined-segmented-button-unselected-pressed-label-text-color` → upstream `--md-outlined-segmented-button-unselected-pressed-label-text-color`
-  - `--md-comp-outlined-segmented-button-unselected-pressed-state-layer-color` → upstream `--md-outlined-segmented-button-unselected-pressed-state-layer-color`
 - **Extra (1)** — referenced in source, not upstream supported:
   - `--md-comp-outlined-segmented-button-outline-width`
 
@@ -1276,14 +1532,70 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-select-text-field-supporting-text-weight` → upstream `--md-outlined-select-text-field-supporting-text-weight`
   - `--md-comp-outlined-select-text-field-trailing-icon-color` → upstream `--md-outlined-select-text-field-trailing-icon-color`
   - `--md-comp-outlined-select-text-field-trailing-icon-size` → upstream `--md-outlined-select-text-field-trailing-icon-size`
+- **Extra (56)** — referenced in source, not upstream supported:
+  - `--md-comp-outlined-select-caret-color`
+  - `--md-comp-outlined-select-container-color`
+  - `--md-comp-outlined-select-container-elevation`
+  - `--md-comp-outlined-select-container-height`
+  - `--md-comp-outlined-select-container-shape`
+  - `--md-comp-outlined-select-disabled-input-color`
+  - `--md-comp-outlined-select-disabled-label-color`
+  - `--md-comp-outlined-select-disabled-leading-icon-color`
+  - `--md-comp-outlined-select-disabled-outline-color`
+  - `--md-comp-outlined-select-disabled-supporting-color`
+  - `--md-comp-outlined-select-disabled-trailing-icon-color`
+  - `--md-comp-outlined-select-error-focus-caret-color`
+  - `--md-comp-outlined-select-error-focus-input-color`
+  - `--md-comp-outlined-select-error-focus-label-color`
+  - `--md-comp-outlined-select-error-focus-leading-icon-color`
+  - `--md-comp-outlined-select-error-focus-outline-color`
+  - `--md-comp-outlined-select-error-focus-supporting-color`
+  - `--md-comp-outlined-select-error-focus-trailing-icon-color`
+  - `--md-comp-outlined-select-error-hover-input-color`
+  - `--md-comp-outlined-select-error-hover-label-color`
+  - `--md-comp-outlined-select-error-hover-leading-icon-color`
+  - `--md-comp-outlined-select-error-hover-outline-color`
+  - `--md-comp-outlined-select-error-hover-supporting-color`
+  - `--md-comp-outlined-select-error-hover-trailing-icon-color`
+  - `--md-comp-outlined-select-error-input-color`
+  - `--md-comp-outlined-select-error-label-color`
+  - `--md-comp-outlined-select-error-leading-icon-color`
+  - `--md-comp-outlined-select-error-outline-color`
+  - `--md-comp-outlined-select-error-supporting-color`
+  - `--md-comp-outlined-select-error-supporting-text-color`
+  - `--md-comp-outlined-select-error-trailing-icon-color`
+  - `--md-comp-outlined-select-focus-input-color`
+  - `--md-comp-outlined-select-focus-label-color`
+  - `--md-comp-outlined-select-focus-leading-icon-color`
+  - `--md-comp-outlined-select-focus-outline-color`
+  - `--md-comp-outlined-select-focus-outline-width`
+  - `--md-comp-outlined-select-focus-supporting-color`
+  - `--md-comp-outlined-select-focus-trailing-icon-color`
+  - `--md-comp-outlined-select-hover-input-color`
+  - `--md-comp-outlined-select-hover-label-color`
+  - `--md-comp-outlined-select-hover-leading-icon-color`
+  - `--md-comp-outlined-select-hover-outline-color`
+  - `--md-comp-outlined-select-hover-outline-width`
+  - `--md-comp-outlined-select-hover-supporting-color`
+  - `--md-comp-outlined-select-hover-trailing-icon-color`
+  - `--md-comp-outlined-select-input-color`
+  - `--md-comp-outlined-select-label-color`
+  - `--md-comp-outlined-select-leading-icon-color`
+  - `--md-comp-outlined-select-leading-icon-size`
+  - `--md-comp-outlined-select-leading-space`
+  - `--md-comp-outlined-select-menu-list-item-leading-icon-color`
+  - `--md-comp-outlined-select-outline-color`
+  - `--md-comp-outlined-select-outline-width`
+  - `--md-comp-outlined-select-supporting-color`
+  - `--md-comp-outlined-select-trailing-icon-color`
+  - `--md-comp-outlined-select-trailing-icon-size`
 
 ### `md-comp-outlined-text-field`
 
 - Upstream prefix: `--md-outlined-text-field-*` · Our prefix: `--md-comp-outlined-text-field-*`
 - Contract: 88 supported, 6 unsupported
-- **Missing (79)** — upstream supported, not referenced in source:
+- **Missing (57)** — upstream supported, not referenced in source:
   - `--md-comp-outlined-text-field-bottom-space` → upstream `--md-outlined-text-field-bottom-space`
-  - `--md-comp-outlined-text-field-caret-color` → upstream `--md-outlined-text-field-caret-color`
   - `--md-comp-outlined-text-field-container-shape-end-end` → upstream `--md-outlined-text-field-container-shape-end-end`
   - `--md-comp-outlined-text-field-container-shape-end-start` → upstream `--md-outlined-text-field-container-shape-end-start`
   - `--md-comp-outlined-text-field-container-shape-start-end` → upstream `--md-outlined-text-field-container-shape-start-end`
@@ -1292,47 +1604,29 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-text-field-disabled-input-text-opacity` → upstream `--md-outlined-text-field-disabled-input-text-opacity`
   - `--md-comp-outlined-text-field-disabled-label-text-color` → upstream `--md-outlined-text-field-disabled-label-text-color`
   - `--md-comp-outlined-text-field-disabled-label-text-opacity` → upstream `--md-outlined-text-field-disabled-label-text-opacity`
-  - `--md-comp-outlined-text-field-disabled-leading-icon-color` → upstream `--md-outlined-text-field-disabled-leading-icon-color`
   - `--md-comp-outlined-text-field-disabled-leading-icon-opacity` → upstream `--md-outlined-text-field-disabled-leading-icon-opacity`
   - `--md-comp-outlined-text-field-disabled-outline-opacity` → upstream `--md-outlined-text-field-disabled-outline-opacity`
   - `--md-comp-outlined-text-field-disabled-outline-width` → upstream `--md-outlined-text-field-disabled-outline-width`
   - `--md-comp-outlined-text-field-disabled-supporting-text-color` → upstream `--md-outlined-text-field-disabled-supporting-text-color`
   - `--md-comp-outlined-text-field-disabled-supporting-text-opacity` → upstream `--md-outlined-text-field-disabled-supporting-text-opacity`
-  - `--md-comp-outlined-text-field-disabled-trailing-icon-color` → upstream `--md-outlined-text-field-disabled-trailing-icon-color`
   - `--md-comp-outlined-text-field-disabled-trailing-icon-opacity` → upstream `--md-outlined-text-field-disabled-trailing-icon-opacity`
-  - `--md-comp-outlined-text-field-error-focus-caret-color` → upstream `--md-outlined-text-field-error-focus-caret-color`
   - `--md-comp-outlined-text-field-error-focus-input-text-color` → upstream `--md-outlined-text-field-error-focus-input-text-color`
   - `--md-comp-outlined-text-field-error-focus-label-text-color` → upstream `--md-outlined-text-field-error-focus-label-text-color`
-  - `--md-comp-outlined-text-field-error-focus-leading-icon-color` → upstream `--md-outlined-text-field-error-focus-leading-icon-color`
-  - `--md-comp-outlined-text-field-error-focus-outline-color` → upstream `--md-outlined-text-field-error-focus-outline-color`
   - `--md-comp-outlined-text-field-error-focus-supporting-text-color` → upstream `--md-outlined-text-field-error-focus-supporting-text-color`
-  - `--md-comp-outlined-text-field-error-focus-trailing-icon-color` → upstream `--md-outlined-text-field-error-focus-trailing-icon-color`
   - `--md-comp-outlined-text-field-error-hover-input-text-color` → upstream `--md-outlined-text-field-error-hover-input-text-color`
   - `--md-comp-outlined-text-field-error-hover-label-text-color` → upstream `--md-outlined-text-field-error-hover-label-text-color`
-  - `--md-comp-outlined-text-field-error-hover-leading-icon-color` → upstream `--md-outlined-text-field-error-hover-leading-icon-color`
-  - `--md-comp-outlined-text-field-error-hover-outline-color` → upstream `--md-outlined-text-field-error-hover-outline-color`
   - `--md-comp-outlined-text-field-error-hover-supporting-text-color` → upstream `--md-outlined-text-field-error-hover-supporting-text-color`
-  - `--md-comp-outlined-text-field-error-hover-trailing-icon-color` → upstream `--md-outlined-text-field-error-hover-trailing-icon-color`
   - `--md-comp-outlined-text-field-error-input-text-color` → upstream `--md-outlined-text-field-error-input-text-color`
   - `--md-comp-outlined-text-field-error-label-text-color` → upstream `--md-outlined-text-field-error-label-text-color`
-  - `--md-comp-outlined-text-field-error-leading-icon-color` → upstream `--md-outlined-text-field-error-leading-icon-color`
-  - `--md-comp-outlined-text-field-error-trailing-icon-color` → upstream `--md-outlined-text-field-error-trailing-icon-color`
   - `--md-comp-outlined-text-field-focus-caret-color` → upstream `--md-outlined-text-field-focus-caret-color`
   - `--md-comp-outlined-text-field-focus-input-text-color` → upstream `--md-outlined-text-field-focus-input-text-color`
   - `--md-comp-outlined-text-field-focus-label-text-color` → upstream `--md-outlined-text-field-focus-label-text-color`
-  - `--md-comp-outlined-text-field-focus-leading-icon-color` → upstream `--md-outlined-text-field-focus-leading-icon-color`
-  - `--md-comp-outlined-text-field-focus-outline-color` → upstream `--md-outlined-text-field-focus-outline-color`
-  - `--md-comp-outlined-text-field-focus-outline-width` → upstream `--md-outlined-text-field-focus-outline-width`
   - `--md-comp-outlined-text-field-focus-supporting-text-color` → upstream `--md-outlined-text-field-focus-supporting-text-color`
-  - `--md-comp-outlined-text-field-focus-trailing-icon-color` → upstream `--md-outlined-text-field-focus-trailing-icon-color`
   - `--md-comp-outlined-text-field-hover-input-text-color` → upstream `--md-outlined-text-field-hover-input-text-color`
   - `--md-comp-outlined-text-field-hover-label-text-color` → upstream `--md-outlined-text-field-hover-label-text-color`
-  - `--md-comp-outlined-text-field-hover-leading-icon-color` → upstream `--md-outlined-text-field-hover-leading-icon-color`
-  - `--md-comp-outlined-text-field-hover-outline-color` → upstream `--md-outlined-text-field-hover-outline-color`
-  - `--md-comp-outlined-text-field-hover-outline-width` → upstream `--md-outlined-text-field-hover-outline-width`
   - `--md-comp-outlined-text-field-hover-supporting-text-color` → upstream `--md-outlined-text-field-hover-supporting-text-color`
-  - `--md-comp-outlined-text-field-hover-trailing-icon-color` → upstream `--md-outlined-text-field-hover-trailing-icon-color`
   - `--md-comp-outlined-text-field-icon-input-space` → upstream `--md-outlined-text-field-icon-input-space`
+  - `--md-comp-outlined-text-field-input-text-color` → upstream `--md-outlined-text-field-input-text-color`
   - `--md-comp-outlined-text-field-input-text-font` → upstream `--md-outlined-text-field-input-text-font`
   - `--md-comp-outlined-text-field-input-text-line-height` → upstream `--md-outlined-text-field-input-text-line-height`
   - `--md-comp-outlined-text-field-input-text-placeholder-color` → upstream `--md-outlined-text-field-input-text-placeholder-color`
@@ -1349,49 +1643,55 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-outlined-text-field-label-text-populated-size` → upstream `--md-outlined-text-field-label-text-populated-size`
   - `--md-comp-outlined-text-field-label-text-size` → upstream `--md-outlined-text-field-label-text-size`
   - `--md-comp-outlined-text-field-label-text-weight` → upstream `--md-outlined-text-field-label-text-weight`
-  - `--md-comp-outlined-text-field-leading-icon-color` → upstream `--md-outlined-text-field-leading-icon-color`
-  - `--md-comp-outlined-text-field-leading-icon-size` → upstream `--md-outlined-text-field-leading-icon-size`
+  - `--md-comp-outlined-text-field-supporting-text-color` → upstream `--md-outlined-text-field-supporting-text-color`
   - `--md-comp-outlined-text-field-supporting-text-font` → upstream `--md-outlined-text-field-supporting-text-font`
   - `--md-comp-outlined-text-field-supporting-text-line-height` → upstream `--md-outlined-text-field-supporting-text-line-height`
   - `--md-comp-outlined-text-field-supporting-text-size` → upstream `--md-outlined-text-field-supporting-text-size`
   - `--md-comp-outlined-text-field-supporting-text-weight` → upstream `--md-outlined-text-field-supporting-text-weight`
   - `--md-comp-outlined-text-field-top-space` → upstream `--md-outlined-text-field-top-space`
-  - `--md-comp-outlined-text-field-trailing-icon-color` → upstream `--md-outlined-text-field-trailing-icon-color`
-  - `--md-comp-outlined-text-field-trailing-icon-size` → upstream `--md-outlined-text-field-trailing-icon-size`
   - `--md-comp-outlined-text-field-trailing-space` → upstream `--md-outlined-text-field-trailing-space`
   - `--md-comp-outlined-text-field-with-leading-icon-leading-space` → upstream `--md-outlined-text-field-with-leading-icon-leading-space`
   - `--md-comp-outlined-text-field-with-trailing-icon-trailing-space` → upstream `--md-outlined-text-field-with-trailing-icon-trailing-space`
-- **Extra (6)** — referenced in source, not upstream supported:
+- **Extra (22)** — referenced in source, not upstream supported:
   - `--md-comp-outlined-text-field-container-height`
+  - `--md-comp-outlined-text-field-disabled-input-color`
+  - `--md-comp-outlined-text-field-disabled-label-color`
+  - `--md-comp-outlined-text-field-disabled-supporting-color`
+  - `--md-comp-outlined-text-field-error-focus-input-color`
   - `--md-comp-outlined-text-field-error-focus-label-color`
+  - `--md-comp-outlined-text-field-error-focus-supporting-color`
+  - `--md-comp-outlined-text-field-error-hover-input-color`
+  - `--md-comp-outlined-text-field-error-hover-label-color`
+  - `--md-comp-outlined-text-field-error-hover-supporting-color`
+  - `--md-comp-outlined-text-field-error-input-color`
+  - `--md-comp-outlined-text-field-error-label-color`
   - `--md-comp-outlined-text-field-error-supporting-color`
+  - `--md-comp-outlined-text-field-focus-input-color`
   - `--md-comp-outlined-text-field-focus-label-color`
+  - `--md-comp-outlined-text-field-focus-supporting-color`
+  - `--md-comp-outlined-text-field-hover-input-color`
+  - `--md-comp-outlined-text-field-hover-label-color`
+  - `--md-comp-outlined-text-field-hover-supporting-color`
   - `--md-comp-outlined-text-field-input-color`
+  - `--md-comp-outlined-text-field-label-color`
   - `--md-comp-outlined-text-field-supporting-color`
 
 ### `md-comp-primary-tab`
 
 - Upstream prefix: `--md-primary-tab-*` · Our prefix: `--md-comp-primary-tab-*`
 - Contract: 41 supported, 6 unsupported
-- **Missing (41)** — upstream supported, not referenced in source:
+- **Missing (33)** — upstream supported, not referenced in source:
   - `--md-comp-primary-tab-active-focus-icon-color` → upstream `--md-primary-tab-active-focus-icon-color`
   - `--md-comp-primary-tab-active-focus-label-text-color` → upstream `--md-primary-tab-active-focus-label-text-color`
   - `--md-comp-primary-tab-active-hover-icon-color` → upstream `--md-primary-tab-active-hover-icon-color`
   - `--md-comp-primary-tab-active-hover-label-text-color` → upstream `--md-primary-tab-active-hover-label-text-color`
   - `--md-comp-primary-tab-active-hover-state-layer-color` → upstream `--md-primary-tab-active-hover-state-layer-color`
   - `--md-comp-primary-tab-active-hover-state-layer-opacity` → upstream `--md-primary-tab-active-hover-state-layer-opacity`
-  - `--md-comp-primary-tab-active-icon-color` → upstream `--md-primary-tab-active-icon-color`
-  - `--md-comp-primary-tab-active-indicator-color` → upstream `--md-primary-tab-active-indicator-color`
-  - `--md-comp-primary-tab-active-indicator-height` → upstream `--md-primary-tab-active-indicator-height`
-  - `--md-comp-primary-tab-active-indicator-shape` → upstream `--md-primary-tab-active-indicator-shape`
-  - `--md-comp-primary-tab-active-label-text-color` → upstream `--md-primary-tab-active-label-text-color`
   - `--md-comp-primary-tab-active-pressed-icon-color` → upstream `--md-primary-tab-active-pressed-icon-color`
   - `--md-comp-primary-tab-active-pressed-label-text-color` → upstream `--md-primary-tab-active-pressed-label-text-color`
   - `--md-comp-primary-tab-active-pressed-state-layer-color` → upstream `--md-primary-tab-active-pressed-state-layer-color`
   - `--md-comp-primary-tab-active-pressed-state-layer-opacity` → upstream `--md-primary-tab-active-pressed-state-layer-opacity`
-  - `--md-comp-primary-tab-container-color` → upstream `--md-primary-tab-container-color`
   - `--md-comp-primary-tab-container-elevation` → upstream `--md-primary-tab-container-elevation`
-  - `--md-comp-primary-tab-container-height` → upstream `--md-primary-tab-container-height`
   - `--md-comp-primary-tab-container-shape` → upstream `--md-primary-tab-container-shape`
   - `--md-comp-primary-tab-container-shape-end-end` → upstream `--md-primary-tab-container-shape-end-end`
   - `--md-comp-primary-tab-container-shape-end-start` → upstream `--md-primary-tab-container-shape-end-start`
@@ -1404,7 +1704,6 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-primary-tab-hover-state-layer-color` → upstream `--md-primary-tab-hover-state-layer-color`
   - `--md-comp-primary-tab-hover-state-layer-opacity` → upstream `--md-primary-tab-hover-state-layer-opacity`
   - `--md-comp-primary-tab-icon-color` → upstream `--md-primary-tab-icon-color`
-  - `--md-comp-primary-tab-icon-size` → upstream `--md-primary-tab-icon-size`
   - `--md-comp-primary-tab-label-text-color` → upstream `--md-primary-tab-label-text-color`
   - `--md-comp-primary-tab-label-text-font` → upstream `--md-primary-tab-label-text-font`
   - `--md-comp-primary-tab-label-text-line-height` → upstream `--md-primary-tab-label-text-line-height`
@@ -1415,12 +1714,20 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-primary-tab-pressed-state-layer-color` → upstream `--md-primary-tab-pressed-state-layer-color`
   - `--md-comp-primary-tab-pressed-state-layer-opacity` → upstream `--md-primary-tab-pressed-state-layer-opacity`
   - `--md-comp-primary-tab-with-icon-and-label-text-container-height` → upstream `--md-primary-tab-with-icon-and-label-text-container-height`
+- **Extra (5)** — referenced in source, not upstream supported:
+  - `--md-comp-primary-tab-divider-color`
+  - `--md-comp-primary-tab-divider-height`
+  - `--md-comp-primary-tab-icon-and-label-text-container-height`
+  - `--md-comp-primary-tab-inactive-icon-color`
+  - `--md-comp-primary-tab-inactive-label-text-color`
 
 ### `md-comp-radio`
 
 - Upstream prefix: `--md-radio-*` · Our prefix: `--md-comp-radio-*`
 - Contract: 22 supported, 4 unsupported
-- **Missing (8)** — upstream supported, not referenced in source:
+- **Missing (13)** — upstream supported, not referenced in source:
+  - `--md-comp-radio-disabled-selected-icon-opacity` → upstream `--md-radio-disabled-selected-icon-opacity`
+  - `--md-comp-radio-disabled-unselected-icon-opacity` → upstream `--md-radio-disabled-unselected-icon-opacity`
   - `--md-comp-radio-focus-icon-color` → upstream `--md-radio-focus-icon-color`
   - `--md-comp-radio-hover-icon-color` → upstream `--md-radio-hover-icon-color`
   - `--md-comp-radio-hover-state-layer-color` → upstream `--md-radio-hover-state-layer-color`
@@ -1429,6 +1736,14 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-radio-pressed-icon-color` → upstream `--md-radio-pressed-icon-color`
   - `--md-comp-radio-pressed-state-layer-color` → upstream `--md-radio-pressed-state-layer-color`
   - `--md-comp-radio-pressed-state-layer-opacity` → upstream `--md-radio-pressed-state-layer-opacity`
+  - `--md-comp-radio-selected-focus-icon-color` → upstream `--md-radio-selected-focus-icon-color`
+  - `--md-comp-radio-selected-hover-icon-color` → upstream `--md-radio-selected-hover-icon-color`
+  - `--md-comp-radio-selected-pressed-icon-color` → upstream `--md-radio-selected-pressed-icon-color`
+- **Extra (4)** — referenced in source, not upstream supported:
+  - `--md-comp-radio-unselected-hover-state-layer-color`
+  - `--md-comp-radio-unselected-hover-state-layer-opacity`
+  - `--md-comp-radio-unselected-icon-color`
+  - `--md-comp-radio-unselected-pressed-state-layer-color`
 
 ### `md-comp-ripple`
 
@@ -1444,25 +1759,19 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-secondary-tab-*` · Our prefix: `--md-comp-secondary-tab-*`
 - Contract: 40 supported, 5 unsupported
-- **Missing (40)** — upstream supported, not referenced in source:
+- **Missing (33)** — upstream supported, not referenced in source:
   - `--md-comp-secondary-tab-active-focus-icon-color` → upstream `--md-secondary-tab-active-focus-icon-color`
   - `--md-comp-secondary-tab-active-focus-label-text-color` → upstream `--md-secondary-tab-active-focus-label-text-color`
   - `--md-comp-secondary-tab-active-hover-icon-color` → upstream `--md-secondary-tab-active-hover-icon-color`
   - `--md-comp-secondary-tab-active-hover-label-text-color` → upstream `--md-secondary-tab-active-hover-label-text-color`
   - `--md-comp-secondary-tab-active-hover-state-layer-color` → upstream `--md-secondary-tab-active-hover-state-layer-color`
   - `--md-comp-secondary-tab-active-hover-state-layer-opacity` → upstream `--md-secondary-tab-active-hover-state-layer-opacity`
-  - `--md-comp-secondary-tab-active-icon-color` → upstream `--md-secondary-tab-active-icon-color`
-  - `--md-comp-secondary-tab-active-indicator-color` → upstream `--md-secondary-tab-active-indicator-color`
-  - `--md-comp-secondary-tab-active-indicator-height` → upstream `--md-secondary-tab-active-indicator-height`
   - `--md-comp-secondary-tab-active-indicator-shape` → upstream `--md-secondary-tab-active-indicator-shape`
-  - `--md-comp-secondary-tab-active-label-text-color` → upstream `--md-secondary-tab-active-label-text-color`
   - `--md-comp-secondary-tab-active-pressed-icon-color` → upstream `--md-secondary-tab-active-pressed-icon-color`
   - `--md-comp-secondary-tab-active-pressed-label-text-color` → upstream `--md-secondary-tab-active-pressed-label-text-color`
   - `--md-comp-secondary-tab-active-pressed-state-layer-color` → upstream `--md-secondary-tab-active-pressed-state-layer-color`
   - `--md-comp-secondary-tab-active-pressed-state-layer-opacity` → upstream `--md-secondary-tab-active-pressed-state-layer-opacity`
-  - `--md-comp-secondary-tab-container-color` → upstream `--md-secondary-tab-container-color`
   - `--md-comp-secondary-tab-container-elevation` → upstream `--md-secondary-tab-container-elevation`
-  - `--md-comp-secondary-tab-container-height` → upstream `--md-secondary-tab-container-height`
   - `--md-comp-secondary-tab-container-shape` → upstream `--md-secondary-tab-container-shape`
   - `--md-comp-secondary-tab-container-shape-end-end` → upstream `--md-secondary-tab-container-shape-end-end`
   - `--md-comp-secondary-tab-container-shape-end-start` → upstream `--md-secondary-tab-container-shape-end-start`
@@ -1475,7 +1784,6 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-secondary-tab-hover-state-layer-color` → upstream `--md-secondary-tab-hover-state-layer-color`
   - `--md-comp-secondary-tab-hover-state-layer-opacity` → upstream `--md-secondary-tab-hover-state-layer-opacity`
   - `--md-comp-secondary-tab-icon-color` → upstream `--md-secondary-tab-icon-color`
-  - `--md-comp-secondary-tab-icon-size` → upstream `--md-secondary-tab-icon-size`
   - `--md-comp-secondary-tab-label-text-color` → upstream `--md-secondary-tab-label-text-color`
   - `--md-comp-secondary-tab-label-text-font` → upstream `--md-secondary-tab-label-text-font`
   - `--md-comp-secondary-tab-label-text-line-height` → upstream `--md-secondary-tab-label-text-line-height`
@@ -1485,6 +1793,11 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-secondary-tab-pressed-label-text-color` → upstream `--md-secondary-tab-pressed-label-text-color`
   - `--md-comp-secondary-tab-pressed-state-layer-color` → upstream `--md-secondary-tab-pressed-state-layer-color`
   - `--md-comp-secondary-tab-pressed-state-layer-opacity` → upstream `--md-secondary-tab-pressed-state-layer-opacity`
+- **Extra (4)** — referenced in source, not upstream supported:
+  - `--md-comp-secondary-tab-divider-color`
+  - `--md-comp-secondary-tab-divider-height`
+  - `--md-comp-secondary-tab-inactive-icon-color`
+  - `--md-comp-secondary-tab-inactive-label-text-color`
 
 ### `md-comp-slider`
 
@@ -1515,12 +1828,18 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-slider-with-tick-marks-container-size` → upstream `--md-slider-with-tick-marks-container-size`
   - `--md-comp-slider-with-tick-marks-disabled-container-color` → upstream `--md-slider-with-tick-marks-disabled-container-color`
   - `--md-comp-slider-with-tick-marks-inactive-container-color` → upstream `--md-slider-with-tick-marks-inactive-container-color`
-- **Extra (8)** — referenced in source, not upstream supported:
+- **Extra (14)** — referenced in source, not upstream supported:
   - `--md-comp-slider-active-handle-leading-space`
   - `--md-comp-slider-active-handle-padding`
   - `--md-comp-slider-disabled-handle-width`
+  - `--md-comp-slider-disabled-stop-color`
   - `--md-comp-slider-focus-handle-width`
   - `--md-comp-slider-pressed-handle-width`
+  - `--md-comp-slider-stop-indicator-color`
+  - `--md-comp-slider-stop-indicator-color-selected`
+  - `--md-comp-slider-stop-indicator-shape`
+  - `--md-comp-slider-stop-indicator-size`
+  - `--md-comp-slider-stop-indicator-trailing-space`
   - `--md-comp-slider-value-indicator-active-bottom-space`
   - `--md-comp-slider-value-indicator-container-color`
   - `--md-comp-slider-value-indicator-label-text-color`
@@ -1529,46 +1848,35 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-suggestion-chip-*` · Our prefix: `--md-comp-suggestion-chip-*`
 - Contract: 45 supported, 10 unsupported
-- **Missing (38)** — upstream supported, not referenced in source:
+- **Missing (26)** — upstream supported, not referenced in source:
   - `--md-comp-suggestion-chip-container-shape-end-end` → upstream `--md-suggestion-chip-container-shape-end-end`
   - `--md-comp-suggestion-chip-container-shape-end-start` → upstream `--md-suggestion-chip-container-shape-end-start`
   - `--md-comp-suggestion-chip-container-shape-start-end` → upstream `--md-suggestion-chip-container-shape-start-end`
   - `--md-comp-suggestion-chip-container-shape-start-start` → upstream `--md-suggestion-chip-container-shape-start-start`
   - `--md-comp-suggestion-chip-disabled-label-text-opacity` → upstream `--md-suggestion-chip-disabled-label-text-opacity`
-  - `--md-comp-suggestion-chip-disabled-leading-icon-color` → upstream `--md-suggestion-chip-disabled-leading-icon-color`
   - `--md-comp-suggestion-chip-disabled-leading-icon-opacity` → upstream `--md-suggestion-chip-disabled-leading-icon-opacity`
   - `--md-comp-suggestion-chip-disabled-outline-color` → upstream `--md-suggestion-chip-disabled-outline-color`
   - `--md-comp-suggestion-chip-disabled-outline-opacity` → upstream `--md-suggestion-chip-disabled-outline-opacity`
   - `--md-comp-suggestion-chip-elevated-container-shadow-color` → upstream `--md-suggestion-chip-elevated-container-shadow-color`
   - `--md-comp-suggestion-chip-elevated-disabled-container-elevation` → upstream `--md-suggestion-chip-elevated-disabled-container-elevation`
   - `--md-comp-suggestion-chip-elevated-disabled-container-opacity` → upstream `--md-suggestion-chip-elevated-disabled-container-opacity`
-  - `--md-comp-suggestion-chip-elevated-focus-container-elevation` → upstream `--md-suggestion-chip-elevated-focus-container-elevation`
-  - `--md-comp-suggestion-chip-elevated-hover-container-elevation` → upstream `--md-suggestion-chip-elevated-hover-container-elevation`
-  - `--md-comp-suggestion-chip-elevated-pressed-container-elevation` → upstream `--md-suggestion-chip-elevated-pressed-container-elevation`
-  - `--md-comp-suggestion-chip-focus-label-text-color` → upstream `--md-suggestion-chip-focus-label-text-color`
   - `--md-comp-suggestion-chip-focus-leading-icon-color` → upstream `--md-suggestion-chip-focus-leading-icon-color`
   - `--md-comp-suggestion-chip-focus-outline-color` → upstream `--md-suggestion-chip-focus-outline-color`
-  - `--md-comp-suggestion-chip-hover-label-text-color` → upstream `--md-suggestion-chip-hover-label-text-color`
   - `--md-comp-suggestion-chip-hover-leading-icon-color` → upstream `--md-suggestion-chip-hover-leading-icon-color`
-  - `--md-comp-suggestion-chip-hover-state-layer-color` → upstream `--md-suggestion-chip-hover-state-layer-color`
-  - `--md-comp-suggestion-chip-hover-state-layer-opacity` → upstream `--md-suggestion-chip-hover-state-layer-opacity`
   - `--md-comp-suggestion-chip-icon-label-space` → upstream `--md-suggestion-chip-icon-label-space`
   - `--md-comp-suggestion-chip-icon-size` → upstream `--md-suggestion-chip-icon-size`
   - `--md-comp-suggestion-chip-label-text-font` → upstream `--md-suggestion-chip-label-text-font`
   - `--md-comp-suggestion-chip-label-text-line-height` → upstream `--md-suggestion-chip-label-text-line-height`
   - `--md-comp-suggestion-chip-label-text-size` → upstream `--md-suggestion-chip-label-text-size`
   - `--md-comp-suggestion-chip-label-text-weight` → upstream `--md-suggestion-chip-label-text-weight`
-  - `--md-comp-suggestion-chip-leading-icon-color` → upstream `--md-suggestion-chip-leading-icon-color`
   - `--md-comp-suggestion-chip-leading-space` → upstream `--md-suggestion-chip-leading-space`
   - `--md-comp-suggestion-chip-outline-color` → upstream `--md-suggestion-chip-outline-color`
   - `--md-comp-suggestion-chip-outline-width` → upstream `--md-suggestion-chip-outline-width`
-  - `--md-comp-suggestion-chip-pressed-label-text-color` → upstream `--md-suggestion-chip-pressed-label-text-color`
   - `--md-comp-suggestion-chip-pressed-leading-icon-color` → upstream `--md-suggestion-chip-pressed-leading-icon-color`
-  - `--md-comp-suggestion-chip-pressed-state-layer-color` → upstream `--md-suggestion-chip-pressed-state-layer-color`
-  - `--md-comp-suggestion-chip-pressed-state-layer-opacity` → upstream `--md-suggestion-chip-pressed-state-layer-opacity`
   - `--md-comp-suggestion-chip-trailing-space` → upstream `--md-suggestion-chip-trailing-space`
   - `--md-comp-suggestion-chip-with-leading-icon-leading-space` → upstream `--md-suggestion-chip-with-leading-icon-leading-space`
-- **Extra (5)** — referenced in source, not upstream supported:
+- **Extra (6)** — referenced in source, not upstream supported:
+  - `--md-comp-suggestion-chip-container-elevation`
   - `--md-comp-suggestion-chip-flat-container-elevation`
   - `--md-comp-suggestion-chip-flat-disabled-outline-color`
   - `--md-comp-suggestion-chip-flat-outline-color`
@@ -1579,21 +1887,27 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
 
 - Upstream prefix: `--md-switch-*` · Our prefix: `--md-comp-switch-*`
 - Contract: 74 supported, 4 unsupported
-- **Missing (59)** — upstream supported, not referenced in source:
+- **Missing (45)** — upstream supported, not referenced in source:
   - `--md-comp-switch-disabled-handle-color` → upstream `--md-switch-disabled-handle-color`
+  - `--md-comp-switch-disabled-handle-opacity` → upstream `--md-switch-disabled-handle-opacity`
   - `--md-comp-switch-disabled-icon-color` → upstream `--md-switch-disabled-icon-color`
   - `--md-comp-switch-disabled-icon-opacity` → upstream `--md-switch-disabled-icon-opacity`
+  - `--md-comp-switch-disabled-selected-handle-opacity` → upstream `--md-switch-disabled-selected-handle-opacity`
+  - `--md-comp-switch-disabled-selected-icon-opacity` → upstream `--md-switch-disabled-selected-icon-opacity`
   - `--md-comp-switch-disabled-track-color` → upstream `--md-switch-disabled-track-color`
+  - `--md-comp-switch-disabled-track-opacity` → upstream `--md-switch-disabled-track-opacity`
   - `--md-comp-switch-disabled-track-outline-color` → upstream `--md-switch-disabled-track-outline-color`
   - `--md-comp-switch-focus-handle-color` → upstream `--md-switch-focus-handle-color`
   - `--md-comp-switch-focus-icon-color` → upstream `--md-switch-focus-icon-color`
   - `--md-comp-switch-focus-track-color` → upstream `--md-switch-focus-track-color`
   - `--md-comp-switch-focus-track-outline-color` → upstream `--md-switch-focus-track-outline-color`
   - `--md-comp-switch-handle-color` → upstream `--md-switch-handle-color`
+  - `--md-comp-switch-handle-height` → upstream `--md-switch-handle-height`
   - `--md-comp-switch-handle-shape-end-end` → upstream `--md-switch-handle-shape-end-end`
   - `--md-comp-switch-handle-shape-end-start` → upstream `--md-switch-handle-shape-end-start`
   - `--md-comp-switch-handle-shape-start-end` → upstream `--md-switch-handle-shape-start-end`
   - `--md-comp-switch-handle-shape-start-start` → upstream `--md-switch-handle-shape-start-start`
+  - `--md-comp-switch-handle-width` → upstream `--md-switch-handle-width`
   - `--md-comp-switch-hover-handle-color` → upstream `--md-switch-hover-handle-color`
   - `--md-comp-switch-hover-icon-color` → upstream `--md-switch-hover-icon-color`
   - `--md-comp-switch-hover-state-layer-color` → upstream `--md-switch-hover-state-layer-color`
@@ -1603,8 +1917,6 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-switch-icon-color` → upstream `--md-switch-icon-color`
   - `--md-comp-switch-icon-size` → upstream `--md-switch-icon-size`
   - `--md-comp-switch-pressed-handle-color` → upstream `--md-switch-pressed-handle-color`
-  - `--md-comp-switch-pressed-handle-height` → upstream `--md-switch-pressed-handle-height`
-  - `--md-comp-switch-pressed-handle-width` → upstream `--md-switch-pressed-handle-width`
   - `--md-comp-switch-pressed-icon-color` → upstream `--md-switch-pressed-icon-color`
   - `--md-comp-switch-pressed-state-layer-color` → upstream `--md-switch-pressed-state-layer-color`
   - `--md-comp-switch-pressed-state-layer-opacity` → upstream `--md-switch-pressed-state-layer-opacity`
@@ -1613,55 +1925,56 @@ Upstream emits `--md-{component}-*` custom properties; we use `--md-comp-{compon
   - `--md-comp-switch-selected-focus-handle-color` → upstream `--md-switch-selected-focus-handle-color`
   - `--md-comp-switch-selected-focus-icon-color` → upstream `--md-switch-selected-focus-icon-color`
   - `--md-comp-switch-selected-focus-track-color` → upstream `--md-switch-selected-focus-track-color`
-  - `--md-comp-switch-selected-handle-color` → upstream `--md-switch-selected-handle-color`
-  - `--md-comp-switch-selected-handle-height` → upstream `--md-switch-selected-handle-height`
-  - `--md-comp-switch-selected-handle-width` → upstream `--md-switch-selected-handle-width`
-  - `--md-comp-switch-selected-hover-handle-color` → upstream `--md-switch-selected-hover-handle-color`
-  - `--md-comp-switch-selected-hover-icon-color` → upstream `--md-switch-selected-hover-icon-color`
-  - `--md-comp-switch-selected-hover-state-layer-color` → upstream `--md-switch-selected-hover-state-layer-color`
-  - `--md-comp-switch-selected-hover-state-layer-opacity` → upstream `--md-switch-selected-hover-state-layer-opacity`
-  - `--md-comp-switch-selected-hover-track-color` → upstream `--md-switch-selected-hover-track-color`
-  - `--md-comp-switch-selected-icon-color` → upstream `--md-switch-selected-icon-color`
-  - `--md-comp-switch-selected-icon-size` → upstream `--md-switch-selected-icon-size`
-  - `--md-comp-switch-selected-pressed-handle-color` → upstream `--md-switch-selected-pressed-handle-color`
-  - `--md-comp-switch-selected-pressed-icon-color` → upstream `--md-switch-selected-pressed-icon-color`
   - `--md-comp-switch-selected-pressed-state-layer-color` → upstream `--md-switch-selected-pressed-state-layer-color`
-  - `--md-comp-switch-selected-pressed-state-layer-opacity` → upstream `--md-switch-selected-pressed-state-layer-opacity`
-  - `--md-comp-switch-selected-pressed-track-color` → upstream `--md-switch-selected-pressed-track-color`
-  - `--md-comp-switch-selected-track-color` → upstream `--md-switch-selected-track-color`
   - `--md-comp-switch-touch-target-size` → upstream `--md-switch-touch-target-size`
   - `--md-comp-switch-track-color` → upstream `--md-switch-track-color`
   - `--md-comp-switch-track-outline-color` → upstream `--md-switch-track-outline-color`
-  - `--md-comp-switch-track-outline-width` → upstream `--md-switch-track-outline-width`
   - `--md-comp-switch-track-shape-end-end` → upstream `--md-switch-track-shape-end-end`
   - `--md-comp-switch-track-shape-end-start` → upstream `--md-switch-track-shape-end-start`
   - `--md-comp-switch-track-shape-start-end` → upstream `--md-switch-track-shape-start-end`
   - `--md-comp-switch-track-shape-start-start` → upstream `--md-switch-track-shape-start-start`
-  - `--md-comp-switch-with-icon-handle-height` → upstream `--md-switch-with-icon-handle-height`
-  - `--md-comp-switch-with-icon-handle-width` → upstream `--md-switch-with-icon-handle-width`
-- **Extra (2)** — referenced in source, not upstream supported:
+- **Extra (22)** — referenced in source, not upstream supported:
+  - `--md-comp-switch-disabled-unselected-handle-color`
+  - `--md-comp-switch-disabled-unselected-icon-color`
+  - `--md-comp-switch-disabled-unselected-track-color`
   - `--md-comp-switch-disabled-unselected-track-outline-color`
+  - `--md-comp-switch-unselected-handle-color`
+  - `--md-comp-switch-unselected-handle-height`
+  - `--md-comp-switch-unselected-handle-width`
+  - `--md-comp-switch-unselected-hover-handle-color`
+  - `--md-comp-switch-unselected-hover-icon-color`
+  - `--md-comp-switch-unselected-hover-state-layer-color`
+  - `--md-comp-switch-unselected-hover-state-layer-opacity`
+  - `--md-comp-switch-unselected-hover-track-color`
+  - `--md-comp-switch-unselected-hover-track-outline-color`
+  - `--md-comp-switch-unselected-icon-color`
+  - `--md-comp-switch-unselected-icon-size`
+  - `--md-comp-switch-unselected-pressed-handle-color`
+  - `--md-comp-switch-unselected-pressed-icon-color`
+  - `--md-comp-switch-unselected-pressed-state-layer-opacity`
+  - `--md-comp-switch-unselected-pressed-track-color`
+  - `--md-comp-switch-unselected-pressed-track-outline-color`
+  - `--md-comp-switch-unselected-track-color`
   - `--md-comp-switch-unselected-track-outline-color`
 
 ### `md-comp-text-button`
 
 - Upstream prefix: `--md-text-button-*` · Our prefix: `--md-comp-text-button-*`
 - Contract: 33 supported, 4 unsupported
-- **Missing (14)** — upstream supported, not referenced in source:
+- **Missing (12)** — upstream supported, not referenced in source:
   - `--md-comp-text-button-container-shape-end-end` → upstream `--md-text-button-container-shape-end-end`
   - `--md-comp-text-button-container-shape-end-start` → upstream `--md-text-button-container-shape-end-start`
   - `--md-comp-text-button-container-shape-start-end` → upstream `--md-text-button-container-shape-start-end`
   - `--md-comp-text-button-container-shape-start-start` → upstream `--md-text-button-container-shape-start-start`
   - `--md-comp-text-button-disabled-icon-opacity` → upstream `--md-text-button-disabled-icon-opacity`
-  - `--md-comp-text-button-focus-icon-color` → upstream `--md-text-button-focus-icon-color`
-  - `--md-comp-text-button-hover-icon-color` → upstream `--md-text-button-hover-icon-color`
-  - `--md-comp-text-button-icon-size` → upstream `--md-text-button-icon-size`
+  - `--md-comp-text-button-disabled-label-text-opacity` → upstream `--md-text-button-disabled-label-text-opacity`
   - `--md-comp-text-button-leading-space` → upstream `--md-text-button-leading-space`
   - `--md-comp-text-button-trailing-space` → upstream `--md-text-button-trailing-space`
   - `--md-comp-text-button-with-leading-icon-leading-space` → upstream `--md-text-button-with-leading-icon-leading-space`
   - `--md-comp-text-button-with-leading-icon-trailing-space` → upstream `--md-text-button-with-leading-icon-trailing-space`
   - `--md-comp-text-button-with-trailing-icon-leading-space` → upstream `--md-text-button-with-trailing-icon-leading-space`
   - `--md-comp-text-button-with-trailing-icon-trailing-space` → upstream `--md-text-button-with-trailing-icon-trailing-space`
-- **Extra (2)** — referenced in source, not upstream supported:
+- **Extra (3)** — referenced in source, not upstream supported:
   - `--md-comp-text-button-disabled-container-color`
+  - `--md-comp-text-button-disabled-label-color`
   - `--md-comp-text-button-label-color`

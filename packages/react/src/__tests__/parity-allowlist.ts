@@ -61,6 +61,19 @@ export const PARITY_ALLOWLIST: ParityAllowlistEntry[] = [
     slug: 'button',
     reason: 'Trailing-icon spacing tokens reserved for icon+label layout edge cases',
   },
+  {
+    pattern: /inner-corner-corner-size|inner-hovered-corner|inner-focused-corner/,
+    reason: 'Split-button inner-corner Compose names diverge from web container-shape morph tokens',
+  },
+  {
+    pattern: /^(hovered|focused)-outline-/,
+    reason: 'Outlined button uses Compose hovered/focused outline names present in generated tokens',
+  },
+  {
+    pattern: /^(track-active-space|stop-size|active-thickness|height)$/,
+    slug: 'progress',
+    reason: 'Track gap/stop tokens live on linear-progress-indicator, not progress-indicator',
+  },
 ];
 
 export function isAllowlistedParityGap(slug: string, tokenSuffix: string): boolean {

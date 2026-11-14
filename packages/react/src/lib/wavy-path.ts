@@ -41,7 +41,7 @@ export function generateCircularWavePath(
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const angle = startAngle + sweepAngle * t;
-    const r = radius + effectiveAmplitude * Math.sin((t * sweepAngle * radius) / wavelength + phase);
+    const r = radius + effectiveAmplitude * Math.sin((2 * Math.PI * t * sweepAngle * radius) / wavelength + phase);
     const x = cx + r * Math.cos(angle);
     const y = cy + r * Math.sin(angle);
     points.push(`${i === 0 ? 'M' : 'L'} ${x.toFixed(2)} ${y.toFixed(2)}`);

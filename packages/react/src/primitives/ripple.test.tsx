@@ -51,4 +51,23 @@ describe('Ripple primitive', () => {
       'var(--md-sys-color-primary)',
     );
   });
+
+  it('starts radial WAAPI press animation with valid cubic-bezier easing', () => {
+    const { container } = render(
+      <Ripple>
+        <button type="button">Press</button>
+      </Ripple>,
+    );
+    const surface = container.querySelector('.m3-ripple-surface') as HTMLElement;
+    let capturedEasing: string | undefined;
+    surface.animate = ((_keyframes: Keyframe[], options?: KeyframeAnimationOptions) => {
+      capturedEasing = options?.easing;
+      return { cancel: () => undefined, currentTime: 500 } as unknown as Animation;
+    }) as typeof surface.animate;
+
+    const host = container.querySelector('.m3-ripple-host') as HTMLElement;
+    host.click();
+
+    expect(capturedEasing).toBe('cubic-bezier(0.2, 0, 0, 1)');
+  });
 });

@@ -69,12 +69,12 @@
   --radius-md-corner-full: var(--md-sys-shape-corner-full);
 
   /* Elevation */
-  --shadow-md-level0: var(--md-sys-elevation-level0);
-  --shadow-md-level1: var(--md-sys-elevation-level1);
-  --shadow-md-level2: var(--md-sys-elevation-level2);
-  --shadow-md-level3: var(--md-sys-elevation-level3);
-  --shadow-md-level4: var(--md-sys-elevation-level4);
-  --shadow-md-level5: var(--md-sys-elevation-level5);
+  --shadow-md-level0: var(--md-sys-elevation-level0-shadow);
+  --shadow-md-level1: var(--md-sys-elevation-level1-shadow);
+  --shadow-md-level2: var(--md-sys-elevation-level2-shadow);
+  --shadow-md-level3: var(--md-sys-elevation-level3-shadow);
+  --shadow-md-level4: var(--md-sys-elevation-level4-shadow);
+  --shadow-md-level5: var(--md-sys-elevation-level5-shadow);
 
   /* Motion */
   --duration-md-short1: var(--md-sys-motion-duration-short1);

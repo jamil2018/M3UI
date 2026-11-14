@@ -29,10 +29,13 @@ const IMPORT_REWRITES: Record<string, string> = {
 
 const INTERNAL_IMPORT_REPLACEMENTS: Array<[RegExp, string]> = [
   [/from '\.\.\/primitives\/state-layer\.js'/g, "from '@m3ui/react/primitives'"],
+  [/from '\.\.\/primitives\/focus-ring\.js'/g, "from '@m3ui/react/primitives'"],
   [/from '\.\.\/primitives\/ripple\.js'/g, "from '@m3ui/react/primitives'"],
   [/from '\.\.\/primitives\/surface\.js'/g, "from '@m3ui/react/primitives'"],
   [/from '\.\.\/lib\/token-utils\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/pressable-shell\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/surface-action\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/state-layer\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/popup-motion\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/wavy-path\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/i18n\.js'/g, "from '@m3ui/react'"],
@@ -50,6 +53,8 @@ const INTERNAL_IMPORT_REPLACEMENTS: Array<[RegExp, string]> = [
   [/from '\.\.\/lib\/dialog-motion\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/menu-motion\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/use-popup-waapi\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/use-reduced-motion\.js'/g, "from '@m3ui/react'"],
+  [/from '\.\.\/lib\/modal-layout\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/waapi\.js'/g, "from '@m3ui/react'"],
   [/from '\.\.\/lib\/shape-crop\.js'/g, "from '@m3ui/react'"],
   [/from '\.\/divider\.js'/g, "from '@m3ui/react'"],
@@ -69,7 +74,7 @@ function rewriteImports(source: string): string {
   for (const [pattern, replacement] of INTERNAL_IMPORT_REPLACEMENTS) {
     result = result.replace(pattern, replacement);
   }
-  if (result.includes('workspace:') || result.includes('../lib/') || result.includes('../primitives/')) {
+  if (result.includes('workspace:') || result.includes('../lib/') || result.includes('../primitives/') || result.includes('../provider/')) {
     throw new Error('Registry source contains workspace-relative imports that must be rewritten');
   }
   return result;

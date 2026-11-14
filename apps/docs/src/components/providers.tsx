@@ -1,7 +1,7 @@
 'use client';
 
 import { M3Provider } from '@m3ui/react';
-import { RootProvider } from 'fumadocs-ui/provider';
+import { RootProvider } from 'fumadocs-ui/provider/next';
 import { useTheme } from 'next-themes';
 import { useEffect, useState, type ReactNode } from 'react';
 
@@ -18,7 +18,7 @@ function M3ThemeBridge({ children }: { children: ReactNode }) {
   }, [resolvedTheme, scheme]);
 
   return (
-    <M3Provider scheme={mounted ? scheme : 'system'} seed="#6750A4">
+    <M3Provider className="docs-theme-root" scheme={mounted ? scheme : 'system'} seed="#6750A4">
       {children}
     </M3Provider>
   );

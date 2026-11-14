@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { OVERVIEW_STORY, PRIMITIVE_VRT_STORIES, storyUrl, VRT_MATRIX } from '../storybook-url';
 import docsCatalog from '../../../packages/react/registry/docs-catalog.json' with { type: 'json' };
 
@@ -24,9 +24,9 @@ const COMPONENT_STORY_VRT = [
     storyId: 'navigation-adaptive-navigation--storybookdemo',
     name: 'adaptive-navigation',
     ready: (page: import('@playwright/test').Page) =>
-      page.getByRole('tablist', { name: 'Navigation bar' }).waitFor({ state: 'visible' }),
+      page.getByRole('navigation', { name: 'Navigation bar' }).waitFor({ state: 'visible' }),
     screenshot: (page: import('@playwright/test').Page) =>
-      page.getByRole('tablist', { name: 'Navigation bar' }),
+      page.getByRole('navigation', { name: 'Navigation bar' }),
   },
 ] as const;
 
@@ -82,6 +82,15 @@ for (const storyId of PRIMITIVE_VRT_STORIES) {
       storyUrl(storyId, { scheme: 'light', contrast: 0, direction: 'ltr', seed: '#6750A4' }),
     );
     await page.locator('#storybook-root').waitFor();
+    if (storyId === 'foundations-primitives--focus-ring-states') {
+      await expect(page.locator('#m3-focus-ring-styles')).toHaveCount(1);
+      await expect(page.getByRole('button', { name: 'Focused', exact: true })).toBeFocused();
+      // Real keyboard events run after React has attached the focus listeners.
+      await page.keyboard.press('Tab');
+      await page.keyboard.press('Shift+Tab');
+      await expect(page.getByRole('button', { name: 'Focused', exact: true })).toBeFocused();
+      await expect(page.locator('.m3-focus-ring[data-visible="true"]')).toBeVisible();
+    }
     await expect(page.locator('#storybook-root')).toHaveScreenshot(`${snapshotName}.png`);
   });
 }

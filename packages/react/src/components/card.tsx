@@ -1,8 +1,7 @@
-
-import { type CSSProperties, type ReactNode } from 'react';
+import { SurfaceAction } from '../lib/surface-action.js';
+import { useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, compElevation } from '../lib/token-utils.js';
-import { StateLayer } from '../primitives/state-layer.js';
-import { Ripple } from '../primitives/ripple.js';
+import { PressableShell } from '../lib/pressable-shell.js';
 
 export type CardVariant = 'elevated' | 'filled' | 'outlined';
 
@@ -23,23 +22,23 @@ const CARD_SHAPE: Record<CardVariant, string> = {
   outlined: compVar('outlined-card', 'container-shape'),
 };
 
-const CARD_SHADOW: Record<CardVariant, string> = {
-  elevated: compVar('elevated-card', 'container-shadow-color'),
-  filled: compVar('filled-card', 'container-shadow-color'),
-  outlined: compVar('outlined-card', 'container-shadow-color'),
-};
-
-const CARD_ELEVATION: Record<CardVariant, string> = {
-  elevated: compElevation('elevated-card'),
-  filled: compElevation('filled-card'),
-  outlined: compElevation('outlined-card'),
-};
-
 const CARD_COLOR: Record<CardVariant, string> = {
   elevated: compVar('elevated-card', 'container-color'),
   filled: compVar('filled-card', 'container-color'),
   outlined: compVar('outlined-card', 'container-color'),
 };
+
+function cardElevation(
+  variant: CardVariant,
+  state: { draggable: boolean; pressed: boolean; hovered: boolean; focused: boolean },
+): string {
+  const p = `${variant}-card`;
+  if (state.draggable) return compElevation(p, 'dragged-container-elevation');
+  if (state.pressed) return compElevation(p, 'pressed-container-elevation');
+  if (state.hovered) return compElevation(p, 'hover-container-elevation');
+  if (state.focused) return compElevation(p, 'focus-container-elevation');
+  return compElevation(p, 'container-elevation');
+}
 
 export function Card({
   children,
@@ -51,32 +50,66 @@ export function Card({
   style,
   'data-testid': testId,
 }: CardProps) {
+  const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [pressed, setPressed] = useState(false);
+
+  const interactiveElevation = interactive || draggable;
+  const boxShadow = interactiveElevation
+    ? cardElevation(variant, { draggable, pressed, hovered, focused })
+    : compElevation(`${variant}-card`, 'container-elevation');
+
   const cardStyle: CSSProperties = {
     position: 'relative',
     borderRadius: CARD_SHAPE[variant],
     background: CARD_COLOR[variant],
-    boxShadow: CARD_ELEVATION[variant],
-    ['--card-shadow-color' as string]: CARD_SHADOW[variant],
+    boxShadow,
     border:
       variant === 'outlined'
         ? `${compVar('outlined-card', 'outline-width')} solid ${compVar('outlined-card', 'outline-color')}`
         : 'none',
     overflow: 'hidden',
     cursor: interactive ? 'pointer' : draggable ? 'grab' : undefined,
+    width: '100%',
     ...style,
   };
 
   const content = (
-    <div className={className} data-testid={testId} style={cardStyle} onClick={interactive ? onClick : undefined} data-dragging={draggable || undefined}>
-      {children}
+    <div
+      className={interactive ? undefined : className}
+      data-testid={interactive ? undefined : testId}
+      style={cardStyle}
+      data-dragging={draggable || undefined}
+      onMouseEnter={() => interactiveElevation && setHovered(true)}
+      onMouseLeave={() => {
+        setHovered(false);
+        setPressed(false);
+      }}
+      onFocus={() => interactiveElevation && setFocused(true)}
+      onBlur={() => setFocused(false)}
+      onPointerDown={() => interactiveElevation && setPressed(true)}
+      onPointerUp={() => setPressed(false)}
+      onPointerCancel={() => setPressed(false)}
+    >
+      {interactive ? <SurfaceAction onClick={onClick}>{children}</SurfaceAction> : children}
     </div>
   );
 
   if (interactive) {
+    const p = `${variant}-card`;
     return (
-      <Ripple>
-        <StateLayer states={['hover', 'focus', 'pressed', 'dragged']}>{content}</StateLayer>
-      </Ripple>
+      <PressableShell
+        shape="round"
+        shapeRound={CARD_SHAPE[variant]}
+        pressedShape={CARD_SHAPE[variant]}
+        hoverStateColor={compVar(p, 'hover-state-layer-color')}
+        pressedStateColor={compVar(p, 'pressed-state-layer-color')}
+        className={className}
+        data-testid={testId}
+        style={{ width: '100%', display: 'flex' }}
+      >
+        {content}
+      </PressableShell>
     );
   }
 

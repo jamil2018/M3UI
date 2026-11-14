@@ -19,8 +19,8 @@ An unofficial open-source component library implementing [Material Design 3 Expr
 
 ## Prerequisites
 
-- Node.js ≥ 20
-- pnpm 9.15.0 (see `packageManager` in root `package.json`)
+- Node.js ≥ 24.15.0 (Node 24 recommended; `.nvmrc` provided)
+- pnpm 10.34.7 (see `packageManager` in root `package.json`)
 
 ## Quick start
 
@@ -110,13 +110,14 @@ m3ui/
 ## Using in your app
 
 ```bash
-pnpm add @m3ui/react @m3ui/tokens @m3ui/color
+pnpm add @m3ui/react @m3ui/tokens @m3ui/color @m3ui/icons
 npx m3ui init --seed "#6750A4"
 ```
 
 ```tsx
 import '@m3ui/tokens/tokens.css';
 import '@m3ui/tokens/theme.css';
+import '@m3ui/icons/font.css'; // Self-hosted Material Symbols (optional)
 import './m3-theme.css';
 import { M3Provider, Button } from '@m3ui/react';
 
@@ -176,7 +177,7 @@ unset PLAYWRIGHT_BROWSERS_PATH && pnpm exec playwright install chromium --force
 Snapshot baselines live in `tools/vrt/tests/`. To refresh baselines after intentional UI changes:
 
 ```bash
-pnpm test:vrt -- --update-snapshots
+pnpm test:vrt --update-snapshots
 ```
 
 VRT targets Storybook iframe URLs and docs pages. Run against dev or a static Storybook build:
@@ -219,3 +220,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the PR checklist, catalog/docs/Storyb
 ## License
 
 Apache-2.0
+
+### DatePicker migration
+
+The previously nonfunctional `DatePicker mode="multiple"` is no longer accepted. Use `mode="single"` or `mode="range"` for the picker; applications needing multiple selection can use the separate calendar engine.

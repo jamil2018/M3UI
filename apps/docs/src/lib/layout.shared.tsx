@@ -6,7 +6,6 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: 'M3UI',
       url: '/',
-      enableSearch: true,
     },
     links: [
       {

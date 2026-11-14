@@ -40,14 +40,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "adaptive-navigation",
       "title": "Navigation bar mode",
       "description": "Adaptive navigation forced to bottom bar layout.",
-      "source": "const destinations = [\r\n  { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n  { value: 'search', label: 'Search', icon: <Icon name=\"search\" />, badge: 2 },\n  { value: 'settings', label: 'Settings', icon: <Icon name=\"settings\" /> },\n];\r\n\r\n<AdaptiveNavigation destinations={destinations} mode=\"bar\" />"
+      "source": "const destinations = [\n  { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n  { value: 'search', label: 'Search', icon: <Icon name=\"search\" />, badge: 2 },\n  { value: 'settings', label: 'Settings', icon: <Icon name=\"settings\" /> },\n];\n\n<AdaptiveNavigation destinations={destinations} mode=\"bar\" />"
     },
     {
       "id": "adaptive-navigation-demo",
       "componentSlug": "adaptive-navigation",
       "title": "Storybook demo",
       "description": "Same scenario used in the monolithic Storybook catalog.",
-      "source": "<AdaptiveNavigation\r\n  destinations={[\r\n    { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n    { value: 'search', label: 'Search', icon: <Icon name=\"search\" /> },\n    { value: 'settings', label: 'Settings', icon: <Icon name=\"settings\" /> },\n  ]}\r\n  mode=\"bar\"\r\n/>"
+      "source": "<AdaptiveNavigation\n  destinations={[\n    { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n    { value: 'search', label: 'Search', icon: <Icon name=\"search\" /> },\n    { value: 'settings', label: 'Settings', icon: <Icon name=\"settings\" /> },\n  ]}\n  mode=\"bar\"\n/>"
     }
   ],
   "button": [
@@ -56,28 +56,28 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "button",
       "title": "Variants",
       "description": "Filled, elevated, tonal, outlined, and text styles with interactive state layers.",
-      "source": "<div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>\r\n  <Button variant=\"filled\">Filled</Button>\r\n  <Button variant=\"elevated\">Elevated</Button>\r\n  <Button variant=\"filled-tonal\">Tonal</Button>\r\n  <Button variant=\"outlined\">Outlined</Button>\r\n  <Button variant=\"text\">Text</Button>\r\n</div>"
+      "source": "<div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>\n  <Button variant=\"filled\">Filled</Button>\n  <Button variant=\"elevated\">Elevated</Button>\n  <Button variant=\"filled-tonal\">Tonal</Button>\n  <Button variant=\"outlined\">Outlined</Button>\n  <Button variant=\"text\">Text</Button>\n</div>"
     },
     {
       "id": "button-sizes",
       "componentSlug": "button",
       "title": "Sizes",
       "description": "Expressive size scale from xs through xl.",
-      "source": "<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>\r\n  <Button size=\"xs\">xs</Button>\r\n  <Button size=\"sm\">sm</Button>\r\n  <Button size=\"md\">md</Button>\r\n  <Button size=\"lg\">lg</Button>\r\n  <Button size=\"xl\">xl</Button>\r\n</div>"
+      "source": "<div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>\n  <Button size=\"xs\">xs</Button>\n  <Button size=\"sm\">sm</Button>\n  <Button size=\"md\">md</Button>\n  <Button size=\"lg\">lg</Button>\n  <Button size=\"xl\">xl</Button>\n</div>"
     },
     {
       "id": "button-states",
       "componentSlug": "button",
       "title": "Disabled",
       "description": "Disabled state across all variants using semantic disabled tokens.",
-      "source": "<Button variant=\"filled\" disabled>Filled</Button>\r\n<Button variant=\"elevated\" disabled>Elevated</Button>\r\n<Button variant=\"outlined\" disabled>Outlined</Button>"
+      "source": "<Button variant=\"filled\" disabled>Filled</Button>\n<Button variant=\"elevated\" disabled>Elevated</Button>\n<Button variant=\"outlined\" disabled>Outlined</Button>"
     },
     {
       "id": "button-icons",
       "componentSlug": "button",
       "title": "With icons",
       "description": "Leading and trailing icons at expressive sizes.",
-      "source": "<Button startIcon={<Icon name=\"add\" />}>Create</Button>\r\n<Button variant=\"outlined\" endIcon={<Icon name=\"open_in_new\" />}>Open</Button>"
+      "source": "<Button startIcon={<Icon name=\"add\" />}>Create</Button>\n<Button variant=\"outlined\" endIcon={<Icon name=\"open_in_new\" />}>Open</Button>"
     }
   ],
   "card": [
@@ -86,14 +86,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "card",
       "title": "Variants",
       "description": "Elevated, filled, and outlined card surfaces.",
-      "source": "<div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>\r\n  <Card variant=\"elevated\" style={{ padding: 16 }}>Elevated</Card>\r\n  <Card variant=\"filled\" style={{ padding: 16 }}>Filled</Card>\r\n  <Card variant=\"outlined\" style={{ padding: 16 }}>Outlined</Card>\r\n</div>"
+      "source": "<div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>\n  <Card variant=\"elevated\" style={{ padding: 16 }}>Elevated</Card>\n  <Card variant=\"filled\" style={{ padding: 16 }}>Filled</Card>\n  <Card variant=\"outlined\" style={{ padding: 16 }}>Outlined</Card>\n</div>"
     },
     {
       "id": "card-elevation",
       "componentSlug": "card",
       "title": "Elevation levels",
       "description": "Semantic elevation from level0 through level5 on Surface.",
-      "source": "<Surface elevation=\"level1\" style={{ padding: 16 }}>level1</Surface>\r\n<Surface elevation=\"level2\" style={{ padding: 16 }}>level2</Surface>\r\n<Surface elevation=\"level3\" style={{ padding: 16 }}>level3</Surface>"
+      "source": "<Surface elevation=\"level1\" style={{ padding: 16 }}>level1</Surface>\n<Surface elevation=\"level2\" style={{ padding: 16 }}>level2</Surface>\n<Surface elevation=\"level3\" style={{ padding: 16 }}>level3</Surface>"
     }
   ],
   "checkbox": [
@@ -102,14 +102,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "checkbox",
       "title": "Basic",
       "description": "Standalone checkboxes with an indeterminate state.",
-      "source": "<CheckboxGroup defaultValue={[]}>\r\n  <Checkbox label=\"Option A\" value=\"a\" />\r\n  <Checkbox label=\"Option B\" value=\"b\" />\r\n  <Checkbox label=\"Indeterminate\" indeterminate />\r\n</CheckboxGroup>"
+      "source": "<CheckboxGroup defaultValue={[]}>\n  <Checkbox label=\"Option A\" value=\"a\" />\n  <Checkbox label=\"Option B\" value=\"b\" />\n  <Checkbox label=\"Indeterminate\" indeterminate />\n</CheckboxGroup>"
     },
     {
       "id": "checkbox-group",
       "componentSlug": "checkbox",
       "title": "Group",
       "description": "Checkbox group with a default selection.",
-      "source": "<CheckboxGroup defaultValue={['a']}>\r\n  <Checkbox label=\"Checkbox A\" value=\"a\" />\r\n  <Checkbox label=\"Checkbox B\" value=\"b\" />\r\n</CheckboxGroup>"
+      "source": "<CheckboxGroup defaultValue={['a']}>\n  <Checkbox label=\"Checkbox A\" value=\"a\" />\n  <Checkbox label=\"Checkbox B\" value=\"b\" />\n</CheckboxGroup>"
     }
   ],
   "badge": [
@@ -136,7 +136,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "chip",
       "title": "Chip types",
       "description": "Assist, filter, input, and elevated suggestion chips.",
-      "source": "<ChipSet>\r\n  <Chip type=\"filter\" label=\"Photos\" />\r\n  <Chip type=\"suggestion\" label=\"Weekend\" elevated />\r\n</ChipSet>"
+      "source": "<ChipSet>\n  <Chip type=\"filter\" label=\"Photos\" />\n  <Chip type=\"suggestion\" label=\"Weekend\" elevated />\n</ChipSet>"
     }
   ],
   "list": [
@@ -187,14 +187,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "date-picker",
       "title": "Variants",
       "description": "Docked, modal, and range date pickers.",
-      "source": "<WindowSizeClassProvider defaultSizeClass=\"compact\" style={{ minHeight: 400 }}>\r\n  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>\r\n    <DatePicker variant=\"docked\" trigger={<Button variant=\"outlined\">Docked</Button>} />\r\n    <DatePicker variant=\"modal\" trigger={<Button variant=\"filled-tonal\">Modal</Button>} />\r\n    <DatePicker variant=\"modal\" mode=\"range\" trigger={<Button variant=\"text\">Range</Button>} />\r\n  </div>\r\n</WindowSizeClassProvider>"
+      "source": "<WindowSizeClassProvider defaultSizeClass=\"compact\" style={{ minHeight: 400 }}>\n  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>\n    <DatePicker variant=\"docked\" trigger={<Button variant=\"outlined\">Docked</Button>} />\n    <DatePicker variant=\"modal\" trigger={<Button variant=\"filled-tonal\">Modal</Button>} />\n    <DatePicker variant=\"modal\" mode=\"range\" trigger={<Button variant=\"text\">Range</Button>} />\n  </div>\n</WindowSizeClassProvider>"
     },
     {
       "id": "date-picker-docked",
       "componentSlug": "date-picker",
       "title": "Docked",
       "description": "Inline docked picker from the Storybook demo.",
-      "source": "<WindowSizeClassProvider defaultSizeClass=\"compact\" style={{ minHeight: 200 }}>\r\n  <DatePicker variant=\"docked\" />\r\n</WindowSizeClassProvider>"
+      "source": "<WindowSizeClassProvider defaultSizeClass=\"compact\" style={{ minHeight: 200 }}>\n  <DatePicker variant=\"docked\" />\n</WindowSizeClassProvider>"
     }
   ],
   "dialog": [
@@ -203,7 +203,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "dialog",
       "title": "Variants",
       "description": "Basic, alert, and full-screen dialog patterns.",
-      "source": "<div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>\r\n  <Dialog\r\n    trigger={<Button variant=\"filled\">Basic dialog</Button>}\r\n    headline=\"Dialog title\"\r\n    body=\"Supporting text\"\r\n    actions={<DialogAction>OK</DialogAction>}\r\n  />\r\n  <AlertDialog\r\n    trigger={<Button variant=\"outlined\">Alert</Button>}\r\n    headline=\"Delete file?\"\r\n    body=\"This cannot be undone.\"\r\n  />\r\n  <FullScreenDialog\r\n    trigger={<Button variant=\"text\">Full screen</Button>}\r\n    headline=\"Edit\"\r\n    body=\"Full screen content\"\r\n  />\r\n</div>"
+      "source": "<div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>\n  <Dialog\n    trigger={<Button variant=\"filled\">Basic dialog</Button>}\n    headline=\"Dialog title\"\n    body=\"Supporting text\"\n    actions={<DialogAction>OK</DialogAction>}\n  />\n  <AlertDialog\n    trigger={<Button variant=\"outlined\">Alert</Button>}\n    headline=\"Delete file?\"\n    body=\"This cannot be undone.\"\n  />\n  <FullScreenDialog\n    trigger={<Button variant=\"text\">Full screen</Button>}\n    headline=\"Edit\"\n    body=\"Full screen content\"\n  />\n</div>"
     },
     {
       "id": "dialog-basic",
@@ -219,14 +219,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "fab",
       "title": "Sizes",
       "description": "Standard, medium, and large FABs plus the small extended FAB.",
-      "source": "<div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>\r\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"standard\" />\r\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"medium\" />\r\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"large\" />\r\n  <ExtendedFab icon={<Icon name=\"edit\" />} label=\"Compose\" size=\"small\" />\r\n</div>"
+      "source": "<div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"standard\" />\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"medium\" />\n  <Fab aria-label=\"Add\" icon={<Icon name=\"add\" />} size=\"large\" />\n  <ExtendedFab icon={<Icon name=\"edit\" />} label=\"Compose\" size=\"small\" />\n</div>"
     },
     {
       "id": "fab-colors",
       "componentSlug": "fab",
       "title": "Color variants",
       "description": "Expressive tone and container color families.",
-      "source": "<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"primary\" />\r\n<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"secondary\" />\r\n<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"tertiary-container\" />"
+      "source": "<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"primary\" />\n<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"secondary\" />\n<Fab aria-label=\"Edit\" icon={<Icon name=\"edit\" />} variant=\"tertiary-container\" />"
     }
   ],
   "progress": [
@@ -261,14 +261,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "icon-button",
       "title": "Variants",
       "description": "Standard, filled, tonal, and outlined icon buttons with state layers.",
-      "source": "<div style={{ display: 'flex', gap: 12 }}>\r\n  <IconButton aria-label=\"Standard\" icon={<Icon name=\"favorite\" />} variant=\"standard\" />\r\n  <IconButton aria-label=\"Filled\" icon={<Icon name=\"favorite\" fill={1} />} variant=\"filled\" />\r\n  <IconButton aria-label=\"Tonal\" icon={<Icon name=\"favorite\" />} variant=\"filled-tonal\" />\r\n  <IconButton aria-label=\"Outlined\" icon={<Icon name=\"favorite\" />} variant=\"outlined\" toggle selected />\r\n</div>"
+      "source": "<div style={{ display: 'flex', gap: 12 }}>\n  <IconButton aria-label=\"Standard\" icon={<Icon name=\"favorite\" />} variant=\"standard\" />\n  <IconButton aria-label=\"Filled\" icon={<Icon name=\"favorite\" fill={1} />} variant=\"filled\" />\n  <IconButton aria-label=\"Tonal\" icon={<Icon name=\"favorite\" />} variant=\"filled-tonal\" />\n  <IconButton aria-label=\"Outlined\" icon={<Icon name=\"favorite\" />} variant=\"outlined\" toggle selected />\n</div>"
     },
     {
       "id": "icon-button-sizes",
       "componentSlug": "icon-button",
       "title": "Sizes",
       "description": "Expressive size scale from xs through xl.",
-      "source": "<IconButton aria-label=\"Favorite xs\" icon={<Icon name=\"favorite\" />} size=\"xs\" />\r\n<IconButton aria-label=\"Favorite sm\" icon={<Icon name=\"favorite\" />} size=\"sm\" />\r\n<IconButton aria-label=\"Favorite md\" icon={<Icon name=\"favorite\" />} size=\"md\" />\r\n<IconButton aria-label=\"Favorite lg\" icon={<Icon name=\"favorite\" />} size=\"lg\" />\r\n<IconButton aria-label=\"Favorite xl\" icon={<Icon name=\"favorite\" />} size=\"xl\" />"
+      "source": "<IconButton aria-label=\"Favorite xs\" icon={<Icon name=\"favorite\" />} size=\"xs\" />\n<IconButton aria-label=\"Favorite sm\" icon={<Icon name=\"favorite\" />} size=\"sm\" />\n<IconButton aria-label=\"Favorite md\" icon={<Icon name=\"favorite\" />} size=\"md\" />\n<IconButton aria-label=\"Favorite lg\" icon={<Icon name=\"favorite\" />} size=\"lg\" />\n<IconButton aria-label=\"Favorite xl\" icon={<Icon name=\"favorite\" />} size=\"xl\" />"
     }
   ],
   "autocomplete": [
@@ -334,7 +334,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "menu",
       "title": "Basic",
       "description": "Dropdown menu with icons and keyboard shortcuts.",
-      "source": "<Menu trigger={<Button variant=\"outlined\">Open menu</Button>}>\r\n  <MenuItem leadingIcon={<Icon name=\"edit\" />}>Edit</MenuItem>\r\n  <MenuItem shortcut=\"⌘C\">Copy</MenuItem>\r\n  <MenuItem trailingIcon={<Icon name=\"delete\" />}>Delete</MenuItem>\r\n</Menu>"
+      "source": "<Menu trigger={<Button variant=\"outlined\">Open menu</Button>}>\n  <MenuItem leadingIcon={<Icon name=\"edit\" />}>Edit</MenuItem>\n  <MenuItem shortcut=\"⌘C\">Copy</MenuItem>\n  <MenuItem trailingIcon={<Icon name=\"delete\" />}>Delete</MenuItem>\n</Menu>"
     }
   ],
   "navigation-bar": [
@@ -343,7 +343,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "navigation-bar",
       "title": "Destinations",
       "description": "Bottom navigation bar with badges on destinations.",
-      "source": "<NavigationBar\r\n  destinations={[\r\n    { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n    { value: 'search', label: 'Search', icon: <Icon name=\"search\" />, badge: 3 },\n    { value: 'library', label: 'Library', icon: <Icon name=\"photo_library\" /> },\n  ]}\r\n  defaultValue=\"home\"\r\n/>"
+      "source": "<NavigationBar\n  destinations={[\n    { value: 'home', label: 'Home', icon: <Icon name=\"home\" /> },\n    { value: 'search', label: 'Search', icon: <Icon name=\"search\" />, badge: 3 },\n    { value: 'library', label: 'Library', icon: <Icon name=\"photo_library\" /> },\n  ]}\n  defaultValue=\"home\"\n/>"
     }
   ],
   "top-app-bar": [
@@ -384,7 +384,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "radio",
       "title": "Group",
       "description": "Mutually exclusive radio options in a group.",
-      "source": "<RadioGroup defaultValue=\"pro\" name=\"plan\">\r\n  <Radio value=\"free\" label=\"Free\" />\r\n  <Radio value=\"pro\" label=\"Pro\" />\r\n  <Radio value=\"team\" label=\"Team\" />\r\n</RadioGroup>"
+      "source": "<RadioGroup defaultValue=\"pro\" name=\"plan\">\n  <Radio value=\"free\" label=\"Free\" />\n  <Radio value=\"pro\" label=\"Pro\" />\n  <Radio value=\"team\" label=\"Team\" />\n</RadioGroup>"
     }
   ],
   "select": [
@@ -393,7 +393,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "select",
       "title": "Basic",
       "description": "Dropdown select styled as an M3 text field.",
-      "source": "<Select\r\n  label=\"Framework\"\r\n  options={[\r\n    { value: 'react', label: 'React' },\r\n    { value: 'vue', label: 'Vue' },\r\n    { value: 'svelte', label: 'Svelte' },\r\n  ]}\r\n  defaultValue=\"react\"\r\n/>"
+      "source": "<Select\n  label=\"Framework\"\n  options={[\n    { value: 'react', label: 'React' },\n    { value: 'vue', label: 'Vue' },\n    { value: 'svelte', label: 'Svelte' },\n  ]}\n  defaultValue=\"react\"\n/>"
     }
   ],
   "slider": [
@@ -402,7 +402,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "slider",
       "title": "Single and range",
       "description": "Continuous slider with value indicator and dual-thumb range.",
-      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 400 }}>\r\n  <Slider defaultValue={50} label=\"Volume\" showValueIndicator min={0} max={100} />\r\n  <Slider defaultValue={[25, 75]} label=\"Range\" showValueIndicator min={0} max={100} />\r\n</div>"
+      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 400 }}>\n  <Slider defaultValue={50} label=\"Volume\" showValueIndicator min={0} max={100} />\n  <Slider defaultValue={[25, 75]} label=\"Range\" showValueIndicator min={0} max={100} />\n</div>"
     }
   ],
   "snackbar": [
@@ -411,7 +411,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "snackbar",
       "title": "With action",
       "description": "Snackbar provider with undo action.",
-      "source": "function App() {\r\n  const { show } = useSnackbar();\r\n  return (\r\n    <Button onClick={() => show({ message: 'Saved', action: { label: 'Undo', onClick: undo } })}>\r\n      Save\r\n    </Button>\r\n  );\r\n}\r\n\r\nexport default () => (\r\n  <Snackbar><App /></Snackbar>\r\n);"
+      "source": "function App() {\n  const { show } = useSnackbar();\n  return (\n    <Button onClick={() => show({ message: 'Saved', action: { label: 'Undo', onClick: undo } })}>\n      Save\n    </Button>\n  );\n}\n\nexport default () => (\n  <Snackbar><App /></Snackbar>\n);"
     }
   ],
   "switch": [
@@ -420,7 +420,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "switch",
       "title": "States",
       "description": "On, off, and labeled switch settings.",
-      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>\r\n  <Switch label=\"Dark mode\" defaultChecked />\r\n  <Switch label=\"Wi-Fi only downloads\" />\r\n</div>"
+      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>\n  <Switch label=\"Dark mode\" defaultChecked />\n  <Switch label=\"Wi-Fi only downloads\" />\n</div>"
     }
   ],
   "tabs": [
@@ -429,14 +429,14 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "tabs",
       "title": "Primary tabs",
       "description": "Fixed primary tabs with three panels.",
-      "source": "<Tabs\r\n  variant=\"primary\"\r\n  layout=\"fixed\"\r\n  items={[\r\n    { value: 'photos', label: 'Photos', panel: 'Photos panel' },\r\n    { value: 'albums', label: 'Albums', panel: 'Albums panel' },\r\n    { value: 'stories', label: 'Stories', panel: 'Stories panel' },\r\n  ]}\r\n/>"
+      "source": "<Tabs\n  variant=\"primary\"\n  layout=\"fixed\"\n  items={[\n    { value: 'photos', label: 'Photos', panel: 'Photos panel' },\n    { value: 'albums', label: 'Albums', panel: 'Albums panel' },\n    { value: 'stories', label: 'Stories', panel: 'Stories panel' },\n  ]}\n/>"
     },
     {
       "id": "tabs-compact",
       "componentSlug": "tabs",
       "title": "Compact",
       "description": "Default tabs layout from the Storybook demo.",
-      "source": "<Tabs\r\n  items={[\r\n    { value: 'a', label: 'Tab A', panel: 'Panel A' },\r\n    { value: 'b', label: 'Tab B', panel: 'Panel B' },\r\n  ]}\r\n/>"
+      "source": "<Tabs\n  items={[\n    { value: 'a', label: 'Tab A', panel: 'Panel A' },\n    { value: 'b', label: 'Tab B', panel: 'Panel B' },\n  ]}\n/>"
     }
   ],
   "text-field": [
@@ -445,7 +445,7 @@ export const METADATA_BY_SLUG: ExampleMetadataBySlug = {
       "componentSlug": "text-field",
       "title": "Variants",
       "description": "Filled and outlined text fields with supporting text.",
-      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 400 }}>\r\n  <TextField label=\"Filled\" variant=\"filled\" supportingText=\"Supporting text\" />\r\n  <TextField label=\"Outlined\" variant=\"outlined\" />\r\n</div>"
+      "source": "<div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 400 }}>\n  <TextField label=\"Filled\" variant=\"filled\" supportingText=\"Supporting text\" />\n  <TextField label=\"Outlined\" variant=\"outlined\" />\n</div>"
     }
   ]
 };

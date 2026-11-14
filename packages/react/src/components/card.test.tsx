@@ -21,7 +21,7 @@ describe('Card', () => {
         Tap
       </Card>,
     );
-    fireEvent.click(screen.getByText('Tap'));
+    fireEvent.click(screen.getByRole('button', { name: 'Tap' }));
     expect(clicked).toBe(true);
   });
 });

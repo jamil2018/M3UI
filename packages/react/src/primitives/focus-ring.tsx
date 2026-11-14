@@ -22,53 +22,58 @@ const FOCUS_RING_STYLES = `
 .m3-focus-ring-host {
   position: relative;
   display: inline-flex;
+  overflow: visible;
 }
 .m3-focus-ring {
-  animation-delay: 0s, calc(var(--md-focus-ring-duration, 600ms) * 0.25);
-  animation-duration: calc(var(--md-focus-ring-duration, 600ms) * 0.25),
-    calc(var(--md-focus-ring-duration, 600ms) * 0.75);
-  animation-timing-function: var(--md-sys-motion-easing-emphasized, cubic-bezier(0.2, 0, 0, 1));
+  animation-delay: 0s, calc(var(--md-comp-focus-ring-duration, var(--md-focus-ring-duration, 600ms)) * 0.25);
+  animation-duration: calc(var(--md-comp-focus-ring-duration, var(--md-focus-ring-duration, 600ms)) * 0.25),
+    calc(var(--md-comp-focus-ring-duration, var(--md-focus-ring-duration, 600ms)) * 0.75);
+  animation-timing-function: var(--md-sys-motion-easing-emphasized-decelerate, cubic-bezier(0.05, 0.7, 0.1, 1));
   box-sizing: border-box;
-  color: var(--md-focus-ring-color, var(--md-sys-color-secondary));
+  color: var(--md-comp-focus-ring-color, var(--md-focus-ring-color, var(--md-sys-color-secondary)));
   display: none;
   pointer-events: none;
   position: absolute;
   border-radius: inherit;
+  z-index: 2;
 }
 .m3-focus-ring[data-visible="true"] {
   display: flex;
 }
+.m3-focus-ring-host:has(> .m3-focus-ring[data-visible="true"]) :focus-visible {
+  outline: none;
+}
 .m3-focus-ring:not([data-inward="true"]) {
   animation-name: m3-focus-ring-outward-grow, m3-focus-ring-outward-shrink;
-  border-end-end-radius: calc(var(--md-focus-ring-shape-end-end, inherit) + var(--md-focus-ring-outward-offset, 2px));
-  border-end-start-radius: calc(var(--md-focus-ring-shape-end-start, inherit) + var(--md-focus-ring-outward-offset, 2px));
-  border-start-end-radius: calc(var(--md-focus-ring-shape-start-end, inherit) + var(--md-focus-ring-outward-offset, 2px));
-  border-start-start-radius: calc(var(--md-focus-ring-shape-start-start, inherit) + var(--md-focus-ring-outward-offset, 2px));
-  inset: calc(-1 * var(--md-focus-ring-outward-offset, 2px));
-  outline: var(--md-focus-ring-width, 3px) solid currentColor;
+  border-end-end-radius: calc(var(--md-comp-focus-ring-shape-end-end, var(--md-focus-ring-shape-end-end, 0px)) + var(--md-comp-focus-ring-outward-offset, var(--md-focus-ring-outward-offset, 2px)));
+  border-end-start-radius: calc(var(--md-comp-focus-ring-shape-end-start, var(--md-focus-ring-shape-end-start, 0px)) + var(--md-comp-focus-ring-outward-offset, var(--md-focus-ring-outward-offset, 2px)));
+  border-start-end-radius: calc(var(--md-comp-focus-ring-shape-start-end, var(--md-focus-ring-shape-start-end, 0px)) + var(--md-comp-focus-ring-outward-offset, var(--md-focus-ring-outward-offset, 2px)));
+  border-start-start-radius: calc(var(--md-comp-focus-ring-shape-start-start, var(--md-focus-ring-shape-start-start, 0px)) + var(--md-comp-focus-ring-outward-offset, var(--md-focus-ring-outward-offset, 2px)));
+  inset: calc(-1 * var(--md-comp-focus-ring-outward-offset, var(--md-focus-ring-outward-offset, 2px)));
+  outline: var(--md-comp-focus-ring-width, var(--md-focus-ring-width, 3px)) solid currentColor;
 }
 .m3-focus-ring[data-inward="true"] {
   animation-name: m3-focus-ring-inward-grow, m3-focus-ring-inward-shrink;
-  border-end-end-radius: calc(var(--md-focus-ring-shape-end-end, inherit) - var(--md-focus-ring-inward-offset, 0px));
-  border-end-start-radius: calc(var(--md-focus-ring-shape-end-start, inherit) - var(--md-focus-ring-inward-offset, 0px));
-  border-start-end-radius: calc(var(--md-focus-ring-shape-start-end, inherit) - var(--md-focus-ring-inward-offset, 0px));
-  border-start-start-radius: calc(var(--md-focus-ring-shape-start-start, inherit) - var(--md-focus-ring-inward-offset, 0px));
-  border: var(--md-focus-ring-width, 3px) solid currentColor;
-  inset: var(--md-focus-ring-inward-offset, 0px);
+  border-end-end-radius: calc(var(--md-comp-focus-ring-shape-end-end, var(--md-focus-ring-shape-end-end, 0px)) - var(--md-comp-focus-ring-inward-offset, var(--md-focus-ring-inward-offset, 0px)));
+  border-end-start-radius: calc(var(--md-comp-focus-ring-shape-end-start, var(--md-focus-ring-shape-end-start, 0px)) - var(--md-comp-focus-ring-inward-offset, var(--md-focus-ring-inward-offset, 0px)));
+  border-start-end-radius: calc(var(--md-comp-focus-ring-shape-start-end, var(--md-focus-ring-shape-start-end, 0px)) - var(--md-comp-focus-ring-inward-offset, var(--md-focus-ring-inward-offset, 0px)));
+  border-start-start-radius: calc(var(--md-comp-focus-ring-shape-start-start, var(--md-focus-ring-shape-start-start, 0px)) - var(--md-comp-focus-ring-inward-offset, var(--md-focus-ring-inward-offset, 0px)));
+  border: var(--md-comp-focus-ring-width, var(--md-focus-ring-width, 3px)) solid currentColor;
+  inset: var(--md-comp-focus-ring-inward-offset, var(--md-focus-ring-inward-offset, 0px));
 }
 @keyframes m3-focus-ring-outward-grow {
   from { outline-width: 0; }
-  to { outline-width: var(--md-focus-ring-active-width, 8px); }
+  to { outline-width: var(--md-comp-focus-ring-active-width, var(--md-focus-ring-active-width, 8px)); }
 }
 @keyframes m3-focus-ring-outward-shrink {
-  from { outline-width: var(--md-focus-ring-active-width, 8px); }
+  from { outline-width: var(--md-comp-focus-ring-active-width, var(--md-focus-ring-active-width, 8px)); }
 }
 @keyframes m3-focus-ring-inward-grow {
   from { border-width: 0; }
-  to { border-width: var(--md-focus-ring-active-width, 8px); }
+  to { border-width: var(--md-comp-focus-ring-active-width, var(--md-focus-ring-active-width, 8px)); }
 }
 @keyframes m3-focus-ring-inward-shrink {
-  from { border-width: var(--md-focus-ring-active-width, 8px); }
+  from { border-width: var(--md-comp-focus-ring-active-width, var(--md-focus-ring-active-width, 8px)); }
 }
 @media (prefers-reduced-motion: reduce) {
   .m3-focus-ring {
@@ -103,6 +108,17 @@ export function FocusRing({ children, inward = false, className, style }: FocusR
   const handleEvent = useCallback((event: FocusRingEvent) => {
     if (event[HANDLED_BY_FOCUS_RING]) return;
     switch (event.type) {
+      case 'keydown': {
+        const key = event as unknown as KeyboardEvent;
+        if (
+          !key.metaKey &&
+          !key.ctrlKey &&
+          !key.altKey &&
+          !['Shift', 'Control', 'Alt', 'Meta', 'Escape'].includes(key.key)
+        )
+          setVisible(true);
+        break;
+      }
       case 'focusin': {
         const target = event.target;
         if (target instanceof HTMLElement && target.matches(':focus-visible')) {
@@ -123,7 +139,7 @@ export function FocusRing({ children, inward = false, className, style }: FocusR
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    const events = ['focusin', 'focusout', 'pointerdown'] as const;
+    const events = ['focusin', 'focusout', 'pointerdown', 'keydown'] as const;
     for (const event of events) {
       host.addEventListener(event, handleEvent);
     }
@@ -137,6 +153,8 @@ export function FocusRing({ children, inward = false, className, style }: FocusR
   const tokenStyle = {
     '--md-focus-ring-color': sysColor('secondary'),
     '--md-focus-ring-duration': 'var(--md-sys-motion-duration-long4)',
+    '--md-comp-focus-ring-color': sysColor('secondary'),
+    '--md-comp-focus-ring-duration': 'var(--md-sys-motion-duration-long4)',
   } as CSSProperties;
 
   return (

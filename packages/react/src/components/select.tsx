@@ -1,17 +1,24 @@
+import { M3PortalScope } from '../provider/m3-provider.js';
 
 import { Select as BaseSelect } from '@base-ui/react/select';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { motion } from 'motion/react';
+import { springs } from '@m3ui/motion';
+import { useId, useState, type CSSProperties, type ReactNode } from 'react';
 import { Icon } from '@m3ui/icons';
 import {
-  fieldIconStyles,
+  FieldDecorations,
+  fieldLabelAnimate,
+  fieldLabelStyles,
   fieldSupportingStyles,
-  fieldToken,
   fieldTokenPrefix,
+  fieldTrailingIconStyles,
   fieldTriggerStyles,
   type FieldVariant,
 } from '../lib/field-internals.js';
+import { StateLayer } from '../lib/state-layer.js';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
-import { PopupMotion } from '../lib/popup-motion.js';
+import { DialogMotionStyles } from '../lib/dialog-motion.js';
+import { MenuMotionPopup } from '../lib/menu-motion.js';
 
 export type SelectVariant = FieldVariant;
 
@@ -31,6 +38,7 @@ export interface SelectProps {
   disabled?: boolean;
   error?: boolean;
   supportingText?: string;
+  errorText?: string;
   placeholder?: string;
   className?: string;
   'data-testid'?: string;
@@ -42,14 +50,16 @@ const popupStyle: CSSProperties = {
   boxShadow: elevationShadow('level2'),
   paddingBlock: compVar('list', 'item-top-space'),
   maxHeight: `calc(${compVar('outlined-text-field', 'container-height')} * 5)`,
-  overflow: 'auto',
+  overflowX: 'hidden',
+  overflowY: 'auto',
   outline: 'none',
 };
 
 const itemStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  paddingBlock: compVar('list', 'item-one-line-container-height'),
+  minHeight: compVar('list-item', 'one-line-container-height'),
+  paddingBlock: compVar('list', 'item-top-space'),
   paddingInline: compVar('list', 'divider-leading-space'),
   ...typeStyle('body-large'),
   color: compVar('list', 'item-label-text-color'),
@@ -67,65 +77,163 @@ export function Select({
   disabled = false,
   error = false,
   supportingText,
+  errorText,
   placeholder = 'Select…',
   className,
   'data-testid': testId,
 }: SelectProps) {
+  const labelId = useId();
+  const supportingId = useId();
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [internalValue, setInternalValue] = useState(defaultValue);
+  const selectedValue = value ?? internalValue;
+  const hasValue = Boolean(selectedValue);
+  const floated = focused || open || hasValue;
+  const notched = variant === 'outlined' && Boolean(label);
   const prefixToken = fieldTokenPrefix(variant);
   const interaction = { disabled, error, focused, hovered };
 
   return (
-    <div className={className} data-testid={testId} style={{ display: 'flex', flexDirection: 'column', gap: compVar('list', 'item-between-space') }}>
+    <div
+      className={className}
+      data-testid={testId}
+      style={{ display: 'flex', flexDirection: 'column', gap: 0, width: '100%', minWidth: 200 }}
+    >
       <BaseSelect.Root
+        items={options}
         value={value}
         defaultValue={defaultValue}
-        onValueChange={onValueChange ? (next) => { if (next != null) onValueChange(next); } : undefined}
+        onValueChange={(next) => {
+          if (next == null) return;
+          if (value === undefined) setInternalValue(next);
+          onValueChange?.(next);
+        }}
+        onOpenChange={setOpen}
         disabled={disabled}
       >
-        {label && (
-          <BaseSelect.Label
-            style={{
-              ...typeStyle('body-small'),
-              color: fieldToken(prefixToken, 'label-color', interaction),
-              position: 'static',
-              transform: 'none',
-              pointerEvents: 'auto',
-            }}
-          >
-            {label}
-          </BaseSelect.Label>
-        )}
         <BaseSelect.Trigger
-          style={fieldTriggerStyles(variant, interaction)}
-          onFocus={() => { setFocused(true); }}
-          onBlur={() => { setFocused(false); }}
-          onMouseEnter={() => { setHovered(true); }}
-          onMouseLeave={() => { setHovered(false); }}
+          style={fieldTriggerStyles(variant, interaction, { notched })}
+          aria-invalid={error || undefined}
+          aria-describedby={supportingText || errorText ? supportingId : undefined}
+          aria-labelledby={label ? labelId : undefined}
+          aria-label={!label ? placeholder : undefined}
+          onFocus={() => {
+            setFocused(true);
+          }}
+          onBlur={() => {
+            setFocused(false);
+          }}
+          onMouseEnter={() => {
+            setHovered(true);
+          }}
+          onMouseLeave={() => {
+            setHovered(false);
+          }}
         >
-          <BaseSelect.Value placeholder={placeholder} style={{ flex: 1, textAlign: 'start' }} />
-          <BaseSelect.Icon style={fieldIconStyles(prefixToken, interaction)}>▾</BaseSelect.Icon>
+          <FieldDecorations
+            variant={variant}
+            prefix={prefixToken}
+            state={interaction}
+            label={label}
+            floated={floated}
+          />
+          {label && (
+            <motion.span
+              id={labelId}
+              style={fieldLabelStyles(prefixToken, interaction, floated, variant)}
+              animate={fieldLabelAnimate(variant, floated)}
+              transition={springs.fastSpatial}
+            >
+              {label}
+            </motion.span>
+          )}
+          <BaseSelect.Value
+            placeholder={placeholder}
+            style={{
+              flex: 1,
+              textAlign: 'start',
+              position: 'relative',
+              zIndex: 1,
+              opacity: !hasValue && label && !floated ? 0 : 1,
+              paddingBlock: label
+                ? `${compVar('list', 'divider-leading-space')} ${compVar('list', 'item-top-space')}`
+                : undefined,
+            }}
+          />
+          <BaseSelect.Icon style={{ display: 'inline-flex', position: 'relative', zIndex: 1 }}>
+            <motion.span
+              animate={{ rotate: open ? 180 : 0 }}
+              transition={springs.fastEffects}
+              style={fieldTrailingIconStyles(prefixToken, interaction)}
+            >
+              <Icon name="arrow_drop_down" />
+            </motion.span>
+          </BaseSelect.Icon>
         </BaseSelect.Trigger>
         <BaseSelect.Portal>
-          <BaseSelect.Positioner sideOffset={4} style={{ zIndex: 1000 }}>
-            <PopupMotion>
-              <BaseSelect.Popup style={popupStyle}>
+          <M3PortalScope>
+            <DialogMotionStyles />
+            <BaseSelect.Positioner
+              sideOffset={4}
+              style={{ zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)' }}
+            >
+              <BaseSelect.Popup
+                render={(popupProps) => (
+                  <MenuMotionPopup {...popupProps} style={{ ...popupStyle, ...popupProps.style }} />
+                )}
+              >
                 <BaseSelect.List>
-                  {options.map((opt) => (
-                    <BaseSelect.Item key={opt.value} value={opt.value} disabled={opt.disabled} style={itemStyle}>
-                      <BaseSelect.ItemText>{opt.label}</BaseSelect.ItemText>
-                      <BaseSelect.ItemIndicator><Icon name="check" size={18} /></BaseSelect.ItemIndicator>
-                    </BaseSelect.Item>
-                  ))}
+                  {options.map((opt) => {
+                    const selected = opt.value === selectedValue;
+                    return (
+                      <BaseSelect.Item
+                        key={opt.value}
+                        value={opt.value}
+                        disabled={opt.disabled}
+                        style={(state) => ({
+                          ...itemStyle,
+                          background:
+                            selected || state.highlighted
+                              ? compVar('list', 'item-selected-container-color')
+                              : undefined,
+                          padding: 0,
+                          opacity: state.disabled ? 0.38 : 1,
+                        })}
+                      >
+                        <StateLayer
+                          states={['hover', 'pressed']}
+                          disabled={opt.disabled}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            width: '100%',
+                            minHeight: compVar('list-item', 'one-line-container-height'),
+                            paddingBlock: compVar('list', 'item-top-space'),
+                            paddingInline: compVar('list', 'divider-leading-space'),
+                            borderRadius: 'inherit',
+                            gap: compVar('list', 'item-between-space'),
+                          }}
+                        >
+                          <BaseSelect.ItemText style={{ flex: 1 }}>{opt.label}</BaseSelect.ItemText>
+                          <BaseSelect.ItemIndicator>
+                            <Icon name="check" size={18} />
+                          </BaseSelect.ItemIndicator>
+                        </StateLayer>
+                      </BaseSelect.Item>
+                    );
+                  })}
                 </BaseSelect.List>
               </BaseSelect.Popup>
-            </PopupMotion>
-          </BaseSelect.Positioner>
+            </BaseSelect.Positioner>
+          </M3PortalScope>
         </BaseSelect.Portal>
       </BaseSelect.Root>
-      {supportingText && (
-        <span style={fieldSupportingStyles(prefixToken, interaction)}>{supportingText}</span>
+      {(supportingText || errorText) && (
+        <span id={supportingId} style={fieldSupportingStyles(prefixToken, interaction)}>
+          {error && errorText ? errorText : supportingText}
+        </span>
       )}
     </div>
   );

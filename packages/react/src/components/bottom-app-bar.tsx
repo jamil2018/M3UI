@@ -2,7 +2,7 @@
 import { Toolbar as BaseToolbar } from '@base-ui/react/toolbar';
 import { motion, useMotionValueEvent, useScroll } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, elevationShadow } from '../lib/token-utils.js';
 import { useRegisterInset } from '../lib/inset-context.js';
 
@@ -27,12 +27,12 @@ export function BottomAppBar({
 
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
-  let lastY = 0;
+  const lastYRef = useRef(0);
 
   useMotionValueEvent(scrollY, 'change', (y) => {
     if (!hideOnScroll) return;
-    setHidden(y > lastY && y > 80);
-    lastY = y;
+    setHidden(y > lastYRef.current && y > 80);
+    lastYRef.current = y;
   });
 
   const barStyle: CSSProperties = {
@@ -46,6 +46,7 @@ export function BottomAppBar({
     height,
     paddingInline: compVar('app-bar', 'leading-space'),
     background: compVar('bottom-app-bar', 'container-color'),
+    borderRadius: compVar('bottom-app-bar', 'container-shape'),
     boxShadow: elevationShadow('level2'),
   };
 

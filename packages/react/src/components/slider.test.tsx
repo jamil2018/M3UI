@@ -15,6 +15,11 @@ describe('Slider', () => {
     expect(screen.getAllByRole('slider')).toHaveLength(2);
   });
 
+  it('uses surface content color for the field label instead of the inverse value-bubble color', () => {
+    renderWithM3(<Slider label="Volume" defaultValue={50} />);
+    expect(screen.getByText('Volume')).toHaveStyle({ color: 'var(--md-sys-color-on-surface)' });
+  });
+
   it('renders vertical orientation', () => {
     renderWithM3(<Slider orientation="vertical" defaultValue={30} data-testid="vertical" />);
     expect(screen.getByTestId('vertical')).toBeInTheDocument();

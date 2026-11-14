@@ -46,6 +46,35 @@ const ELEVATION_LEVELS = {
   level5: { elevation: 12, shadowOpacity: 0.14, surfaceTintOpacity: 0.14 },
 } as const;
 
+/** M3 two-layer key + ambient shadow formula (Material Web elevation). */
+function buildElevationShadowCss(levelNum: number): string {
+  if (levelNum === 0) return 'none';
+  const l = String(levelNum);
+  const keyY = `calc(1px * (clamp(0, ${l}, 1) + clamp(0, ${l} - 3, 1) + calc(2 * clamp(0, ${l} - 4, 1))))`;
+  const keyBlur = `calc(1px * (calc(2 * clamp(0, ${l}, 1)) + clamp(0, ${l} - 2, 1) + clamp(0, ${l} - 4, 1)))`;
+  const keyColor = 'color-mix(in srgb, var(--md-sys-color-shadow) 30%, transparent)';
+  const ambientY = `calc(1px * (clamp(0, ${l}, 1) + clamp(0, ${l} - 1, 1) + calc(2 * clamp(0, ${l} - 2, 3))))`;
+  const ambientBlur = `calc(1px * (calc(3 * clamp(0, ${l}, 2)) + calc(2 * clamp(0, ${l} - 2, 3))))`;
+  const ambientSpread = `calc(1px * (clamp(0, ${l}, 4) + calc(2 * clamp(0, ${l} - 4, 1))))`;
+  const ambientColor = 'color-mix(in srgb, var(--md-sys-color-shadow) 15%, transparent)';
+  return `0px ${keyY} ${keyBlur} 0px ${keyColor}, 0px ${ambientY} ${ambientBlur} ${ambientSpread} ${ambientColor}`;
+}
+
+const MOTION_SPRINGS = {
+  'fast-spatial-damping': '0.6',
+  'fast-spatial-stiffness': '800',
+  'default-spatial-damping': '0.8',
+  'default-spatial-stiffness': '380',
+  'slow-spatial-damping': '0.8',
+  'slow-spatial-stiffness': '200',
+  'fast-effects-damping': '1',
+  'fast-effects-stiffness': '3800',
+  'default-effects-damping': '1',
+  'default-effects-stiffness': '1600',
+  'slow-effects-damping': '1',
+  'slow-effects-stiffness': '800',
+} as const;
+
 const SHAPE_SCALE = {
   cornerNone: 0,
   cornerExtraSmall: 4,
@@ -85,6 +114,10 @@ const REVIEWED_WEB_COMPONENT_TOKENS = {
   '--md-comp-plain-tooltip-container-width': '200px',
   '--md-comp-plain-tooltip-leading-space': '8px',
   '--md-comp-plain-tooltip-top-space': '4px',
+  '--md-comp-secondary-navigation-tab-active-indicator-color': 'var(--md-sys-color-primary)',
+  '--md-comp-secondary-navigation-tab-active-indicator-height': '2px',
+  '--md-comp-primary-navigation-tab-divider-color': 'var(--md-sys-color-surface-variant)',
+  '--md-comp-primary-navigation-tab-divider-height': '1px',
 } as const;
 
 const MOTION_DURATIONS = {
@@ -430,14 +463,35 @@ function resolveTokenValue(value: string): string {
   const dp = dpMatch?.[1];
   if (dp != null) return `${parseFloat(dp)}px`;
 
+  const roundedMatch = /^RoundedCornerShape\((\d+(?:\.\d+)?)\.dp\)$/.exec(value);
+  if (roundedMatch?.[1] != null) return `${parseFloat(roundedMatch[1])}px`;
+
   const spMatch = /^(\d+(?:\.\d+)?)\.sp$/.exec(value);
   const sp = spMatch?.[1];
   if (sp != null) return `${parseFloat(sp)}px`;
 
+  if (value.startsWith('ShapeTokens.CornerValue')) {
+    const cornerKey = value.replace(/^ShapeTokens\.CornerValue/, 'corner');
+    const sysKey = toKebabCase(cornerKey);
+    return `var(--md-sys-shape-${sysKey})`;
+  }
+
   if (value.startsWith('Corner')) {
     const cornerKey = value.replace(/^Corner/, 'corner');
     if (cornerKey === 'cornerExtraSmallTop') {
-      return 'var(--md-sys-shape-corner-extra-small)';
+      return 'var(--md-sys-shape-corner-extra-small) var(--md-sys-shape-corner-extra-small) 0px 0px';
+    }
+    if (cornerKey === 'cornerLargeTop') {
+      return 'var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) 0px 0px';
+    }
+    if (cornerKey === 'cornerExtraLargeTop') {
+      return 'var(--md-sys-shape-corner-extra-large) var(--md-sys-shape-corner-extra-large) 0px 0px';
+    }
+    if (cornerKey === 'cornerLargeEnd') {
+      return '0px var(--md-sys-shape-corner-large) var(--md-sys-shape-corner-large) 0px';
+    }
+    if (cornerKey === 'cornerLargeStart') {
+      return 'var(--md-sys-shape-corner-large) 0px 0px var(--md-sys-shape-corner-large)';
     }
     const sysKey = toKebabCase(cornerKey);
     if (sysKey in SHAPE_SCALE || sysKey.replace(/-/g, '') in SHAPE_SCALE) {
@@ -497,6 +551,9 @@ function buildFallbackMotionTokens(): Record<string, string> {
   for (const [name, bezier] of Object.entries(MOTION_EASING)) {
     motion[`--md-sys-motion-easing-${toKebabCase(name)}`] = bezier;
   }
+  for (const [name, value] of Object.entries(MOTION_SPRINGS)) {
+    motion[`--md-sys-motion-spring-${name}`] = value;
+  }
   return motion;
 }
 
@@ -510,7 +567,7 @@ function generateTokensCss(
     ' * @m3ui/tokens — generated from spec JSON',
     ' * Do not edit by hand. Run: pnpm tokens:codegen',
     ' */',
-    ':root {',
+    ':root, [data-m3-root] {',
   ];
 
   // Color roles (values injected by @m3ui/color at runtime or build time)
@@ -528,10 +585,12 @@ function generateTokensCss(
   lines.push(`  --md-sys-state-focus-indicator-thickness: ${STATE_TOKENS.focusIndicatorThickness}px;`);
   lines.push(`  --md-sys-state-focus-indicator-outer-offset: ${STATE_TOKENS.focusIndicatorOuterOffset}px;`);
 
-  // Elevation
+  // Elevation (scalar height + two-layer shadow formula)
   for (const [level, values] of Object.entries(ELEVATION_LEVELS)) {
     const kebab = toKebabCase(level);
+    const levelNum = Number(level.replace('level', ''));
     lines.push(`  --md-sys-elevation-${kebab}: ${values.elevation}px;`);
+    lines.push(`  --md-sys-elevation-${kebab}-shadow: ${buildElevationShadowCss(levelNum)};`);
     lines.push(`  --md-sys-elevation-${kebab}-shadow-opacity: ${values.shadowOpacity};`);
     lines.push(`  --md-sys-elevation-${kebab}-surface-tint-opacity: ${values.surfaceTintOpacity};`);
   }
@@ -554,9 +613,13 @@ function generateTokensCss(
   }
 
   // Motion — prefer labs/gb/styles/motion spec values, fallback to canonical constants
-  const resolvedMotion =
-    Object.keys(motionTokens).length > 0 ? motionTokens : buildFallbackMotionTokens();
-  lines.push('  /* Motion tokens (labs/gb/styles/motion via spec-sync) */');
+  const resolvedMotion = { ...buildFallbackMotionTokens(), ...motionTokens };
+  // Material Web supplies standard springs. This library uses AndroidX's
+  // ExpressiveMotionTokens v0_14_0 for the spring scheme, retaining web easing/durations.
+  for (const [name, value] of Object.entries(MOTION_SPRINGS)) {
+    resolvedMotion[`--md-sys-motion-spring-${name}`] = value;
+  }
+  lines.push('  /* Motion: Material Web easing/durations; AndroidX Expressive springs */');
   for (const [name, value] of Object.entries(resolvedMotion).sort(([a], [b]) => a.localeCompare(b))) {
     lines.push(`  ${name}: ${value};`);
   }
@@ -604,7 +667,7 @@ ${Object.keys(SHAPE_SCALE)
 ${Object.keys(ELEVATION_LEVELS)
   .map((level) => {
     const kebab = toKebabCase(level);
-    return `  --shadow-md-${kebab}: var(--md-sys-elevation-${kebab});`;
+    return `  --shadow-md-${kebab}: var(--md-sys-elevation-${kebab}-shadow);`;
   })
   .join('\n')}
 
@@ -720,6 +783,7 @@ ${[
     const k = toKebabCase(l);
     return [
       `  '--md-sys-elevation-${k}'`,
+      `  '--md-sys-elevation-${k}-shadow'`,
       `  '--md-sys-elevation-${k}-shadow-opacity'`,
       `  '--md-sys-elevation-${k}-surface-tint-opacity'`,
     ];

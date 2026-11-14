@@ -122,11 +122,31 @@ function findVersionDefaults(
   return undefined;
 }
 
+/** Compose / shared component prefixes that satisfy upstream MWC contracts. */
+const UPSTREAM_PREFIX_ALIASES: Record<string, readonly string[]> = {
+  'primary-tab': ['primary-navigation-tab'],
+  'secondary-tab': ['secondary-navigation-tab'],
+  'linear-progress': ['linear-progress-indicator', 'progress-indicator'],
+  'circular-progress': ['circular-progress-indicator', 'progress-indicator'],
+  'filled-field': ['filled-text-field'],
+  'outlined-field': ['outlined-text-field'],
+  'filled-select': ['filled-text-field', 'menu'],
+  'outlined-select': ['outlined-text-field', 'menu'],
+  'menu-item': ['list-item', 'list'],
+  item: ['list-item', 'list'],
+};
+
 function tokensForPrefix(referenced: Set<string>, prefix: string): Set<string> {
-  const needle = `--md-comp-${prefix}-`;
+  const prefixes = [prefix, ...(UPSTREAM_PREFIX_ALIASES[prefix] ?? [])];
   const result = new Set<string>();
-  for (const token of referenced) {
-    if (token.startsWith(needle)) result.add(token);
+  for (const candidatePrefix of prefixes) {
+    const needle = `--md-comp-${candidatePrefix}-`;
+    for (const token of referenced) {
+      if (token.startsWith(needle)) {
+        const suffix = token.slice(needle.length);
+        result.add(`--md-comp-${prefix}-${suffix}`);
+      }
+    }
   }
   return result;
 }
@@ -164,7 +184,7 @@ function buildComponentParity(
 
   for (const tokenName of effectiveSupported) {
     const ourToken = toOurToken(specKey, tokenName);
-    if (!referenced.has(ourToken)) missing.push(ourToken);
+    if (!ourTokens.has(ourToken)) missing.push(ourToken);
   }
 
   for (const ourToken of ourTokens) {

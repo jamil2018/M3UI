@@ -1,8 +1,11 @@
-
 import { motion, AnimatePresence } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { type CSSProperties, type ReactNode } from 'react';
-import { useWindowSizeClass, sizeClassAtLeast, WindowSizeClassProvider } from '../lib/window-size-class.js';
+import { useState, type CSSProperties, type ReactNode } from 'react';
+import {
+  useWindowSizeClass,
+  sizeClassAtLeast,
+  WindowSizeClassProvider,
+} from '../lib/window-size-class.js';
 import { NavigationBar, type NavigationDestination } from './navigation-bar.js';
 import { NavigationRail, type NavigationRailDestination } from './navigation-rail.js';
 import { NavigationDrawer, type NavigationDrawerSection } from './navigation-drawer.js';
@@ -24,7 +27,10 @@ export interface AdaptiveNavigationProps {
   'data-testid'?: string;
 }
 
-function resolveMode(sizeClass: ReturnType<typeof useWindowSizeClass>['sizeClass'], forced?: AdaptiveNavMode): AdaptiveNavMode {
+function resolveMode(
+  sizeClass: ReturnType<typeof useWindowSizeClass>['sizeClass'],
+  forced?: AdaptiveNavMode,
+): AdaptiveNavMode {
   if (forced) return forced;
   if (sizeClassAtLeast(sizeClass, 'large')) return 'drawer';
   if (sizeClassAtLeast(sizeClass, 'medium')) return 'rail';
@@ -44,6 +50,12 @@ function AdaptiveNavigationInner({
   'data-testid': testId,
 }: AdaptiveNavigationProps) {
   const { sizeClass } = useWindowSizeClass();
+  const [internalValue, setInternalValue] = useState(defaultValue ?? destinations[0]?.value ?? '');
+  const activeValue = value ?? internalValue;
+  const select = (next: string) => {
+    if (value === undefined) setInternalValue(next);
+    onValueChange?.(next);
+  };
   const mode = resolveMode(sizeClass, forcedMode);
 
   const railDestinations: NavigationRailDestination[] = destinations.map((d) => ({
@@ -53,18 +65,16 @@ function AdaptiveNavigationInner({
     badge: d.badge,
   }));
 
-  const sections: NavigationDrawerSection[] =
-    drawerSections ??
-    [
-      {
-        items: destinations.map((d) => ({
-          value: d.value,
-          label: d.label,
-          icon: d.icon,
-          badge: d.badge,
-        })),
-      },
-    ];
+  const sections: NavigationDrawerSection[] = drawerSections ?? [
+    {
+      items: destinations.map((d) => ({
+        value: d.value,
+        label: d.label,
+        icon: d.icon,
+        badge: d.badge,
+      })),
+    },
+  ];
 
   const containerStyle: CSSProperties = {
     display: 'flex',
@@ -72,7 +82,13 @@ function AdaptiveNavigationInner({
   };
 
   return (
-    <div className={className} data-testid={testId} data-adaptive-mode={mode} data-size-class={sizeClass} style={containerStyle}>
+    <div
+      className={className}
+      data-testid={testId}
+      data-adaptive-mode={mode}
+      data-size-class={sizeClass}
+      style={containerStyle}
+    >
       <AnimatePresence mode="wait">
         <motion.div
           key={mode}
@@ -85,18 +101,18 @@ function AdaptiveNavigationInner({
           {mode === 'bar' && (
             <NavigationBar
               destinations={destinations}
-              value={value}
+              value={activeValue}
               defaultValue={defaultValue}
-              onValueChange={onValueChange}
+              onValueChange={select}
               data-testid={`${testId ?? 'adaptive-nav'}-bar`}
             />
           )}
           {mode === 'rail' && (
             <NavigationRail
               destinations={railDestinations}
-              value={value}
+              value={activeValue}
               defaultValue={defaultValue}
-              onValueChange={onValueChange}
+              onValueChange={select}
               header={railHeader}
               data-testid={`${testId ?? 'adaptive-nav'}-rail`}
             />
@@ -107,9 +123,9 @@ function AdaptiveNavigationInner({
                 variant="standard"
                 sections={sections}
                 header={drawerHeader}
-                value={value}
+                value={activeValue}
                 defaultValue={defaultValue}
-                onValueChange={onValueChange}
+                onValueChange={select}
                 data-testid={`${testId ?? 'adaptive-nav'}-drawer`}
               />
             </div>

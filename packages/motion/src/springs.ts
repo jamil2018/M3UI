@@ -1,13 +1,22 @@
 import { CSS_MOTION } from './easing.js';
 
-/** M3 spring tokens converted to Motion format (damping = ratio * 2 * sqrt(stiffness * mass)) */
+function spring(stiffness: number, dampingRatio: number) {
+  return {
+    type: 'spring' as const,
+    stiffness,
+    damping: dampingRatio * 2 * Math.sqrt(stiffness),
+    mass: 1,
+  };
+}
+
+/** AndroidX ExpressiveMotionTokens v0_14_0. Damping = ratio * 2 * sqrt(stiffness * mass). */
 export const springs = {
-  fastSpatial: { type: 'spring' as const, stiffness: 800, damping: 33.9, mass: 1 },
-  defaultSpatial: { type: 'spring' as const, stiffness: 380, damping: 31.2, mass: 1 },
-  slowSpatial: { type: 'spring' as const, stiffness: 200, damping: 22.6, mass: 1 },
-  fastEffects: { type: 'spring' as const, stiffness: 3800, damping: 123, mass: 1 },
-  defaultEffects: { type: 'spring' as const, stiffness: 1600, damping: 80, mass: 1 },
-  slowEffects: { type: 'spring' as const, stiffness: 800, damping: 56.6, mass: 1 },
+  fastSpatial: spring(800, 0.6),
+  defaultSpatial: spring(380, 0.8),
+  slowSpatial: spring(200, 0.8),
+  fastEffects: spring(3800, 1),
+  defaultEffects: spring(1600, 1),
+  slowEffects: spring(800, 1),
 } as const;
 
 export type SpatialSpring = keyof Pick<

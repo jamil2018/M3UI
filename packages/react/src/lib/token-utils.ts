@@ -27,6 +27,17 @@ export function typeStyle(role: string): CSSProperties {
 
 /** Standard disabled content opacity from M3 spec */
 export const DISABLED_CONTENT_OPACITY = 'var(--md-sys-state-disabled-content-opacity)';
+export const DISABLED_CONTAINER_OPACITY = 'var(--md-sys-state-disabled-container-opacity)';
+
+/** Mix a color token with M3 disabled container opacity (12%) */
+export function disabledContainerMix(colorToken: string): string {
+  return `color-mix(in srgb, ${colorToken} calc(${DISABLED_CONTAINER_OPACITY} * 100%), transparent)`;
+}
+
+/** Mix a color token with M3 disabled content opacity (38%) */
+export function disabledContentMix(colorToken: string): string {
+  return `color-mix(in srgb, ${colorToken} calc(${DISABLED_CONTENT_OPACITY} * 100%), transparent)`;
+}
 
 /** Elevation box-shadow: Material Web two-layer key (0.3) + ambient (0.15). */
 export function elevationShadow(
@@ -44,9 +55,17 @@ export function elevationShadow(
   return `0px ${keyY} ${keyBlur} 0px ${keyColor}, 0px ${ambientY} ${ambientBlur} ${ambientSpread} ${ambientColor}`;
 }
 
-/** Box shadow from md-comp container-elevation token (labs/gb supported-tokens). */
+/**
+ * Box shadow from md-comp container-elevation token (labs/gb supported-tokens).
+ * Records the elevation custom property for parity coverage while producing a
+ * valid two-layer key + ambient CSS box-shadow scaled by the scalar length token.
+ */
 export function compElevation(prefix: string, property = 'container-elevation'): string {
-  return compVar(prefix, property);
+  const elev = compVar(prefix, property);
+  const shadowColor = `var(--md-comp-${prefix}-container-shadow-color, var(--md-sys-color-shadow))`;
+  const keyColor = `color-mix(in srgb, ${shadowColor} 30%, transparent)`;
+  const ambientColor = `color-mix(in srgb, ${shadowColor} 15%, transparent)`;
+  return `0px calc(${elev} * 0.5) calc(${elev} * 1.5) 0px ${keyColor}, 0px ${elev} calc(${elev} * 2.5) 0px ${ambientColor}`;
 }
 
 export const BUTTON_SIZES = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
@@ -70,9 +89,10 @@ export const ICON_BUTTON_SIZE_PREFIX: Record<ButtonSize, string> = {
 
 export function buttonSizeTokens(size: ButtonSize) {
   const p = BUTTON_SIZE_PREFIX[size];
+  const height = compVar(p, 'container-height');
   return {
-    height: compVar(p, 'container-height'),
-    shapeRound: compVar(p, 'container-shape-round'),
+    height,
+    shapeRound: `calc(${height} / 2)`,
     shapeSquare: compVar(p, 'container-shape-square'),
     pressedShape: compVar(p, 'pressed-container-shape'),
     leadingSpace: compVar(p, 'leading-space'),
@@ -90,13 +110,14 @@ export function iconButtonSizeTokens(size: ButtonSize, width: 'narrow' | 'defaul
       ? 'narrow-leading-space'
       : width === 'wide'
         ? 'wide-leading-space'
-        : size === 'md' || size === 'lg' || size === 'xl'
-          ? 'default-leading-space'
+        : size === 'lg'
+          ? 'uniform-leading-space'
           : 'default-leading-space';
   const padTrailKey = padKey.replace('leading', 'trailing');
+  const height = compVar(p, 'container-height');
   return {
-    height: compVar(p, 'container-height'),
-    shapeRound: compVar(p, 'container-shape-round'),
+    height,
+    shapeRound: `calc(${height} / 2)`,
     shapeSquare: compVar(p, 'container-shape-square'),
     pressedShape: compVar(p, 'pressed-container-shape'),
     leadingSpace: compVar(p, padKey),

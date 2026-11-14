@@ -58,7 +58,7 @@ describe('NavigationBar', () => {
   it('selects destination on click', () => {
     const onChange = vi.fn();
     renderWithM3(<NavigationBar destinations={DESTINATIONS} defaultValue="home" onValueChange={onChange} data-testid="nav-bar" />);
-    fireEvent.click(screen.getByRole('tab', { name: /Search/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Search/i }));
     expect(onChange).toHaveBeenCalledWith('search');
   });
 

@@ -1,12 +1,20 @@
-
 import { Field as BaseField } from '@base-ui/react/field';
 import { Input as BaseInput } from '@base-ui/react/input';
 import { parseDate, CalendarDate, today, getLocalTimeZone } from '@internationalized/date';
-import { useId, useState, useCallback, type CSSProperties } from 'react';
+import { useId, useState, useCallback } from 'react';
+import {
+  FieldDecorations,
+  FieldFloatingLabel,
+  fieldInputStyles,
+  fieldSupportingStyles,
+  fieldTokenPrefix,
+  fieldWrapStyles,
+  type FieldVariant,
+} from '../lib/field-internals.js';
 import { compVar, typeStyle } from '../lib/token-utils.js';
 import { useM3I18n, useM3Message } from '../lib/i18n.js';
 
-export type DateInputVariant = 'filled' | 'outlined';
+export type DateInputVariant = FieldVariant;
 
 export interface DateInputProps {
   variant?: DateInputVariant;
@@ -14,9 +22,11 @@ export interface DateInputProps {
   value?: CalendarDate | null;
   defaultValue?: CalendarDate | null;
   onValueChange?: (value: CalendarDate | null) => void;
+  onValidityChange?: (valid: boolean) => void;
   disabled?: boolean;
   minValue?: CalendarDate;
   maxValue?: CalendarDate;
+  isDateUnavailable?: (date: CalendarDate) => boolean;
   locale?: string;
   supportingText?: string;
   name?: string;
@@ -25,7 +35,10 @@ export interface DateInputProps {
 }
 
 /** Locale-aware date segment patterns. */
-function getDateSegments(locale: string): { order: ('day' | 'month' | 'year')[]; separator: string } {
+function getDateSegments(locale: string): {
+  order: ('day' | 'month' | 'year')[];
+  separator: string;
+} {
   const parts = new Intl.DateTimeFormat(locale).formatToParts(new Date(2024, 11, 31));
   const order: ('day' | 'month' | 'year')[] = [];
   let separator = '/';
@@ -41,14 +54,24 @@ function getDateSegments(locale: string): { order: ('day' | 'month' | 'year')[];
 
 function formatCalendarDate(date: CalendarDate, locale: string): string {
   const jsDate = new Date(date.year, date.month - 1, date.day);
-  return new Intl.DateTimeFormat(locale, { year: 'numeric', month: '2-digit', day: '2-digit' }).format(jsDate);
+  return new Intl.DateTimeFormat(locale, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(jsDate);
 }
 
 function parseInputValue(raw: string, locale: string): CalendarDate | null {
   const trimmed = raw.trim();
   if (!trimmed) return null;
   const { order, separator } = getDateSegments(locale);
-  const parts = trimmed.split(separator).map((s) => parseInt(s, 10));
+  const segments = trimmed.split(separator);
+  if (
+    segments.length !== 3 ||
+    segments.some((part, i) => !/^\d+$/.test(part) || (order[i] === 'year' && part.length !== 4))
+  )
+    return null;
+  const parts = segments.map(Number);
   if (parts.some((n) => Number.isNaN(n))) return null;
   let day = 1;
   let month = 1;
@@ -67,12 +90,26 @@ function parseInputValue(raw: string, locale: string): CalendarDate | null {
   }
 }
 
+function segmentLength(seg: 'day' | 'month' | 'year'): number {
+  return seg === 'year' ? 4 : 2;
+}
+
 function maskInput(raw: string, locale: string): string {
-  const digits = raw.replace(/\D/g, '').slice(0, 8);
-  const { separator } = getDateSegments(locale);
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 4) return `${digits.slice(0, 2)}${separator}${digits.slice(2)}`;
-  return `${digits.slice(0, 2)}${separator}${digits.slice(2, 4)}${separator}${digits.slice(4)}`;
+  const { order, separator } = getDateSegments(locale);
+  const maxLen = order.reduce((sum, seg) => sum + segmentLength(seg), 0);
+  const digits = raw.replace(/\D/g, '').slice(0, maxLen);
+  let result = '';
+  let idx = 0;
+  for (let i = 0; i < order.length; i++) {
+    const len = segmentLength(order[i]!);
+    const part = digits.slice(idx, idx + len);
+    if (!part) break;
+    if (i > 0) result += separator;
+    result += part;
+    idx += part.length;
+    if (digits.length <= idx) break;
+  }
+  return result;
 }
 
 export function DateInput({
@@ -81,9 +118,11 @@ export function DateInput({
   value,
   defaultValue,
   onValueChange,
+  onValidityChange,
   disabled = false,
   minValue,
   maxValue,
+  isDateUnavailable,
   locale: localeProp,
   supportingText,
   name,
@@ -97,19 +136,24 @@ export function DateInput({
   const placeholder = useM3Message('dateInput.placeholder');
 
   const initialText =
-    defaultValue != null ? formatCalendarDate(defaultValue, locale) : '';
+    (value ?? defaultValue) != null ? formatCalendarDate((value ?? defaultValue)!, locale) : '';
   const [internalText, setInternalText] = useState(initialText);
   const [error, setError] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
-  const isControlled = value !== undefined;
-  const textValue =
-    isControlled && value != null
-      ? formatCalendarDate(value, locale)
-      : isControlled && value == null
-        ? ''
-        : internalText;
+  const valueKey = value?.toString() ?? value;
+  const [previous, setPrevious] = useState({ valueKey, locale });
+  if (previous.valueKey !== valueKey || previous.locale !== locale) {
+    setPrevious({ valueKey, locale });
+    if (value !== undefined) setInternalText(value ? formatCalendarDate(value, locale) : '');
+  }
+  const textValue = internalText;
 
-  const tokenPrefix = variant === 'filled' ? 'filled-text-field' : 'outlined-text-field';
+  const prefixToken = fieldTokenPrefix(variant);
+  const interaction = { disabled, error, focused, hovered };
+  const floated = focused || textValue.length > 0;
+  const notched = variant === 'outlined' && Boolean(label);
 
   const validate = useCallback(
     (parsed: CalendarDate | null, raw: string): boolean => {
@@ -129,49 +173,34 @@ export function DateInput({
         setError(true);
         return false;
       }
+      if (isDateUnavailable?.(parsed)) {
+        setError(true);
+        return false;
+      }
       setError(false);
       return true;
     },
-    [minValue, maxValue],
+    [minValue, maxValue, isDateUnavailable],
   );
 
   const handleChange = (raw: string) => {
     const masked = maskInput(raw, locale);
-    if (!isControlled) setInternalText(masked);
+    setInternalText(masked);
     const parsed = parseInputValue(masked, locale);
-    validate(parsed, masked);
-    onValueChange?.(parsed);
+    if (parsed || !masked) {
+      const valid = validate(parsed, masked);
+      onValidityChange?.(valid);
+      if (valid) onValueChange?.(parsed);
+    } else {
+      setError(false);
+      onValidityChange?.(false);
+    }
   };
 
   const handleBlur = () => {
+    setFocused(false);
     const parsed = parseInputValue(textValue, locale);
     validate(parsed, textValue);
-  };
-
-  const containerStyle: CSSProperties = {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: compVar('list', 'item-between-space'),
-    opacity: disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
-  };
-
-  const fieldWrapStyle: CSSProperties = {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    paddingInline: compVar('outlined-text-field', 'leading-space'),
-    minHeight: compVar('outlined-text-field', 'container-height'),
-    borderRadius: compVar(tokenPrefix, 'container-shape'),
-    background:
-      variant === 'filled' ? compVar('filled-text-field', 'container-color') : 'transparent',
-    border:
-      variant === 'outlined'
-        ? `${compVar('outlined-text-field', 'outline-width')} solid ${error ? compVar('outlined-text-field', 'error-outline-color') : compVar('outlined-text-field', 'outline-color')}`
-        : 'none',
-    borderBottom:
-      variant === 'filled'
-        ? `${compVar('filled-text-field', 'active-indicator-height')} solid ${error ? compVar('filled-text-field', 'error-active-indicator-color') : compVar('filled-text-field', 'active-indicator-color')}`
-        : undefined,
   };
 
   return (
@@ -181,49 +210,68 @@ export function DateInput({
       disabled={disabled}
       className={className}
       data-testid={testId}
-      style={containerStyle}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0,
+        width: '100%',
+        minWidth: 0,
+      }}
     >
-      {label && (
-        <BaseField.Label
-          htmlFor={id}
-          style={{
-            ...typeStyle('body-small'),
-            color: error
-              ? compVar(tokenPrefix, 'error-focus-label-color')
-              : compVar(tokenPrefix, 'focus-label-color'),
-          }}
-        >
-          {label}
-        </BaseField.Label>
-      )}
-      <div style={fieldWrapStyle}>
+      <div
+        style={fieldWrapStyles(variant, interaction, { notched })}
+        onMouseEnter={() => {
+          setHovered(true);
+        }}
+        onMouseLeave={() => {
+          setHovered(false);
+        }}
+      >
+        <FieldDecorations
+          variant={variant}
+          prefix={prefixToken}
+          state={interaction}
+          label={label}
+          floated={floated}
+        />
+        {label && (
+          <FieldFloatingLabel
+            variant={variant}
+            prefix={prefixToken}
+            state={interaction}
+            label={label}
+            floated={floated}
+            htmlFor={id}
+          />
+        )}
         <BaseInput
           id={id}
           value={textValue}
           onValueChange={handleChange}
+          onFocus={() => {
+            setFocused(true);
+          }}
           onBlur={handleBlur}
           disabled={disabled}
-          placeholder={placeholder}
+          placeholder={!label ? placeholder : floated ? placeholder : undefined}
           inputMode="numeric"
           aria-invalid={error}
-          style={{
-            ...typeStyle('body-large'),
-            flex: 1,
-            border: 'none',
-            outline: 'none',
-            background: 'transparent',
-            color: compVar('outlined-text-field', 'input-color'),
-            paddingBlock: compVar('list', 'item-top-space'),
-          }}
+          style={fieldInputStyles(prefixToken, interaction, Boolean(label))}
         />
       </div>
-      {(error || supportingText) && (
-        <BaseField.Error match={error} style={{ ...typeStyle('body-small'), color: compVar(tokenPrefix, 'error-supporting-text-color') }}>
+      {error && (
+        <BaseField.Error
+          match={error}
+          style={{
+            ...typeStyle('body-small'),
+            color: compVar(prefixToken, 'error-supporting-text-color'),
+          }}
+        >
           {error ? invalidMsg : supportingText}
         </BaseField.Error>
       )}
       {!error && supportingText && (
-        <BaseField.Description style={{ ...typeStyle('body-small'), color: compVar(tokenPrefix, 'supporting-text-color') }}>
+        <BaseField.Description style={fieldSupportingStyles(prefixToken, interaction)}>
           {supportingText}
         </BaseField.Description>
       )}
@@ -231,4 +279,4 @@ export function DateInput({
   );
 }
 
-export { formatCalendarDate, parseInputValue, getDateSegments, today, getLocalTimeZone };
+export { formatCalendarDate, parseInputValue, getDateSegments, maskInput, today, getLocalTimeZone };

@@ -6,15 +6,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@m3ui/tokens/tokens.css': resolve(
-        __dirname,
+        import.meta.dirname,
         '../../packages/tokens/src/generated/tokens.css',
       ),
       '@m3ui/tokens/theme.css': resolve(
-        __dirname,
+        import.meta.dirname,
         '../../packages/tokens/src/generated/theme.css',
       ),
       '@m3ui/motion/motion.css': resolve(
-        __dirname,
+        import.meta.dirname,
         '../../packages/motion/src/motion.css',
       ),
     },

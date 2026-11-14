@@ -1,10 +1,12 @@
-
+import { M3PortalScope } from '../provider/m3-provider.js';
 import { Drawer as BaseDrawer } from '@base-ui/react/drawer';
 import { motion } from 'motion/react';
 import { springs } from '@m3ui/motion';
-import { type CSSProperties, type ReactNode } from 'react';
+import { useId, useState, type CSSProperties, type ReactNode } from 'react';
 import { compVar, elevationShadow, typeStyle } from '../lib/token-utils.js';
 import { PressableShell } from '../lib/pressable-shell.js';
+import { Icon } from '@m3ui/icons';
+import { IconButton } from './icon-button.js';
 import { Divider } from './divider.js';
 import { Badge } from './badge.js';
 
@@ -50,6 +52,12 @@ export function NavigationDrawer({
   className,
   'data-testid': testId,
 }: NavigationDrawerProps) {
+  const drawerId = useId();
+  const [internalValue, setInternalValue] = useState(
+    defaultValue ?? sections[0]?.items[0]?.value ?? '',
+  );
+  const activeValue = value ?? internalValue;
+
   const drawerStyle: CSSProperties = {
     width: compVar('navigation-drawer', 'container-width'),
     maxWidth: '100%',
@@ -66,10 +74,24 @@ export function NavigationDrawer({
 
   const content = (
     <div className={className} data-testid={testId} style={drawerStyle}>
-      {header && (
-        <div style={{ padding: compVar('list', 'divider-leading-space'), ...typeStyle('title-large') }}>{header}</div>
+      {variant === 'modal' && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: 8 }}>
+          <BaseDrawer.Close
+            render={<IconButton aria-label="Close navigation" icon={<Icon name="close" />} />}
+          />
+        </div>
       )}
-      <nav aria-label="Navigation drawer" style={{ flex: 1, overflow: 'auto', padding: compVar('list', 'item-top-space') }}>
+      {header && (
+        <div
+          style={{ padding: compVar('list', 'divider-leading-space'), ...typeStyle('title-large') }}
+        >
+          {header}
+        </div>
+      )}
+      <nav
+        aria-label="Navigation drawer"
+        style={{ flex: 1, overflow: 'auto', padding: compVar('list', 'item-top-space') }}
+      >
         {sections.map((section, si) => (
           <div key={si}>
             {section.headline && (
@@ -89,12 +111,18 @@ export function NavigationDrawer({
                 <DrawerNavItem
                   key={item.value}
                   item={item}
-                  selected={value != null ? item.value === value : item.value === defaultValue}
-                  onSelect={() => onValueChange?.(item.value)}
+                  selected={item.value === activeValue}
+                  layoutId={`${drawerId}-indicator`}
+                  onSelect={() => {
+                    if (value === undefined) setInternalValue(item.value);
+                    onValueChange?.(item.value);
+                  }}
                 />
               ))}
             </ul>
-            {si < sections.length - 1 && <Divider variant="inset" style={{ marginBlock: compVar('list', 'item-top-space') }} />}
+            {si < sections.length - 1 && (
+              <Divider variant="inset" style={{ marginBlock: compVar('list', 'item-top-space') }} />
+            )}
           </div>
         ))}
       </nav>
@@ -106,14 +134,45 @@ export function NavigationDrawer({
   }
 
   return (
-    <BaseDrawer.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} swipeDirection="left">
+    <BaseDrawer.Root
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      swipeDirection="left"
+    >
       <BaseDrawer.Portal>
-        <BaseDrawer.Backdrop style={{ background: compVar('scrim', 'container-color'), opacity: 0.32 }} />
-        <BaseDrawer.Popup>
-          <motion.div initial={{ x: -32, opacity: 0 }} animate={{ x: 0, opacity: 1 }} exit={{ x: -32, opacity: 0 }} transition={springs.defaultSpatial}>
-            {content}
-          </motion.div>
-        </BaseDrawer.Popup>
+        <M3PortalScope>
+          <BaseDrawer.Backdrop
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 'var(--m3-overlay-layer, 1100)',
+              background: compVar('scrim', 'container-color'),
+              opacity: 0.32,
+            }}
+          />
+          <BaseDrawer.Popup
+            aria-label="Navigation"
+            style={{
+              position: 'fixed',
+              insetBlock: 0,
+              insetInlineStart: 0,
+              zIndex: 'calc(var(--m3-overlay-layer, 1100) + 1)',
+              maxWidth: 'calc(100vw - 24px)',
+              overflow: 'auto',
+            }}
+          >
+            <motion.div
+              style={{ height: '100%' }}
+              initial={{ x: -32, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -32, opacity: 0 }}
+              transition={springs.defaultSpatial}
+            >
+              {content}
+            </motion.div>
+          </BaseDrawer.Popup>
+        </M3PortalScope>
       </BaseDrawer.Portal>
     </BaseDrawer.Root>
   );
@@ -122,10 +181,11 @@ export function NavigationDrawer({
 interface DrawerNavItemProps {
   item: NavigationDrawerItem;
   selected: boolean;
+  layoutId: string;
   onSelect: () => void;
 }
 
-function DrawerNavItem({ item, selected, onSelect }: DrawerNavItemProps) {
+function DrawerNavItem({ item, selected, layoutId, onSelect }: DrawerNavItemProps) {
   return (
     <li>
       <PressableShell
@@ -148,9 +208,10 @@ function DrawerNavItem({ item, selected, onSelect }: DrawerNavItemProps) {
             minHeight: compVar('navigation-drawer', 'active-indicator-height'),
             paddingInline: compVar('list', 'divider-leading-space'),
             border: 'none',
-            background: selected ? compVar('navigation-drawer', 'active-indicator-color') : 'transparent',
+            background: 'transparent',
             borderRadius: compVar('navigation-drawer', 'active-indicator-shape'),
             cursor: item.disabled ? 'not-allowed' : 'pointer',
+            position: 'relative',
             color: selected
               ? compVar('navigation-drawer', 'active-label-text-color')
               : compVar('navigation-drawer', 'inactive-label-text-color'),
@@ -158,12 +219,27 @@ function DrawerNavItem({ item, selected, onSelect }: DrawerNavItemProps) {
             opacity: item.disabled ? 'var(--md-sys-state-disabled-content-opacity)' : 1,
           }}
         >
+          {selected && (
+            <motion.span
+              layoutId={layoutId}
+              transition={springs.fastSpatial}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                borderRadius: compVar('navigation-drawer', 'active-indicator-shape'),
+                background: compVar('navigation-drawer', 'active-indicator-color'),
+                zIndex: 0,
+              }}
+              aria-hidden
+            />
+          )}
           {item.icon && (
             <span
               style={{
                 width: compVar('navigation-drawer', 'icon-size'),
                 height: compVar('navigation-drawer', 'icon-size'),
                 display: 'inline-flex',
+                zIndex: 1,
                 color: selected
                   ? compVar('navigation-drawer', 'active-icon-color')
                   : compVar('navigation-drawer', 'inactive-icon-color'),
@@ -172,8 +248,12 @@ function DrawerNavItem({ item, selected, onSelect }: DrawerNavItemProps) {
               {item.icon}
             </span>
           )}
-          <span style={{ flex: 1, textAlign: 'start' }}>{item.label}</span>
-          {item.badge != null && item.badge > 0 && <Badge count={item.badge} />}
+          <span style={{ flex: 1, textAlign: 'start', zIndex: 1 }}>{item.label}</span>
+          {item.badge != null && item.badge > 0 && (
+            <span style={{ zIndex: 1 }}>
+              <Badge count={item.badge} />
+            </span>
+          )}
         </button>
       </PressableShell>
     </li>
