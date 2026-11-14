@@ -92,3 +92,15 @@ The browser fixtures isolate Firefox application data and clean it on teardown. 
 The aggregate diff raises raw bundle budgets relative to main: React 275 → 325 KiB, primitives 28 → 29 KiB, tokens 140 → 170 KiB. The final React entry remains below both its old and new budgets. The independent shipping review also corrected connected-button RTL corners and side-sheet entry/exit and swipe direction. Linux CI remains a separate merge gate from the macOS checks above.
 
 Shipping code review additionally corrected grouped checkbox selection/disabled visuals, inherited radio-group disabled styling, and SearchBar suggestion layering inside dialogs. Regression coverage includes initial and externally controlled checkbox selection, connected corners and both sheet sides in LTR/RTL, and a clickable nested search suggestion.
+
+### Linux visual qualification
+
+The first shipping CI run passed dependency installation/audit, workspace checks, production builds and strict gates, then passed 232 browser checks while failing 63 screenshot comparisons. The snapshot paths previously mixed macOS system-font/rendering output with Ubuntu output. Baselines now use Playwright's platform token, preserving distinct macOS and Linux expectations without relaxing comparison thresholds. The snapshot-generation workflow uploads review artifacts with read-only repository permissions; it no longer force-pushes a shared branch. CI retains browser failure diagnostics for inspection.
+
+The final checkbox-group correction also changes five macOS gallery images at the selected checkbox; those changes are reviewed separately from platform rendering differences. Final merge requires a fresh Linux comparison against committed, reviewed Linux baselines, without snapshot-update mode.
+
+Linux artifact-generation run `43580503539` on commit `afbcb819` passed all **295** browser tests in update mode and produced 63 Linux images. This generation result is not the final comparison gate. After the approved five-image macOS checkbox refresh, the unchanged macOS visual suite passed **66** tests.
+
+The judge rejected that first generated image set: inherited centered fixtures collapsed slider/progress/divider widths, Scaffold was too narrow, BottomAppBar escaped its frame, and light docs captures could precede client hydration. Commit `362a7aa7` gives examples explicit responsive widths, contains fixed chrome, spaces dividers, waits for each button/dialog preview to render, and adds track-width assertions. Updated checks passed 37 workspace tasks, 12 build tasks, 54 three-browser composition checks, and 66 unchanged macOS visual tests. Replacement Linux artifacts must supersede the rejected set.
+
+Replacement Linux generation run `43581216536` on `362a7aa7` passed **298** tests, including explicit preview readiness and geometry assertions, and produced the replacement 63-image set for final review.
