@@ -17,19 +17,19 @@
   ],
   "scripts": {
     "build": "tsdown && node scripts/copy-css.mjs",
-    "dev": "pnpm build && tsdown --watch",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src",
     "test": "vitest run --config vitest.config.ts"
   },
   "dependencies": {
-    "motion": "^11.15.0"
+    "motion": "^14.14.0"
   },
   "peerDependencies": {
     "react": "^19.0.0"
   },
   "devDependencies": {
-    "tsdown": "^0.9.1",
-    "typescript": "^5.7.2"
+    "tsdown": "^0.23.7",
+    "typescript": "^5.9.3"
   }
 }

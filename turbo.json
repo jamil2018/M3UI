@@ -15,31 +15,26 @@
       "dependsOn": ["^build"]
     },
     "lint": {
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/eslint.config.js"],
       "dependsOn": ["^build"]
     },
     "typecheck": {
       "dependsOn": ["^build"]
     },
     "test": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.setup.ts"]
     },
     "test:a11y": {
-      "dependsOn": ["^build"]
-    },
-    "test:vrt": {
       "dependsOn": ["^build"],
-      "cache": false
-    },
-    "@m3ui/storybook#test:vrt": {
-      "dependsOn": ["^build"],
-      "cache": false
+      "inputs": ["$TURBO_DEFAULT$", "$TURBO_ROOT$/vitest.setup.ts"]
     },
     "registry:build": {
-      "dependsOn": ["^build", "@m3ui/examples#build"],
+      "dependsOn": ["build", "@m3ui/examples#build"],
       "outputs": ["registry/**"]
     },
     "catalog:build": {
-      "dependsOn": ["^build", "@m3ui/examples#build"],
+      "dependsOn": ["build", "@m3ui/examples#build"],
       "outputs": ["registry/**"]
     },
     "@m3ui/examples#build": {
@@ -58,13 +53,57 @@
       "dependsOn": ["@m3ui/react#catalog:build", "^build"]
     },
     "@m3ui/storybook#build": {
-      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+      "dependsOn": ["stories:generate", "^build"]
     },
     "@m3ui/storybook#typecheck": {
-      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+      "dependsOn": ["stories:generate", "^build"]
     },
     "@m3ui/storybook#dev": {
-      "dependsOn": ["@m3ui/react#catalog:build", "^build"]
+      "dependsOn": ["stories:generate", "^build"]
+    },
+    "stories:generate": {
+      "dependsOn": ["@m3ui/react#catalog:build"],
+      "outputs": ["src/stories/generated/**"]
+    },
+    "@m3ui/react#test": {
+      "dependsOn": ["^build", "catalog:build", "@m3ui/storybook#stories:generate"],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        "$TURBO_ROOT$/vitest.setup.ts",
+        "$TURBO_ROOT$/apps/docs/src/**",
+        "$TURBO_ROOT$/apps/storybook/src/stories/**"
+      ]
+    },
+    "@m3ui/color#dev": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@m3ui/icons#dev": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@m3ui/motion#dev": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@m3ui/shapes#dev": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@m3ui/tokens#dev": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
+    },
+    "@m3ui/react#dev": {
+      "dependsOn": ["build"],
+      "cache": false,
+      "persistent": true
     }
-  }
+  },
+  "globalDependencies": ["tsconfig.base.json"]
 }

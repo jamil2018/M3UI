@@ -1,71 +1,36 @@
 {
-
   "name": "@m3ui/docs",
-
   "version": "0.0.0",
-
   "private": true,
-
   "scripts": {
-
-    "dev": "next dev --port 3000",
-
-    "build": "next build",
-
+    "dev": "next dev --webpack --port 3000",
+    "build": "next build --webpack",
     "start": "next start",
-
-    "typecheck": "tsc --noEmit",
-
-    "lint": "next lint"
-
+    "typecheck": "next typegen && tsc --noEmit",
+    "lint": "eslint src"
   },
-
   "dependencies": {
-
     "@m3ui/color": "workspace:*",
-
     "@m3ui/examples": "workspace:*",
-
     "@m3ui/icons": "workspace:*",
-
     "@m3ui/motion": "workspace:*",
-
     "@m3ui/react": "workspace:*",
-
     "@m3ui/shapes": "workspace:*",
-
     "@m3ui/tokens": "workspace:*",
-
-    "fumadocs-core": "^14.6.3",
-
-    "fumadocs-ui": "^14.6.3",
-
-    "next": "^15.1.3",
-
+    "fumadocs-core": "^16.19.0",
+    "fumadocs-ui": "^16.19.0",
+    "next": "^16.4.6",
     "next-themes": "^0.4.6",
-
-    "react": "^19.0.0",
-
-    "react-dom": "^19.0.0"
-
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
-
   "devDependencies": {
-
-    "@tailwindcss/postcss": "^4.0.0",
-
-    "@types/node": "^22.10.2",
-
-    "@types/react": "^19.0.2",
-
-    "@types/react-dom": "^19.0.2",
-
-    "tailwindcss": "^4.0.0",
-
-    "typescript": "^5.7.2"
-
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint-config-next": "^16.4.6",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^5.9.3"
   }
-
 }
-
-

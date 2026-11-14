@@ -20,14 +20,14 @@
   "scripts": {
     "codegen": "tsx scripts/codegen.ts",
     "build": "pnpm codegen && tsdown && node scripts/copy-css.mjs",
-    "dev": "pnpm build && tsdown --watch",
+    "dev": "tsdown --watch",
     "typecheck": "tsc --noEmit && tsc --noEmit -p scripts/tsconfig.json",
     "lint": "eslint \"src/**/*.ts\" \"scripts/**/*.ts\" --ignore-pattern \"**/*.test.ts\" --ignore-pattern \"**/*.spec.ts\"",
     "test": "vitest run --config vitest.config.ts"
   },
   "devDependencies": {
-    "tsdown": "^0.9.1",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "tsdown": "^0.23.7",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
   }
 }

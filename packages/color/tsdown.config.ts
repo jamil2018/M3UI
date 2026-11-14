@@ -3,7 +3,9 @@ import { defineConfig } from 'tsdown';
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'],
+  fixedExtension: false,
   dts: true,
-  clean: true,
-  external: ['@material/material-color-utilities'],
+  clean: false,
+  ignoreWatch: ['dist/**', '.turbo/**', 'node_modules/**'],
+  deps: { neverBundle: ['@material/material-color-utilities'] },
 });

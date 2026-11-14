@@ -8,11 +8,13 @@
  */
 
 import { spawnSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const PNPM_VERSION = '9.15.0';
-const MIN_NODE_MAJOR = 20;
+const manifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+const PNPM_VERSION = manifest.packageManager.split('@')[1];
+const MIN_NODE_VERSION = manifest.engines.node.replace('>=', '');
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -35,7 +37,7 @@ Options:
   --help, -h        Show this help message
 
 Prerequisites:
-  Node.js >= ${MIN_NODE_MAJOR}
+  Node.js >= ${MIN_NODE_VERSION}
   pnpm ${PNPM_VERSION} (enabled automatically via corepack when available)
 `);
   process.exit(0);
@@ -102,27 +104,32 @@ function readPnpmVersion() {
 }
 
 function ensureNode() {
-  log('1/8', 'Checking Node.js version');
-  const major = Number.parseInt(process.versions.node.split('.')[0], 10);
-  if (!Number.isFinite(major) || major < MIN_NODE_MAJOR) {
+  log('1/6', 'Checking Node.js version');
+  const version = process.versions.node.split('.').map(Number);
+  const minimum = MIN_NODE_VERSION.split('.').map(Number);
+  const older =
+    version[0] < minimum[0] ||
+    (version[0] === minimum[0] && version[1] < minimum[1]) ||
+    (version[0] === minimum[0] && version[1] === minimum[1] && version[2] < minimum[2]);
+  if (older) {
     fail(
-      `Node.js >= ${MIN_NODE_MAJOR} is required (found ${process.versions.node})`,
-      'Install Node 20+ from https://nodejs.org/ or use nvm/fnm/volta.',
+      `Node.js >= ${MIN_NODE_VERSION} is required (found ${process.versions.node})`,
+      'Install Node 24.15+ from https://nodejs.org/ or use nvm/fnm/volta.',
     );
   }
   console.log(`  ✓ Node.js ${process.versions.node}`);
 }
 
 function ensurePnpm() {
-  log('2/8', `Ensuring pnpm ${PNPM_VERSION}`);
+  log('2/6', `Ensuring pnpm ${PNPM_VERSION}`);
 
   let version = readPnpmVersion();
-  if (version) {
+  if (version === PNPM_VERSION) {
     console.log(`  ✓ pnpm ${version} already available`);
     return { command: 'pnpm', prefixArgs: [] };
   }
 
-  console.log('  pnpm not found — trying corepack…');
+  console.log(`  pnpm ${PNPM_VERSION} required (found ${version ?? 'none'}) — trying corepack…`);
   if (commandSucceeds('corepack', ['--version'])) {
     const enabled = run('corepack', ['enable'], { optional: true, label: 'corepack enable' });
     if (enabled) {
@@ -131,7 +138,7 @@ function ensurePnpm() {
         label: `corepack prepare pnpm@${PNPM_VERSION}`,
       });
       version = readPnpmVersion();
-      if (version) {
+      if (version === PNPM_VERSION) {
         console.log(`  ✓ pnpm ${version} activated via corepack`);
         return { command: 'pnpm', prefixArgs: [] };
       }
@@ -141,7 +148,7 @@ function ensurePnpm() {
   }
 
   console.log(`  Using npx pnpm@${PNPM_VERSION}`);
-  if (!commandSucceeds('npx', [`pnpm@${PNPM_VERSION}`, '--version'])) {
+  if (!commandSucceeds('npx', ['--yes', `pnpm@${PNPM_VERSION}`, '--version'])) {
     fail(
       'Could not run pnpm',
       `Install pnpm ${PNPM_VERSION} globally, run corepack enable as admin, or ensure npx can reach the registry.`,
@@ -149,7 +156,7 @@ function ensurePnpm() {
   }
 
   console.log(`  ✓ npx pnpm@${PNPM_VERSION} is available`);
-  return { command: 'npx', prefixArgs: [`pnpm@${PNPM_VERSION}`] };
+  return { command: 'npx', prefixArgs: ['--yes', `pnpm@${PNPM_VERSION}`] };
 }
 
 function pnpm(pnpmRunner, args, options) {
@@ -162,31 +169,23 @@ function main() {
   ensureNode();
   const pnpmRunner = ensurePnpm();
 
-  log('3/8', 'Installing workspace dependencies');
-  pnpm(pnpmRunner, ['install']);
+  log('3/6', 'Installing workspace dependencies');
+  pnpm(pnpmRunner, ['install', '--frozen-lockfile']);
 
   if (flags.skipSpecSync) {
-    log('4/8', 'Skipping spec:sync (--skip-spec-sync — using committed spec JSON)');
+    log('4/6', 'Skipping spec:sync (--skip-spec-sync — using committed spec JSON)');
   } else {
-    log('4/8', 'Syncing pinned token specs from upstream (requires network)');
+    log('4/6', 'Syncing pinned token specs from upstream (requires network)');
     pnpm(pnpmRunner, ['spec:sync']);
   }
 
-  log('5/8', 'Generating design tokens from spec');
-  pnpm(pnpmRunner, ['tokens:codegen']);
-
-  log('6/8', 'Building workspace packages (excluding docs/storybook apps)');
-  // Exclude apps to avoid turbo running @m3ui/react#catalog:build in parallel with
-  // @m3ui/react#build (both write to packages/react/registry).
-  pnpm(pnpmRunner, ['turbo', 'run', 'build', '--filter=!./apps/*']);
-
-  log('7/8', 'Building component registry and examples metadata for docs');
-  pnpm(pnpmRunner, ['registry:build']);
+  log('5/6', 'Building packages, tokens, registry, metadata, and stories');
+  pnpm(pnpmRunner, ['turbo', 'run', 'stories:generate', '--filter=@m3ui/storybook']);
 
   if (flags.skipVrt) {
-    log('8/8', 'Skipping Playwright browser install (--skip-vrt)');
+    log('6/6', 'Skipping Playwright browser install (--skip-vrt)');
   } else {
-    log('8/8', 'Installing Playwright Chromium for visual regression tests');
+    log('6/6', 'Installing Playwright Chromium for visual regression tests');
     pnpm(pnpmRunner, ['exec', 'playwright', 'install', 'chromium'], { optional: true });
   }
 
